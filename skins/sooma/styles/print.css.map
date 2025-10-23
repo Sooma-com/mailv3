@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "print.css",
+	"sources": [
+		"src/print.scss"
+	],
+	"names": [],
+	"mappings": ""
+}
