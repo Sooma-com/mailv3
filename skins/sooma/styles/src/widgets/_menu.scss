@@ -1,0 +1,136 @@
+@use "../fontawesome/fa";
+
+#mailboxoptions-menu {
+
+  a.folders::before,
+  a.read::before,
+  a.purge::before,
+  a.expunge::before {
+    @include fa.fa-icon();
+    padding-right: 0.5rem;
+  }
+
+  a.folders::before {
+    content: fa.fa-content(fa.$var-folders);
+  }
+
+  a.read::before {
+    content: fa.fa-content(fa.$var-check);
+  }
+
+  a.purge::before {
+    content: fa.fa-content(fa.$var-trash);
+  }
+
+  a.expunge::before {
+    content: fa.fa-content(fa.$var-arrows-minimize);
+  }
+}
+
+ul.menu {
+  li a {
+    display: block;
+    padding: 0.5rem 1.15rem;
+    font-size: 0.9rem;
+  }
+}
+
+.popupmenu {
+  display: none;
+  opacity: 0;
+
+  background-color: var(--color-popupmenu-background);
+  color: var(--color-popupmenu-foreground);
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem 0;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      background-color: var(--color-popupmenu-hover-background);
+    }
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:focus-visible,
+    &:target,
+    &:active,
+    &:visited,
+    &:link {
+      color: inherit;
+    }
+  }
+}
+
+// .popupmenu {
+//   display: none;
+//   padding: 0;
+//   min-width: 180px;
+//   height: 100%;
+
+//   li>a {
+//     width: 100%;
+//   }
+
+//   &.propform {
+//     overflow: hidden;
+//     padding: .25rem; // so overflow do not truncate focus outline on inputs
+//   }
+
+//   &.simplelist {
+//     min-width: 80px;
+//   }
+// }
+
+// .popup.justified {
+//   display: flex;
+//   justify-content: space-around;
+// }
+
+// .popover-body {
+//   padding: 0;
+//   overflow-x: hidden;
+
+//   &>.popupmenu {
+//     display: block !important;
+//   }
+// }
+
+.select-menu {
+  max-width: initial;
+  margin: 0;
+  height: auto;
+  z-index: 1301; // above TinyMCE dialogs
+
+  .popover-header {
+    border-radius: .25rem .25rem 0 0 !important;
+  }
+
+  .listing li {
+    a {
+      padding-left: .25rem;
+      outline: 0; // for Android browser
+    }
+
+    &:last-child {
+      border-bottom-right-radius: .25rem;
+      border-bottom-left-radius: .25rem;
+    }
+  }
+
+  // Use 'inline' class for menus that have a list elements with no <a> inside
+  // and no header
+  &.inline {
+    .listing li {
+      padding-right: .5rem;
+
+      &:first-child {
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+      }
+    }
+  }
+}

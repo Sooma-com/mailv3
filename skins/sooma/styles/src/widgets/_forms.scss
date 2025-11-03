@@ -1,0 +1,59 @@
+.propform {
+  &:not(.popupmenu) {
+    width: 100%;
+  }
+
+  label {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--color-label);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  input {
+    width: 100%;
+    font-size: 1.2rem;
+    background-color: var(--color-input-background);
+    border: 1px solid transparent;
+    border-bottom-color: var(--color-input-border);
+    padding: 0 0.5rem;
+    border-radius: 2px;
+    outline: none;
+    line-height: 3;
+    margin: 0.5rem 0 1.5rem 0;
+    padding: 0 1rem;
+    color: var(--color-input);
+
+    &:active,
+    &:focus {
+      border-bottom-color: var(--color-input-border-focus);
+    }
+
+  }
+
+  button {
+    display: inline-block;
+    text-align: center;
+    font-weight: 600;
+    background-color: var(--color-btn-secondary-background);
+    color: var(--color-btn-secondary);
+    padding-left: 5rem;
+    padding-right: 5rem;
+    line-height: 2;
+    outline: none;
+    border: 1px solid transparent;
+    transition: all .2s ease;
+    font-size: 1.2rem;
+
+    &:hover {
+      background-color: hsl(from var(--color-btn-secondary-background) h s calc(l * 90%));
+    }
+
+    &.mainaction {
+      background-color: var(--color-btn-primary-background);
+      color: var(--color-btn-primary);
+    }
+  }
+}

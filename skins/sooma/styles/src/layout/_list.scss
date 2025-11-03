@@ -1,0 +1,171 @@
+@use "../fontawesome/fa";
+
+.listbox .scroller {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+#layout-list {
+  border-right: 1px solid var(--color-medium-gray);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-layout-list-background);
+  color: var(--color-layout-list-foreground);
+
+  :any-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a.toolbar-menu-button {
+    display: none;
+  }
+
+  &>.header {
+    position: relative;
+    min-height: 2.2rem;
+
+    &>span.header-title,
+    &>.back-sidebar-button,
+    &>.task-menu-button {
+      display: none;
+    }
+
+    .toolbar.menu {
+      display: flex;
+      overflow: hidden;
+      flex-wrap: nowrap;
+      text-wrap: nowrap;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        margin: 0rem 0.62rem;
+        padding: 0.5rem 0;
+
+        &:hover,
+        &:focus,
+        &:focus-within,
+        &:focus-visible,
+        &:target,
+        &:active,
+        &:visited,
+        &:link {
+          color: inherit;
+        }
+      }
+
+      a.disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      a.select::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-check);
+      }
+
+      a.threads::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-messages);
+      }
+
+      a.options::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-gear);
+      }
+
+      a.refresh::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-arrows-rotate);
+      }
+    }
+
+    .toolbar.menu.overflow {
+      a {
+        font-size: 0;
+
+        &::before {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .messagelist {
+    border-top: 1px solid var(--color-medium-gray);
+
+    .branch,
+    &>thead {
+      display: none
+    }
+
+    tr {
+      margin-top: 50px;
+
+      td {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--color-medium-gray);
+        line-height: 1.8;
+
+        &.subject {
+          display: grid;
+          grid-template: "from date" 1fr "subject subject" 1fr / 1fr min-content;
+
+          .fromto {
+            grid-area: from;
+            text-wrap: nowrap;
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            padding-left: 0.75rem;
+          }
+
+          .date {
+            grid-area: date;
+            text-wrap: nowrap;
+            white-space: nowrap;
+            padding-right: 0.75rem;
+            font-size: 0.8rem;
+          }
+
+          .size {
+            display: none;
+          }
+
+          .subject {
+            grid-area: subject;
+            text-wrap: nowrap;
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            padding-left: 0.75rem;
+            font-size: 0.9rem;
+
+            .msgicon.status {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &.unread {
+        border-left: 2px solid var(--color-main);
+
+        td.subject {
+
+          span.fromto,
+          span.date {
+            font-weight: 600;
+          }
+        }
+      }
+
+      &.selected tr td {
+        background-color: var(--color-list-selected-background);
+      }
+    }
+  }
+}

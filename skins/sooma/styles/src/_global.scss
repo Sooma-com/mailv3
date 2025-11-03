@@ -1,7 +1,17 @@
-@use "fontawesome/fontawesome.scss";
 @use "css-reset-and-normalize-sass/reset-and-normalize.scss";
+@use "fontawesome/fontawesome.scss";
+@use "global/variables";
+@use "global/colors";
+@use "global/typography";
 
-@font-face {
-    font-family: "Source Sans 3";
-    src: url("../fonts/SourceSans3-VariableFont_wght.ttf") format("truetype");
+.hidden,
+.voice {
+  display: none !important;
+}
+
+:focus,
+:focus-visible {
+  outline: 0px none;
+  border: 0px none;
+
 }

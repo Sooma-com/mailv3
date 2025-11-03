@@ -1,0 +1,202 @@
+@use "sass:meta";
+@use "fontawesome/fa";
+@use "fontawesome/regular" as fa-regular;
+
+html,
+body {
+  background-color: var(--color-layout-content-background);
+}
+
+body {
+  visibility: hidden;
+}
+
+a {
+  color: inherit;
+
+  &:hover,
+  &:focus,
+  &:focus-within,
+  &:focus-visible,
+  &:target,
+  &:active,
+  &:visited,
+  &:link {
+    color: inherit;
+  }
+}
+
+.scroller {
+  overflow: hidden auto;
+}
+
+.task-login {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #logo {
+    display: none
+  }
+
+  &>#layout {
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+    max-width: 320px;
+    border-radius: 4px;
+    padding: 36px;
+    margin-bottom: 5vh;
+
+    input {
+      max-width: calc(320px - 2rem);
+    }
+
+    &>h1 {
+      display: none
+    }
+  }
+
+  #login-footer {
+    display: none;
+  }
+
+  .propform button.mainaction {
+    width: 100%;
+  }
+
+  p.formbuttons {
+    margin-top: 2rem;
+  }
+}
+
+#messagestack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  background-color: transparent;
+
+  &>div {
+    display: inline-block;
+    width: 80%;
+    max-width: 320px;
+
+    &.content,
+    &.confirmation,
+    &.notice,
+    &.loading,
+    &.success,
+    &.warning,
+    &.error {
+      &::before {
+        @include fa.fa-icon();
+        padding-right: 0.5rem;
+      }
+
+      margin: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+
+    &.confirmation {
+      &::before {
+        content: fa.fa-content(fa.$var-circle-check);
+      }
+
+      background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+    }
+
+    &.loading {
+      &::before {
+        content: fa.fa-content(fa.$var-spinner);
+      }
+
+      background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+    }
+
+    &.notice {
+      &::before {
+        content: fa.fa-content(fa.$var-info-circle);
+      }
+
+      background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+    }
+
+    &.success {
+      &::before {
+        content: fa.fa-content(fa.$var-circle-check);
+      }
+
+      background-color: var(--color-success);
+    }
+
+    &.warning {
+      &::before {
+        content: fa.fa-content(fa.$var-triangle-exclamation);
+      }
+
+      background-color: var(--color-warning);
+    }
+
+    &.error {
+      &::before {
+        content: fa.fa-content(fa.$var-circle-exclamation);
+      }
+
+      background-color: var(--color-error);
+    }
+  }
+}
+
+body.task-login #messagestack {
+  align-items: center;
+}
+
+
+body:not(.task-login) {
+  #layout {
+    display: grid;
+    grid-template:
+      "menu    menu    menu   " 8rem
+      "sidebar list    content" auto / 1fr 1fr 1fr
+    ;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    #layout-menu {
+      width: 100%;
+      height: 100%;
+      grid-area: menu;
+      display: grid;
+      grid-template:
+        "logo       taskmenu  " 4.625rem
+        "localmenu  localmenu " 1fr / 228px 1fr;
+      @include meta.load-css("layout/headermenu");
+    }
+
+    #layout-sidebar {
+      grid-area: sidebar;
+      overflow: hidden;
+    }
+
+    @include meta.load-css("layout/sidebar");
+
+    #layout-list {
+      grid-area: list;
+      overflow: hidden;
+    }
+
+    @include meta.load-css("layout/list");
+
+    #layout-content {
+      grid-area: content;
+      overflow: hidden;
+      display: none;
+    }
+  }
+}

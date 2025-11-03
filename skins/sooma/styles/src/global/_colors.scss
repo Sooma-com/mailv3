@@ -1,0 +1,271 @@
+@use "sass:color";
+
+:root {
+  --color-main: #e60013;
+  --color-main-contrast: #fff;
+  --color-main-dark: hsl(from var(--color-main) h s calc(l * 0.65));
+  --color-black: #161b1d;
+  --color-light-gray: #f6f6f6;
+  --color-medium-gray: #c7c7c7;
+  --color-dark-gray: #212121;
+  --color-font: hsl(from var(--color-black) h s calc(l * 0.9));
+  --color-link: #ff0000;
+  --color-link-hover: hsl(from var(--color-link) h s calc(l * 0.9));
+  --color-border: #ddd;
+  --color-error: #ff5552;
+  --color-success: #41b849;
+  --color-warning: #ffd452;
+
+  --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
+  --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));
+  --color-black-shade-bg: hsl(from var(--color-black) h s calc(l * 0.85));
+
+  // Layout elements
+  --color-layout-border: var(--color-black-shade-border);
+  --color-layout-header: var(--color-font);
+  --color-layout-content-background: #fff;
+  --color-layout-sidebar-background: var(--color-layout-content-background);
+  --color-layout-sidebar-foreground: var(--color-font);
+  --color-layout-list-background: var(--color-layout-content-background);
+  --color-layout-list-foreground: var(--color-font);
+  --color-layout-header-localmenu-background: #474747;
+  --color-layout-header-background: var(--color-layout-content-background);
+  --color-layout-footer-background: var(--color-layout-content-background);
+
+  // Popup menus
+  --color-popupmenu-background: var(--color-layout-content-background);
+  --color-popupmenu-foreground: var(--color-font);
+  --color-popupmenu-hover-background: var(--color-medium-gray);
+
+
+  // Task menu
+  --color-taskmenu-background: var(--color-layout-header-background);
+  --color-taskmenu-button: #a6a6a6;
+  --color-taskmenu-button-selected: var(--color-main);
+  --color-taskmenu-button-action: var(--color-main);
+  --color-taskmenu-button-selected-background: hsl(from var(--color-taskmenu-background) h s calc(l * 0.9));
+  --color-taskmenu-button-action-background: transparent;
+  --color-taskmenu-button-hover: #fff;
+  --color-taskmenu-button-selected-hover: #fff;
+  --color-taskmenu-button-action-hover: var(--color-main);
+  --color-taskmenu-button-background-hover: hsl(from var(--color-taskmenu-background) h s calc(l * 0.9));
+  --color-taskmenu-button-action-background-hover: var(--color-taskmenu-button-background-hover);
+  --color-taskmenu-button-logout: var(--color-error);
+  --color-taskmenu-button-logout-hover: var(--color-error);
+  // Toolbar
+  --color-toolbar-button: var(--color-font);
+  --color-toolbar-button-background-hover: hsl(from var(--color-layout-header-background) h s calc(l * 0.97));
+  --color-searchbar-background: #fbfbfb;
+
+  // Toolbar menu
+  --color-menu-hover: #fff;
+  --color-menu-hover-background: var(--color-main);
+
+  // Listings
+  --color-list: var(--color-font);
+  --color-list-selected: var(--color-font);
+  --color-list-selected-background: rgb(from var(--color-main) r g b / 10%);
+  --color-list-flagged: var(--color-error);
+  --color-list-deleted: rgb(from var(--color-font), r g b calc(a * 0.5));
+  --color-list-secondary: var(--color-black-shade-text);
+  --color-list-droptarget-background: #ffffcc;
+  --color-list-focus-indicator: hsl(from var(--color-main) h s calc(l * 0.2));
+
+  --color-list-border: var(--color-black-shade-bg);
+  --color-list-badge: #fff;
+  --color-list-badge-background: var(--color-main);
+  --color-list-recent: hsl(from var(--color-main) h s calc(l * 0.8));
+  --color-list-recent-badge: #fff;
+  --color-list-recent-badge-background: var(--color-main);
+
+  --color-list-pagenav: var(--color-black-shade-text);
+  --color-list-icon: rgb(from var(--color-list-secondary), r g b calc(a * 0.75));
+  --color-list-unread-status: var(--color-warning);
+
+  --color-attachmentlist-border: #f4f4f4;
+  --color-attachmentlist-background: #fcfcfc;
+
+  // Drag-n-drop layer
+  --color-drag-layer: #fff;
+  --color-drag-layer-background: var(--color-taskmenu-background);
+  --color-drag-layer-shadow: var(--color-black-shade-bg);
+
+  // Messages
+  --color-message: var(--color-font);
+  --color-message-border: transparent;
+  --color-message-background: hsl(from var(--color-main) h s calc(l * 0.95));
+  --color-message-text: #fff;
+  --color-message-link: var(--color-main);
+  --color-message-link-font-weight: normal;
+  --color-message-information: var(--color-main);
+  --color-message-success: var(--color-success);
+  --color-message-warning: var(--color-warning);
+  --color-message-error: var(--color-error);
+  --color-message-loading: hsl(from var(--color-font) h s calc(l * 0.3 + 255 * 0.70));
+  --color-message-information-text: var(--color-message-text);
+  --color-message-success-text: var(--color-message-text);
+  --color-message-warning-text: var(--color-message);
+  --color-message-error-text: var(--color-message-text);
+  --color-message-loading-text: var(--color-message-text);
+  --color-message-error-box: var(--color-message);
+  --color-message-information-box: var(--color-message);
+  --color-message-success-box: var(--color-message);
+  --color-message-warning-box: var(--color-message);
+  --color-message-error-box-background: hsl(from var(--color-message-error) h s calc(l * 0.8));
+  --color-message-information-box-background: hsl(from var(--color-message-information) h s calc(l * 0.8));
+  --color-message-success-box-background: hsl(from var(--color-message-success) h s calc(l * 0.8));
+  --color-message-warning-box-background: hsl(from var(--color-message-warning) h s calc(l * 0.8));
+
+
+  // Popovers (menus)
+  --color-popover-shadow: var(--color-black-shade-bg);
+  --color-popover-separator: var(--color-black-shade-text);
+  --color-popover-separator-background: var(--color-black-shade-bg);
+  --color-popover-mobile-header: #fff;
+  --color-popover-mobile-header-background: var(--color-main-dark);
+  --color-popover-mobile-dropbutton-background: #f6f6f6;
+
+  // Dialogs
+  --color-dialog-overlay-background: hsl(from var(--color-font) h s calc(l * 0.5));
+  --color-dialog-header: var(--color-layout-header);
+  --color-dialog-header-border: var(--color-border);
+  --color-spinner-circle: var(--color-black-shade-bg);
+  --color-spinner-item: var(--color-black-shade-text);
+  // Forms
+  --color-label: hsl(from var(--color-font) h s calc(l * 1.3));
+
+  --color-input: var(--color-font);
+  --color-input-background: var(--color-layout-content-background);
+  --color-input-border: #ced4da; // from Bootstrap's .form-control
+  --color-input-border-focus: var(--color-main);
+  --color-input-border-focus-shadow: hsl(from var(--color-main) h s calc(l * 0.75));
+  --color-input-border-invalid: var(--color-error);
+  --color-input-border-invalid-shadow: hsl(from var(--color-error) h s calc(l * 0.75));
+  --color-input-addon-background: var(--color-black-shade-bg);
+  --color-recipient-input-border: var(--color-input-border);
+  --color-recipient-input-background: var(--color-black-shade-bg);
+  --color-input-placeholder: #bbb;
+
+  --color-checkbox: var(--color-main);
+  --color-checkbox-checked: var(--color-main);
+  --color-checkbox-checked-disabled: hsl(from var(--color-main) h s calc(l * 1.15));
+  --color-checkbox-focus: var(--color-input-border-focus);
+  --color-checkbox-focus-shadow: var(--color-input-border-focus-shadow);
+
+  --color-form-hint: var(--color-black-shade-text);
+
+  --color-image-upload-background: #f4f4f4;
+
+  --color-btn-secondary: #fff;
+  --color-btn-secondary-background: hsl(from var(--color-black) h s calc(l * 1.50));
+  --color-btn-primary: #fff;
+  --color-btn-primary-background: var(--color-main);
+  --color-btn-danger: #fff;
+  --color-btn-danger-background: var(--color-error);
+
+  --color-quota-background: #fff;
+  --color-quota-text: var(--color-black-shade-text);
+  --color-quota-value: var(--color-main);
+  --color-quota-value-warning: var(--color-error);
+
+  --color-blockquote-background: hsl(from var(--color-black-shade-bg) h s calc(l * 0.5));
+  --color-blockquote-0: hsl(from var(--color-main) h s calc(l * 0.7));
+  --color-blockquote-1: hsl(from var(--color-success) h s calc(l * 0.75));
+  --color-blockquote-2: hsl(from var(--color-error) h s calc(l * 0.8));
+  --color-blockquote-0-border: var(--color-blockquote-0);
+  --color-blockquote-1-border: var(--color-blockquote-1);
+  --color-blockquote-2-border: var(--color-blockquote-2);
+
+  --color-mail-signature: var(--color-black-shade-text);
+  --color-mail-headers: var(--color-black-shade-text);
+
+  --color-messagepart-border: #f4f4f4;
+  --color-messagepart-background: #fcfcfc;
+
+  --color-spellcheck-link: var(--color-error);
+
+  --color-table-border: var(--color-layout-border);
+  --color-table-selected: var(--color-list-selected);
+  --color-table-selected-background: var(--color-list-selected-background);
+
+
+  // Datepicker
+  --color-datepicker-border: var(--color-layout-border);
+  --color-datepicker-font: var(--color-font);
+  --color-datepicker-highlight: var(--color-main);
+  --color-datepicker-highlight-background: hsl(from var(--color-main) h s calc(l * 1.3));
+  --color-datepicker-active: #fff;
+  --color-datepicker-active-background: var(--color-main);
+
+
+  // HTML editor
+  --color-editor-disabled-mask: rgb(from hsl(from var(--color-black) h s calc(l * 0.85)) h s calc(a * 0.9));
+
+
+  // Image tools
+  --color-image-tools: #fff;
+  --color-image-tools-background: rgb(from vsar(--color-main) r g b calc(a * 0.4));
+  --color-image-tools-hover: rgb(from var(--color-main) r g b calc(a * 0.5));
+
+
+  // Scrollbars
+  --color-scrollbar-thumb: #c1c1c1;
+  --color-scrollbar-track: #f1f1f1;
+
+
+  // Dark mode colors
+  --color-dark-main: hsl(from var(--color-main) h s calc(l * 0.7));
+  --color-dark-background: #21292c;
+  --color-dark-font: #c5d1d3;
+  --color-dark-border: #4d6066;
+  --color-dark-hint: hsl(from var(--color-dark-font) h s calc(l * 0.8));
+  --color-dark-information: hsl(from var(--color-main) h s calc(l * 0.4));
+  --color-dark-success: hsl(from var(--color-success) h s calc(l * 0.4));
+  --color-dark-warning: hsl(from var(--color-warning) h s calc(l * 0.4));
+  --color-dark-error: hsl(from var(--color-error) h s calc(l * 0.4));
+
+  --color-dark-list-selected: var(--color-main);
+  --color-dark-list-selected-background: #374549;
+  --color-dark-list-badge: hsl(from var(--color-dark-font) h s calc(l * 1.10));
+  --color-dark-list-badge-background: var(--color-dark-border);
+  --color-dark-list-deleted: hsl(from var(--color-dark-hint) h s calc(l * 0.85));
+  --color-dark-list-droptarget-background: #4d4d00;
+  --color-dark-list-border: #2c373a;
+
+  --color-dark-input: var(--color-dark-font);
+  --color-dark-input-border: #7c949c;
+  --color-dark-input-background: var(--color-dark-background);
+  --color-dark-input-focus: #e2e7e9;
+  --color-dark-input-border-focus: var(--color-main);
+  --color-dark-input-background-focus: hsl(from var(--color-dark-background) h s calc(l * 1.05));
+  --color-dark-input-addon-background: #374549;
+  --color-dark-input-addon-background-focus: hsl(from var(--color-dark-list-selected-background) h s calc(l * 1.15));
+  --color-dark-checkbox: var(--color-dark-border);
+  --color-dark-checkbox-checked: var(--color-dark-main);
+
+  --color-dark-btn: hsl(from var(--color-dark-font) h s calc(l * 1.10));
+  --color-dark-btn-primary-background: var(--color-dark-main);
+  --color-dark-btn-secondary-background: var(--color-dark-border);
+  --color-dark-btn-danger-background: var(--color-dark-error);
+
+  --color-dark-dialog-overlay-background: hsl(from black h s calc(l * 0.7));
+
+  --color-dark-popover-background: #161b1d;
+  --color-dark-popover-border: hsl(from #161b1d h s calc(l * 0.5));
+
+  --color-dark-message-information: var(--color-dark-information);
+  --color-dark-message-success: var(--color-dark-success);
+  --color-dark-message-warning: var(--color-dark-warning);
+  --color-dark-message-error: var(--color-dark-error);
+  --color-dark-message-loading: hsl(from var(--color-dark-background) h s calc(l * 1.10));
+
+  --color-dark-scrollbar-thumb: hsl(from var(--color-main) h s calc(l * 0.75));
+  --color-dark-scrollbar-track: var(--color-dark-border);
+
+  --color-dark-blockquote-0: hsl(from var(--color-main) h s calc(l * 1.10));
+  --color-dark-blockquote-1: hsl(from var(--color-success) h s calc(l * 1.10));
+  --color-dark-blockquote-2: hsl(from var(--color-error) h s calc(l * 1.10));
+  --color-dark-blockquote-0-border: var(--color-dark-blockquote-0);
+  --color-dark-blockquote-1-border: var(--color-dark-blockquote-1);
+  --color-dark-blockquote-2-border: var(--color-dark-blockquote-2);
+}

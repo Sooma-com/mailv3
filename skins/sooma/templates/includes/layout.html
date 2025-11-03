@@ -35,6 +35,7 @@
 	<roundcube:endif />
 </head>
 <body class="task-<roundcube:exp expression="env:error_task ?: env:task ?: 'error'"> action-<roundcube:exp expression="asciiwords(env:action, true, '-') ?: 'none'">">
+	<div id="reflow-guard"> </div>
 	<roundcube:if condition="!env:framed || env:extwin" />
 		<div id="<roundcube:exp expression="env:action == 'print' ? 'print-' : ''">layout">
 	<roundcube:endif />

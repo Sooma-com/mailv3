@@ -1,0 +1,162 @@
+.listing {
+  li {
+    font-weight: 400;
+
+    &.selected {
+      font-weight: 600;
+      color: var(--color-main);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      padding: 0.5rem 1.5rem;
+      display: block;
+
+      &:hover,
+      &:focus,
+      &:focus-within,
+      &:focus-visible,
+      &:target,
+      &:active,
+      &:visited,
+      &:link {
+        color: inherit;
+      }
+
+      &::before {
+        width: 16px;
+        height: 18px;
+        margin-right: 1rem;
+        display: inline-block;
+        background-repeat: no-repeat;
+      }
+
+    }
+  }
+
+  &.folderlist {
+    padding-bottom: 2rem;
+
+    span.unreadcount {
+      opacity: 0.8;
+      padding-left: 0.2rem;
+      padding-right: 0.2rem;
+
+      &::before {
+        content: "(";
+      }
+
+      &::after {
+        content: ")";
+      }
+    }
+
+    li {
+      position: relative;
+
+      a {
+        &::before {
+          background-image: url("/skins/sooma/images/sidebar/folder.svg");
+          background-position: right bottom;
+          content: " ";
+        }
+      }
+
+      &.inbox a::before {
+        background-image: url("/skins/sooma/images/sidebar/inbox.svg");
+      }
+
+      &.drafts a::before {
+        background-image: url("/skins/sooma/images/sidebar/drafts.svg");
+      }
+
+      &.sent a::before {
+        background-image: url("/skins/sooma/images/sidebar/sent.svg");
+      }
+
+      &.spam a::before {
+        background-image: url("/skins/sooma/images/sidebar/spam.svg");
+      }
+
+      &.trash a::before {
+        background-image: url("/skins/sooma/images/sidebar/trash.svg");
+      }
+
+      &>ul>li {
+        a::before {
+          width: calc(16px + 1 * 25px);
+          background-image: url("/skins/sooma/images/sidebar/folder.svg"), url("/skins/sooma/images/sidebar/subfolder-arrow.svg");
+          background-position: right bottom, 0px top;
+          content: " ";
+        }
+
+        &>ul>li {
+          a::before {
+            width: calc(16px + 2 * 25px);
+            background-image: url("/skins/sooma/images/sidebar/folder.svg"), url("/skins/sooma/images/sidebar/subfolder-arrow.svg");
+            background-position: right bottom, 25px top;
+            content: " ";
+          }
+
+          &>ul>li {
+            a::before {
+              width: calc(16px + 3 * 25px);
+              background-image: url("/skins/sooma/images/sidebar/folder.svg"), url("/skins/sooma/images/sidebar/subfolder-arrow.svg");
+              background-position: right bottom, 50px top;
+              content: " ";
+            }
+
+            &>ul>li {
+              a::before {
+                width: calc(16px + 4 * 25px);
+                background-image: url("/skins/sooma/images/sidebar/folder.svg"), url("/skins/sooma/images/sidebar/subfolder-arrow.svg");
+                background-position: right bottom, 75px top;
+                content: " ";
+              }
+
+              div.treetoggle {
+                left: 100px;
+              }
+            }
+
+            div.treetoggle {
+              left: 75px;
+            }
+          }
+
+          div.treetoggle {
+            left: 50px;
+          }
+        }
+
+        div.treetoggle {
+          left: 25px;
+        }
+      }
+
+      div.treetoggle {
+        position: absolute;
+        top: 8px;
+        left: 0;
+        height: 18px;
+        min-height: 18px;
+        max-height: 18px;
+        min-width: 18px;
+        max-width: 18px;
+        background-position: left bottom;
+        background-repeat: no-repeat;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+      }
+
+      div.treetoggle.expanded {
+        background-image: url("/skins/sooma/images/sidebar/folder-minus.svg");
+      }
+
+      div.treetoggle.collapsed {
+        background-image: url("/skins/sooma/images/sidebar/folder-plus.svg");
+      }
+    }
+  }
+}

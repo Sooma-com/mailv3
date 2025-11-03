@@ -1,0 +1,38 @@
+@use "../fontawesome/fa";
+
+#layout-sidebar {
+  border-right: 1px solid var(--color-medium-gray);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-layout-sidebar-background);
+  color: var(--color-layout-sidebar-foreground);
+
+  &>.header {
+    position: relative;
+    min-height: 1.48rem;
+
+    a.task-menu-button,
+    a.back-list-button {
+      display: none;
+    }
+
+    .header-title {
+      display: none;
+    }
+
+    a.sidebar-menu {
+      &::before {
+        font-size: 1rem;
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-bars);
+      }
+
+      position: absolute;
+      top: 0.25rem;
+      right: 0.25rem;
+      font-size: 0;
+      text-decoration: none;
+    }
+  }
+}

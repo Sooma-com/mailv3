@@ -1,0 +1,261 @@
+@use "../global/variables";
+@use "../fontawesome/fa";
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: logo;
+}
+
+@media screen and (min-width: (variables.$screen-width-small + 1px)) {
+  .popover-header a {
+    display: none;
+  }
+}
+
+#taskmenu {
+  grid-area: taskmenu;
+  display: inline-flex;
+  display: inline-block flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--color-taskmenu-background);
+  position: relative;
+
+  &>a {
+    text-decoration: none;
+    color: var(--color-taskmenu-button);
+    font-size: 1.2rem;
+    margin-right: 1.2rem;
+
+
+    &::before {
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-question);
+      background-color: var(--color-taskmenu-button);
+      color: var(--color-main-contrast);
+      border-radius: 1rem;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      font-size: 1rem;
+      margin-right: 0.3rem;
+    }
+
+    &.mail::before {
+      content: fa.fa-content(fa.$var-envelope);
+    }
+
+    &.contacts::before {
+      content: fa.fa-content(fa.$var-address-book);
+    }
+
+    &.selected {
+      &::before {
+        background-color: var(--color-taskmenu-button-selected);
+      }
+
+      color: var(--color-taskmenu-button-selected);
+    }
+  }
+
+  #sooma-profile {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--color-taskmenu-button-selected);
+
+    &:hover {
+      outline: 1px solid var(--color-taskmenu-button-selected);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+  }
+
+  #sooma-profile-dialog {
+    position: absolute;
+    right: 1.5rem;
+    top: 3.7rem;
+    background-color: var(--color-taskmenu-background);
+    border-radius: 4px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+    display: none;
+    flex-direction: column;
+    transition: opacity .2s ease;
+    opacity: 0;
+
+    .sooma-profile-dialog-row-1 {
+      padding: 0.75rem;
+      display: grid;
+      grid-template:
+        "profile-image identity" 1fr "profile-image settings" min-content / min-content 1fr;
+      gap: 0 0.75rem;
+
+      #sooma-profile-dialog-identity {
+        grid-area: identity;
+        padding-top: 0.75rem;
+      }
+
+      a.settings {
+        grid-area: settings;
+        display: block flex;
+        text-decoration: none;
+        color: var(--color-font);
+
+        span {
+          display: inline-block;
+          margin-left: auto;
+          margin-right: auto;
+          border: 1px solid var(--color-medium-gray);
+          padding: 6px 12px;
+        }
+      }
+
+
+      #sooma-profile-dialog-profile-image {
+        grid-area: profile-image;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 1px solid var(--color-main);
+      }
+    }
+
+    .sooma-profile-dialog-row-2 {
+      background-color: var(--color-light-gray);
+      border-top: 1px solid var(--color-medium-gray);
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: row-reverse;
+
+      a.about,
+      a.theme {
+        display: none;
+      }
+
+      a.logout {
+        &::before {
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-power-off);
+          padding-right: 0.25rem;
+        }
+
+        text-decoration: none;
+        color: var(--color-font);
+        border: 1px solid var(--color-medium-gray);
+        padding: 6px 12px;
+      }
+    }
+
+  }
+}
+
+#localmenu {
+  grid-area: localmenu;
+  background-color: var(--color-layout-header-localmenu-background);
+  display: grid;
+  grid-template:
+    "action-buttons searchbar" 1fr / 1fr 1fr;
+
+  .action-buttons {
+    display: inline-flex;
+    display: inline-block flex;
+    grid-area: action-buttons;
+    align-items: center;
+    justify-content: left;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .compose {
+      &::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-pencil-line);
+        padding-right: 0.5rem;
+      }
+
+      display: inline-block;
+      background-color: var(--color-main);
+      color: var(--color-main-contrast);
+      text-decoration: none;
+      padding: 0.485rem 1rem;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+  }
+
+  .searchbar {
+    grid-area: searchbar;
+    display: block flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: white;
+    position: relative;
+    --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+    --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
+    --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+    --input-line-height: 2.13;
+
+    a.search {
+      display: none;
+    }
+
+    .reset {
+      &::before {
+        font-size: 0.8rem;
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-times);
+      }
+
+      font-size: 0;
+      position: absolute;
+      right: calc(1rem + 0.2rem)
+    }
+
+    .options {
+      &::before {
+        font-size: 1rem;
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-angle-down);
+        line-height: var(--input-line-height);
+      }
+
+      display: block;
+      font-size: 0;
+      background-color: var(--input-background-color);
+      color: var(--input-foreground-color);
+      border: var(--input-border-color);
+      border-width: 1px 0 1px 1px;
+      line-height: var(--input-line-height);
+    }
+
+    input[type="text"] {
+      background-color: var(--input-background-color);
+      color: var(--input-foreground-color);
+      border: var(--input-border-color);
+      outline: 0;
+      margin: 0;
+      padding: 0 0 0 calc(20px + 0.2rem + 0.5rem);
+      line-height: var(--input-line-height);
+      background-image: url("/skins/sooma/images/search-white.svg");
+      background-position: 0.2rem center;
+      background-repeat: no-repeat;
+    }
+  }
+
+}
