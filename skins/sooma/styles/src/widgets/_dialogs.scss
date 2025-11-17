@@ -1,6 +1,118 @@
 @use "../global/variables";
 @use "../fontawesome/fa" as fa;
 
+body>.ui-widget-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  opacity: 1;
+  backdrop-filter: grayscale(70%) brightness(50%) blur(2px);
+}
+
+.ui-dialog {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+  .ui-dialog-titlebar {
+    display: block grid;
+    grid-template: "title close" auto / 1fr min-content;
+    background: var(--color-layout-header-localmenu-background);
+    color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+
+    .ui-dialog-title {
+      float: none;
+      grid-area: title;
+      color: inherit;
+      line-height: 4rem;
+      padding-left: 1.5rem;
+      font-size: 1.25rem;
+    }
+
+    .ui-dialog-titlebar-close {
+      grid-area: close;
+      border: none;
+      background: none;
+      color: inherit;
+      font-size: 0;
+      width: calc(1.25rem + 1.5rem);
+      padding-right: 1.5rem;
+
+      &:before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-times);
+        font-size: 3rem !important;
+        height: 100%;
+      }
+    }
+  }
+
+  .popupmenu {
+    display: block;
+    opacity: 1;
+    background: inherit;
+    color: inherit;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+
+    &.propform {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0 0.75rem;
+
+      .row {
+        display: table-row;
+
+        &>label,
+        &>div {
+          display: table-cell;
+        }
+      }
+    }
+  }
+
+  .ui-dialog-buttonset {
+    button {
+      border: none;
+      text-decoration: none;
+      padding: 0.485rem 1rem;
+      border-radius: 2px;
+      font-weight: 600;
+      background-color: hsl(from var(--color-main) 0 0 l);
+      color: var(--color-main-contrast);
+
+      &:before {
+        @include fa.fa-icon();
+        margin-right: 0.5rem;
+      }
+
+
+      &.mainaction {
+        background-color: var(--color-main);
+        color: var(--color-main-contrast);
+
+        &:before {
+          content: fa.fa-content(fa.$var-check);
+        }
+      }
+
+      &.cancel:before {
+        content: fa.fa-content(fa.$var-times);
+      }
+    }
+  }
+}
+
+#listoptions-menu select {
+  min-width: 10rem;
+}
+
 /** PGP Key search/import dialog **/
 
 .pgpkeyimport {

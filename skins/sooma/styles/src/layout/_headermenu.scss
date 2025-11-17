@@ -95,6 +95,7 @@
     flex-direction: column;
     transition: opacity .2s ease;
     opacity: 0;
+    z-index: 1;
 
     .sooma-profile-dialog-row-1 {
       padding: 0.75rem;
@@ -167,7 +168,7 @@
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
   grid-template:
-    "action-buttons searchbar" 1fr / 1fr 1fr;
+    "action-buttons mailtoolbar searchbar" 1fr / min-content 1fr min-content;
 
   .action-buttons {
     display: inline-flex;
@@ -192,6 +193,8 @@
       padding: 0.485rem 1rem;
       border-radius: 2px;
       font-weight: 600;
+      text-wrap: nowrap;
+      line-height: 1.4;
     }
   }
 
@@ -255,6 +258,21 @@
       background-image: url("/skins/sooma/images/search-white.svg");
       background-position: 0.2rem center;
       background-repeat: no-repeat;
+    }
+  }
+
+  #mailtoolbar {
+    display: none;
+    grid-area: mailtoolbar;
+    color: var(--color-layout-header-localmenu-foreground);
+    --button-horizontal-margin: 0.2rem;
+
+    a::before {
+      margin-right: 0.2rem;
+    }
+
+    &:has(a:not(.disabled):not(.more):not(.hidden)) {
+      display: flex;
     }
   }
 

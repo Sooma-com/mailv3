@@ -1,0 +1,87 @@
+@use "../fontawesome/fa";
+
+#messagestack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  background-color: transparent;
+
+  &>div {
+    display: inline-block;
+    width: 80%;
+    max-width: 320px;
+
+    &.content,
+    &.confirmation,
+    &.notice,
+    &.loading,
+    &.success,
+    &.warning,
+    &.error {
+      &::before {
+        @include fa.fa-icon();
+        padding-right: 0.5rem;
+      }
+
+      margin: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+
+    &.confirmation {
+      &::before {
+        content: fa.fa-content(fa.$var-circle-check);
+      }
+
+      background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+    }
+
+    &.loading {
+      &::before {
+        content: fa.fa-content(fa.$var-spinner);
+      }
+
+      background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+    }
+
+    &.notice {
+      &::before {
+        content: fa.fa-content(fa.$var-info-circle);
+      }
+
+      background-color: var(--color-notice);
+    }
+
+    &.success {
+      &::before {
+        content: fa.fa-content(fa.$var-circle-check);
+      }
+
+      background-color: var(--color-success);
+    }
+
+    &.warning {
+      &::before {
+        content: fa.fa-content(fa.$var-triangle-exclamation);
+      }
+
+      background-color: var(--color-warning);
+    }
+
+    &.error {
+      &::before {
+        content: fa.fa-content(fa.$var-circle-exclamation);
+      }
+
+      background-color: var(--color-error);
+    }
+  }
+}
+
+body.task-login #messagestack {
+  align-items: center;
+}

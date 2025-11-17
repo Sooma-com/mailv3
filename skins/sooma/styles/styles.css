@@ -19809,6 +19809,7 @@ optgroup {
   --color-error: #ff5552;
   --color-success: #41b849;
   --color-warning: #ffd452;
+  --color-notice: #e8f3ff;
   --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
   --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));
   --color-black-shade-bg: hsl(from var(--color-black) h s calc(l * 0.85));
@@ -19820,6 +19821,7 @@ optgroup {
   --color-layout-list-background: var(--color-layout-content-background);
   --color-layout-list-foreground: var(--color-font);
   --color-layout-header-localmenu-background: #474747;
+  --color-layout-header-localmenu-foreground: hsl(from var(--color-layout-header-localmenu-background) h 0 calc((255 - l) * 0.8 + 255 * 0.2));
   --color-layout-header-background: var(--color-layout-content-background);
   --color-layout-footer-background: var(--color-layout-content-background);
   --color-popupmenu-background: var(--color-layout-content-background);
@@ -19849,7 +19851,7 @@ optgroup {
   --color-list-flagged: var(--color-error);
   --color-list-deleted: rgb(from var(--color-font), r g b calc(a * 0.5));
   --color-list-secondary: var(--color-black-shade-text);
-  --color-list-droptarget-background: #ffffcc;
+  --color-list-droptarget-background: hsl(from var(--color-main) h calc(s * 0.2) calc(l * 0.8 + 255 * 0.2));
   --color-list-focus-indicator: hsl(from var(--color-main) h s calc(l * 0.2));
   --color-list-border: var(--color-black-shade-bg);
   --color-list-badge: #fff;
@@ -20026,6 +20028,23 @@ body {
   border: 0px none;
 }
 
+#rcmdraglayer {
+  min-width: 260px;
+  width: 260px;
+  background-color: hsl(from var(--color-main-dark) h calc(s * 0.3 + 0) l);
+  opacity: 0.6;
+  color: var(--color-main-contrast);
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  z-index: 250;
+  padding: 0.5rem;
+  white-space: nowrap;
+}
+#rcmdraglayer div {
+  line-height: 1.6em;
+  text-overflow: ellipsis;
+}
+
 /*!
  * Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)
@@ -20111,87 +20130,12 @@ a:hover, a:focus, a:focus-within, a:focus-visible, a:target, a:active, a:visited
   margin-top: 2rem;
 }
 
-#messagestack {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  align-items: end;
-  flex-direction: column;
-  background-color: transparent;
-}
-#messagestack > div {
-  display: inline-block;
-  width: 80%;
-  max-width: 320px;
-}
-#messagestack > div.content::before, #messagestack > div.confirmation::before, #messagestack > div.notice::before, #messagestack > div.loading::before, #messagestack > div.success::before, #messagestack > div.warning::before, #messagestack > div.error::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  padding-right: 0.5rem;
-}
-#messagestack > div.content, #messagestack > div.confirmation, #messagestack > div.notice, #messagestack > div.loading, #messagestack > div.success, #messagestack > div.warning, #messagestack > div.error {
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 4px;
-}
-#messagestack > div.confirmation::before {
-  content: "\f058";
-}
-#messagestack > div.confirmation {
-  background-color: hsl(from var(--color-success) h s calc(l * 1.4));
-}
-#messagestack > div.loading::before {
-  content: "\f110";
-}
-#messagestack > div.loading {
-  background-color: hsl(from var(--color-success) h s calc(l * 1.8));
-}
-#messagestack > div.notice::before {
-  content: "\f05a";
-}
-#messagestack > div.notice {
-  background-color: hsl(from var(--color-success) h s calc(l * 1.4));
-}
-#messagestack > div.success::before {
-  content: "\f058";
-}
-#messagestack > div.success {
-  background-color: var(--color-success);
-}
-#messagestack > div.warning::before {
-  content: "\f071";
-}
-#messagestack > div.warning {
-  background-color: var(--color-warning);
-}
-#messagestack > div.error::before {
-  content: "\f06a";
-}
-#messagestack > div.error {
-  background-color: var(--color-error);
-}
-
-body.task-login #messagestack {
-  align-items: center;
-}
-
 body:not(.task-login) #layout {
+  --column-width-sidebar: 1fr;
+  --column-width-list: 1fr;
+  --column-width-content: 1fr;
   display: grid;
-  grid-template: "menu    menu    menu   " 8rem "sidebar list    content" auto/1fr 1fr 1fr;
+  grid-template: "menu    menu    menu   " 8rem "sidebar list    content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -20297,6 +20241,7 @@ body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog {
   flex-direction: column;
   transition: opacity 0.2s ease;
   opacity: 0;
+  z-index: 1;
 }
 body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
@@ -20367,7 +20312,7 @@ body:not(.task-login) #layout #layout-menu #localmenu {
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
-  grid-template: "action-buttons searchbar" 1fr/1fr 1fr;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
 }
 body:not(.task-login) #layout #layout-menu #localmenu .action-buttons {
   display: inline-flex;
@@ -20404,6 +20349,8 @@ body:not(.task-login) #layout #layout-menu #localmenu .action-buttons .compose {
   padding: 0.485rem 1rem;
   border-radius: 2px;
   font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
 }
 body:not(.task-login) #layout #layout-menu #localmenu .searchbar {
   grid-area: searchbar;
@@ -20487,12 +20434,25 @@ body:not(.task-login) #layout #layout-menu #localmenu .searchbar input[type=text
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
+body:not(.task-login) #layout #layout-menu #localmenu #mailtoolbar {
+  display: none;
+  grid-area: mailtoolbar;
+  color: var(--color-layout-header-localmenu-foreground);
+  --button-horizontal-margin: 0.2rem;
+}
+body:not(.task-login) #layout #layout-menu #localmenu #mailtoolbar a::before {
+  margin-right: 0.2rem;
+}
+body:not(.task-login) #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+  display: flex;
+}
 body:not(.task-login) #layout #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
+  --dynamic-min-width: 300px;
+  --dynamic-max-width: 35vw;
 }
 body:not(.task-login) #layout #layout-sidebar {
-  border-right: 1px solid var(--color-medium-gray);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -20538,12 +20498,19 @@ body:not(.task-login) #layout #layout-sidebar > .header a.sidebar-menu {
 body:not(.task-login) #layout #layout-list {
   grid-area: list;
   overflow: hidden;
+  --dynamic-min-width: 300px;
+  --dynamic-max-width: 35vw;
 }
 body:not(.task-login) #layout .listbox .scroller {
   flex-grow: 1;
   flex-shrink: 1;
 }
+body:not(.task-login) #layout li.droptarget > a,
+body:not(.task-login) #layout tr.droptarget > td {
+  background-color: var(--color-list-droptarget-background);
+}
 body:not(.task-login) #layout #layout-list {
+  border-left: 1px solid var(--color-medium-gray);
   border-right: 1px solid var(--color-medium-gray);
   display: flex;
   flex-direction: column;
@@ -20565,101 +20532,9 @@ body:not(.task-login) #layout #layout-list > .header {
 body:not(.task-login) #layout #layout-list > .header > span.header-title, body:not(.task-login) #layout #layout-list > .header > .back-sidebar-button, body:not(.task-login) #layout #layout-list > .header > .task-menu-button {
   display: none;
 }
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu {
-  display: flex;
-  overflow: hidden;
-  flex-wrap: nowrap;
-  text-wrap: nowrap;
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a {
-  color: inherit;
-  text-decoration: none;
-  margin: 0rem 0.62rem;
-  padding: 0.5rem 0;
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:hover, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:focus, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:focus-within, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:focus-visible, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:target, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:active, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:visited, body:not(.task-login) #layout #layout-list > .header .toolbar.menu a:link {
-  color: inherit;
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a.disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a.select::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  content: "\f00c";
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a.threads::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  content: "\f4b6";
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a.options::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  content: "\f013";
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu a.refresh::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  content: "\f021";
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu.overflow a {
-  font-size: 0;
-}
-body:not(.task-login) #layout #layout-list > .header .toolbar.menu.overflow a::before {
-  font-size: 1rem;
-}
 body:not(.task-login) #layout #layout-list .messagelist {
   border-top: 1px solid var(--color-medium-gray);
+  width: 100%;
 }
 body:not(.task-login) #layout #layout-list .messagelist .branch, body:not(.task-login) #layout #layout-list .messagelist > thead {
   display: none;
@@ -20672,6 +20547,9 @@ body:not(.task-login) #layout #layout-list .messagelist tr td {
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--color-medium-gray);
   line-height: 1.8;
+}
+body:not(.task-login) #layout #layout-list .messagelist tr td.selection {
+  padding-left: 0.75rem;
 }
 body:not(.task-login) #layout #layout-list .messagelist tr td.subject {
   display: grid;
@@ -20714,13 +20592,167 @@ body:not(.task-login) #layout #layout-list .messagelist tr.unread td.subject spa
 body:not(.task-login) #layout #layout-list .messagelist tr.unread td.subject span.date {
   font-weight: 600;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr.selected tr td {
+body:not(.task-login) #layout #layout-list .messagelist tr.selected td {
   background-color: var(--color-list-selected-background);
+}
+body:not(.task-login) #layout #layout-list .messagelist tr.flagged {
+  background-image: url("/skins/sooma/images/flagged.svg");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+body:not(.task-login) #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+  margin-right: 0.25rem;
+}
+body:not(.task-login) #layout .listing:not(.withselection) td.selection {
+  display: none;
 }
 body:not(.task-login) #layout #layout-content {
   grid-area: content;
   overflow: hidden;
-  display: none;
+}
+body:not(.task-login) #layout #layout-content .iframe-wrapper {
+  width: 100%;
+  height: 100%;
+}
+body:not(.task-login) #layout #layout-content .iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+}
+
+body > .ui-widget-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  opacity: 1;
+  backdrop-filter: grayscale(70%) brightness(50%) blur(2px);
+}
+
+.ui-dialog {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+.ui-dialog .ui-dialog-titlebar {
+  display: block grid;
+  grid-template: "title close" auto/1fr min-content;
+  background: var(--color-layout-header-localmenu-background);
+  color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+}
+.ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+  float: none;
+  grid-area: title;
+  color: inherit;
+  line-height: 4rem;
+  padding-left: 1.5rem;
+  font-size: 1.25rem;
+}
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
+  grid-area: close;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 0;
+  width: 2.75rem;
+  padding-right: 1.5rem;
+}
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f00d";
+  font-size: 3rem !important;
+  height: 100%;
+}
+.ui-dialog .popupmenu {
+  display: block;
+  opacity: 1;
+  background: inherit;
+  color: inherit;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.ui-dialog .popupmenu.propform {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+.ui-dialog .popupmenu.propform .row {
+  display: table-row;
+}
+.ui-dialog .popupmenu.propform .row > label, .ui-dialog .popupmenu.propform .row > div {
+  display: table-cell;
+}
+.ui-dialog .ui-dialog-buttonset button {
+  border: none;
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+}
+.ui-dialog .ui-dialog-buttonset button:before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  margin-right: 0.5rem;
+}
+.ui-dialog .ui-dialog-buttonset button.mainaction {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+}
+.ui-dialog .ui-dialog-buttonset button.mainaction:before {
+  content: "\f00c";
+}
+.ui-dialog .ui-dialog-buttonset button.cancel:before {
+  content: "\f00d";
+}
+
+#listoptions-menu select {
+  min-width: 10rem;
 }
 
 /** PGP Key search/import dialog **/
@@ -20808,6 +20840,84 @@ body:not(.task-login) #layout #layout-content {
   display: none;
 }
 
+#messagestack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  background-color: transparent;
+}
+#messagestack > div {
+  display: inline-block;
+  width: 80%;
+  max-width: 320px;
+}
+#messagestack > div.content::before, #messagestack > div.confirmation::before, #messagestack > div.notice::before, #messagestack > div.loading::before, #messagestack > div.success::before, #messagestack > div.warning::before, #messagestack > div.error::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.5rem;
+}
+#messagestack > div.content, #messagestack > div.confirmation, #messagestack > div.notice, #messagestack > div.loading, #messagestack > div.success, #messagestack > div.warning, #messagestack > div.error {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+#messagestack > div.confirmation::before {
+  content: "\f058";
+}
+#messagestack > div.confirmation {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+}
+#messagestack > div.loading::before {
+  content: "\f110";
+}
+#messagestack > div.loading {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+}
+#messagestack > div.notice::before {
+  content: "\f05a";
+}
+#messagestack > div.notice {
+  background-color: var(--color-notice);
+}
+#messagestack > div.success::before {
+  content: "\f058";
+}
+#messagestack > div.success {
+  background-color: var(--color-success);
+}
+#messagestack > div.warning::before {
+  content: "\f071";
+}
+#messagestack > div.warning {
+  background-color: var(--color-warning);
+}
+#messagestack > div.error::before {
+  content: "\f06a";
+}
+#messagestack > div.error {
+  background-color: var(--color-error);
+}
+
+body.task-login #messagestack {
+  align-items: center;
+}
+
 .propform:not(.popupmenu) {
   width: 100%;
 }
@@ -20836,6 +20946,27 @@ body:not(.task-login) #layout #layout-content {
 .propform input:active, .propform input:focus {
   border-bottom-color: var(--color-input-border-focus);
 }
+.propform select,
+.propform ::picker(select) {
+  appearance: base-select;
+}
+.propform select {
+  appearance: none;
+  background-color: var(--color-input-background);
+  color: var(--color-input);
+  border: 1px solid var(--color-input-border);
+  border-radius: 2px;
+  display: inline-block;
+  height: 2.25rem;
+  max-width: 40rem;
+  margin-right: 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 1.5rem;
+  background: transparent url("/skins/sooma/images/drop-arrow-select.svg") center right no-repeat;
+}
+.propform select::picker-icon {
+  color: var(--color-input-background);
+}
 .propform button {
   display: inline-block;
   text-align: center;
@@ -20856,6 +20987,262 @@ body:not(.task-login) #layout #layout-content {
 .propform button.mainaction {
   background-color: var(--color-btn-primary-background);
   color: var(--color-btn-primary);
+}
+
+.header .back-list-button {
+  display: none;
+}
+
+.toolbar.menu {
+  display: flex;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  align-items: center;
+  --button-horizontal-margin: 0.62rem;
+}
+.toolbar.menu a {
+  color: inherit;
+  text-decoration: none;
+  margin: 0rem var(--button-horizontal-margin);
+  padding: 0.5rem 0;
+}
+.toolbar.menu a:hover, .toolbar.menu a:focus, .toolbar.menu a:focus-within, .toolbar.menu a:focus-visible, .toolbar.menu a:target, .toolbar.menu a:active, .toolbar.menu a:visited, .toolbar.menu a:link {
+  color: inherit;
+}
+.toolbar.menu a.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.toolbar.menu span.dropbutton {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 0rem var(--button-horizontal-margin);
+}
+.toolbar.menu span.dropbutton a {
+  margin: 0;
+}
+.toolbar.menu span.dropbutton a.dropdown {
+  font-size: 0;
+}
+.toolbar.menu span.dropbutton a.dropdown::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f107";
+}
+.toolbar.menu a.more {
+  font-size: 0;
+}
+.toolbar.menu a.more::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f142";
+}
+.toolbar.menu a.select::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f00c";
+}
+.toolbar.menu a.threads::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f4b6";
+}
+.toolbar.menu a.options::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f013";
+}
+.toolbar.menu a.refresh::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f021";
+}
+.toolbar.menu a.unread::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f2b6";
+}
+.toolbar.menu a.unread.active::before {
+  content: "\e16f";
+}
+.toolbar.menu a.reply::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f3e5";
+}
+.toolbar.menu a.reply-all::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f122";
+}
+.toolbar.menu a.forward::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f04e";
+}
+.toolbar.menu a.delete::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f1f8";
+}
+.toolbar.menu a.markmessage::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f02e";
+}
+
+.toolbar.menu.overflow a {
+  font-size: 0;
+}
+.toolbar.menu.overflow a::before {
+  font-size: 1rem;
 }
 
 .listing li {
@@ -21013,6 +21400,95 @@ ul.menu li a {
   padding: 0.5rem 1.15rem;
   font-size: 0.9rem;
 }
+ul.menu li a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: " ";
+}
+ul.menu li a.selection::before {
+  content: "\f0c8";
+}
+ul.menu li a.select.all::before {
+  content: "\*";
+}
+ul.menu li a.select.page::before {
+  content: "\e428";
+}
+ul.menu li a.select.unread::before {
+  content: "\e4e8";
+}
+ul.menu li a.select.flagged::before {
+  content: "\f02e";
+}
+ul.menu li a.select.invert::before {
+  content: "\f6ad";
+}
+ul.menu li a.select.none::before {
+  content: "\f00d";
+}
+ul.menu li a.print::before {
+  content: "\f02f";
+}
+ul.menu li a.import::before {
+  content: "\f56f";
+}
+ul.menu li a.download::before {
+  content: "\f56e";
+}
+ul.menu li a.edit::before {
+  content: "\f303";
+}
+ul.menu li a.source::before {
+  content: "\f121";
+}
+ul.menu li a.move::before {
+  content: "\f24d";
+}
+ul.menu li a.copy::before {
+  content: "\f0c5";
+}
+ul.menu li a.extwin::before {
+  content: "\f40e";
+}
+ul.menu li a.forward.inline::before {
+  content: "\e234";
+}
+ul.menu li a.forward.attachment::before {
+  content: "\f0c6";
+}
+ul.menu li a.forward.bounce::before {
+  content: "\e632";
+}
+ul.menu li a.reply.all::before {
+  content: "\e533";
+}
+ul.menu li a.reply.list::before {
+  content: "\e594";
+}
+ul.menu li a.read::before {
+  content: "\f2b6";
+}
+ul.menu li a.unread::before {
+  content: "\f0e0";
+}
+ul.menu li a.flag::before {
+  content: "\f02e";
+}
+ul.menu li a.unflag::before {
+  content: "\e0c2";
+}
 
 .popupmenu {
   display: none;
@@ -21056,6 +21532,420 @@ ul.menu li a {
 .select-menu.inline .listing li:first-child {
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
+}
+
+.pagenav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+.pagenav.footer {
+  border-top: 1px solid var(--color-medium-gray);
+}
+.pagenav input,
+.pagenav .lastpage,
+.pagenav .firstpage {
+  display: none;
+}
+.pagenav .prevpage,
+.pagenav .nextpage {
+  font-size: 0;
+  display: inline-block flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  line-height: 2;
+}
+.pagenav .prevpage::before,
+.pagenav .nextpage::before {
+  display: inline-block flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+}
+.pagenav .prevpage::before {
+  content: "\f053";
+}
+.pagenav .nextpage::before {
+  content: "\f054";
+}
+.pagenav .pagenav-text {
+  line-height: 2;
+}
+
+/*!
+ * Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license (Commercial License)
+ * Copyright 2025 Fonticons, Inc.
+ */
+:root, :host {
+  --fa-family-classic: "Font Awesome 7 Pro";
+  --fa-font-solid: normal 900 1em/1 var(--fa-family-classic);
+  /* deprecated: this older custom property will be removed next major release */
+  --fa-style-family-classic: var(--fa-family-classic);
+}
+
+@font-face {
+  font-family: "Font Awesome 7 Pro";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("../fonts/fa-solid-900.woff2");
+}
+.fas {
+  --fa-family: var(--fa-family-classic);
+  --fa-style: 900;
+}
+
+.fa-classic {
+  --fa-family: var(--fa-family-classic);
+}
+
+.fa-solid {
+  --fa-style: 900;
+}
+
+body.task-mail.action-preview {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+body.task-mail.action-preview a:not(.extwin):not(.headers-summary) {
+  text-decoration: none;
+  color: var(--color-main);
+}
+body.task-mail.action-preview a:not(.extwin):not(.headers-summary):hover {
+  color: hsl(from var(--color-main) h s calc(l * 0.9));
+}
+body.task-mail.action-preview a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):target, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):active, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):link {
+  color: var(--color-main);
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) {
+  display: grid;
+  grid-template: "subject" 1fr "date" 1fr/1fr;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .subject {
+  grid-area: subject;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .header {
+  grid-area: date;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .header > img {
+  display: none;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .header .header-content {
+  padding-top: 0.25rem;
+  padding-left: 3rem;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .header .header-content .header-headers {
+  display: none;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .header .header-content .header-summary {
+  text-wrap: nowrap;
+}
+body.task-mail.action-preview #message-header:not(:has(.details-view)) .header .header-content .header-links > :not(.headers-summary) {
+  display: none;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header {
+  width: 100%;
+  display: grid;
+  grid-template: "picture headers" 1fr/min-content 1fr;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header .contactphoto {
+  grid-area: picture;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header .header-content {
+  grid-area: headers;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header .header-content .header-summary {
+  display: none;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header .header-content .header-headers {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  margin-top: -0.75rem;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header .header-content .header-headers td.header-title {
+  opacity: 0.8;
+}
+body.task-mail.action-preview #message-header:has(.details-view) > .header .header-content .header-headers td:first-child {
+  text-wrap: nowrap;
+  width: 1%;
+}
+body.task-mail.action-preview #message-header {
+  border-bottom: 1px solid var(--color-medium-gray);
+  padding-bottom: 1.25rem;
+}
+body.task-mail.action-preview #message-header .subject {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-left: 3rem;
+}
+body.task-mail.action-preview #message-header .subject .extwin {
+  font-size: 0;
+}
+body.task-mail.action-preview #message-header .subject .extwin::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f40e";
+  font-weight: normal;
+}
+body.task-mail.action-preview #message-header .header-content.details-view .header-links .headers-summary::before {
+  transform: rotate(90deg);
+}
+body.task-mail.action-preview #message-header .header-content .header-links {
+  padding-left: 0.3rem;
+}
+body.task-mail.action-preview #message-header .header-content .header-links .headers-summary {
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  font-size: 0;
+}
+body.task-mail.action-preview #message-header .header-content .header-links .headers-summary::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f138";
+  transition: transform 0.3s ease-in-out;
+}
+body.task-mail.action-preview #message-header .header-content .header-links a {
+  color: inherit;
+  padding-right: 0.75rem;
+}
+body.task-mail.action-preview #message-header .header-content .header-links a:hover, body.task-mail.action-preview #message-header .header-content .header-links a:focus, body.task-mail.action-preview #message-header .header-content .header-links a:focus-within, body.task-mail.action-preview #message-header .header-content .header-links a:focus-visible, body.task-mail.action-preview #message-header .header-content .header-links a:target, body.task-mail.action-preview #message-header .header-content .header-links a:active, body.task-mail.action-preview #message-header .header-content .header-links a:visited, body.task-mail.action-preview #message-header .header-content .header-links a:link {
+  color: inherit;
+}
+body.task-mail.action-preview #message-header .header-content .header-links a::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.25rem;
+}
+body.task-mail.action-preview #message-header .header-content .header-links a.headers-all::before {
+  content: "\f30f";
+  font-weight: normal;
+}
+body.task-mail.action-preview #message-header .header-content .header-links a.plain::before {
+  content: "\f15c";
+  font-weight: normal;
+}
+body.task-mail.action-preview #message-header .header-content .header-links a.html::before {
+  content: "\f15c";
+  font-weight: normal;
+}
+body.task-mail.action-preview #message-content {
+  padding: 1.5rem;
+}
+body.task-mail.action-preview #message-content #message-objects > div {
+  display: inline-block;
+  width: 80%;
+  max-width: 320px;
+  text-indent: -1.5rem;
+}
+body.task-mail.action-preview #message-content #message-objects > div.content::before, body.task-mail.action-preview #message-content #message-objects > div.confirmation::before, body.task-mail.action-preview #message-content #message-objects > div.notice::before, body.task-mail.action-preview #message-content #message-objects > div.loading::before, body.task-mail.action-preview #message-content #message-objects > div.success::before, body.task-mail.action-preview #message-content #message-objects > div.warning::before, body.task-mail.action-preview #message-content #message-objects > div.error::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  text-indent: -0.25rem;
+}
+body.task-mail.action-preview #message-content #message-objects > div.content, body.task-mail.action-preview #message-content #message-objects > div.confirmation, body.task-mail.action-preview #message-content #message-objects > div.notice, body.task-mail.action-preview #message-content #message-objects > div.loading, body.task-mail.action-preview #message-content #message-objects > div.success, body.task-mail.action-preview #message-content #message-objects > div.warning, body.task-mail.action-preview #message-content #message-objects > div.error {
+  margin: 1rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border-radius: 4px;
+}
+body.task-mail.action-preview #message-content #message-objects > div.confirmation::before {
+  content: "\f058";
+}
+body.task-mail.action-preview #message-content #message-objects > div.confirmation {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+}
+body.task-mail.action-preview #message-content #message-objects > div.loading::before {
+  content: "\f110";
+}
+body.task-mail.action-preview #message-content #message-objects > div.loading {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+}
+body.task-mail.action-preview #message-content #message-objects > div.notice::before {
+  content: "\f05a";
+}
+body.task-mail.action-preview #message-content #message-objects > div.notice {
+  background-color: var(--color-notice);
+}
+body.task-mail.action-preview #message-content #message-objects > div.success::before {
+  content: "\f058";
+}
+body.task-mail.action-preview #message-content #message-objects > div.success {
+  background-color: var(--color-success);
+}
+body.task-mail.action-preview #message-content #message-objects > div.warning::before {
+  content: "\f071";
+}
+body.task-mail.action-preview #message-content #message-objects > div.warning {
+  background-color: var(--color-warning);
+}
+body.task-mail.action-preview #message-content #message-objects > div.error::before {
+  content: "\f06a";
+}
+body.task-mail.action-preview #message-content #message-objects > div.error {
+  background-color: var(--color-error);
+}
+body.task-mail.action-preview #message-content #message-objects > div .boxbuttons {
+  display: block flex;
+  flex-direction: row-reverse;
+  text-indent: 0;
+}
+body.task-mail.action-preview #message-content #message-objects > div .boxbuttons a {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  display: inline-block;
+}
+body.task-mail.action-preview #message-content #attachment-list li {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: nowrap;
+}
+body.task-mail.action-preview #message-content #attachment-list li::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+  margin-right: 0.25rem;
+}
+body.task-mail.action-preview #message-content #attachment-list li a.filename {
+  color: inherit;
+  display: inline-block;
+  display: block flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-preview #message-content #attachment-list li a.filename .attachment-name {
+  display: block;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-preview #message-content #attachment-list li a.filename .attachment-size {
+  display: block;
+  flex: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-preview #message-content #messagebody {
+  line-height: 1.5;
+}
+
+.column-resizer {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  height: 100%;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 1;
+}
+.column-resizer.active {
+  width: 10000px;
+  right: -5000px;
+}
+
+:has(> .column-resizer) {
+  position: relative;
+}
+
+:has(> .column-resizer.active) {
+  overflow: visible !important;
 }
 
 /*# sourceMappingURL=styles.css.map */

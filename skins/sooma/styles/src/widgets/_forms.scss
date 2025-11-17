@@ -30,7 +30,30 @@
     &:focus {
       border-bottom-color: var(--color-input-border-focus);
     }
+  }
 
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  select {
+    appearance: none;
+    background-color: var(--color-input-background);
+    color: var(--color-input);
+    border: 1px solid var(--color-input-border);
+    border-radius: 2px;
+    display: inline-block;
+    height: 2.25rem;
+    max-width: 40rem;
+    margin-right: 0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 1.5rem;
+    background: transparent url("/skins/sooma/images/drop-arrow-select.svg") center right no-repeat;
+
+    &::picker-icon {
+      color: var(--color-input-background);
+    }
   }
 
   button {

@@ -1,0 +1,22 @@
+.column-resizer {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  height: 100%;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 1;
+
+  &.active {
+    width: 10000px;
+    right: -5000px;
+  }
+}
+
+:has(> .column-resizer) {
+  position: relative;
+}
+
+:has(> .column-resizer.active) {
+  overflow: visible !important;
+}

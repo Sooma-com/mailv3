@@ -70,100 +70,16 @@ a {
   }
 }
 
-#messagestack {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  align-items: end;
-  flex-direction: column;
-  background-color: transparent;
-
-  &>div {
-    display: inline-block;
-    width: 80%;
-    max-width: 320px;
-
-    &.content,
-    &.confirmation,
-    &.notice,
-    &.loading,
-    &.success,
-    &.warning,
-    &.error {
-      &::before {
-        @include fa.fa-icon();
-        padding-right: 0.5rem;
-      }
-
-      margin: 1rem;
-      padding: 1rem;
-      border-radius: 4px;
-    }
-
-    &.confirmation {
-      &::before {
-        content: fa.fa-content(fa.$var-circle-check);
-      }
-
-      background-color: hsl(from var(--color-success) h s calc(l * 1.4));
-    }
-
-    &.loading {
-      &::before {
-        content: fa.fa-content(fa.$var-spinner);
-      }
-
-      background-color: hsl(from var(--color-success) h s calc(l * 1.8));
-    }
-
-    &.notice {
-      &::before {
-        content: fa.fa-content(fa.$var-info-circle);
-      }
-
-      background-color: hsl(from var(--color-success) h s calc(l * 1.4));
-    }
-
-    &.success {
-      &::before {
-        content: fa.fa-content(fa.$var-circle-check);
-      }
-
-      background-color: var(--color-success);
-    }
-
-    &.warning {
-      &::before {
-        content: fa.fa-content(fa.$var-triangle-exclamation);
-      }
-
-      background-color: var(--color-warning);
-    }
-
-    &.error {
-      &::before {
-        content: fa.fa-content(fa.$var-circle-exclamation);
-      }
-
-      background-color: var(--color-error);
-    }
-  }
-}
-
-body.task-login #messagestack {
-  align-items: center;
-}
-
 
 body:not(.task-login) {
   #layout {
+    --column-width-sidebar: 1fr;
+    --column-width-list: 1fr;
+    --column-width-content: 1fr;
     display: grid;
     grid-template:
       "menu    menu    menu   " 8rem
-      "sidebar list    content" auto / 1fr 1fr 1fr
-    ;
+      "sidebar list    content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -182,6 +98,8 @@ body:not(.task-login) {
     #layout-sidebar {
       grid-area: sidebar;
       overflow: hidden;
+      --dynamic-min-width: 300px;
+      --dynamic-max-width: 35vw;
     }
 
     @include meta.load-css("layout/sidebar");
@@ -189,6 +107,8 @@ body:not(.task-login) {
     #layout-list {
       grid-area: list;
       overflow: hidden;
+      --dynamic-min-width: 300px;
+      --dynamic-max-width: 35vw;
     }
 
     @include meta.load-css("layout/list");
@@ -196,7 +116,8 @@ body:not(.task-login) {
     #layout-content {
       grid-area: content;
       overflow: hidden;
-      display: none;
     }
+
+    @include meta.load-css("layout/content");
   }
 }

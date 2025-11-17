@@ -1,0 +1,53 @@
+@use "../fontawesome/fa" as fa;
+
+.pagenav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+
+  &.footer {
+    border-top: 1px solid var(--color-medium-gray);
+  }
+
+  input,
+  .lastpage,
+  .firstpage {
+    display: none;
+  }
+
+  .prevpage,
+  .nextpage {
+    font-size: 0;
+    display: inline-block flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    line-height: 2;
+
+    &::before {
+      display: inline-block flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1rem;
+      @include fa.fa-icon();
+    }
+  }
+
+  .prevpage::before {
+    content: fa.fa-content(fa.$var-chevron-left);
+  }
+
+  .nextpage::before {
+    content: fa.fa-content(fa.$var-chevron-right);
+  }
+
+  .pagenav-text {
+    line-height: 2;
+  }
+
+
+
+}

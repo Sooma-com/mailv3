@@ -1,0 +1,134 @@
+@use "../fontawesome/fa";
+
+.header .back-list-button {
+  display: none;
+}
+
+.toolbar.menu {
+  display: flex;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  align-items: center;
+  --button-horizontal-margin: 0.62rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    margin: 0rem var(--button-horizontal-margin);
+    padding: 0.5rem 0;
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:focus-visible,
+    &:target,
+    &:active,
+    &:visited,
+    &:link {
+      color: inherit;
+    }
+  }
+
+  a.disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  span.dropbutton {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 0rem var(--button-horizontal-margin);
+
+    a {
+      margin: 0;
+    }
+
+    a.dropdown {
+      font-size: 0;
+
+      &::before {
+        font-size: 1rem;
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-angle-down);
+      }
+    }
+  }
+
+
+
+  a.more {
+    font-size: 0;
+
+    &::before {
+      font-size: 1rem;
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-ellipsis-vertical);
+    }
+  }
+
+  a.select::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-check);
+  }
+
+  a.threads::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-messages);
+  }
+
+  a.options::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-gear);
+  }
+
+  a.refresh::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-arrows-rotate);
+  }
+
+  a.unread::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-envelope-open);
+  }
+
+  a.unread.active::before {
+    content: fa.fa-content(fa.$var-envelope-dot);
+  }
+
+  a.reply::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-reply);
+  }
+
+  a.reply-all::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-reply-all);
+  }
+
+  a.forward::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-forward);
+  }
+
+  a.delete::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-trash);
+  }
+
+  a.markmessage::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-bookmark);
+  }
+
+}
+
+.toolbar.menu.overflow {
+  a {
+    font-size: 0;
+
+    &::before {
+      font-size: 1rem;
+    }
+  }
+}

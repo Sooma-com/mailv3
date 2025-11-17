@@ -1,4 +1,9 @@
 @use "widgets/dialogs";
+@use "widgets/messagestack";
 @use "widgets/forms";
+@use "widgets/toolbar";
 @use "widgets/treelist";
 @use "widgets/menu";
+@use "widgets/pagenav";
+@use "widgets/mail-preview";
+@use "widgets/column-resizer";

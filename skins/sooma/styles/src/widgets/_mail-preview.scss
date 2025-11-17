@@ -1,0 +1,332 @@
+@use "../fontawesome/solid" as fa-solid;
+@use "../fontawesome/regular" as fa-regular;
+@use "../fontawesome/fa";
+
+body.task-mail.action-preview {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+
+  a:not(.extwin):not(.headers-summary) {
+    text-decoration: none;
+    color: var(--color-main);
+
+    &:hover {
+      color: hsl(from var(--color-main) h s calc(l * 0.9));
+    }
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:focus-visible,
+    &:target,
+    &:active,
+    &:visited,
+    &:link {
+      color: var(--color-main);
+    }
+  }
+
+  #message-header:not(:has(.details-view)) {
+    display: grid;
+    grid-template: "subject" 1fr
+      "date" 1fr / 1fr;
+
+    .subject {
+      grid-area: subject;
+    }
+
+    .header {
+      grid-area: date;
+
+      &>img {
+        display: none;
+      }
+
+      .header-content {
+        padding-top: 0.25rem;
+        padding-left: 3rem;
+
+        .header-headers {
+          display: none;
+        }
+
+        .header-summary {
+          text-wrap: nowrap;
+        }
+
+        .header-links> :not(.headers-summary) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  #message-header:has(.details-view) {
+    &>.header {
+      width: 100%;
+      display: grid;
+      grid-template: "picture headers" 1fr / min-content 1fr;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-top: 1rem;
+
+      .contactphoto {
+        grid-area: picture;
+        border-radius: 50%;
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+
+      .header-content {
+        grid-area: headers;
+
+        .header-summary {
+          display: none;
+        }
+
+        .header-headers {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0.5rem 0.75rem;
+          font-size: 0.9rem;
+          margin-top: -0.75rem;
+
+          td.header-title {
+            opacity: 0.8;
+          }
+
+          td:first-child {
+            text-wrap: nowrap;
+            width: 1%;
+          }
+        }
+      }
+    }
+  }
+
+  #message-header {
+    border-bottom: 1px solid var(--color-medium-gray);
+    padding-bottom: 1.25rem;
+
+    .subject {
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding-left: calc(2rem + 1rem);
+
+      .extwin {
+        font-size: 0;
+
+        &::before {
+          font-size: 1rem;
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-window);
+          font-weight: normal;
+        }
+      }
+    }
+
+    .header-content {
+
+      &.details-view {
+        .header-links .headers-summary::before {
+          transform: rotate(90deg);
+        }
+      }
+
+      .header-links {
+        padding-left: 0.3rem;
+
+        .headers-summary {
+          position: absolute;
+          top: 1rem;
+          left: 1.5rem;
+          font-size: 0;
+
+
+          &::before {
+            font-size: 1rem;
+            @include fa.fa-icon();
+            content: fa.fa-content(fa.$var-circle-chevron-right);
+            transition: transform 0.3s ease-in-out;
+          }
+
+        }
+
+        a {
+          color: inherit;
+          padding-right: 0.75rem;
+
+          &:hover,
+          &:focus,
+          &:focus-within,
+          &:focus-visible,
+          &:target,
+          &:active,
+          &:visited,
+          &:link {
+            color: inherit;
+          }
+
+          &::before {
+            font-size: 1rem;
+            @include fa.fa-icon();
+            padding-right: 0.25rem;
+          }
+
+          &.headers-all::before {
+            content: fa.fa-content(fa.$var-square-info);
+            font-weight: normal;
+          }
+
+          &.plain::before {
+            content: fa.fa-content(fa.$var-file-lines);
+            font-weight: normal;
+          }
+
+          &.html::before {
+            content: fa.fa-content(fa.$var-file-lines);
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+
+  #message-content {
+    padding: 1.5rem;
+
+    #message-objects {
+      &>div {
+        display: inline-block;
+        width: 80%;
+        max-width: 320px;
+        text-indent: -1.5rem;
+
+        &.content,
+        &.confirmation,
+        &.notice,
+        &.loading,
+        &.success,
+        &.warning,
+        &.error {
+          &::before {
+            @include fa.fa-icon();
+            text-indent: -0.25rem;
+          }
+
+          margin: 1rem;
+          padding: 1rem 1rem 1rem calc(1.5rem + 1rem);
+          border-radius: 4px;
+        }
+
+        &.confirmation {
+          &::before {
+            content: fa.fa-content(fa.$var-circle-check);
+          }
+
+          background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+        }
+
+        &.loading {
+          &::before {
+            content: fa.fa-content(fa.$var-spinner);
+          }
+
+          background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+        }
+
+        &.notice {
+          &::before {
+            content: fa.fa-content(fa.$var-info-circle);
+          }
+
+          background-color: var(--color-notice);
+        }
+
+        &.success {
+          &::before {
+            content: fa.fa-content(fa.$var-circle-check);
+          }
+
+          background-color: var(--color-success);
+        }
+
+        &.warning {
+          &::before {
+            content: fa.fa-content(fa.$var-triangle-exclamation);
+          }
+
+          background-color: var(--color-warning);
+        }
+
+        &.error {
+          &::before {
+            content: fa.fa-content(fa.$var-circle-exclamation);
+          }
+
+          background-color: var(--color-error);
+        }
+
+        .boxbuttons {
+          display: block flex;
+          flex-direction: row-reverse;
+          text-indent: 0;
+
+          a {
+            background-color: var(--color-main);
+            color: var(--color-main-contrast);
+            border-radius: 2px;
+            padding: 0.25rem 0.5rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    #attachment-list {
+      li {
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-wrap: nowrap;
+
+        &::before {
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-paperclip);
+          margin-right: 0.25rem;
+        }
+
+        a.filename {
+          color: inherit;
+          display: inline-block;
+          display: block flex;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          .attachment-name {
+            display: block;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .attachment-size {
+            display: block;
+            flex: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    #messagebody {
+      line-height: 1.5;
+    }
+  }
+}

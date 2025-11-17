@@ -15,6 +15,7 @@
   --color-error: #ff5552;
   --color-success: #41b849;
   --color-warning: #ffd452;
+  --color-notice: #e8f3ff;
 
   --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
   --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));
@@ -29,6 +30,8 @@
   --color-layout-list-background: var(--color-layout-content-background);
   --color-layout-list-foreground: var(--color-font);
   --color-layout-header-localmenu-background: #474747;
+  --color-layout-header-localmenu-foreground: hsl(from var(--color-layout-header-localmenu-background) h 0 calc((255 - l) * 0.8 + 255 * 0.2));
+  // --color-layout-header-localmenu-foreground: white;
   --color-layout-header-background: var(--color-layout-content-background);
   --color-layout-footer-background: var(--color-layout-content-background);
 
@@ -68,7 +71,7 @@
   --color-list-flagged: var(--color-error);
   --color-list-deleted: rgb(from var(--color-font), r g b calc(a * 0.5));
   --color-list-secondary: var(--color-black-shade-text);
-  --color-list-droptarget-background: #ffffcc;
+  --color-list-droptarget-background: hsl(from var(--color-main) h calc(s * 0.2) calc(l * 0.8 + 255 * 0.2));
   --color-list-focus-indicator: hsl(from var(--color-main) h s calc(l * 0.2));
 
   --color-list-border: var(--color-black-shade-bg);

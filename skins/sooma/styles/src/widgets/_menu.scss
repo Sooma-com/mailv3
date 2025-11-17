@@ -32,8 +32,112 @@ ul.menu {
     display: block;
     padding: 0.5rem 1.15rem;
     font-size: 0.9rem;
+
+    &::before {
+      @include fa.fa-icon();
+      content: " ";
+    }
+
+    &.selection::before {
+      content: fa.fa-content(fa.$var-square);
+    }
+
+    &.select.all::before {
+      content: fa.fa-content(fa.$var-asterisk);
+    }
+
+    &.select.page::before {
+      content: fa.fa-content(fa.$var-page);
+    }
+
+    &.select.unread::before {
+      content: fa.fa-content(fa.$var-envelope-circle-check);
+    }
+
+    &.select.flagged::before {
+      content: fa.fa-content(fa.$var-bookmark);
+    }
+
+    &.select.invert::before {
+      content: fa.fa-content(fa.$var-yin-yang);
+    }
+
+    &.select.none::before {
+      content: fa.fa-content(fa.$var-xmark);
+    }
+
+    &.print::before {
+      content: fa.fa-content(fa.$var-print);
+    }
+
+    &.import::before {
+      content: fa.fa-content(fa.$var-file-import);
+    }
+
+    &.download::before {
+      content: fa.fa-content(fa.$var-file-export);
+    }
+
+    &.edit::before {
+      content: fa.fa-content(fa.$var-pencil);
+    }
+
+    &.source::before {
+      content: fa.fa-content(fa.$var-code);
+    }
+
+    &.move::before {
+      content: fa.fa-content(fa.$var-clone);
+    }
+
+    &.copy::before {
+      content: fa.fa-content(fa.$var-copy);
+    }
+
+    &.extwin::before {
+      content: fa.fa-content(fa.$var-window);
+    }
+
+    &.forward.inline::before {
+      content: fa.fa-content(fa.$var-quotes);
+    }
+
+    &.forward.attachment::before {
+      content: fa.fa-content(fa.$var-paperclip);
+    }
+
+    &.forward.bounce::before {
+      content: fa.fa-content(fa.$var-arrow-turn-left);
+    }
+
+    &.reply.all::before {
+      content: fa.fa-content(fa.$var-people-group);
+    }
+
+    &.reply.list::before {
+      content: fa.fa-content(fa.$var-users-rectangle);
+    }
+
+    &.read::before {
+      content: fa.fa-content(fa.$var-envelope-open);
+    }
+
+    &.unread::before {
+      content: fa.fa-content(fa.$var-envelope);
+    }
+
+    &.flag::before {
+      content: fa.fa-content(fa.$var-bookmark);
+    }
+
+    &.unflag::before {
+      content: fa.fa-content(fa.$var-bookmark-slash);
+    }
+
+
   }
 }
+
 
 .popupmenu {
   display: none;

@@ -621,14 +621,19 @@
   // src/delete-confirm/src/index.ts
   globalThis.sergiosgc.callOnLoad(function() {
     const onclick = function(ev) {
+      let target = ev.target;
+      while (target && !("delete" in target.classList)) target = target.parentNode;
+      if (!target) target = ev.target;
+      if ("skipconfirmation" in target.classList) return;
+      if ("delete-confirm" in target.classList) return;
       window.setTimeout(function() {
-        ev.target.classList.remove("delete-confirm-waiting");
-        ev.target.classList.add("delete-confirm");
-        ev.target.textContent = __("Click again to confirm deletion");
-        ev.target.removeEventListener("click", onclick);
+        target.classList.remove("delete-confirm-waiting");
+        target.classList.add("delete-confirm");
+        target.textContent = __("Click again to confirm deletion");
+        target.removeEventListener("click", onclick);
       }, 500);
-      ev.target.textContent = __("Please wait...");
-      ev.target.classList.add("delete-confirm-waiting");
+      target.textContent = __("Please wait...");
+      target.classList.add("delete-confirm-waiting");
       ev.preventDefault();
     };
     globalThis.sergiosgc.queryElements("css:a.delete").forEach((a) => a.addEventListener("click", onclick));
