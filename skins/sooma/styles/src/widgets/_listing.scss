@@ -1,0 +1,56 @@
+@use "../fontawesome/fa";
+
+table.listing {
+  width: 100%;
+
+  &>tfoot>tr,
+  &>thead>tr,
+  &>tbody>tr,
+  &>tr {
+
+    &>th,
+    &>td {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+
+      &:first-child {
+        padding-left: 0.5rem;
+      }
+
+      &:last-child {
+        padding-right: 0.5rem;
+      }
+
+    }
+
+    &.selected>th,
+    &.selected>td {
+      font-weight: bold;
+
+      a::before {
+        color: var(--color-main);
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.iconized {
+
+    &>thead>tr>th:first-child,
+    &>tbody>tr>td:first-child,
+    &>tfoot>tr>td:first-child {
+      a {
+        display: block;
+
+        &::before {
+          @include fa.fa-icon();
+          margin-right: 1rem;
+        }
+      }
+
+      &.contact a::before {
+        content: fa.fa-content(fa.$var-user);
+      }
+    }
+  }
+}

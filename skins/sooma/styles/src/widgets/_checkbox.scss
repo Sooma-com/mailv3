@@ -1,0 +1,48 @@
+@use "../global/colors";
+
+label.custom-control {
+  display: inline-block;
+  text-wrap: nowrap;
+  --control-height: 1.5rem;
+  --control-width: calc(2 * var(--control-height));
+  --control-foreground-color: var(--color-input);
+  --control-background-color: var(--color-input-background);
+  --control-button-margin: calc(0.1 * var(--control-height));
+
+  &:has(input[type="checkbox"]:disabled) {
+    opacity: 0.5;
+  }
+
+  &::before {
+    display: inline-block;
+    width: var(--control-width);
+    height: var(--control-height);
+    background-color: var(--control-foreground-color);
+    content: "\2800";
+    border-radius: calc(var(--control-height) / 2);
+  }
+
+  &::after {
+    display: inline-block;
+    content: "\2800";
+    width: calc(var(--control-height) - 2 * var(--control-button-margin));
+    height: calc(var(--control-height) - 2 * var(--control-button-margin));
+    border-radius: calc(0.8 * var(--control-height) / 2);
+    background-color: var(--control-background-color);
+    position: relative;
+    left: calc(-1 * var(--control-width) + var(--control-button-margin));
+    top: calc(var(--control-button-margin));
+  }
+
+  &:has(input[type="checkbox"]:checked) {
+    --control-foreground-color: var(--color-main);
+
+    &::after {
+      left: calc(-1 * (var(--control-height) - 2 * var(--control-button-margin)) - var(--control-button-margin));
+    }
+  }
+
+  input[type="checkbox"] {
+    width: 0;
+  }
+}

@@ -1,3 +1,8 @@
+@use "../fontawesome/fa";
+@use "../global/mixins";
+@use "sass:meta";
+
+.formcontent,
 .propform {
   &:not(.popupmenu) {
     width: 100%;
@@ -18,7 +23,6 @@
     background-color: var(--color-input-background);
     border: 1px solid transparent;
     border-bottom-color: var(--color-input-border);
-    padding: 0 0.5rem;
     border-radius: 2px;
     outline: none;
     line-height: 3;
@@ -78,5 +82,152 @@
       background-color: var(--color-btn-primary-background);
       color: var(--color-btn-primary);
     }
+  }
+
+  @include meta.load-css("checkbox");
+}
+
+.formcontent>div:has(> .form-group.row),
+div.formcontent:has(> .form-group.row) {
+  display: table;
+  width: 100%;
+
+  &>.form-group.row {
+    display: table-row;
+
+    &>* {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  select {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+.row {
+  .col-2 {
+    width: calc(100% / 12 * 2);
+  }
+
+  .col-3 {
+    width: calc(100% / 12 * 3);
+  }
+
+  .col-4 {
+    width: calc(100% / 12 * 4);
+  }
+
+  .col-5 {
+    width: calc(100% / 12 * 5);
+  }
+
+  .col-6 {
+    width: calc(100% / 12 * 6);
+  }
+
+  .col-7 {
+    width: calc(100% / 12 * 7);
+  }
+
+  .col-8 {
+    width: calc(100% / 12 * 8);
+  }
+
+  .col-9 {
+    width: calc(100% / 12 * 9);
+  }
+
+  .col-10 {
+    width: calc(100% / 12 * 10);
+  }
+
+  .col-11 {
+    width: calc(100% / 12 * 11);
+  }
+
+  .col-12 {
+    width: calc(100% / 12 * 12);
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  --button-horizontal-margin: 0.62rem;
+
+  &>* {
+    flex: 1;
+  }
+
+  &>.input-group-append,
+  &>.input-group-prepend {
+    flex: 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      margin: 0rem var(--button-horizontal-margin);
+      padding: 0.5rem 0;
+
+      &:hover,
+      &:focus,
+      &:focus-within,
+      &:focus-visible,
+      &:target,
+      &:active,
+      &:visited,
+      &:link {
+        color: inherit;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      &.icon {
+        font-size: 0;
+
+        &::before {
+          font-size: 1rem;
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-question);
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+.select-menu[role="listbox"] {
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  background-color: inherit;
+  transition: opacity .2s ease;
+  z-index: 1;
+
+  &>ul>li {
+    margin: 0.5rem;
+
+    &>i.icon::before {
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-person);
+      vertical-align: middle;
+
+    }
+  }
+}
+
+.formbuttons {
+  .btn:not(.btn-primary) {
+    @include mixins.button;
+  }
+
+  .btn.btn-primary {
+    @include mixins.primary-button;
   }
 }

@@ -121,6 +121,26 @@
     content: fa.fa-content(fa.$var-bookmark);
   }
 
+  a.save.draft::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-floppy-disk);
+  }
+
+  a.attach::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-paperclip);
+  }
+
+  a.signature::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-id-badge);
+  }
+
+  a.responses::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-comments);
+  }
+
 }
 
 .toolbar.menu.overflow {

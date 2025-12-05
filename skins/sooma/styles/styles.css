@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * modified version of eric meyer's reset 2.0
  * http://meyerweb.com/eric/tools/css/reset/
@@ -19826,7 +19827,7 @@ optgroup {
   --color-layout-footer-background: var(--color-layout-content-background);
   --color-popupmenu-background: var(--color-layout-content-background);
   --color-popupmenu-foreground: var(--color-font);
-  --color-popupmenu-hover-background: var(--color-medium-gray);
+  --color-popupmenu-hover-background: var(--color-light-gray);
   --color-taskmenu-background: var(--color-layout-header-background);
   --color-taskmenu-button: #a6a6a6;
   --color-taskmenu-button-selected: var(--color-main);
@@ -20019,6 +20020,10 @@ body {
 
 .hidden,
 .voice {
+  display: none !important;
+}
+
+*[data-hidden=big] {
   display: none !important;
 }
 
@@ -20634,6 +20639,610 @@ body:not(.task-login) #layout #layout-content .iframe-wrapper iframe {
   height: 100%;
 }
 
+body.task-mail.action-compose #layout {
+  --column-width-sidebar: 1fr;
+  --column-width-content: 2fr;
+  display: grid;
+  grid-template: "menu    menu   " 8rem "content sidebar" auto/var(--column-width-content) var(--column-width-sidebar);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+body.task-mail.action-compose #layout #layout-menu {
+  width: 100%;
+  height: 100%;
+  grid-area: menu;
+  display: grid;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+}
+body.task-mail.action-compose #layout #layout-menu .popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: logo;
+}
+@media screen and (min-width: 769px) {
+  body.task-mail.action-compose #layout #layout-menu .popover-header a {
+    display: none;
+  }
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu {
+  grid-area: taskmenu;
+  display: inline-flex;
+  display: inline-block flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--color-taskmenu-background);
+  position: relative;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu > a {
+  text-decoration: none;
+  color: var(--color-taskmenu-button);
+  font-size: 1.2rem;
+  margin-right: 1.2rem;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu > a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\?";
+  background-color: var(--color-taskmenu-button);
+  color: var(--color-main-contrast);
+  border-radius: 1rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu > a.mail::before {
+  content: "\f0e0";
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu > a.contacts::before {
+  content: "\f2b9";
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu > a.selected::before {
+  background-color: var(--color-taskmenu-button-selected);
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu > a.selected {
+  color: var(--color-taskmenu-button-selected);
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--color-taskmenu-button-selected);
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile:hover {
+  outline: 1px solid var(--color-taskmenu-button-selected);
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog {
+  position: absolute;
+  right: 1.5rem;
+  top: 3.7rem;
+  background-color: var(--color-taskmenu-background);
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  display: none;
+  flex-direction: column;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  z-index: 1;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
+  padding: 0.75rem;
+  display: grid;
+  grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
+  gap: 0 0.75rem;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
+  grid-area: identity;
+  padding-top: 0.75rem;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  grid-area: settings;
+  display: block flex;
+  text-decoration: none;
+  color: var(--color-font);
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid var(--color-medium-gray);
+  padding: 6px 12px;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
+  grid-area: profile-image;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--color-main);
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
+  background-color: var(--color-light-gray);
+  border-top: 1px solid var(--color-medium-gray);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row-reverse;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f011";
+  padding-right: 0.25rem;
+}
+body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
+  text-decoration: none;
+  color: var(--color-font);
+  border: 1px solid var(--color-medium-gray);
+  padding: 6px 12px;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu {
+  grid-area: localmenu;
+  background-color: var(--color-layout-header-localmenu-background);
+  display: grid;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons {
+  display: inline-flex;
+  display: inline-block flex;
+  grid-area: action-buttons;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons .compose::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons .compose {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar {
+  grid-area: searchbar;
+  display: block flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: white;
+  position: relative;
+  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+  --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
+  --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  --input-line-height: 2.13;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar a.search {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .reset::before {
+  font-size: 0.8rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f00d";
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .reset {
+  font-size: 0;
+  position: absolute;
+  right: 1.2rem;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .options::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f107";
+  line-height: var(--input-line-height);
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .options {
+  display: block;
+  font-size: 0;
+  background-color: var(--input-background-color);
+  color: var(--input-foreground-color);
+  border: var(--input-border-color);
+  border-width: 1px 0 1px 1px;
+  line-height: var(--input-line-height);
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar input[type=text] {
+  background-color: var(--input-background-color);
+  color: var(--input-foreground-color);
+  border: var(--input-border-color);
+  outline: 0;
+  margin: 0;
+  padding: 0 0 0 calc(20px + 0.2rem + 0.5rem);
+  line-height: var(--input-line-height);
+  background-image: url("/skins/sooma/images/search-white.svg");
+  background-position: 0.2rem center;
+  background-repeat: no-repeat;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu #mailtoolbar {
+  display: none;
+  grid-area: mailtoolbar;
+  color: var(--color-layout-header-localmenu-foreground);
+  --button-horizontal-margin: 0.2rem;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu #mailtoolbar a::before {
+  margin-right: 0.2rem;
+}
+body.task-mail.action-compose #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+  display: flex;
+}
+body.task-mail.action-compose #layout #layout-sidebar {
+  grid-area: sidebar;
+  overflow: hidden;
+  padding: 1rem;
+  --dynamic-min-width: 300px;
+  --dynamic-max-width: 35vw;
+}
+body.task-mail.action-compose #layout #layout-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-layout-sidebar-background);
+  color: var(--color-layout-sidebar-foreground);
+}
+body.task-mail.action-compose #layout #layout-sidebar > .header {
+  position: relative;
+  min-height: 1.48rem;
+}
+body.task-mail.action-compose #layout #layout-sidebar > .header a.task-menu-button,
+body.task-mail.action-compose #layout #layout-sidebar > .header a.back-list-button {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-sidebar > .header .header-title {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-sidebar > .header a.sidebar-menu::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c9";
+}
+body.task-mail.action-compose #layout #layout-sidebar > .header a.sidebar-menu {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  font-size: 0;
+  text-decoration: none;
+}
+body.task-mail.action-compose #layout #layout-list {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-content {
+  grid-area: content;
+  overflow: hidden;
+  padding: 1rem;
+}
+body.task-mail.action-compose #layout #layout-content .iframe-wrapper {
+  width: 100%;
+  height: 100%;
+}
+body.task-mail.action-compose #layout #layout-content .iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+}
+body.task-mail.action-compose #layout #layout-content > .header {
+  position: relative;
+  min-height: 2.2rem;
+}
+body.task-mail.action-compose #layout #layout-content > .header > span.header-title, body.task-mail.action-compose #layout #layout-content > .header > .back-sidebar-button, body.task-mail.action-compose #layout #layout-content > .header > .task-menu-button {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.edit::before,
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.edit::before {
+  content: "\f303";
+}
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.delete::before,
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.delete::before {
+  content: "\f1f8";
+}
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.add::before,
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.add::before {
+  content: "\+";
+}
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.add.recipient::before,
+body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.add.recipient::before {
+  content: "\f0c0";
+}
+body.task-mail.action-compose #layout #layout-content #messagetoolbar {
+  border-bottom: 1px solid var(--color-medium-gray);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+body.task-mail.action-compose #layout #layout-content #messagetoolbar a.options {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-content #messagetoolbar a.save {
+  margin-left: 0;
+}
+body.task-mail.action-compose #layout #layout-content .formbuttons {
+  text-align: right;
+}
+body.task-mail.action-compose #layout #layout-content .formbuttons .send {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+body.task-mail.action-compose #layout #layout-content .formbuttons .send::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f1d8";
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+body.task-mail.action-compose #layout #layout-content .formbuttons a.extwin {
+  display: none;
+}
+body.task-mail.action-compose #layout #compose_recipient_buttons div a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  border-right: 1px solid var(--color-input-border);
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  margin-bottom: 1rem;
+}
+body.task-mail.action-compose #layout #compose_recipient_buttons div a:last-child {
+  border-right: none;
+}
+body.task-mail.action-compose #layout #compose_recipient_buttons div a:hover, body.task-mail.action-compose #layout #compose_recipient_buttons div a:focus, body.task-mail.action-compose #layout #compose_recipient_buttons div a:focus-within, body.task-mail.action-compose #layout #compose_recipient_buttons div a:focus-visible, body.task-mail.action-compose #layout #compose_recipient_buttons div a:target, body.task-mail.action-compose #layout #compose_recipient_buttons div a:active, body.task-mail.action-compose #layout #compose_recipient_buttons div a:visited, body.task-mail.action-compose #layout #compose_recipient_buttons div a:link {
+  color: inherit;
+}
+body.task-mail.action-compose #layout #compose_recipient_buttons div a.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-mail.action-compose #layout #compose-headers label {
+  text-transform: none;
+}
+body.task-mail.action-compose #layout #uploadform {
+  display: none;
+}
+body.task-mail.action-compose #layout #layout-sidebar > .header {
+  min-height: 0;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments {
+  display: block;
+  border: 2px dashed var(--color-input-border);
+  border-radius: 4px;
+  padding: 1rem;
+  text-align: center;
+  min-height: 10rem;
+  height: 30%;
+  background-image: url("/skins/sooma/images/download-b8b8b8.svg");
+  background-position: center bottom 10%;
+  background-repeat: no-repeat;
+  background-size: 15%;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+  line-height: normal;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  user-select: none;
+  margin: 0.65rem 0 0.65rem 0.5rem;
+  margin-top: 2rem;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments button::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f093";
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments button.btn.btn-primary {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+  line-height: normal;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  user-select: none;
+  margin: 0.65rem 0 0.65rem 0.5rem;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  margin-top: 4rem;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list {
+  text-align: left;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li {
+  display: flex;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a {
+  color: inherit;
+  text-decoration: none;
+  flex: 0;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:hover, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:focus, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-within, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-visible, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:target, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:active, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:visited, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:link {
+  color: inherit;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a.delete::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f2ed";
+  font-weight: 200;
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a.filename {
+  flex: 1;
+}
+body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li .attachment-size {
+  font-size: 80%;
+  opacity: 0.7;
+  line-height: 1.4;
+  padding-left: 0.5rem;
+}
+
 body > .ui-widget-overlay {
   position: fixed;
   top: 0;
@@ -20840,6 +21449,49 @@ body > .ui-widget-overlay {
   display: none;
 }
 
+#recipient-dialog {
+  height: 100%;
+}
+#recipient-dialog .listbox {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+#recipient-dialog .listbox .searchbar {
+  flex: 0;
+}
+#recipient-dialog .listbox .searchbar #searchform {
+  background-image: url("/skins/sooma/images/search-b1b1b2.svg");
+  background-position: 0.4rem center;
+  background-repeat: no-repeat;
+  width: calc(100% - 1.5rem - 1.5rem);
+  font-size: 1.2rem;
+  background-color: var(--color-input-background);
+  border: 1px solid transparent;
+  border-bottom-color: var(--color-input-border);
+  border-radius: 2px;
+  outline: none;
+  line-height: 3;
+  margin: 0.5rem 0 1.5rem 0;
+  padding: 0 1rem 0 2.2rem;
+  color: var(--color-input);
+}
+#recipient-dialog .listbox .searchbar #searchform:active, #recipient-dialog .listbox .searchbar #searchform:focus {
+  border-bottom-color: var(--color-input-border-focus);
+}
+#recipient-dialog .listbox .searchbar > a {
+  display: none;
+}
+#recipient-dialog .listbox .scroller {
+  flex: 1;
+}
+#recipient-dialog .listbox .pagenav {
+  flex: 0;
+}
+#recipient-dialog #contacts-table {
+  margin-top: 1.5rem;
+}
+
 #messagestack {
   position: fixed;
   top: 0;
@@ -20918,9 +21570,11 @@ body.task-login #messagestack {
   align-items: center;
 }
 
+.formcontent:not(.popupmenu),
 .propform:not(.popupmenu) {
   width: 100%;
 }
+.formcontent label,
 .propform label {
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -20929,13 +21583,13 @@ body.task-login #messagestack {
   margin-bottom: 0.5rem;
   display: block;
 }
+.formcontent input,
 .propform input {
   width: 100%;
   font-size: 1.2rem;
   background-color: var(--color-input-background);
   border: 1px solid transparent;
   border-bottom-color: var(--color-input-border);
-  padding: 0 0.5rem;
   border-radius: 2px;
   outline: none;
   line-height: 3;
@@ -20943,13 +21597,18 @@ body.task-login #messagestack {
   padding: 0 1rem;
   color: var(--color-input);
 }
-.propform input:active, .propform input:focus {
+.formcontent input:active, .formcontent input:focus,
+.propform input:active,
+.propform input:focus {
   border-bottom-color: var(--color-input-border-focus);
 }
+.formcontent select,
+.formcontent ::picker(select),
 .propform select,
 .propform ::picker(select) {
   appearance: base-select;
 }
+.formcontent select,
 .propform select {
   appearance: none;
   background-color: var(--color-input-background);
@@ -20964,9 +21623,11 @@ body.task-login #messagestack {
   padding-right: 1.5rem;
   background: transparent url("/skins/sooma/images/drop-arrow-select.svg") center right no-repeat;
 }
+.formcontent select::picker-icon,
 .propform select::picker-icon {
   color: var(--color-input-background);
 }
+.formcontent button,
 .propform button {
   display: inline-block;
   text-align: center;
@@ -20981,12 +21642,439 @@ body.task-login #messagestack {
   transition: all 0.2s ease;
   font-size: 1.2rem;
 }
+.formcontent button:hover,
 .propform button:hover {
   background-color: hsl(from var(--color-btn-secondary-background) h s calc(l * 90%));
 }
+.formcontent button.mainaction,
 .propform button.mainaction {
   background-color: var(--color-btn-primary-background);
   color: var(--color-btn-primary);
+}
+.formcontent :root,
+.propform :root {
+  --color-main: #e60013;
+  --color-main-contrast: #fff;
+  --color-main-dark: hsl(from var(--color-main) h s calc(l * 0.65));
+  --color-black: #161b1d;
+  --color-light-gray: #f6f6f6;
+  --color-medium-gray: #c7c7c7;
+  --color-dark-gray: #212121;
+  --color-font: hsl(from var(--color-black) h s calc(l * 0.9));
+  --color-link: #ff0000;
+  --color-link-hover: hsl(from var(--color-link) h s calc(l * 0.9));
+  --color-border: #ddd;
+  --color-error: #ff5552;
+  --color-success: #41b849;
+  --color-warning: #ffd452;
+  --color-notice: #e8f3ff;
+  --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
+  --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));
+  --color-black-shade-bg: hsl(from var(--color-black) h s calc(l * 0.85));
+  --color-layout-border: var(--color-black-shade-border);
+  --color-layout-header: var(--color-font);
+  --color-layout-content-background: #fff;
+  --color-layout-sidebar-background: var(--color-layout-content-background);
+  --color-layout-sidebar-foreground: var(--color-font);
+  --color-layout-list-background: var(--color-layout-content-background);
+  --color-layout-list-foreground: var(--color-font);
+  --color-layout-header-localmenu-background: #474747;
+  --color-layout-header-localmenu-foreground: hsl(from var(--color-layout-header-localmenu-background) h 0 calc((255 - l) * 0.8 + 255 * 0.2));
+  --color-layout-header-background: var(--color-layout-content-background);
+  --color-layout-footer-background: var(--color-layout-content-background);
+  --color-popupmenu-background: var(--color-layout-content-background);
+  --color-popupmenu-foreground: var(--color-font);
+  --color-popupmenu-hover-background: var(--color-light-gray);
+  --color-taskmenu-background: var(--color-layout-header-background);
+  --color-taskmenu-button: #a6a6a6;
+  --color-taskmenu-button-selected: var(--color-main);
+  --color-taskmenu-button-action: var(--color-main);
+  --color-taskmenu-button-selected-background: hsl(from var(--color-taskmenu-background) h s calc(l * 0.9));
+  --color-taskmenu-button-action-background: transparent;
+  --color-taskmenu-button-hover: #fff;
+  --color-taskmenu-button-selected-hover: #fff;
+  --color-taskmenu-button-action-hover: var(--color-main);
+  --color-taskmenu-button-background-hover: hsl(from var(--color-taskmenu-background) h s calc(l * 0.9));
+  --color-taskmenu-button-action-background-hover: var(--color-taskmenu-button-background-hover);
+  --color-taskmenu-button-logout: var(--color-error);
+  --color-taskmenu-button-logout-hover: var(--color-error);
+  --color-toolbar-button: var(--color-font);
+  --color-toolbar-button-background-hover: hsl(from var(--color-layout-header-background) h s calc(l * 0.97));
+  --color-searchbar-background: #fbfbfb;
+  --color-menu-hover: #fff;
+  --color-menu-hover-background: var(--color-main);
+  --color-list: var(--color-font);
+  --color-list-selected: var(--color-font);
+  --color-list-selected-background: rgb(from var(--color-main) r g b / 10%);
+  --color-list-flagged: var(--color-error);
+  --color-list-deleted: rgb(from var(--color-font), r g b calc(a * 0.5));
+  --color-list-secondary: var(--color-black-shade-text);
+  --color-list-droptarget-background: hsl(from var(--color-main) h calc(s * 0.2) calc(l * 0.8 + 255 * 0.2));
+  --color-list-focus-indicator: hsl(from var(--color-main) h s calc(l * 0.2));
+  --color-list-border: var(--color-black-shade-bg);
+  --color-list-badge: #fff;
+  --color-list-badge-background: var(--color-main);
+  --color-list-recent: hsl(from var(--color-main) h s calc(l * 0.8));
+  --color-list-recent-badge: #fff;
+  --color-list-recent-badge-background: var(--color-main);
+  --color-list-pagenav: var(--color-black-shade-text);
+  --color-list-icon: rgb(from var(--color-list-secondary), r g b calc(a * 0.75));
+  --color-list-unread-status: var(--color-warning);
+  --color-attachmentlist-border: #f4f4f4;
+  --color-attachmentlist-background: #fcfcfc;
+  --color-drag-layer: #fff;
+  --color-drag-layer-background: var(--color-taskmenu-background);
+  --color-drag-layer-shadow: var(--color-black-shade-bg);
+  --color-message: var(--color-font);
+  --color-message-border: transparent;
+  --color-message-background: hsl(from var(--color-main) h s calc(l * 0.95));
+  --color-message-text: #fff;
+  --color-message-link: var(--color-main);
+  --color-message-link-font-weight: normal;
+  --color-message-information: var(--color-main);
+  --color-message-success: var(--color-success);
+  --color-message-warning: var(--color-warning);
+  --color-message-error: var(--color-error);
+  --color-message-loading: hsl(from var(--color-font) h s calc(l * 0.3 + 255 * 0.70));
+  --color-message-information-text: var(--color-message-text);
+  --color-message-success-text: var(--color-message-text);
+  --color-message-warning-text: var(--color-message);
+  --color-message-error-text: var(--color-message-text);
+  --color-message-loading-text: var(--color-message-text);
+  --color-message-error-box: var(--color-message);
+  --color-message-information-box: var(--color-message);
+  --color-message-success-box: var(--color-message);
+  --color-message-warning-box: var(--color-message);
+  --color-message-error-box-background: hsl(from var(--color-message-error) h s calc(l * 0.8));
+  --color-message-information-box-background: hsl(from var(--color-message-information) h s calc(l * 0.8));
+  --color-message-success-box-background: hsl(from var(--color-message-success) h s calc(l * 0.8));
+  --color-message-warning-box-background: hsl(from var(--color-message-warning) h s calc(l * 0.8));
+  --color-popover-shadow: var(--color-black-shade-bg);
+  --color-popover-separator: var(--color-black-shade-text);
+  --color-popover-separator-background: var(--color-black-shade-bg);
+  --color-popover-mobile-header: #fff;
+  --color-popover-mobile-header-background: var(--color-main-dark);
+  --color-popover-mobile-dropbutton-background: #f6f6f6;
+  --color-dialog-overlay-background: hsl(from var(--color-font) h s calc(l * 0.5));
+  --color-dialog-header: var(--color-layout-header);
+  --color-dialog-header-border: var(--color-border);
+  --color-spinner-circle: var(--color-black-shade-bg);
+  --color-spinner-item: var(--color-black-shade-text);
+  --color-label: hsl(from var(--color-font) h s calc(l * 1.3));
+  --color-input: var(--color-font);
+  --color-input-background: var(--color-layout-content-background);
+  --color-input-border: #ced4da;
+  --color-input-border-focus: var(--color-main);
+  --color-input-border-focus-shadow: hsl(from var(--color-main) h s calc(l * 0.75));
+  --color-input-border-invalid: var(--color-error);
+  --color-input-border-invalid-shadow: hsl(from var(--color-error) h s calc(l * 0.75));
+  --color-input-addon-background: var(--color-black-shade-bg);
+  --color-recipient-input-border: var(--color-input-border);
+  --color-recipient-input-background: var(--color-black-shade-bg);
+  --color-input-placeholder: #bbb;
+  --color-checkbox: var(--color-main);
+  --color-checkbox-checked: var(--color-main);
+  --color-checkbox-checked-disabled: hsl(from var(--color-main) h s calc(l * 1.15));
+  --color-checkbox-focus: var(--color-input-border-focus);
+  --color-checkbox-focus-shadow: var(--color-input-border-focus-shadow);
+  --color-form-hint: var(--color-black-shade-text);
+  --color-image-upload-background: #f4f4f4;
+  --color-btn-secondary: #fff;
+  --color-btn-secondary-background: hsl(from var(--color-black) h s calc(l * 1.50));
+  --color-btn-primary: #fff;
+  --color-btn-primary-background: var(--color-main);
+  --color-btn-danger: #fff;
+  --color-btn-danger-background: var(--color-error);
+  --color-quota-background: #fff;
+  --color-quota-text: var(--color-black-shade-text);
+  --color-quota-value: var(--color-main);
+  --color-quota-value-warning: var(--color-error);
+  --color-blockquote-background: hsl(from var(--color-black-shade-bg) h s calc(l * 0.5));
+  --color-blockquote-0: hsl(from var(--color-main) h s calc(l * 0.7));
+  --color-blockquote-1: hsl(from var(--color-success) h s calc(l * 0.75));
+  --color-blockquote-2: hsl(from var(--color-error) h s calc(l * 0.8));
+  --color-blockquote-0-border: var(--color-blockquote-0);
+  --color-blockquote-1-border: var(--color-blockquote-1);
+  --color-blockquote-2-border: var(--color-blockquote-2);
+  --color-mail-signature: var(--color-black-shade-text);
+  --color-mail-headers: var(--color-black-shade-text);
+  --color-messagepart-border: #f4f4f4;
+  --color-messagepart-background: #fcfcfc;
+  --color-spellcheck-link: var(--color-error);
+  --color-table-border: var(--color-layout-border);
+  --color-table-selected: var(--color-list-selected);
+  --color-table-selected-background: var(--color-list-selected-background);
+  --color-datepicker-border: var(--color-layout-border);
+  --color-datepicker-font: var(--color-font);
+  --color-datepicker-highlight: var(--color-main);
+  --color-datepicker-highlight-background: hsl(from var(--color-main) h s calc(l * 1.3));
+  --color-datepicker-active: #fff;
+  --color-datepicker-active-background: var(--color-main);
+  --color-editor-disabled-mask: rgb(from hsl(from var(--color-black) h s calc(l * 0.85)) h s calc(a * 0.9));
+  --color-image-tools: #fff;
+  --color-image-tools-background: rgb(from vsar(--color-main) r g b calc(a * 0.4));
+  --color-image-tools-hover: rgb(from var(--color-main) r g b calc(a * 0.5));
+  --color-scrollbar-thumb: #c1c1c1;
+  --color-scrollbar-track: #f1f1f1;
+  --color-dark-main: hsl(from var(--color-main) h s calc(l * 0.7));
+  --color-dark-background: #21292c;
+  --color-dark-font: #c5d1d3;
+  --color-dark-border: #4d6066;
+  --color-dark-hint: hsl(from var(--color-dark-font) h s calc(l * 0.8));
+  --color-dark-information: hsl(from var(--color-main) h s calc(l * 0.4));
+  --color-dark-success: hsl(from var(--color-success) h s calc(l * 0.4));
+  --color-dark-warning: hsl(from var(--color-warning) h s calc(l * 0.4));
+  --color-dark-error: hsl(from var(--color-error) h s calc(l * 0.4));
+  --color-dark-list-selected: var(--color-main);
+  --color-dark-list-selected-background: #374549;
+  --color-dark-list-badge: hsl(from var(--color-dark-font) h s calc(l * 1.10));
+  --color-dark-list-badge-background: var(--color-dark-border);
+  --color-dark-list-deleted: hsl(from var(--color-dark-hint) h s calc(l * 0.85));
+  --color-dark-list-droptarget-background: #4d4d00;
+  --color-dark-list-border: #2c373a;
+  --color-dark-input: var(--color-dark-font);
+  --color-dark-input-border: #7c949c;
+  --color-dark-input-background: var(--color-dark-background);
+  --color-dark-input-focus: #e2e7e9;
+  --color-dark-input-border-focus: var(--color-main);
+  --color-dark-input-background-focus: hsl(from var(--color-dark-background) h s calc(l * 1.05));
+  --color-dark-input-addon-background: #374549;
+  --color-dark-input-addon-background-focus: hsl(from var(--color-dark-list-selected-background) h s calc(l * 1.15));
+  --color-dark-checkbox: var(--color-dark-border);
+  --color-dark-checkbox-checked: var(--color-dark-main);
+  --color-dark-btn: hsl(from var(--color-dark-font) h s calc(l * 1.10));
+  --color-dark-btn-primary-background: var(--color-dark-main);
+  --color-dark-btn-secondary-background: var(--color-dark-border);
+  --color-dark-btn-danger-background: var(--color-dark-error);
+  --color-dark-dialog-overlay-background: hsl(from black h s calc(l * 0.7));
+  --color-dark-popover-background: #161b1d;
+  --color-dark-popover-border: hsl(from #161b1d h s calc(l * 0.5));
+  --color-dark-message-information: var(--color-dark-information);
+  --color-dark-message-success: var(--color-dark-success);
+  --color-dark-message-warning: var(--color-dark-warning);
+  --color-dark-message-error: var(--color-dark-error);
+  --color-dark-message-loading: hsl(from var(--color-dark-background) h s calc(l * 1.10));
+  --color-dark-scrollbar-thumb: hsl(from var(--color-main) h s calc(l * 0.75));
+  --color-dark-scrollbar-track: var(--color-dark-border);
+  --color-dark-blockquote-0: hsl(from var(--color-main) h s calc(l * 1.10));
+  --color-dark-blockquote-1: hsl(from var(--color-success) h s calc(l * 1.10));
+  --color-dark-blockquote-2: hsl(from var(--color-error) h s calc(l * 1.10));
+  --color-dark-blockquote-0-border: var(--color-dark-blockquote-0);
+  --color-dark-blockquote-1-border: var(--color-dark-blockquote-1);
+  --color-dark-blockquote-2-border: var(--color-dark-blockquote-2);
+}
+.formcontent label.custom-control,
+.propform label.custom-control {
+  display: inline-block;
+  text-wrap: nowrap;
+  --control-height: 1.5rem;
+  --control-width: calc(2 * var(--control-height));
+  --control-foreground-color: var(--color-input);
+  --control-background-color: var(--color-input-background);
+  --control-button-margin: calc(0.1 * var(--control-height));
+}
+.formcontent label.custom-control:has(input[type=checkbox]:disabled),
+.propform label.custom-control:has(input[type=checkbox]:disabled) {
+  opacity: 0.5;
+}
+.formcontent label.custom-control::before,
+.propform label.custom-control::before {
+  display: inline-block;
+  width: var(--control-width);
+  height: var(--control-height);
+  background-color: var(--control-foreground-color);
+  content: "⠀";
+  border-radius: calc(var(--control-height) / 2);
+}
+.formcontent label.custom-control::after,
+.propform label.custom-control::after {
+  display: inline-block;
+  content: "⠀";
+  width: calc(var(--control-height) - 2 * var(--control-button-margin));
+  height: calc(var(--control-height) - 2 * var(--control-button-margin));
+  border-radius: calc(0.8 * var(--control-height) / 2);
+  background-color: var(--control-background-color);
+  position: relative;
+  left: calc(-1 * var(--control-width) + var(--control-button-margin));
+  top: calc(var(--control-button-margin));
+}
+.formcontent label.custom-control:has(input[type=checkbox]:checked),
+.propform label.custom-control:has(input[type=checkbox]:checked) {
+  --control-foreground-color: var(--color-main);
+}
+.formcontent label.custom-control:has(input[type=checkbox]:checked)::after,
+.propform label.custom-control:has(input[type=checkbox]:checked)::after {
+  left: calc(-1 * (var(--control-height) - 2 * var(--control-button-margin)) - var(--control-button-margin));
+}
+.formcontent label.custom-control input[type=checkbox],
+.propform label.custom-control input[type=checkbox] {
+  width: 0;
+}
+
+.formcontent > div:has(> .form-group.row),
+div.formcontent:has(> .form-group.row) {
+  display: table;
+  width: 100%;
+}
+.formcontent > div:has(> .form-group.row) > .form-group.row,
+div.formcontent:has(> .form-group.row) > .form-group.row {
+  display: table-row;
+}
+.formcontent > div:has(> .form-group.row) > .form-group.row > *,
+div.formcontent:has(> .form-group.row) > .form-group.row > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+.formcontent > div:has(> .form-group.row) select,
+div.formcontent:has(> .form-group.row) select {
+  margin: 0;
+  max-width: none;
+}
+
+.row .col-2 {
+  width: 16.6666666667%;
+}
+.row .col-3 {
+  width: 25%;
+}
+.row .col-4 {
+  width: 33.3333333333%;
+}
+.row .col-5 {
+  width: 41.6666666667%;
+}
+.row .col-6 {
+  width: 50%;
+}
+.row .col-7 {
+  width: 58.3333333333%;
+}
+.row .col-8 {
+  width: 66.6666666667%;
+}
+.row .col-9 {
+  width: 75%;
+}
+.row .col-10 {
+  width: 83.3333333333%;
+}
+.row .col-11 {
+  width: 91.6666666667%;
+}
+.row .col-12 {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  --button-horizontal-margin: 0.62rem;
+}
+.input-group > * {
+  flex: 1;
+}
+.input-group > .input-group-append, .input-group > .input-group-prepend {
+  flex: 0;
+}
+.input-group > .input-group-append a, .input-group > .input-group-prepend a {
+  color: inherit;
+  text-decoration: none;
+  margin: 0rem var(--button-horizontal-margin);
+  padding: 0.5rem 0;
+}
+.input-group > .input-group-append a:hover, .input-group > .input-group-append a:focus, .input-group > .input-group-append a:focus-within, .input-group > .input-group-append a:focus-visible, .input-group > .input-group-append a:target, .input-group > .input-group-append a:active, .input-group > .input-group-append a:visited, .input-group > .input-group-append a:link, .input-group > .input-group-prepend a:hover, .input-group > .input-group-prepend a:focus, .input-group > .input-group-prepend a:focus-within, .input-group > .input-group-prepend a:focus-visible, .input-group > .input-group-prepend a:target, .input-group > .input-group-prepend a:active, .input-group > .input-group-prepend a:visited, .input-group > .input-group-prepend a:link {
+  color: inherit;
+}
+.input-group > .input-group-append a.disabled, .input-group > .input-group-prepend a.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.input-group > .input-group-append a.icon, .input-group > .input-group-prepend a.icon {
+  font-size: 0;
+}
+.input-group > .input-group-append a.icon::before, .input-group > .input-group-prepend a.icon::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\?";
+  vertical-align: middle;
+}
+
+.select-menu[role=listbox] {
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  background-color: inherit;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+.select-menu[role=listbox] > ul > li {
+  margin: 0.5rem;
+}
+.select-menu[role=listbox] > ul > li > i.icon::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f183";
+  vertical-align: middle;
+}
+
+.formbuttons .btn:not(.btn-primary) {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+  line-height: normal;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  user-select: none;
+  margin: 0.65rem 0 0.65rem 0.5rem;
+}
+.formbuttons .btn.btn-primary {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+  line-height: normal;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  user-select: none;
+  margin: 0.65rem 0 0.65rem 0.5rem;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
 }
 
 .header .back-list-button {
@@ -21237,6 +22325,74 @@ body.task-login #messagestack {
   width: var(--fa-width, 1.25em);
   content: "\f02e";
 }
+.toolbar.menu a.save.draft::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c7";
+}
+.toolbar.menu a.attach::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+}
+.toolbar.menu a.signature::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f2c1";
+}
+.toolbar.menu a.responses::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f086";
+}
 
 .toolbar.menu.overflow a {
   font-size: 0;
@@ -21255,7 +22411,7 @@ body.task-login #messagestack {
 .listing li a {
   text-decoration: none;
   color: inherit;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 0.5rem;
   display: block;
 }
 .listing li a:hover, .listing li a:focus, .listing li a:focus-within, .listing li a:focus-visible, .listing li a:target, .listing li a:active, .listing li a:visited, .listing li a:link {
@@ -21268,8 +22424,33 @@ body.task-login #messagestack {
   display: inline-block;
   background-repeat: no-repeat;
 }
+.listing li.addressbook.selected {
+  color: inherit;
+}
+.listing li.addressbook.selected a::before {
+  color: var(--color-main);
+}
+.listing li.addressbook a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-weight: 200;
+  content: "\f2b9";
+}
 .listing.folderlist {
   padding-bottom: 2rem;
+  padding-left: 1rem;
 }
 .listing.folderlist span.unreadcount {
   opacity: 0.8;
@@ -21360,6 +22541,50 @@ body.task-login #messagestack {
 }
 .listing.folderlist li div.treetoggle.collapsed {
   background-image: url("/skins/sooma/images/sidebar/folder-plus.svg");
+}
+
+table.listing {
+  width: 100%;
+}
+table.listing > tfoot > tr > th, table.listing > tfoot > tr > td, table.listing > thead > tr > th, table.listing > thead > tr > td, table.listing > tbody > tr > th, table.listing > tbody > tr > td, table.listing > tr > th, table.listing > tr > td {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+table.listing > tfoot > tr > th:first-child, table.listing > tfoot > tr > td:first-child, table.listing > thead > tr > th:first-child, table.listing > thead > tr > td:first-child, table.listing > tbody > tr > th:first-child, table.listing > tbody > tr > td:first-child, table.listing > tr > th:first-child, table.listing > tr > td:first-child {
+  padding-left: 0.5rem;
+}
+table.listing > tfoot > tr > th:last-child, table.listing > tfoot > tr > td:last-child, table.listing > thead > tr > th:last-child, table.listing > thead > tr > td:last-child, table.listing > tbody > tr > th:last-child, table.listing > tbody > tr > td:last-child, table.listing > tr > th:last-child, table.listing > tr > td:last-child {
+  padding-right: 0.5rem;
+}
+table.listing > tfoot > tr.selected > th, table.listing > tfoot > tr.selected > td, table.listing > thead > tr.selected > th, table.listing > thead > tr.selected > td, table.listing > tbody > tr.selected > th, table.listing > tbody > tr.selected > td, table.listing > tr.selected > th, table.listing > tr.selected > td {
+  font-weight: bold;
+}
+table.listing > tfoot > tr.selected > th a::before, table.listing > tfoot > tr.selected > td a::before, table.listing > thead > tr.selected > th a::before, table.listing > thead > tr.selected > td a::before, table.listing > tbody > tr.selected > th a::before, table.listing > tbody > tr.selected > td a::before, table.listing > tr.selected > th a::before, table.listing > tr.selected > td a::before {
+  color: var(--color-main);
+  font-weight: normal;
+}
+table.listing.iconized > thead > tr > th:first-child a, table.listing.iconized > tbody > tr > td:first-child a, table.listing.iconized > tfoot > tr > td:first-child a {
+  display: block;
+}
+table.listing.iconized > thead > tr > th:first-child a::before, table.listing.iconized > tbody > tr > td:first-child a::before, table.listing.iconized > tfoot > tr > td:first-child a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  margin-right: 1rem;
+}
+table.listing.iconized > thead > tr > th:first-child.contact a::before, table.listing.iconized > tbody > tr > td:first-child.contact a::before, table.listing.iconized > tfoot > tr > td:first-child.contact a::before {
+  content: "\f007";
 }
 
 #mailboxoptions-menu a.folders::before,
@@ -21489,10 +22714,15 @@ ul.menu li a.flag::before {
 ul.menu li a.unflag::before {
   content: "\e0c2";
 }
+ul.menu li a.recipient::before {
+  font-weight: 200;
+  content: "\f0e0";
+}
 
 .popupmenu {
   display: none;
   opacity: 0;
+  z-index: 1;
   background-color: var(--color-popupmenu-background);
   color: var(--color-popupmenu-foreground);
   border-radius: 4px;
@@ -21946,6 +23176,124 @@ body.task-mail.action-preview #message-content #messagebody {
 
 :has(> .column-resizer.active) {
   overflow: visible !important;
+}
+
+div.recipient-input {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  border-bottom: 1px solid var(--color-input-border);
+}
+div.recipient-input:active, div.recipient-input:focus, div.recipient-input:focus-within {
+  border-bottom-color: var(--color-input-border-focus);
+}
+div.recipient-input > .recipient-input-recipient {
+  display: inline-block flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  font-size: 1rem;
+  background-color: hsl(from var(--color-main) h calc(s * 0.6) calc(l * 0.5 + 69));
+  line-height: 1.5;
+  padding-left: 0.7rem;
+  padding-right: 0.5rem;
+  padding-top: 0;
+  margin-right: 0.15rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  border-radius: 1rem;
+}
+div.recipient-input > .recipient-input-recipient::after {
+  content: "\e12e";
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-size: 0.8rem;
+  vertical-align: middle;
+  padding-left: 0.2rem;
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: 0.7rem;
+  padding-bottom: 4px;
+}
+div.recipient-input > .recipient-input-recipient > .recipient-input-recipient-name {
+  display: none;
+}
+div.recipient-input > .recipient-input-recipient > .recipient-input-recipient-email {
+  display: inline-block;
+}
+div.recipient-input > .recipient-input-recipient.recipient-input-recipient-name-present > .recipient-input-recipient-name {
+  display: inline-block;
+}
+div.recipient-input > .recipient-input-recipient.recipient-input-recipient-name-present > .recipient-input-recipient-email {
+  display: none;
+}
+div.recipient-input > :not(.recipient-input-recipient) {
+  flex: 1;
+  min-width: 30%;
+}
+div.recipient-input > [data-recipient-input] {
+  opacity: 0;
+  position: absolute;
+  left: -5000px;
+}
+div.recipient-input > input {
+  border-bottom: none;
+  margin: 0.25rem 0;
+  padding: 0;
+  line-height: 1;
+  font-size: 1rem;
+}
+
+label.custom-control {
+  display: inline-block;
+  text-wrap: nowrap;
+  --control-height: 1.5rem;
+  --control-width: calc(2 * var(--control-height));
+  --control-foreground-color: var(--color-input);
+  --control-background-color: var(--color-input-background);
+  --control-button-margin: calc(0.1 * var(--control-height));
+}
+label.custom-control:has(input[type=checkbox]:disabled) {
+  opacity: 0.5;
+}
+label.custom-control::before {
+  display: inline-block;
+  width: var(--control-width);
+  height: var(--control-height);
+  background-color: var(--control-foreground-color);
+  content: "⠀";
+  border-radius: calc(var(--control-height) / 2);
+}
+label.custom-control::after {
+  display: inline-block;
+  content: "⠀";
+  width: calc(var(--control-height) - 2 * var(--control-button-margin));
+  height: calc(var(--control-height) - 2 * var(--control-button-margin));
+  border-radius: calc(0.8 * var(--control-height) / 2);
+  background-color: var(--control-background-color);
+  position: relative;
+  left: calc(-1 * var(--control-width) + var(--control-button-margin));
+  top: calc(var(--control-button-margin));
+}
+label.custom-control:has(input[type=checkbox]:checked) {
+  --control-foreground-color: var(--color-main);
+}
+label.custom-control:has(input[type=checkbox]:checked)::after {
+  left: calc(-1 * (var(--control-height) - 2 * var(--control-button-margin)) - var(--control-button-margin));
+}
+label.custom-control input[type=checkbox] {
+  width: 0;
 }
 
 /*# sourceMappingURL=styles.css.map */

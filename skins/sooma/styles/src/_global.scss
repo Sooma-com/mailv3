@@ -9,6 +9,10 @@
   display: none !important;
 }
 
+*[data-hidden='big'] {
+  display: none !important;
+}
+
 :focus,
 :focus-visible {
   outline: 0px none;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 640 640"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="download-737373.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.6921875"
+     inkscape:cx="320"
+     inkscape:cy="319.70452"
+     inkscape:window-width="3400"
+     inkscape:window-height="1403"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!--! Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2025 Fonticons, Inc. -->
+  <path
+     fill="currentColor"
+     d="M344 88C344 74.7 333.3 64 320 64C306.7 64 296 74.7 296 88L296 334.1L233 271.1C223.6 261.7 208.4 261.7 199.1 271.1C189.8 280.5 189.7 295.7 199.1 305L303 409C312.4 418.4 327.6 418.4 336.9 409L441 305C450.4 295.6 450.4 280.4 441 271.1C431.6 261.8 416.4 261.7 407.1 271.1L344.1 334.1L344.1 88zM162.2 336L160 336C124.7 336 96 364.7 96 400L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 400C544 364.7 515.3 336 480 336L477.8 336L429.8 384L480 384C488.8 384 496 391.2 496 400L496 480C496 488.8 488.8 496 480 496L160 496C151.2 496 144 488.8 144 480L144 400C144 391.2 151.2 384 160 384L210.2 384L162.2 336zM464 440C464 426.7 453.3 416 440 416C426.7 416 416 426.7 416 440C416 453.3 426.7 464 440 464C453.3 464 464 453.3 464 440z"
+     id="path1"
+     style="fill:#737373;fill-opacity:1" />
+</svg>

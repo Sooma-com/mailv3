@@ -1,0 +1,81 @@
+@use "../fontawesome/fa";
+
+div.recipient-input {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  border-bottom: 1px solid var(--color-input-border);
+
+  &:active,
+  &:focus,
+  &:focus-within {
+    border-bottom-color: var(--color-input-border-focus);
+  }
+
+  &>.recipient-input-recipient {
+    display: inline-block flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    font-size: 1rem;
+    background-color: hsl(from var(--color-main) h calc(s * 0.6) calc(l * 0.5 + 230 * 0.3));
+    line-height: 1.5;
+    padding-left: 0.7rem;
+    padding-right: 0.5rem;
+    padding-top: 0;
+    margin-right: 0.15rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 1rem;
+
+    &::after {
+      content: fa.fa-content(fa.$var-circle-x);
+      @include fa.fa-icon();
+      font-size: 0.8rem;
+      vertical-align: middle;
+      padding-left: 0.2rem;
+      cursor: pointer;
+      opacity: 0.6;
+      font-size: 0.7rem;
+      padding-bottom: 4px;
+    }
+
+    &>.recipient-input-recipient-name {
+      display: none;
+    }
+
+    &>.recipient-input-recipient-email {
+      display: inline-block;
+    }
+
+    &.recipient-input-recipient-name-present {
+      &>.recipient-input-recipient-name {
+        display: inline-block;
+      }
+
+      &>.recipient-input-recipient-email {
+        display: none;
+      }
+    }
+  }
+
+  &>:not(.recipient-input-recipient) {
+    flex: 1;
+    min-width: 30%;
+  }
+
+
+  &>[data-recipient-input] {
+    opacity: 0;
+    position: absolute;
+    left: -5000px;
+  }
+
+  &>input {
+    border-bottom: none;
+    margin: 0.25rem 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 1rem;
+  }
+
+}

@@ -1,3 +1,5 @@
+@use "../fontawesome/fa" as fa;
+
 .listing {
   li {
     font-weight: 400;
@@ -10,7 +12,7 @@
     a {
       text-decoration: none;
       color: inherit;
-      padding: 0.5rem 1.5rem;
+      padding: 0.5rem 0.5rem;
       display: block;
 
       &:hover,
@@ -33,10 +35,28 @@
       }
 
     }
+
+    &.addressbook {
+      &.selected {
+        color: inherit;
+
+        a::before {
+          color: var(--color-main);
+        }
+      }
+
+      a::before {
+        @include fa.fa-icon();
+        font-weight: 200;
+        content: fa.fa-content(fa.$var-address-book);
+      }
+    }
+
   }
 
   &.folderlist {
     padding-bottom: 2rem;
+    padding-left: 1rem;
 
     span.unreadcount {
       opacity: 0.8;

@@ -1,0 +1,218 @@
+@use "../../fontawesome/fa";
+@use "../../global/mixins";
+
+#layout-content {
+
+  .iframe-wrapper {
+    width: 100%;
+    height: 100%;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &>.header {
+    position: relative;
+    min-height: 2.2rem;
+
+    &>span.header-title,
+    &>.back-sidebar-button,
+    &>.task-menu-button {
+      display: none;
+    }
+
+  }
+
+  .input-group>.input-group-append a.icon,
+  .input-group>.input-group-prepend a.icon {
+    &.edit::before {
+      content: fa.fa-content(fa.$var-pencil);
+    }
+
+    &.delete::before {
+      content: fa.fa-content(fa.$var-trash);
+    }
+
+    &.add::before {
+      content: fa.fa-content(fa.$var-plus);
+    }
+
+    &.add.recipient::before {
+      content: fa.fa-content(fa.$var-users);
+    }
+
+  }
+
+  #messagetoolbar {
+    border-bottom: 1px solid var(--color-medium-gray);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+
+    a.options {
+      display: none;
+    }
+
+    a.save {
+      margin-left: 0;
+    }
+  }
+
+  .formbuttons {
+    text-align: right;
+
+    .send {
+      padding-left: 2rem;
+      padding-right: 2rem;
+
+      &::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-paper-plane);
+        vertical-align: middle;
+        margin-right: 0.5rem;
+      }
+    }
+
+    a.extwin {
+      display: none;
+    }
+  }
+
+}
+
+#compose_recipient_buttons {
+
+  div {
+    a {
+      color: inherit;
+      text-decoration: none;
+      display: inline-block;
+      border-right: 1px solid var(--color-input-border);
+      padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+      margin-bottom: 1rem;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &:hover,
+      &:focus,
+      &:focus-within,
+      &:focus-visible,
+      &:target,
+      &:active,
+      &:visited,
+      &:link {
+        color: inherit;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+    }
+  }
+}
+
+#compose-headers label {
+  text-transform: none;
+}
+
+#uploadform {
+  display: none;
+}
+
+#layout-sidebar {
+  &>.header {
+    min-height: 0;
+  }
+
+  #compose-attachments {
+    display: block;
+    border: 2px dashed var(--color-input-border);
+    border-radius: 4px;
+    padding: 1rem;
+    text-align: center;
+    min-height: 10rem;
+    height: 30%;
+    background-image: url("/skins/sooma/images/download-b8b8b8.svg");
+    background-position: center bottom 10%;
+    background-repeat: no-repeat;
+    background-size: 15%;
+
+
+    button.btn:not(.btn-primary) {
+      @include mixins.button;
+      margin-top: 2rem;
+    }
+
+    button::before {
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-upload);
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    button.btn.btn-primary {
+      @include mixins.primary-button;
+      margin-top: 4rem;
+    }
+
+    #attachment-list {
+      text-align: left;
+
+      li {
+        display: flex;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+
+        &::before {
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-paperclip);
+          margin-right: 0.25rem;
+          vertical-align: middle;
+
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+          flex: 0;
+
+          &:hover,
+          &:focus,
+          &:focus-within,
+          &:focus-visible,
+          &:target,
+          &:active,
+          &:visited,
+          &:link {
+            color: inherit;
+          }
+
+          &.delete::before {
+            @include fa.fa-icon();
+            content: fa.fa-content(fa.$var-trash-can);
+            font-weight: 200;
+            margin-right: 0.25rem;
+            vertical-align: middle;
+          }
+
+          &.filename {
+            flex: 1;
+          }
+
+        }
+
+        .attachment-size {
+          font-size: 80%;
+          opacity: 0.7;
+          line-height: 1.4;
+          padding-left: 0.5rem;
+        }
+      }
+    }
+  }
+}

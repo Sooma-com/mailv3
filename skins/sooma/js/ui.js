@@ -212,6 +212,12 @@
             ["#layout", "#layout-sidebar", "--column-width-sidebar"],
             ["#layout", "#layout-list", "--column-width-list"],
         ].forEach(([layout, column, variable]) => {
+            let pref_category = (function () {
+                const bodyClasses = document.body.classList;
+                if (bodyClasses.contains("task-mail") && bodyClasses.contains("action-compose")) return "mail-compose";
+                return "default";
+            })();
+
             const layoutElement = document.documentElement.queryElement("css:" + layout);
             if (!layoutElement) return;
             const resizerContainer = layoutElement.queryElement("css:" + column);
@@ -221,8 +227,7 @@
             resizer.addEventListener("mousedown", mouseDown.bind(this, layoutElement, resizer, variable));
             resizer.addEventListener("mouseup", mouseUp.bind(this, layoutElement, resizer, variable));
             resizer.addEventListener("mousemove", mouseMove.bind(this, layoutElement, resizer, variable));
-            resizer.dataset.pref_name = "column-width/" + layout + "/" + variable;
-            console.log(getComputedStyle(resizerContainer));
+            resizer.dataset.pref_name = "column-width/" + pref_category + "/" + layout + "/" + variable;
             resizer.dataset.minWidth = getComputedStyle(resizerContainer).getPropertyValue("--dynamic-min-width");
             resizer.dataset.maxWidth = getComputedStyle(resizerContainer).getPropertyValue("--dynamic-max-width");
 
@@ -286,6 +291,63 @@
         document.body.style.visibility = 'visible';
     }
 
+    const moveComposeCCandBCCButtons = () => {
+        const referenceRow = document.documentElement.queryElement("css:body.task-mail.action-compose #compose_to");
+        const ccButton = document.documentElement.queryElement("css:body.task-mail.action-compose #headers-menu a.recipient[data-target='cc']");
+        const bccButton = document.documentElement.queryElement("css:body.task-mail.action-compose #headers-menu a.recipient[data-target='bcc']");
+        if (!referenceRow || !ccButton || !bccButton) return;
+        referenceRow.parentNode.insertBefore((function () {
+            const row = document.createElement("div");
+            row.setAttribute("id", "compose_recipient_buttons");
+            row.classList.add("form-group", "row");
+            row.appendChild((function () {
+                const label = document.createElement("label");
+                label.classList.add("col-2", "col-form-label");
+                return label;
+            })());
+            row.appendChild((function () {
+                const div = document.createElement("div");
+                div.classList.add("col-10");
+                div.appendChild(ccButton);
+                div.appendChild(bccButton);
+                return div;
+            })());
+            return row;
+        })(), referenceRow.nextSibling);
+        document.documentElement.queryElements("css:body.task-mail.action-compose #compose-headers .compose-headers a[data-popup='headers-menu']").forEach(button => {
+            button.parentNode.remove();
+        });
+        const clickHandler = function (event) {
+            const field = event.target.dataset.target;
+            if (!field) return;
+            const row = document.getElementById(`compose_${field}`);
+            row.classList.remove("hidden");
+            event.target.remove();
+        };
+        ccButton.addEventListener("click", clickHandler);
+        bccButton.addEventListener("click", clickHandler);
+        document.documentElement.queryElements("css:body.task-mail.action-compose #compose-headers .compose-headers a.delete").forEach(button => {
+            button.parentNode.remove();
+        });
+    }
+    const hideComposeFromIfSingle = () => {
+        document.documentElement.queryElements("css:body.task-mail.action-compose #compose-headers #compose_from").forEach(row => {
+            if (1 == row.queryElements("css:select#_from option").length) {
+                row.classList.add("hidden");
+            }
+        });
+    }
+    const wrapCheckboxes = () => {
+        document.documentElement.queryElements("css:input[type='checkbox']").forEach(checkbox => {
+            if (checkbox.parentNode.tagName == "LABEL") return;
+            if (!checkbox.classList.contains("form-check-input")) return;
+            const label = document.createElement("label");
+            label.classList.add("custom-control");
+            checkbox.parentNode.replaceChild(label, checkbox);
+            label.appendChild(checkbox);
+        });
+    }
+
 
     window.addEventListener('load', () => {
         if (window.UI.loaded) return;
@@ -296,6 +358,9 @@
         setupPopupMenus();
         setupMailListMenu();
         setupColumnResizer();
+        moveComposeCCandBCCButtons();
+        hideComposeFromIfSingle();
+        wrapCheckboxes();
         if ('loaded' in rcmail && rcmail.loaded) {
             initRoundcube.bind(this)();
         } else {
@@ -367,5 +432,65 @@ window.UI = {
             }
         });
         this.prefs.set(key, nextState);
+    },
+    recipient_selector: function (field, opts) {
+        if (!opts) opts = {};
+
+        var title = opts.title || 'insertcontact',
+            dialog = document.getElementById('recipient-dialog'),
+            parent = dialog.parentNode,
+            close_func = function (event) {
+                console.log(event);
+                if (dialog.checkVisibility()) {
+                    rcmail.env.recipient_dialog.dialog('close');
+                }
+                const field = event.field;
+                const recipientsToAdd = event.recipients.join(", ");
+                document.documentElement.queryElements(`css:#compose_${field} .recipient-input > input`).forEach(input => {
+                    input.value = [input.value, recipientsToAdd].filter(s => s.trim().length).join(", ");
+                    input.dispatchEvent(new Event('change'));
+                });
+            },
+            insert_func = function () {
+                if (opts.action) {
+                    opts.action();
+                    close_func();
+                    return;
+                }
+
+                rcmail.command('add-recipient');
+            };
+
+        if (!rcmail.env.recipient_selector_initialized) {
+            rcmail.addEventListener('add-recipient', close_func);
+            rcmail.env.recipient_selector_initialized = true;
+        }
+
+        if (field) {
+            rcmail.env.focused_field = '#_' + field;
+        }
+
+        rcmail.contact_list.clear_selection();
+        rcmail.contact_list.multiselect = 'multiselect' in opts ? opts.multiselect : true;
+
+        rcmail.env.recipient_dialog = rcmail.simple_dialog(dialog, title, insert_func, {
+            button: rcmail.gettext(opts.button || 'insert'),
+            button_class: opts.button_class || 'insert recipient',
+            height: 600,
+            classes: {
+                'ui-dialog-content': 'p-0' // remove padding on dialog content
+            },
+            open: function () {
+                // Don't want focus in the search field, we focus first contacts source record instead
+                [document.documentElement.queryElement("css:#directorylist a")]
+                    .filter(element => element)
+                    .forEach(element => element.focus());
+            },
+            close: function () {
+                parent.appendChild(dialog);
+                this.remove();
+                // (opts.focus || rcmail.env.focused_field).focus();
+            }
+        });
     }
 }

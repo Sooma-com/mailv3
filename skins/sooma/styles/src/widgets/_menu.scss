@@ -134,6 +134,11 @@ ul.menu {
       content: fa.fa-content(fa.$var-bookmark-slash);
     }
 
+    &.recipient::before {
+      font-weight: 200;
+      content: fa.fa-content(fa.$var-envelope);
+    }
+
 
   }
 }
@@ -142,6 +147,7 @@ ul.menu {
 .popupmenu {
   display: none;
   opacity: 0;
+  z-index: 1;
 
   background-color: var(--color-popupmenu-background);
   color: var(--color-popupmenu-foreground);

@@ -1,0 +1,22 @@
+@mixin button {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+  line-height: normal;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  user-select: none;
+  margin: .65rem 0 .65rem .5rem;
+}
+
+@mixin primary-button {
+  @include button;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+}

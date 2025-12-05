@@ -187,3 +187,58 @@ body>.ui-widget-overlay {
     display: none;
   }
 }
+
+
+#recipient-dialog {
+  height: 100%;
+
+  .listbox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .searchbar {
+      flex: 0;
+
+      #searchform {
+        background-image: url("/skins/sooma/images/search-b1b1b2.svg");
+        background-position: 0.4rem center;
+        background-repeat: no-repeat;
+        width: calc(100% - 1.5rem - 1.5rem);
+        font-size: 1.2rem;
+        background-color: var(--color-input-background);
+        border: 1px solid transparent;
+        border-bottom-color: var(--color-input-border);
+        border-radius: 2px;
+        outline: none;
+        line-height: 3;
+        margin: 0.5rem 0 1.5rem 0;
+        padding: 0 1rem 0 2.2rem;
+        color: var(--color-input);
+
+        &:active,
+        &:focus {
+          border-bottom-color: var(--color-input-border-focus);
+        }
+      }
+
+      &>a {
+        display: none;
+      }
+
+    }
+
+    .scroller {
+      flex: 1;
+    }
+
+    .pagenav {
+      flex: 0;
+    }
+  }
+
+  #contacts-table {
+    margin-top: 1.5rem;
+  }
+
+}
