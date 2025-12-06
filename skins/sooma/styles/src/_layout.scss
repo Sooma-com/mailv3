@@ -170,3 +170,9 @@ body.task-mail.action-compose {
 
   }
 }
+
+body.task-addressbook.action-add,
+body.task-addressbook.action-edit,
+body.task-addressbook.action-show {
+  @include meta.load-css("layout/content/addressbook-show");
+}

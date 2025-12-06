@@ -22,6 +22,10 @@
         }
     }
 
+    /*
+     CSS has no selector for overflowing elements. We need that on toolbars, so 
+     programmatically add a class to the element if it overflows.
+    */
     const markOverflowing = (target, referenceNode) => {
         if ("undefined" == typeof referenceNode) referenceNode = document.documentElement;
         if ("string" == typeof target) target = referenceNode.queryElement(target);
@@ -46,12 +50,20 @@
         document.documentElement.queryElements("css:.may-overflow").forEach(markOverflowing);
     }
 
+    /*
+     sergiosgc-js adds a delete confirmation behaviour to any links with the class "delete".
+     We don't want that behaviour, so this adds the class "skipconfirmation" to all delete links.
+    */
     const disableDeleteConfirmations = () => {
         document.documentElement.queryElements("css:a.delete").forEach(button => {
             button.classList.add("skipconfirmation");
         });
     }
 
+    /*
+     Cancel a dialog by clicking outside of it or pressing Escape. This gets attached to handlers
+     by the functions that open the dialog.
+    */
     const cancelDialog = (target, display, stopPropagation, ev) => {
         if (getComputedStyle(target).opacity === '0') return;
         let candidate = ev.target;
@@ -69,6 +81,11 @@
         }
     }
 
+    /*
+     The login form is displayed in a table, which hampers the ability to style it. Since
+     we do not want to touch the templates of the theme, which are to be the same as the original
+     elastic theme templates, changes are done in JavaScript.
+    */
     const removeLoginFormFromTable = () => {
         const loginForm = document.getElementById('login-form');
         if (!loginForm) return;
@@ -79,6 +96,11 @@
         loginForm.queryElement("xpath:table").remove();
     };
 
+    /*
+     Move source element to destination element. Both source and destination can be DOM elements or 
+     queryElement selectors (strings). If they are strings, they are resolved against referenceNode.
+     referenceNode defaults to the document element.
+    */
     const moveElement = (source, destination, referenceNode) => {
         if ("undefined" == typeof referenceNode) referenceNode = document.documentElement;
         if ("string" == typeof destination) destination = referenceNode.queryElement(destination);
@@ -87,6 +109,10 @@
         destination.appendChild(source);
     }
 
+    /*
+     Move the compose button from the taskmenu to the localmenu. Again, this is done in Javascript in 
+     order to preserve the original templates of the elastic theme.
+    */
     const moveComposeToLocalMenu = (layoutMenu, localMenu) => {
         let composeButton = layoutMenu
             .queryElements("xpath://div[@id='taskmenu']//a[contains(@class, 'compose') and contains(@href, '&_action=compose')]")
@@ -96,6 +122,10 @@
         localMenu.appendChild(composeButton);
     }
 
+    /*
+     Move the mail toolbar from the taskmenu to the localmenu. Again, this is done in Javascript in 
+     order to preserve the original templates of the elastic theme.
+    */
     const moveMailToolbarToLocalMenu = (layoutMenu, localMenu) => {
         layoutMenu
             .queryElements("xpath://div[@id='mailtoolbar']")
@@ -103,6 +133,9 @@
         markOverflowing("css:#mailtoolbar");
     }
 
+    /*
+     Create the Sooma profile menu. 
+    */
     const createSoomaProfileMenu = (layoutMenu) => {
         const taskmenu = layoutMenu.queryElement("css:#taskmenu");
         if (!taskmenu) return;
@@ -132,6 +165,9 @@
         document.addEventListener("keyup", cancelDialog.bind(null, profileDialog, "flex", true), { capture: true });
     }
 
+    /*
+     Create the local menu.
+    */
     const createLocalMenu = () => {
         const layoutMenu = document.getRootNode().firstElementChild.queryElement("css:#layout > #layout-menu");
         if (!layoutMenu) return;
@@ -143,6 +179,9 @@
         createSoomaProfileMenu(layoutMenu);
     }
 
+    /*
+     Setup event listeners for a popup menu.
+    */
     const setupPopupMenu = (button, menu) => {
         document.addEventListener("click", cancelDialog.bind(null, menu, "block", true), { capture: true });
         document.addEventListener("keyup", cancelDialog.bind(null, menu, "block", true), { capture: true });
@@ -150,6 +189,9 @@
         menu.addEventListener("click", toggleElement.bind(null, menu, "block", true, null));
     }
 
+    /*
+     Setup event listeners for all popup menus.
+    */
     const setupPopupMenus = () => {
         document.documentElement
             .queryElements("xpath://*[@data-popup]")
@@ -337,6 +379,10 @@
             }
         });
     }
+    /*
+     Prepare checkboxes for CSS styling. This involves wrapping the checkbox in a label with the 
+     custom-control class. Styling happens in widgets/_checkbox.scss.
+    */
     const wrapCheckboxes = () => {
         document.documentElement.queryElements("css:input[type='checkbox']").forEach(checkbox => {
             if (checkbox.parentNode.tagName == "LABEL") return;
@@ -347,8 +393,143 @@
             label.appendChild(checkbox);
         });
     }
+    /*
+     Setup tabbed content. We are expecting a structure like this:
+      <div class="tabbed">
+        <fieldset>
+          <legend>Tab 1</legend>
+          <div>Content 1</div>
+        </fieldset>
+        <fieldset>
+          <legend>Tab 2</legend>
+          <div>Content 2</div>
+        </fieldset>
+      </div>
+     And we produce a structure like this:
+      <div class="tabbed">
+        <div class="tab-controls">
+          <div class="tab-control active"><legend>Tab 1</legend></div>
+          <div class="tab-control"><legend>Tab 2</legend></div>
+        </div>
+        <fieldset class="active">
+          <div>Content 1</div>
+        </fieldset>
+        <fieldset>
+          <div>Content 2</div>
+        </fieldset>
+      </div>
+     With event handlers to switch between tabs (setting active class on the tab-control and the fieldset).
+     Actually showing/hiding the tabs is done by CSS (widgets/_tabbed.scss).
+    */
+    const setupTabbed = () => {
+        const handleClicked = (event) => {
+            let target = event.target;
+            while (target && !target.classList.contains("tab-control")) {
+                target = target.parentNode;
+            }
+            if (!target) return;
+            target.parentNode.queryElements("xpath:./div").filter(element => element.classList.contains("tab-control")).forEach(element => {
+                element.classList.remove("active");
+                element.tab.classList.remove("active");
+            });
+            target.classList.add("active");
+            target.tab.classList.add("active");
+        }
+        document.documentElement.queryElements("css:.tabbed:has(>fieldset):not(:has(.tab-controls))").forEach(tabbed => {
+            const tabControls = document.createElement("div");
+            tabbed.prepend(tabControls);
+            tabControls.classList.add("tab-controls");
+            tabbed.queryElements("xpath:./fieldset").forEach(fieldset => {
+                const legend = fieldset.queryElement("xpath:./legend");
+                if (!legend) return;
+                const tabControl = tabControls.appendChild(document.createElement("div"));
+                tabControl.classList.add("tab-control");
+                tabControl.tab = fieldset;
+                tabControl.appendChild(legend);
+                tabControl.addEventListener("click", handleClicked);
+            });
+            [tabControls.queryElement("xpath:./div[@class='tab-control']")].filter(element => element).forEach(element => {
+                element.dispatchEvent(new CustomEvent("click", { bubbles: true, cancelable: true }));
+            });
+        });
+    }
+    /*
+     Rearrange the compose/edit form to move the headers to the top and the content to the bottom.
+    */
+    const rearrangeContactEditForm = () => {
+        const namesDiv = document.documentElement.queryElement("css:body.task-addressbook.action-edit #contacthead > .names,body.task-addressbook.action-add #contacthead > .names ");
+        if (!namesDiv) return;
+        namesDiv.parentNode.queryElements("xpath:./div").filter(element => element.classList.contains("row")).forEach(element => namesDiv.appendChild(element));
+    }
 
 
+    /*
+     Tag the address form with an address-form class for styling.
+     */
+    const tagAddressForm = () => {
+        const handlerFunction = () => {
+            document.documentElement.queryElements("css:body.task-addressbook .content").forEach(control => {
+                if (![
+                    "ff_street",
+                    "ff_locality",
+                    "ff_zipcode",
+                    "ff_country",
+                    "ff_region",
+                ].every(className => Boolean(control.queryElement("xpath:./*[contains(concat(' ',normalize-space(@class),' '),' " + className + " ')]")))) return;
+                const addressForm = document.createElement("div");
+                addressForm.classList.add("address-form");
+                while (control.firstChild) {
+                    addressForm.appendChild(control.firstChild);
+                }
+                control.appendChild(addressForm);
+            })
+        };
+
+        (new sergiosgc.XPathObserver("//*[contains(concat(' ',normalize-space(@class),' '),' content ')]"))
+            .addEventListener("xpathobserver.node.new", handlerFunction);
+        handlerFunction();
+    }
+
+    const clickOnContactPhotoFireUpload = () => {
+        [
+            document.documentElement.queryElement("css:body.task-addressbook.action-edit #contactphoto #contactpic"),
+            document.documentElement.queryElement("css:body.task-addressbook.action-add #contactphoto #contactpic")
+        ].filter(element => element).forEach(element => {
+            element.addEventListener("click", () => {
+                document.getElementById("upload-formInput").click();
+            });
+        });
+    }
+
+    const tagDefaultPhotoOnContactPic = () => {
+
+        const handlerFunction = (img, ev) => {
+            if (ev && 0 == ev.filter(mutation => mutation.type == "attributes" && mutation.attributeName == "src").length) return;
+            if (img.src.indexOf(rcmail.env.photo_placeholder) != -1) {
+                img.classList.add("default-photo");
+            } else {
+                img.classList.remove("default-photo");
+            }
+        };
+        [
+            document.documentElement.queryElement("css:.formcontent .contact-header #contactphoto #contactpic>img")
+        ].filter(element => element).forEach(element => {
+            handlerFunction(element);
+            const observer = new MutationObserver(handlerFunction.bind(this, element));
+            observer.observe(element, { attributes: true, childList: false, subtree: false });
+            const deleteButton = element.parentNode.appendChild(document.createElement("a"));
+            deleteButton.classList.add("button", "icon", "delete");
+            deleteButton.addEventListener("click", (e) => {
+                rcmail.command('delete-photo', '', this, e);
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+    }
+
+    /*
+     Main entry point.
+    */
     window.addEventListener('load', () => {
         if (window.UI.loaded) return;
         window.UI.loaded = true;
@@ -361,6 +542,11 @@
         moveComposeCCandBCCButtons();
         hideComposeFromIfSingle();
         wrapCheckboxes();
+        setupTabbed();
+        rearrangeContactEditForm();
+        tagAddressForm();
+        clickOnContactPhotoFireUpload();
+        tagDefaultPhotoOnContactPic();
         if ('loaded' in rcmail && rcmail.loaded) {
             initRoundcube.bind(this)();
         } else {

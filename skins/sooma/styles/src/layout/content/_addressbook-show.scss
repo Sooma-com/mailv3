@@ -1,0 +1,200 @@
+@use "../../fontawesome/fa";
+
+.formcontent {
+  margin: 1.5rem;
+  width: calc(100% - 2 * 1.5rem);
+
+  .contact-header {
+    display: block grid;
+    grid-template: "photo head" 1fr / min-content 1fr;
+
+    #contactphoto {
+      grid-area: photo;
+
+      #contactpic {
+        position: relative;
+
+        &>img {
+          width: 115px;
+          border-radius: 0.5rem;
+        }
+
+        a.button.icon.delete {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+
+          &::before {
+            @include fa.fa-icon();
+            content: fa.fa-content(fa.$var-trash-can);
+            font-size: 1rem;
+            font-weight: 200;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 0.25rem;
+            border-radius: 0.05rem;
+          }
+        }
+
+        &:has(>img.default-photo) {
+          a.button.icon.delete {
+            display: none;
+          }
+        }
+      }
+    }
+
+    #contacthead {
+      grid-area: head;
+      padding: 0 0.5rem;
+
+      &>legend {
+        display: none;
+      }
+
+      .source {
+        opacity: 0.9;
+        font-size: 0.9rem;
+      }
+
+      .names {
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5;
+      }
+
+      .names:has(>.row) {
+        display: table;
+
+        &>.row {
+          display: table-row;
+
+          &>* {
+            display: table-cell;
+
+            input {
+              margin-top: 0;
+              margin-bottom: 0;
+              margin-left: 0.5rem;
+              font-size: 1rem;
+              line-height: 1.2;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #contacttabs>fieldset {
+    padding: 1rem 0.5rem;
+  }
+
+  fieldset.contactfieldgroup {
+    display: block table;
+
+    &>legend {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    &>div.row {
+      display: table-row;
+
+      &>* {
+        display: table-cell;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        line-height: 1.5;
+
+        &:first-child {
+          padding-left: 0.5rem;
+          min-width: 8rem;
+        }
+
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+
+      &:nth-child(even)>label,
+      &:nth-child(even)>div {
+        border-bottom: 1px solid var(--color-medium-gray);
+      }
+
+      &:nth-child(even):last-child>label,
+      &:nth-child(even):last-child>div {
+        border-bottom: none;
+      }
+    }
+
+    &>legend {
+      display: table-cell;
+    }
+
+    a.contactfieldbutton.deletebutton {
+      font-size: 1px;
+      font-size: 0;
+
+      &::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-trash-can);
+        font-size: 1rem;
+        font-weight: 200;
+      }
+    }
+
+    select.ff_gender,
+    input.ff_anniversary,
+    input.ff_birthday {
+      width: 15rem;
+    }
+
+    input.ff_email,
+    input.ff_phone {
+      width: auto;
+    }
+
+    input {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .address-form {
+    display: grid;
+    grid-template: "street street" 1fr
+      "locality zipcode" 1fr
+      "region country" 1fr
+
+      / 1fr 1fr;
+    input.ff_street {
+      width: auto;
+      grid-area: street;
+    }
+
+    input.ff_locality {
+      width: auto;
+      grid-area: locality;
+    }
+
+    input.ff_zipcode {
+      width: auto;
+      grid-area: zipcode;
+    }
+
+    input.ff_region {
+      width: auto;
+      grid-area: region;
+    }
+
+    input.ff_country {
+      width: auto;
+      grid-area: country;
+    }
+  }
+}
+
+#upload-form #upload-formInput {
+  display: none;
+}

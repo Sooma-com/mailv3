@@ -21243,6 +21243,273 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #atta
   padding-left: 0.5rem;
 }
 
+body.task-addressbook.action-add .formcontent,
+body.task-addressbook.action-edit .formcontent,
+body.task-addressbook.action-show .formcontent {
+  margin: 1.5rem;
+  width: calc(100% - 3rem);
+}
+body.task-addressbook.action-add .formcontent .contact-header,
+body.task-addressbook.action-edit .formcontent .contact-header,
+body.task-addressbook.action-show .formcontent .contact-header {
+  display: block grid;
+  grid-template: "photo head" 1fr/min-content 1fr;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contactphoto,
+body.task-addressbook.action-edit .formcontent .contact-header #contactphoto,
+body.task-addressbook.action-show .formcontent .contact-header #contactphoto {
+  grid-area: photo;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contactphoto #contactpic,
+body.task-addressbook.action-edit .formcontent .contact-header #contactphoto #contactpic,
+body.task-addressbook.action-show .formcontent .contact-header #contactphoto #contactpic {
+  position: relative;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contactphoto #contactpic > img,
+body.task-addressbook.action-edit .formcontent .contact-header #contactphoto #contactpic > img,
+body.task-addressbook.action-show .formcontent .contact-header #contactphoto #contactpic > img {
+  width: 115px;
+  border-radius: 0.5rem;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete,
+body.task-addressbook.action-edit .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete,
+body.task-addressbook.action-show .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete::before,
+body.task-addressbook.action-edit .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete::before,
+body.task-addressbook.action-show .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f2ed";
+  font-size: 1rem;
+  font-weight: 200;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 0.25rem;
+  border-radius: 0.05rem;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contactphoto #contactpic:has(> img.default-photo) a.button.icon.delete,
+body.task-addressbook.action-edit .formcontent .contact-header #contactphoto #contactpic:has(> img.default-photo) a.button.icon.delete,
+body.task-addressbook.action-show .formcontent .contact-header #contactphoto #contactpic:has(> img.default-photo) a.button.icon.delete {
+  display: none;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead {
+  grid-area: head;
+  padding: 0 0.5rem;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead > legend,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead > legend,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead > legend {
+  display: none;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead .source,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead .source,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead .source {
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead .names,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead .names,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead .names {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead .names:has(> .row),
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead .names:has(> .row),
+body.task-addressbook.action-show .formcontent .contact-header #contacthead .names:has(> .row) {
+  display: table;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead .names:has(> .row) > .row,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead .names:has(> .row) > .row,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead .names:has(> .row) > .row {
+  display: table-row;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead .names:has(> .row) > .row > *,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead .names:has(> .row) > .row > *,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead .names:has(> .row) > .row > * {
+  display: table-cell;
+}
+body.task-addressbook.action-add .formcontent .contact-header #contacthead .names:has(> .row) > .row > * input,
+body.task-addressbook.action-edit .formcontent .contact-header #contacthead .names:has(> .row) > .row > * input,
+body.task-addressbook.action-show .formcontent .contact-header #contacthead .names:has(> .row) > .row > * input {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+body.task-addressbook.action-add .formcontent #contacttabs > fieldset,
+body.task-addressbook.action-edit .formcontent #contacttabs > fieldset,
+body.task-addressbook.action-show .formcontent #contacttabs > fieldset {
+  padding: 1rem 0.5rem;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup {
+  display: block table;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > legend,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > legend,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > legend {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row {
+  display: table-row;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row > *,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row > *,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row > * {
+  display: table-cell;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  line-height: 1.5;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row > *:first-child,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row > *:first-child,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row > *:first-child {
+  padding-left: 0.5rem;
+  min-width: 8rem;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row > *:last-child,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row > *:last-child,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row > *:last-child {
+  padding-right: 0;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row:nth-child(even) > label, body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row:nth-child(even) > div,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row:nth-child(even) > label,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row:nth-child(even) > div,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row:nth-child(even) > label,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row:nth-child(even) > div {
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row:nth-child(even):last-child > label, body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > div.row:nth-child(even):last-child > div,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row:nth-child(even):last-child > label,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > div.row:nth-child(even):last-child > div,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row:nth-child(even):last-child > label,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > div.row:nth-child(even):last-child > div {
+  border-bottom: none;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup > legend,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup > legend,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup > legend {
+  display: table-cell;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton {
+  font-size: 1px;
+  font-size: 0;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton::before,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton::before,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f2ed";
+  font-size: 1rem;
+  font-weight: 200;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup select.ff_gender,
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup input.ff_anniversary,
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup input.ff_birthday,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup select.ff_gender,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup input.ff_anniversary,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup input.ff_birthday,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup select.ff_gender,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup input.ff_anniversary,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup input.ff_birthday {
+  width: 15rem;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup input.ff_email,
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup input.ff_phone,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup input.ff_email,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup input.ff_phone,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup input.ff_email,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup input.ff_phone {
+  width: auto;
+}
+body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup input,
+body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup input,
+body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup input {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+body.task-addressbook.action-add .formcontent .address-form,
+body.task-addressbook.action-edit .formcontent .address-form,
+body.task-addressbook.action-show .formcontent .address-form {
+  display: grid;
+  grid-template: "street street" 1fr "locality zipcode" 1fr "region country" 1fr/1fr 1fr;
+}
+body.task-addressbook.action-add .formcontent .address-form input.ff_street,
+body.task-addressbook.action-edit .formcontent .address-form input.ff_street,
+body.task-addressbook.action-show .formcontent .address-form input.ff_street {
+  width: auto;
+  grid-area: street;
+}
+body.task-addressbook.action-add .formcontent .address-form input.ff_locality,
+body.task-addressbook.action-edit .formcontent .address-form input.ff_locality,
+body.task-addressbook.action-show .formcontent .address-form input.ff_locality {
+  width: auto;
+  grid-area: locality;
+}
+body.task-addressbook.action-add .formcontent .address-form input.ff_zipcode,
+body.task-addressbook.action-edit .formcontent .address-form input.ff_zipcode,
+body.task-addressbook.action-show .formcontent .address-form input.ff_zipcode {
+  width: auto;
+  grid-area: zipcode;
+}
+body.task-addressbook.action-add .formcontent .address-form input.ff_region,
+body.task-addressbook.action-edit .formcontent .address-form input.ff_region,
+body.task-addressbook.action-show .formcontent .address-form input.ff_region {
+  width: auto;
+  grid-area: region;
+}
+body.task-addressbook.action-add .formcontent .address-form input.ff_country,
+body.task-addressbook.action-edit .formcontent .address-form input.ff_country,
+body.task-addressbook.action-show .formcontent .address-form input.ff_country {
+  width: auto;
+  grid-area: country;
+}
+body.task-addressbook.action-add #upload-form #upload-formInput,
+body.task-addressbook.action-edit #upload-form #upload-formInput,
+body.task-addressbook.action-show #upload-form #upload-formInput {
+  display: none;
+}
+
 body > .ui-widget-overlay {
   position: fixed;
   top: 0;
@@ -22393,6 +22660,93 @@ div.formcontent:has(> .form-group.row) select {
   width: var(--fa-width, 1.25em);
   content: "\f086";
 }
+.toolbar.menu a.create::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\+";
+}
+.toolbar.menu a.search::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f002";
+}
+.toolbar.menu a.print::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f02f";
+}
+.toolbar.menu a.import::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-weight: 200;
+  content: "\f56f";
+}
+.toolbar.menu a.export::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-weight: 200;
+  content: "\f56e";
+}
 
 .toolbar.menu.overflow a {
   font-size: 0;
@@ -22587,6 +22941,14 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
   content: "\f007";
 }
 
+#export-menu a.folders::before,
+#export-menu a.read::before,
+#export-menu a.purge::before,
+#export-menu a.expunge::before,
+#groupoptions-menu a.folders::before,
+#groupoptions-menu a.read::before,
+#groupoptions-menu a.purge::before,
+#groupoptions-menu a.expunge::before,
 #mailboxoptions-menu a.folders::before,
 #mailboxoptions-menu a.read::before,
 #mailboxoptions-menu a.purge::before,
@@ -22607,17 +22969,62 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
   width: var(--fa-width, 1.25em);
   padding-right: 0.5rem;
 }
+#export-menu a.folders::before,
+#groupoptions-menu a.folders::before,
 #mailboxoptions-menu a.folders::before {
   content: "\f660";
 }
+#export-menu a.read::before,
+#groupoptions-menu a.read::before,
 #mailboxoptions-menu a.read::before {
   content: "\f00c";
 }
+#export-menu a.purge::before,
+#groupoptions-menu a.purge::before,
 #mailboxoptions-menu a.purge::before {
   content: "\f1f8";
 }
+#export-menu a.expunge::before,
+#groupoptions-menu a.expunge::before,
 #mailboxoptions-menu a.expunge::before {
   content: "\e0a5";
+}
+#export-menu a.create::before,
+#groupoptions-menu a.create::before,
+#mailboxoptions-menu a.create::before {
+  content: "\+";
+}
+#export-menu a.rename::before,
+#groupoptions-menu a.rename::before,
+#mailboxoptions-menu a.rename::before {
+  content: "\f303";
+}
+#export-menu a.delete::before,
+#groupoptions-menu a.delete::before,
+#mailboxoptions-menu a.delete::before {
+  content: "\f1f8";
+}
+#export-menu a.search::before,
+#groupoptions-menu a.search::before,
+#mailboxoptions-menu a.search::before {
+  content: "\f002";
+}
+#export-menu a.search.delete::before,
+#groupoptions-menu a.search.delete::before,
+#mailboxoptions-menu a.search.delete::before {
+  content: "\f2ed";
+}
+#export-menu a.export.select::before,
+#groupoptions-menu a.export.select::before,
+#mailboxoptions-menu a.export.select::before {
+  font-weight: 200;
+  content: "\f56e";
+}
+#export-menu a.export.all::before,
+#groupoptions-menu a.export.all::before,
+#mailboxoptions-menu a.export.all::before {
+  font-weight: 200;
+  content: "\f56e";
 }
 
 ul.menu li a {
@@ -23294,6 +23701,31 @@ label.custom-control:has(input[type=checkbox]:checked)::after {
 }
 label.custom-control input[type=checkbox] {
   width: 0;
+}
+
+.tabbed > .tab-controls {
+  display: block flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-medium-gray);
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.tabbed > .tab-controls > .tab-control {
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  position: relative;
+  top: 1px;
+  cursor: pointer;
+}
+.tabbed > .tab-controls > .tab-control.active {
+  border-color: var(--color-medium-gray) var(--color-medium-gray) var(--color-layout-content-background) var(--color-medium-gray);
+}
+.tabbed > fieldset {
+  display: none;
+}
+.tabbed > fieldset.active {
+  display: block;
 }
 
 /*# sourceMappingURL=styles.css.map */

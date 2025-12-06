@@ -141,6 +141,33 @@
     content: fa.fa-content(fa.$var-comments);
   }
 
+  a.create::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-plus);
+  }
+
+  a.search::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-search);
+  }
+
+  a.print::before {
+    @include fa.fa-icon();
+    content: fa.fa-content(fa.$var-print);
+  }
+
+  a.import::before {
+    @include fa.fa-icon();
+    font-weight: 200;
+    content: fa.fa-content(fa.$var-file-import);
+  }
+
+  a.export::before {
+    @include fa.fa-icon();
+    font-weight: 200;
+    content: fa.fa-content(fa.$var-file-export);
+  }
+
 }
 
 .toolbar.menu.overflow {

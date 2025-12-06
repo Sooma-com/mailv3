@@ -1,0 +1,31 @@
+.tabbed {
+  &>.tab-controls {
+    display: block flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-medium-gray);
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    &>.tab-control {
+      padding: 0.5rem;
+      border: 1px solid transparent;
+      position: relative;
+      top: 1px;
+      cursor: pointer;
+
+      &.active {
+        border-color: var(--color-medium-gray) var(--color-medium-gray) var(--color-layout-content-background) var(--color-medium-gray);
+      }
+
+    }
+  }
+
+  &>fieldset {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}

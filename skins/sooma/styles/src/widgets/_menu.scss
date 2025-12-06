@@ -1,5 +1,7 @@
 @use "../fontawesome/fa";
 
+#export-menu,
+#groupoptions-menu,
 #mailboxoptions-menu {
 
   a.folders::before,
@@ -25,6 +27,37 @@
   a.expunge::before {
     content: fa.fa-content(fa.$var-arrows-minimize);
   }
+
+  a.create::before {
+    content: fa.fa-content(fa.$var-plus);
+  }
+
+  a.rename::before {
+    content: fa.fa-content(fa.$var-pencil);
+  }
+
+  a.delete::before {
+    content: fa.fa-content(fa.$var-trash);
+  }
+
+  a.search::before {
+    content: fa.fa-content(fa.$var-search);
+  }
+
+  a.search.delete::before {
+    content: fa.fa-content(fa.$var-trash-can);
+  }
+
+  a.export.select::before {
+    font-weight: 200;
+    content: fa.fa-content(fa.$var-file-export);
+  }
+
+  a.export.all::before {
+    font-weight: 200;
+    content: fa.fa-content(fa.$var-file-export);
+  }
+
 }
 
 ul.menu {
