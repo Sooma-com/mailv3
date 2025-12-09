@@ -18,6 +18,7 @@
   }
 
   input {
+    box-sizing: border-box;
     width: 100%;
     font-size: 1.2rem;
     background-color: var(--color-input-background);
@@ -34,6 +35,12 @@
     &:focus {
       border-bottom-color: var(--color-input-border-focus);
     }
+  }
+
+  textarea.full {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 4rem;
   }
 
   select,
@@ -223,10 +230,13 @@ div.formcontent:has(> .form-group.row) {
 }
 
 .formbuttons {
+
+  button:not(.mainaction),
   .btn:not(.btn-primary) {
     @include mixins.button;
   }
 
+  button.mainaction,
   .btn.btn-primary {
     @include mixins.primary-button;
   }

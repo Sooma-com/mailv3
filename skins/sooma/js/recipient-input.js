@@ -121,6 +121,6 @@ window.sergiosgc.callOnLoad(function () {
         }
     };
     document.documentElement.queryElements("css:*[data-recipient-input]").forEach(function (element) {
-        new RecipientInput(element);
+        if (element.form) new RecipientInput(element);
     });
 });

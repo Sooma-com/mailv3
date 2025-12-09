@@ -4,6 +4,8 @@
   --color-main: #e60013;
   --color-main-contrast: #fff;
   --color-main-dark: hsl(from var(--color-main) h s calc(l * 0.65));
+  --color-highlight-background: #fffadf;
+  --color-highlight-foreground: var(--color-font);
   --color-black: #161b1d;
   --color-light-gray: #f6f6f6;
   --color-medium-gray: #c7c7c7;

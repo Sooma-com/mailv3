@@ -53,6 +53,15 @@
       content: fa.fa-content(fa.$var-address-book);
     }
 
+    &.button-calendar::before {
+      content: fa.fa-content(fa.$var-calendar-alt);
+    }
+
+    &#button-apps {
+      display: none;
+    }
+
+    &.button-selected,
     &.selected {
       &::before {
         background-color: var(--color-taskmenu-button-selected);

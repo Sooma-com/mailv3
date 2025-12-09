@@ -386,7 +386,8 @@
     const wrapCheckboxes = () => {
         document.documentElement.queryElements("css:input[type='checkbox']").forEach(checkbox => {
             if (checkbox.parentNode.tagName == "LABEL") return;
-            if (!checkbox.classList.contains("form-check-input")) return;
+            const xCalendarApp = Boolean(document.documentElement.queryElement("css:body.task-xcalendar"));
+            if (!xCalendarApp && !checkbox.classList.contains("form-check-input")) return;
             const label = document.createElement("label");
             label.classList.add("custom-control");
             checkbox.parentNode.replaceChild(label, checkbox);

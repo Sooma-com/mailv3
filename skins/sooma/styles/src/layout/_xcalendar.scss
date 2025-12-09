@@ -1,0 +1,289 @@
+@use "../fontawesome/fa";
+
+#xcalendar-app {
+  display: grid;
+  grid-template: "content sidebar" auto / 1fr 3fr;
+  --color-xcalendar-current-day-background: var(--color-highlight-background);
+  --color-xcalendar-current-day-foreground: var(--color-highlight-foreground);
+
+  &>#layout-content {
+    grid-area: content;
+    min-width: none;
+    max-width: none;
+    width: auto;
+  }
+
+  &>#layout-sidebar {
+    grid-area: sidebar;
+    min-width: none;
+    max-width: none;
+    width: auto;
+  }
+
+  &>#event-preview-controller {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    z-index: 2;
+    overflow: visible;
+
+    #event-preview {
+      background-color: var(--color-taskmenu-background);
+    }
+  }
+
+  .xtabs.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    color: var(--color-font);
+  }
+
+  .table-bordered {
+    border-top: 1px solid var(--color-medium-gray);
+  }
+
+  table.fc-scrollgrid .fc-scrollgrid-section:not(:first-child) td:not([role="presentation"]),
+  table.fc-scrollgrid .fc-scrollgrid-section:not(:first-child) th:not([role="presentation"]) {
+    border-bottom: 1px solid var(--color-medium-gray);
+  }
+
+  #calendar-grid td.fc-daygrid-day,
+  #calendar-grid th.fc-col-header-cell,
+  .fc-timegrid-body .fc-timegrid-cols td.fc-timegrid-col:not(.fc-timegrid-axis) {
+    border-left: 1px solid var(--color-medium-gray);
+  }
+
+  #xcalendar-toolbar .toolbar {
+    font-family: inherit;
+
+    &>a {
+      font-family: inherit !important;
+      font-weight: normal;
+
+      &.xcalendar-mobile-show-sidebar {
+        display: none;
+      }
+
+      &::before {
+        @include fa.fa-icon();
+        font-family: "Font Awesome 7 Pro" !important;
+      }
+
+      &.calendar-add-event::before {
+        content: fa.fa-content(fa.$var-plus);
+      }
+
+      &.calendar-day::before {
+        content: fa.fa-content(fa.$var-calendar-day);
+      }
+
+      &.calendar-week::before {
+        content: fa.fa-content(fa.$var-calendar-week);
+      }
+
+      &.calendar-month::before {
+        content: fa.fa-content(fa.$var-calendar);
+      }
+
+      &.calendar-agenda::before {
+        content: fa.fa-content(fa.$var-list);
+      }
+
+      &.calendar-search::before {
+        content: fa.fa-content(fa.$var-search);
+      }
+
+      &.calendar-settings::before {
+        content: fa.fa-content(fa.$var-gear);
+      }
+    }
+
+  }
+
+  // .table-bordered td {
+  //   border-width: 1px;
+  //   border-style: solid;
+  // }
+
+  #sidebar-calendar {
+    .ui-datepicker-header {
+      padding-top: 0.5rem;
+      display: grid;
+      grid-template: "prev title next" auto / min-content 1fr min-content;
+
+      .ui-datepicker-prev,
+      .ui-datepicker-next {
+        position: static;
+        font-size: 1px;
+        font-size: 0;
+        width: 1.5rem;
+        cursor: pointer;
+
+        span {
+          background: none;
+        }
+      }
+
+      .ui-datepicker-prev {
+        grid-area: prev;
+
+        &::before {
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-chevron-left);
+        }
+      }
+
+      .ui-datepicker-next {
+        grid-area: next;
+
+        &::before {
+          @include fa.fa-icon();
+          content: fa.fa-content(fa.$var-chevron-right);
+        }
+      }
+
+      #sidebar-calendar-dp-title {
+        grid-area: title;
+        text-align: center;
+
+        select {
+          color: var(--color-font);
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    table.ui-datepicker-calendar {
+      td {
+        a {
+          background-color: transparent;
+          border-width: 0;
+          border-radius: 0.25rem;
+        }
+
+        &.ui-datepicker-today {
+          a {
+            background-color: var(--color-xcalendar-current-day-background);
+            color: var(--color-xcalendar-current-day-foreground);
+          }
+        }
+
+        &.ui-datepicker-current-day {
+          a {
+            background-color: var(--color-main);
+            color: var(--color-main-contrast);
+          }
+        }
+      }
+    }
+  }
+
+  #calendar-list-container {
+
+    .calendar-list-header {
+      #new-calendar-container {
+        a.create {
+          font-size: 0;
+          width: 1.5rem;
+          cursor: pointer;
+
+          &::before {
+            display: inline-block !important;
+            @include fa.fa-icon();
+            content: fa.fa-content(fa.$var-bars);
+            font-family: "Font Awesome 7 Pro" !important;
+            font-weight: bold !important;
+            font-size: 1rem !important;
+            color: var(--color-font) !important;
+          }
+        }
+      }
+    }
+
+    #add-calendar-menu {
+      text-align: left;
+      line-height: 1;
+
+    }
+
+    #calendar-list-content {
+      .calendar-item {
+        .edit {
+          padding: 0.5rem 0.5rem;
+
+          &::before {
+            @include fa.fa-icon();
+            content: fa.fa-content(fa.$var-edit);
+            font-family: "Font Awesome 7 Pro" !important;
+            text-align: right;
+            width: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  #calendar-grid {
+    .fc-header-toolbar {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: start;
+
+      .fc-toolbar-chunk {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: start;
+
+        .fc-today-button {
+          background: none;
+
+          &::before {
+            @include fa.fa-icon();
+            font-family: "Font Awesome 7 Pro" !important;
+            font-weight: bold !important;
+            content: fa.fa-content(fa.$var-home);
+          }
+        }
+      }
+
+    }
+
+    th a {
+      color: var(--color-font);
+    }
+
+    .fc-timegrid-cols .fc-day-today {
+      background-color: var(--color-xcalendar-current-day-background);
+      color: var(--color-xcalendar-current-day-foreground);
+
+    }
+
+    .fc-timegrid-slot {
+      border-bottom: 1px solid var(--color-medium-gray);
+
+      &.fc-timegrid-slot-minor {
+        border-bottom: none;
+      }
+    }
+  }
+
+  #shared-calendar-controller>.editor,
+  #calendar-edit,
+  #event-search,
+  #event-edit {
+    background-color: var(--color-layout-content-background);
+
+    &>.formbuttons {
+      background-color: var(--color-layout-content-background);
+    }
+
+    .content-box {
+      padding-bottom: 5rem;
+    }
+
+    table.propform>tbody>tr>td:first-child {
+      width: 20%;
+    }
+  }
+}

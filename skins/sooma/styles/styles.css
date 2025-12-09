@@ -19799,6 +19799,8 @@ optgroup {
   --color-main: #e60013;
   --color-main-contrast: #fff;
   --color-main-dark: hsl(from var(--color-main) h s calc(l * 0.65));
+  --color-highlight-background: #fffadf;
+  --color-highlight-foreground: var(--color-font);
   --color-black: #161b1d;
   --color-light-gray: #f6f6f6;
   --color-medium-gray: #c7c7c7;
@@ -20135,7 +20137,7 @@ a:hover, a:focus, a:focus-within, a:focus-visible, a:target, a:active, a:visited
   margin-top: 2rem;
 }
 
-body:not(.task-login) #layout {
+body:not(.task-login):not(.task-xcalendar) > #layout {
   --column-width-sidebar: 1fr;
   --column-width-list: 1fr;
   --column-width-content: 1fr;
@@ -20145,25 +20147,25 @@ body:not(.task-login) #layout {
   height: 100vh;
   overflow: hidden;
 }
-body:not(.task-login) #layout #layout-menu {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu {
   width: 100%;
   height: 100%;
   grid-area: menu;
   display: grid;
   grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
 }
-body:not(.task-login) #layout #layout-menu .popover-header {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu .popover-header {
   display: flex;
   align-items: center;
   justify-content: center;
   grid-area: logo;
 }
 @media screen and (min-width: 769px) {
-  body:not(.task-login) #layout #layout-menu .popover-header a {
+  body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu .popover-header a {
     display: none;
   }
 }
-body:not(.task-login) #layout #layout-menu #taskmenu {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu {
   grid-area: taskmenu;
   display: inline-flex;
   display: inline-block flex;
@@ -20174,13 +20176,13 @@ body:not(.task-login) #layout #layout-menu #taskmenu {
   background-color: var(--color-taskmenu-background);
   position: relative;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu > a {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a {
   text-decoration: none;
   color: var(--color-taskmenu-button);
   font-size: 1.2rem;
   margin-right: 1.2rem;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu > a::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20205,19 +20207,25 @@ body:not(.task-login) #layout #layout-menu #taskmenu > a::before {
   font-size: 1rem;
   margin-right: 0.3rem;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu > a.mail::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.mail::before {
   content: "\f0e0";
 }
-body:not(.task-login) #layout #layout-menu #taskmenu > a.contacts::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.contacts::before {
   content: "\f2b9";
 }
-body:not(.task-login) #layout #layout-menu #taskmenu > a.selected::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-calendar::before {
+  content: "\f073";
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-selected::before, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.selected::before {
   background-color: var(--color-taskmenu-button-selected);
 }
-body:not(.task-login) #layout #layout-menu #taskmenu > a.selected {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-selected, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.selected {
   color: var(--color-taskmenu-button-selected);
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile {
   position: absolute;
   right: 1.5rem;
   top: 1.1rem;
@@ -20227,15 +20235,15 @@ body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile {
   overflow: hidden;
   border: 1px solid var(--color-taskmenu-button-selected);
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile:hover {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile:hover {
   outline: 1px solid var(--color-taskmenu-button-selected);
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile img {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog {
   position: absolute;
   right: 1.5rem;
   top: 3.7rem;
@@ -20248,48 +20256,48 @@ body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog {
   opacity: 0;
   z-index: 1;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
   display: grid;
   grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
   gap: 0 0.75rem;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
   grid-area: identity;
   padding-top: 0.75rem;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
   grid-area: settings;
   display: block flex;
   text-decoration: none;
   color: var(--color-font);
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
   grid-area: profile-image;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 1px solid var(--color-main);
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
   background-color: var(--color-light-gray);
   border-top: 1px solid var(--color-medium-gray);
   padding: 0.75rem;
   display: flex;
   flex-direction: row-reverse;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
   display: none;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20307,19 +20315,19 @@ body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .soom
   content: "\f011";
   padding-right: 0.25rem;
 }
-body:not(.task-login) #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
   text-decoration: none;
   color: var(--color-font);
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
 }
-body:not(.task-login) #layout #layout-menu #localmenu {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu {
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
   grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .action-buttons {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .action-buttons {
   display: inline-flex;
   display: inline-block flex;
   grid-area: action-buttons;
@@ -20328,7 +20336,7 @@ body:not(.task-login) #layout #layout-menu #localmenu .action-buttons {
   padding-left: 1rem;
   padding-right: 1rem;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .action-buttons .compose::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .action-buttons .compose::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20346,7 +20354,7 @@ body:not(.task-login) #layout #layout-menu #localmenu .action-buttons .compose::
   content: "\e74f";
   padding-right: 0.5rem;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .action-buttons .compose {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .action-buttons .compose {
   display: inline-block;
   background-color: var(--color-main);
   color: var(--color-main-contrast);
@@ -20357,7 +20365,7 @@ body:not(.task-login) #layout #layout-menu #localmenu .action-buttons .compose {
   text-wrap: nowrap;
   line-height: 1.4;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar {
   grid-area: searchbar;
   display: block flex;
   flex-direction: row-reverse;
@@ -20373,10 +20381,10 @@ body:not(.task-login) #layout #layout-menu #localmenu .searchbar {
   --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
   --input-line-height: 2.13;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar a.search {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar a.search {
   display: none;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar .reset::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar .reset::before {
   font-size: 0.8rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20394,12 +20402,12 @@ body:not(.task-login) #layout #layout-menu #localmenu .searchbar .reset::before 
   width: var(--fa-width, 1.25em);
   content: "\f00d";
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar .reset {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar .reset {
   font-size: 0;
   position: absolute;
   right: 1.2rem;
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar .options::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar .options::before {
   font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20418,7 +20426,7 @@ body:not(.task-login) #layout #layout-menu #localmenu .searchbar .options::befor
   content: "\f107";
   line-height: var(--input-line-height);
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar .options {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar .options {
   display: block;
   font-size: 0;
   background-color: var(--input-background-color);
@@ -20427,7 +20435,7 @@ body:not(.task-login) #layout #layout-menu #localmenu .searchbar .options {
   border-width: 1px 0 1px 1px;
   line-height: var(--input-line-height);
 }
-body:not(.task-login) #layout #layout-menu #localmenu .searchbar input[type=text] {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar input[type=text] {
   background-color: var(--input-background-color);
   color: var(--input-foreground-color);
   border: var(--input-border-color);
@@ -20439,43 +20447,43 @@ body:not(.task-login) #layout #layout-menu #localmenu .searchbar input[type=text
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body:not(.task-login) #layout #layout-menu #localmenu #mailtoolbar {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar {
   display: none;
   grid-area: mailtoolbar;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body:not(.task-login) #layout #layout-menu #localmenu #mailtoolbar a::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
 }
-body:not(.task-login) #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body:not(.task-login) #layout #layout-sidebar {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
   --dynamic-min-width: 300px;
   --dynamic-max-width: 35vw;
 }
-body:not(.task-login) #layout #layout-sidebar {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar {
   display: flex;
   flex-direction: column;
   height: 100%;
   background-color: var(--color-layout-sidebar-background);
   color: var(--color-layout-sidebar-foreground);
 }
-body:not(.task-login) #layout #layout-sidebar > .header {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header {
   position: relative;
   min-height: 1.48rem;
 }
-body:not(.task-login) #layout #layout-sidebar > .header a.task-menu-button,
-body:not(.task-login) #layout #layout-sidebar > .header a.back-list-button {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a.task-menu-button,
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a.back-list-button {
   display: none;
 }
-body:not(.task-login) #layout #layout-sidebar > .header .header-title {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header .header-title {
   display: none;
 }
-body:not(.task-login) #layout #layout-sidebar > .header a.sidebar-menu::before {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20493,28 +20501,28 @@ body:not(.task-login) #layout #layout-sidebar > .header a.sidebar-menu::before {
   width: var(--fa-width, 1.25em);
   content: "\f0c9";
 }
-body:not(.task-login) #layout #layout-sidebar > .header a.sidebar-menu {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a.sidebar-menu {
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
   font-size: 0;
   text-decoration: none;
 }
-body:not(.task-login) #layout #layout-list {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-list {
   grid-area: list;
   overflow: hidden;
   --dynamic-min-width: 300px;
   --dynamic-max-width: 35vw;
 }
-body:not(.task-login) #layout .listbox .scroller {
+body:not(.task-login):not(.task-xcalendar) > #layout .listbox .scroller {
   flex-grow: 1;
   flex-shrink: 1;
 }
-body:not(.task-login) #layout li.droptarget > a,
-body:not(.task-login) #layout tr.droptarget > td {
+body:not(.task-login):not(.task-xcalendar) > #layout li.droptarget > a,
+body:not(.task-login):not(.task-xcalendar) > #layout tr.droptarget > td {
   background-color: var(--color-list-droptarget-background);
 }
-body:not(.task-login) #layout #layout-list {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list {
   border-left: 1px solid var(--color-medium-gray);
   border-right: 1px solid var(--color-medium-gray);
   display: flex;
@@ -20523,44 +20531,44 @@ body:not(.task-login) #layout #layout-list {
   background-color: var(--color-layout-list-background);
   color: var(--color-layout-list-foreground);
 }
-body:not(.task-login) #layout #layout-list :any-link {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list :any-link {
   text-decoration: none;
   color: inherit;
 }
-body:not(.task-login) #layout #layout-list a.toolbar-menu-button {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list a.toolbar-menu-button {
   display: none;
 }
-body:not(.task-login) #layout #layout-list > .header {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header {
   position: relative;
   min-height: 2.2rem;
 }
-body:not(.task-login) #layout #layout-list > .header > span.header-title, body:not(.task-login) #layout #layout-list > .header > .back-sidebar-button, body:not(.task-login) #layout #layout-list > .header > .task-menu-button {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > span.header-title, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > .back-sidebar-button, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > .task-menu-button {
   display: none;
 }
-body:not(.task-login) #layout #layout-list .messagelist {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist {
   border-top: 1px solid var(--color-medium-gray);
   width: 100%;
 }
-body:not(.task-login) #layout #layout-list .messagelist .branch, body:not(.task-login) #layout #layout-list .messagelist > thead {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist .branch, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist > thead {
   display: none;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr {
   margin-top: 50px;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--color-medium-gray);
   line-height: 1.8;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.selection {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.selection {
   padding-left: 0.75rem;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.subject {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.subject {
   display: grid;
   grid-template: "from date" 1fr "subject subject" 1fr/1fr min-content;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.subject .fromto {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.subject .fromto {
   grid-area: from;
   text-wrap: nowrap;
   white-space: nowrap;
@@ -20568,17 +20576,17 @@ body:not(.task-login) #layout #layout-list .messagelist tr td.subject .fromto {
   text-overflow: ellipsis;
   padding-left: 0.75rem;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.subject .date {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.subject .date {
   grid-area: date;
   text-wrap: nowrap;
   white-space: nowrap;
   padding-right: 0.75rem;
   font-size: 0.8rem;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.subject .size {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.subject .size {
   display: none;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.subject .subject {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.subject .subject {
   grid-area: subject;
   text-wrap: nowrap;
   white-space: nowrap;
@@ -20587,25 +20595,25 @@ body:not(.task-login) #layout #layout-list .messagelist tr td.subject .subject {
   padding-left: 0.75rem;
   font-size: 0.9rem;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr td.subject .subject .msgicon.status {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr td.subject .subject .msgicon.status {
   display: none;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr.unread {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.unread {
   border-left: 2px solid var(--color-main);
 }
-body:not(.task-login) #layout #layout-list .messagelist tr.unread td.subject span.fromto,
-body:not(.task-login) #layout #layout-list .messagelist tr.unread td.subject span.date {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.unread td.subject span.fromto,
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.unread td.subject span.date {
   font-weight: 600;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr.selected td {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.selected td {
   background-color: var(--color-list-selected-background);
 }
-body:not(.task-login) #layout #layout-list .messagelist tr.flagged {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged {
   background-image: url("/skins/sooma/images/flagged.svg");
   background-repeat: no-repeat;
   background-position: right top;
 }
-body:not(.task-login) #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20623,23 +20631,26 @@ body:not(.task-login) #layout #layout-list .messagelist tr:has(span.attachment >
   content: "\f0c6";
   margin-right: 0.25rem;
 }
-body:not(.task-login) #layout .listing:not(.withselection) td.selection {
+body:not(.task-login):not(.task-xcalendar) > #layout .listing:not(.withselection) td.selection {
   display: none;
 }
-body:not(.task-login) #layout #layout-content {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-content {
   grid-area: content;
   overflow: hidden;
 }
-body:not(.task-login) #layout #layout-content .iframe-wrapper {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-content .iframe-wrapper {
   width: 100%;
   height: 100%;
 }
-body:not(.task-login) #layout #layout-content .iframe-wrapper iframe {
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-content .iframe-wrapper iframe {
   width: 100%;
   height: 100%;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #xsidebar {
+  display: none;
 }
 
-body.task-mail.action-compose #layout {
+body.task-mail.action-compose > #layout {
   --column-width-sidebar: 1fr;
   --column-width-content: 2fr;
   display: grid;
@@ -20648,25 +20659,25 @@ body.task-mail.action-compose #layout {
   height: 100vh;
   overflow: hidden;
 }
-body.task-mail.action-compose #layout #layout-menu {
+body.task-mail.action-compose > #layout #layout-menu {
   width: 100%;
   height: 100%;
   grid-area: menu;
   display: grid;
   grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
 }
-body.task-mail.action-compose #layout #layout-menu .popover-header {
+body.task-mail.action-compose > #layout #layout-menu .popover-header {
   display: flex;
   align-items: center;
   justify-content: center;
   grid-area: logo;
 }
 @media screen and (min-width: 769px) {
-  body.task-mail.action-compose #layout #layout-menu .popover-header a {
+  body.task-mail.action-compose > #layout #layout-menu .popover-header a {
     display: none;
   }
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu {
   grid-area: taskmenu;
   display: inline-flex;
   display: inline-block flex;
@@ -20677,13 +20688,13 @@ body.task-mail.action-compose #layout #layout-menu #taskmenu {
   background-color: var(--color-taskmenu-background);
   position: relative;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu > a {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a {
   text-decoration: none;
   color: var(--color-taskmenu-button);
   font-size: 1.2rem;
   margin-right: 1.2rem;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu > a::before {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20708,19 +20719,25 @@ body.task-mail.action-compose #layout #layout-menu #taskmenu > a::before {
   font-size: 1rem;
   margin-right: 0.3rem;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu > a.mail::before {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.mail::before {
   content: "\f0e0";
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu > a.contacts::before {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.contacts::before {
   content: "\f2b9";
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu > a.selected::before {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-calendar::before {
+  content: "\f073";
+}
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-selected::before, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.selected::before {
   background-color: var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu > a.selected {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-selected, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.selected {
   color: var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile {
   position: absolute;
   right: 1.5rem;
   top: 1.1rem;
@@ -20730,15 +20747,15 @@ body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile {
   overflow: hidden;
   border: 1px solid var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile:hover {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile:hover {
   outline: 1px solid var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile img {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog {
   position: absolute;
   right: 1.5rem;
   top: 3.7rem;
@@ -20751,48 +20768,48 @@ body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dial
   opacity: 0;
   z-index: 1;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
   display: grid;
   grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
   gap: 0 0.75rem;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
   grid-area: identity;
   padding-top: 0.75rem;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
   grid-area: settings;
   display: block flex;
   text-decoration: none;
   color: var(--color-font);
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
   grid-area: profile-image;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 1px solid var(--color-main);
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
   background-color: var(--color-light-gray);
   border-top: 1px solid var(--color-medium-gray);
   padding: 0.75rem;
   display: flex;
   flex-direction: row-reverse;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20810,19 +20827,19 @@ body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dial
   content: "\f011";
   padding-right: 0.25rem;
 }
-body.task-mail.action-compose #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
   text-decoration: none;
   color: var(--color-font);
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu {
+body.task-mail.action-compose > #layout #layout-menu #localmenu {
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
   grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons {
   display: inline-flex;
   display: inline-block flex;
   grid-area: action-buttons;
@@ -20831,7 +20848,7 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons {
   padding-left: 1rem;
   padding-right: 1rem;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons .compose::before {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons .compose::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20849,7 +20866,7 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons .c
   content: "\e74f";
   padding-right: 0.5rem;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons .compose {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons .compose {
   display: inline-block;
   background-color: var(--color-main);
   color: var(--color-main-contrast);
@@ -20860,7 +20877,7 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .action-buttons .c
   text-wrap: nowrap;
   line-height: 1.4;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar {
   grid-area: searchbar;
   display: block flex;
   flex-direction: row-reverse;
@@ -20876,10 +20893,10 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar {
   --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
   --input-line-height: 2.13;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar a.search {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar a.search {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .reset::before {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .reset::before {
   font-size: 0.8rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20897,12 +20914,12 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .reset:
   width: var(--fa-width, 1.25em);
   content: "\f00d";
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .reset {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .reset {
   font-size: 0;
   position: absolute;
   right: 1.2rem;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .options::before {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .options::before {
   font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20921,7 +20938,7 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .option
   content: "\f107";
   line-height: var(--input-line-height);
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .options {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .options {
   display: block;
   font-size: 0;
   background-color: var(--input-background-color);
@@ -20930,7 +20947,7 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar .option
   border-width: 1px 0 1px 1px;
   line-height: var(--input-line-height);
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar input[type=text] {
+body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar input[type=text] {
   background-color: var(--input-background-color);
   color: var(--input-foreground-color);
   border: var(--input-border-color);
@@ -20942,44 +20959,44 @@ body.task-mail.action-compose #layout #layout-menu #localmenu .searchbar input[t
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu #mailtoolbar {
+body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar {
   display: none;
   grid-area: mailtoolbar;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu #mailtoolbar a::before {
+body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
 }
-body.task-mail.action-compose #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body.task-mail.action-compose #layout #layout-sidebar {
+body.task-mail.action-compose > #layout #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
   padding: 1rem;
   --dynamic-min-width: 300px;
   --dynamic-max-width: 35vw;
 }
-body.task-mail.action-compose #layout #layout-sidebar {
+body.task-mail.action-compose > #layout #layout-sidebar {
   display: flex;
   flex-direction: column;
   height: 100%;
   background-color: var(--color-layout-sidebar-background);
   color: var(--color-layout-sidebar-foreground);
 }
-body.task-mail.action-compose #layout #layout-sidebar > .header {
+body.task-mail.action-compose > #layout #layout-sidebar > .header {
   position: relative;
   min-height: 1.48rem;
 }
-body.task-mail.action-compose #layout #layout-sidebar > .header a.task-menu-button,
-body.task-mail.action-compose #layout #layout-sidebar > .header a.back-list-button {
+body.task-mail.action-compose > #layout #layout-sidebar > .header a.task-menu-button,
+body.task-mail.action-compose > #layout #layout-sidebar > .header a.back-list-button {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-sidebar > .header .header-title {
+body.task-mail.action-compose > #layout #layout-sidebar > .header .header-title {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-sidebar > .header a.sidebar-menu::before {
+body.task-mail.action-compose > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20997,71 +21014,71 @@ body.task-mail.action-compose #layout #layout-sidebar > .header a.sidebar-menu::
   width: var(--fa-width, 1.25em);
   content: "\f0c9";
 }
-body.task-mail.action-compose #layout #layout-sidebar > .header a.sidebar-menu {
+body.task-mail.action-compose > #layout #layout-sidebar > .header a.sidebar-menu {
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
   font-size: 0;
   text-decoration: none;
 }
-body.task-mail.action-compose #layout #layout-list {
+body.task-mail.action-compose > #layout #layout-list {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-content {
+body.task-mail.action-compose > #layout #layout-content {
   grid-area: content;
   overflow: hidden;
   padding: 1rem;
 }
-body.task-mail.action-compose #layout #layout-content .iframe-wrapper {
+body.task-mail.action-compose > #layout #layout-content .iframe-wrapper {
   width: 100%;
   height: 100%;
 }
-body.task-mail.action-compose #layout #layout-content .iframe-wrapper iframe {
+body.task-mail.action-compose > #layout #layout-content .iframe-wrapper iframe {
   width: 100%;
   height: 100%;
 }
-body.task-mail.action-compose #layout #layout-content > .header {
+body.task-mail.action-compose > #layout #layout-content > .header {
   position: relative;
   min-height: 2.2rem;
 }
-body.task-mail.action-compose #layout #layout-content > .header > span.header-title, body.task-mail.action-compose #layout #layout-content > .header > .back-sidebar-button, body.task-mail.action-compose #layout #layout-content > .header > .task-menu-button {
+body.task-mail.action-compose > #layout #layout-content > .header > span.header-title, body.task-mail.action-compose > #layout #layout-content > .header > .back-sidebar-button, body.task-mail.action-compose > #layout #layout-content > .header > .task-menu-button {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.edit::before,
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.edit::before {
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.edit::before,
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.edit::before {
   content: "\f303";
 }
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.delete::before,
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.delete::before {
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.delete::before,
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.delete::before {
   content: "\f1f8";
 }
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.add::before,
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.add::before {
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.add::before,
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.add::before {
   content: "\+";
 }
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-append a.icon.add.recipient::before,
-body.task-mail.action-compose #layout #layout-content .input-group > .input-group-prepend a.icon.add.recipient::before {
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.add.recipient::before,
+body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.add.recipient::before {
   content: "\f0c0";
 }
-body.task-mail.action-compose #layout #layout-content #messagetoolbar {
+body.task-mail.action-compose > #layout #layout-content #messagetoolbar {
   border-bottom: 1px solid var(--color-medium-gray);
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
-body.task-mail.action-compose #layout #layout-content #messagetoolbar a.options {
+body.task-mail.action-compose > #layout #layout-content #messagetoolbar a.options {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-content #messagetoolbar a.save {
+body.task-mail.action-compose > #layout #layout-content #messagetoolbar a.save {
   margin-left: 0;
 }
-body.task-mail.action-compose #layout #layout-content .formbuttons {
+body.task-mail.action-compose > #layout #layout-content .formbuttons {
   text-align: right;
 }
-body.task-mail.action-compose #layout #layout-content .formbuttons .send {
+body.task-mail.action-compose > #layout #layout-content .formbuttons .send {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-body.task-mail.action-compose #layout #layout-content .formbuttons .send::before {
+body.task-mail.action-compose > #layout #layout-content .formbuttons .send::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21080,10 +21097,10 @@ body.task-mail.action-compose #layout #layout-content .formbuttons .send::before
   vertical-align: middle;
   margin-right: 0.5rem;
 }
-body.task-mail.action-compose #layout #layout-content .formbuttons a.extwin {
+body.task-mail.action-compose > #layout #layout-content .formbuttons a.extwin {
   display: none;
 }
-body.task-mail.action-compose #layout #compose_recipient_buttons div a {
+body.task-mail.action-compose > #layout #compose_recipient_buttons div a {
   color: inherit;
   text-decoration: none;
   display: inline-block;
@@ -21091,26 +21108,26 @@ body.task-mail.action-compose #layout #compose_recipient_buttons div a {
   padding: 0.25rem 0.5rem 0.25rem 0.5rem;
   margin-bottom: 1rem;
 }
-body.task-mail.action-compose #layout #compose_recipient_buttons div a:last-child {
+body.task-mail.action-compose > #layout #compose_recipient_buttons div a:last-child {
   border-right: none;
 }
-body.task-mail.action-compose #layout #compose_recipient_buttons div a:hover, body.task-mail.action-compose #layout #compose_recipient_buttons div a:focus, body.task-mail.action-compose #layout #compose_recipient_buttons div a:focus-within, body.task-mail.action-compose #layout #compose_recipient_buttons div a:focus-visible, body.task-mail.action-compose #layout #compose_recipient_buttons div a:target, body.task-mail.action-compose #layout #compose_recipient_buttons div a:active, body.task-mail.action-compose #layout #compose_recipient_buttons div a:visited, body.task-mail.action-compose #layout #compose_recipient_buttons div a:link {
+body.task-mail.action-compose > #layout #compose_recipient_buttons div a:hover, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:focus, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:focus-within, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:focus-visible, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:target, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:active, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:visited, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:link {
   color: inherit;
 }
-body.task-mail.action-compose #layout #compose_recipient_buttons div a.disabled {
+body.task-mail.action-compose > #layout #compose_recipient_buttons div a.disabled {
   opacity: 0.5;
   cursor: default;
 }
-body.task-mail.action-compose #layout #compose-headers label {
+body.task-mail.action-compose > #layout #compose-headers label {
   text-transform: none;
 }
-body.task-mail.action-compose #layout #uploadform {
+body.task-mail.action-compose > #layout #uploadform {
   display: none;
 }
-body.task-mail.action-compose #layout #layout-sidebar > .header {
+body.task-mail.action-compose > #layout #layout-sidebar > .header {
   min-height: 0;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments {
   display: block;
   border: 2px dashed var(--color-input-border);
   border-radius: 4px;
@@ -21123,7 +21140,7 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments {
   background-repeat: no-repeat;
   background-size: 15%;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
   display: inline-block;
   border: none;
   text-decoration: none;
@@ -21140,7 +21157,7 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments butto
   margin: 0.65rem 0 0.65rem 0.5rem;
   margin-top: 2rem;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments button::before {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments button::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21159,7 +21176,7 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments butto
   vertical-align: middle;
   margin-right: 0.5rem;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments button.btn.btn-primary {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments button.btn.btn-primary {
   display: inline-block;
   border: none;
   text-decoration: none;
@@ -21178,15 +21195,15 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments butto
   color: var(--color-main-contrast);
   margin-top: 4rem;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list {
   text-align: left;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li {
   display: flex;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li::before {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21205,15 +21222,15 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #atta
   margin-right: 0.25rem;
   vertical-align: middle;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a {
   color: inherit;
   text-decoration: none;
   flex: 0;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:hover, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:focus, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-within, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-visible, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:target, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:active, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:visited, body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a:link {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:hover, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-within, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-visible, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:target, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:active, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:visited, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:link {
   color: inherit;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a.delete::before {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a.delete::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21233,10 +21250,10 @@ body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #atta
   margin-right: 0.25rem;
   vertical-align: middle;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li a.filename {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a.filename {
   flex: 1;
 }
-body.task-mail.action-compose #layout #layout-sidebar #compose-attachments #attachment-list li .attachment-size {
+body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li .attachment-size {
   font-size: 80%;
   opacity: 0.7;
   line-height: 1.4;
@@ -21508,6 +21525,799 @@ body.task-addressbook.action-add #upload-form #upload-formInput,
 body.task-addressbook.action-edit #upload-form #upload-formInput,
 body.task-addressbook.action-show #upload-form #upload-formInput {
   display: none;
+}
+
+body.task-xcalendar > #layout {
+  --column-width-sidebar: 1fr;
+  --column-width-list: 1fr;
+  --column-width-content: 1fr;
+  display: grid;
+  grid-template: "menu" 8rem "content" auto/1fr;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+body.task-xcalendar > #layout > #layout-menu {
+  width: 100%;
+  height: 100%;
+  grid-area: menu;
+  display: grid;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+}
+body.task-xcalendar > #layout > #layout-menu .popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: logo;
+}
+@media screen and (min-width: 769px) {
+  body.task-xcalendar > #layout > #layout-menu .popover-header a {
+    display: none;
+  }
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu {
+  grid-area: taskmenu;
+  display: inline-flex;
+  display: inline-block flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--color-taskmenu-background);
+  position: relative;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a {
+  text-decoration: none;
+  color: var(--color-taskmenu-button);
+  font-size: 1.2rem;
+  margin-right: 1.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\?";
+  background-color: var(--color-taskmenu-button);
+  color: var(--color-main-contrast);
+  border-radius: 1rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.mail::before {
+  content: "\f0e0";
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.contacts::before {
+  content: "\f2b9";
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-calendar::before {
+  content: "\f073";
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-selected::before, body.task-xcalendar > #layout > #layout-menu #taskmenu > a.selected::before {
+  background-color: var(--color-taskmenu-button-selected);
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-selected, body.task-xcalendar > #layout > #layout-menu #taskmenu > a.selected {
+  color: var(--color-taskmenu-button-selected);
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--color-taskmenu-button-selected);
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile:hover {
+  outline: 1px solid var(--color-taskmenu-button-selected);
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog {
+  position: absolute;
+  right: 1.5rem;
+  top: 3.7rem;
+  background-color: var(--color-taskmenu-background);
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  display: none;
+  flex-direction: column;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  z-index: 1;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
+  padding: 0.75rem;
+  display: grid;
+  grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
+  gap: 0 0.75rem;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
+  grid-area: identity;
+  padding-top: 0.75rem;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  grid-area: settings;
+  display: block flex;
+  text-decoration: none;
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid var(--color-medium-gray);
+  padding: 6px 12px;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
+  grid-area: profile-image;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--color-main);
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
+  background-color: var(--color-light-gray);
+  border-top: 1px solid var(--color-medium-gray);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row-reverse;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
+  display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f011";
+  padding-right: 0.25rem;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
+  text-decoration: none;
+  color: var(--color-font);
+  border: 1px solid var(--color-medium-gray);
+  padding: 6px 12px;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu {
+  grid-area: localmenu;
+  background-color: var(--color-layout-header-localmenu-background);
+  display: grid;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons {
+  display: inline-flex;
+  display: inline-block flex;
+  grid-area: action-buttons;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons .compose::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons .compose {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar {
+  grid-area: searchbar;
+  display: block flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: white;
+  position: relative;
+  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+  --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
+  --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  --input-line-height: 2.13;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar a.search {
+  display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .reset::before {
+  font-size: 0.8rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f00d";
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .reset {
+  font-size: 0;
+  position: absolute;
+  right: 1.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .options::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f107";
+  line-height: var(--input-line-height);
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .options {
+  display: block;
+  font-size: 0;
+  background-color: var(--input-background-color);
+  color: var(--input-foreground-color);
+  border: var(--input-border-color);
+  border-width: 1px 0 1px 1px;
+  line-height: var(--input-line-height);
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar input[type=text] {
+  background-color: var(--input-background-color);
+  color: var(--input-foreground-color);
+  border: var(--input-border-color);
+  outline: 0;
+  margin: 0;
+  padding: 0 0 0 calc(20px + 0.2rem + 0.5rem);
+  line-height: var(--input-line-height);
+  background-image: url("/skins/sooma/images/search-white.svg");
+  background-position: 0.2rem center;
+  background-repeat: no-repeat;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar {
+  display: none;
+  grid-area: mailtoolbar;
+  color: var(--color-layout-header-localmenu-foreground);
+  --button-horizontal-margin: 0.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a::before {
+  margin-right: 0.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+  display: flex;
+}
+body.task-xcalendar > #layout > #layout-sidebar {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-layout-sidebar-background);
+  color: var(--color-layout-sidebar-foreground);
+}
+body.task-xcalendar > #layout #layout-sidebar > .header {
+  position: relative;
+  min-height: 1.48rem;
+}
+body.task-xcalendar > #layout #layout-sidebar > .header a.task-menu-button,
+body.task-xcalendar > #layout #layout-sidebar > .header a.back-list-button {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-sidebar > .header .header-title {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-sidebar > .header a.sidebar-menu::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c9";
+}
+body.task-xcalendar > #layout #layout-sidebar > .header a.sidebar-menu {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  font-size: 0;
+  text-decoration: none;
+}
+body.task-xcalendar > #layout > #layout-list {
+  display: none;
+  --dynamic-min-width: 300px;
+  --dynamic-max-width: 35vw;
+}
+body.task-xcalendar > #layout .listbox .scroller {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+body.task-xcalendar > #layout li.droptarget > a,
+body.task-xcalendar > #layout tr.droptarget > td {
+  background-color: var(--color-list-droptarget-background);
+}
+body.task-xcalendar > #layout #layout-list {
+  border-left: 1px solid var(--color-medium-gray);
+  border-right: 1px solid var(--color-medium-gray);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-layout-list-background);
+  color: var(--color-layout-list-foreground);
+}
+body.task-xcalendar > #layout #layout-list :any-link {
+  text-decoration: none;
+  color: inherit;
+}
+body.task-xcalendar > #layout #layout-list a.toolbar-menu-button {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-list > .header {
+  position: relative;
+  min-height: 2.2rem;
+}
+body.task-xcalendar > #layout #layout-list > .header > span.header-title, body.task-xcalendar > #layout #layout-list > .header > .back-sidebar-button, body.task-xcalendar > #layout #layout-list > .header > .task-menu-button {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-list .messagelist {
+  border-top: 1px solid var(--color-medium-gray);
+  width: 100%;
+}
+body.task-xcalendar > #layout #layout-list .messagelist .branch, body.task-xcalendar > #layout #layout-list .messagelist > thead {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr {
+  margin-top: 50px;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-medium-gray);
+  line-height: 1.8;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.selection {
+  padding-left: 0.75rem;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.subject {
+  display: grid;
+  grid-template: "from date" 1fr "subject subject" 1fr/1fr min-content;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.subject .fromto {
+  grid-area: from;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0.75rem;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.subject .date {
+  grid-area: date;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  padding-right: 0.75rem;
+  font-size: 0.8rem;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.subject .size {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.subject .subject {
+  grid-area: subject;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0.75rem;
+  font-size: 0.9rem;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr td.subject .subject .msgicon.status {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.unread {
+  border-left: 2px solid var(--color-main);
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.unread td.subject span.fromto,
+body.task-xcalendar > #layout #layout-list .messagelist tr.unread td.subject span.date {
+  font-weight: 600;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.selected td {
+  background-color: var(--color-list-selected-background);
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.flagged {
+  background-image: url("/skins/sooma/images/flagged.svg");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+  margin-right: 0.25rem;
+}
+body.task-xcalendar > #layout .listing:not(.withselection) td.selection {
+  display: none;
+}
+body.task-xcalendar > #layout > #xcalendar-app {
+  grid-area: content;
+  overflow: hidden;
+}
+body.task-xcalendar > #layout #xcalendar-app {
+  display: grid;
+  grid-template: "content sidebar" auto/1fr 3fr;
+  --color-xcalendar-current-day-background: var(--color-highlight-background);
+  --color-xcalendar-current-day-foreground: var(--color-highlight-foreground);
+}
+body.task-xcalendar > #layout #xcalendar-app > #layout-content {
+  grid-area: content;
+  min-width: none;
+  max-width: none;
+  width: auto;
+}
+body.task-xcalendar > #layout #xcalendar-app > #layout-sidebar {
+  grid-area: sidebar;
+  min-width: none;
+  max-width: none;
+  width: auto;
+}
+body.task-xcalendar > #layout #xcalendar-app > #event-preview-controller {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  z-index: 2;
+  overflow: visible;
+}
+body.task-xcalendar > #layout #xcalendar-app > #event-preview-controller #event-preview {
+  background-color: var(--color-taskmenu-background);
+}
+body.task-xcalendar > #layout #xcalendar-app .xtabs.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout #xcalendar-app .table-bordered {
+  border-top: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app table.fc-scrollgrid .fc-scrollgrid-section:not(:first-child) td:not([role=presentation]),
+body.task-xcalendar > #layout #xcalendar-app table.fc-scrollgrid .fc-scrollgrid-section:not(:first-child) th:not([role=presentation]) {
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-daygrid-day,
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid th.fc-col-header-cell,
+body.task-xcalendar > #layout #xcalendar-app .fc-timegrid-body .fc-timegrid-cols td.fc-timegrid-col:not(.fc-timegrid-axis) {
+  border-left: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar {
+  font-family: inherit;
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a {
+  font-family: inherit !important;
+  font-weight: normal;
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.xcalendar-mobile-show-sidebar {
+  display: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-family: "Font Awesome 7 Pro" !important;
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-add-event::before {
+  content: "\+";
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-day::before {
+  content: "\f783";
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-week::before {
+  content: "\f784";
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-month::before {
+  content: "\f133";
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-agenda::before {
+  content: "\f03a";
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-search::before {
+  content: "\f002";
+}
+body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-settings::before {
+  content: "\f013";
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header {
+  padding-top: 0.5rem;
+  display: grid;
+  grid-template: "prev title next" auto/min-content 1fr min-content;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev,
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next {
+  position: static;
+  font-size: 1px;
+  font-size: 0;
+  width: 1.5rem;
+  cursor: pointer;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev span,
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next span {
+  background: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev {
+  grid-area: prev;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f053";
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next {
+  grid-area: next;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f054";
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header #sidebar-calendar-dp-title {
+  grid-area: title;
+  text-align: center;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header #sidebar-calendar-dp-title select {
+  color: var(--color-font);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td a {
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0.25rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td.ui-datepicker-today a {
+  background-color: var(--color-xcalendar-current-day-background);
+  color: var(--color-xcalendar-current-day-foreground);
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td.ui-datepicker-current-day a {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-list-header #new-calendar-container a.create {
+  font-size: 0;
+  width: 1.5rem;
+  cursor: pointer;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-list-header #new-calendar-container a.create::before {
+  display: inline-block !important;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c9";
+  font-family: "Font Awesome 7 Pro" !important;
+  font-weight: bold !important;
+  font-size: 1rem !important;
+  color: var(--color-font) !important;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #add-calendar-menu {
+  text-align: left;
+  line-height: 1;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-list-content .calendar-item .edit {
+  padding: 0.5rem 0.5rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-list-content .calendar-item .edit::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f044";
+  font-family: "Font Awesome 7 Pro" !important;
+  text-align: right;
+  width: 5px;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: start;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: start;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button {
+  background: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-family: "Font Awesome 7 Pro" !important;
+  font-weight: bold !important;
+  content: "\f015";
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid th a {
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-cols .fc-day-today {
+  background-color: var(--color-xcalendar-current-day-background);
+  color: var(--color-xcalendar-current-day-foreground);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot {
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-minor {
+  border-bottom: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #shared-calendar-controller > .editor,
+body.task-xcalendar > #layout #xcalendar-app #calendar-edit,
+body.task-xcalendar > #layout #xcalendar-app #event-search,
+body.task-xcalendar > #layout #xcalendar-app #event-edit {
+  background-color: var(--color-layout-content-background);
+}
+body.task-xcalendar > #layout #xcalendar-app #shared-calendar-controller > .editor > .formbuttons,
+body.task-xcalendar > #layout #xcalendar-app #calendar-edit > .formbuttons,
+body.task-xcalendar > #layout #xcalendar-app #event-search > .formbuttons,
+body.task-xcalendar > #layout #xcalendar-app #event-edit > .formbuttons {
+  background-color: var(--color-layout-content-background);
+}
+body.task-xcalendar > #layout #xcalendar-app #shared-calendar-controller > .editor .content-box,
+body.task-xcalendar > #layout #xcalendar-app #calendar-edit .content-box,
+body.task-xcalendar > #layout #xcalendar-app #event-search .content-box,
+body.task-xcalendar > #layout #xcalendar-app #event-edit .content-box {
+  padding-bottom: 5rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #shared-calendar-controller > .editor table.propform > tbody > tr > td:first-child,
+body.task-xcalendar > #layout #xcalendar-app #calendar-edit table.propform > tbody > tr > td:first-child,
+body.task-xcalendar > #layout #xcalendar-app #event-search table.propform > tbody > tr > td:first-child,
+body.task-xcalendar > #layout #xcalendar-app #event-edit table.propform > tbody > tr > td:first-child {
+  width: 20%;
 }
 
 body > .ui-widget-overlay {
@@ -21852,6 +22662,7 @@ body.task-login #messagestack {
 }
 .formcontent input,
 .propform input {
+  box-sizing: border-box;
   width: 100%;
   font-size: 1.2rem;
   background-color: var(--color-input-background);
@@ -21868,6 +22679,12 @@ body.task-login #messagestack {
 .propform input:active,
 .propform input:focus {
   border-bottom-color: var(--color-input-border-focus);
+}
+.formcontent textarea.full,
+.propform textarea.full {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 4rem;
 }
 .formcontent select,
 .formcontent ::picker(select),
@@ -21923,6 +22740,8 @@ body.task-login #messagestack {
   --color-main: #e60013;
   --color-main-contrast: #fff;
   --color-main-dark: hsl(from var(--color-main) h s calc(l * 0.65));
+  --color-highlight-background: #fffadf;
+  --color-highlight-foreground: var(--color-font);
   --color-black: #161b1d;
   --color-light-gray: #f6f6f6;
   --color-medium-gray: #c7c7c7;
@@ -22309,6 +23128,7 @@ div.formcontent:has(> .form-group.row) select {
   vertical-align: middle;
 }
 
+.formbuttons button:not(.mainaction),
 .formbuttons .btn:not(.btn-primary) {
   display: inline-block;
   border: none;
@@ -22325,6 +23145,7 @@ div.formcontent:has(> .form-group.row) select {
   user-select: none;
   margin: 0.65rem 0 0.65rem 0.5rem;
 }
+.formbuttons button.mainaction,
 .formbuttons .btn.btn-primary {
   display: inline-block;
   border: none;
@@ -22941,6 +23762,10 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
   content: "\f007";
 }
 
+#add-calendar-menu a.folders::before,
+#add-calendar-menu a.read::before,
+#add-calendar-menu a.purge::before,
+#add-calendar-menu a.expunge::before,
 #export-menu a.folders::before,
 #export-menu a.read::before,
 #export-menu a.purge::before,
@@ -22969,57 +23794,68 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
   width: var(--fa-width, 1.25em);
   padding-right: 0.5rem;
 }
+#add-calendar-menu a.folders::before,
 #export-menu a.folders::before,
 #groupoptions-menu a.folders::before,
 #mailboxoptions-menu a.folders::before {
   content: "\f660";
 }
+#add-calendar-menu a.read::before,
 #export-menu a.read::before,
 #groupoptions-menu a.read::before,
 #mailboxoptions-menu a.read::before {
   content: "\f00c";
 }
+#add-calendar-menu a.purge::before,
 #export-menu a.purge::before,
 #groupoptions-menu a.purge::before,
 #mailboxoptions-menu a.purge::before {
   content: "\f1f8";
 }
+#add-calendar-menu a.expunge::before,
 #export-menu a.expunge::before,
 #groupoptions-menu a.expunge::before,
 #mailboxoptions-menu a.expunge::before {
   content: "\e0a5";
 }
+#add-calendar-menu a.create::before,
 #export-menu a.create::before,
 #groupoptions-menu a.create::before,
 #mailboxoptions-menu a.create::before {
   content: "\+";
 }
+#add-calendar-menu a.rename::before,
 #export-menu a.rename::before,
 #groupoptions-menu a.rename::before,
 #mailboxoptions-menu a.rename::before {
   content: "\f303";
 }
+#add-calendar-menu a.delete::before,
 #export-menu a.delete::before,
 #groupoptions-menu a.delete::before,
 #mailboxoptions-menu a.delete::before {
   content: "\f1f8";
 }
+#add-calendar-menu a.search::before,
 #export-menu a.search::before,
 #groupoptions-menu a.search::before,
 #mailboxoptions-menu a.search::before {
   content: "\f002";
 }
+#add-calendar-menu a.search.delete::before,
 #export-menu a.search.delete::before,
 #groupoptions-menu a.search.delete::before,
 #mailboxoptions-menu a.search.delete::before {
   content: "\f2ed";
 }
+#add-calendar-menu a.export.select::before,
 #export-menu a.export.select::before,
 #groupoptions-menu a.export.select::before,
 #mailboxoptions-menu a.export.select::before {
   font-weight: 200;
   content: "\f56e";
 }
+#add-calendar-menu a.export.all::before,
 #export-menu a.export.all::before,
 #groupoptions-menu a.export.all::before,
 #mailboxoptions-menu a.export.all::before {
@@ -23129,7 +23965,7 @@ ul.menu li a.recipient::before {
 .popupmenu {
   display: none;
   opacity: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: var(--color-popupmenu-background);
   color: var(--color-popupmenu-foreground);
   border-radius: 4px;
