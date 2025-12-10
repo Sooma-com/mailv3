@@ -2,7 +2,7 @@
 // Applied to all skins, including elastic and larry.
 @use "icons";
 @use "icons_map";
-
+.task-xcalendar {
 // list of plugins and their icons
 // (we can't have the individual plugins add these, because a number of plugins only adds stylesheets to specific pages, like
 // settings, or mail, and the apps menu appears on all pages)
@@ -132,4 +132,4 @@ $plugins: (
 // twofactor_gauthenticator
 #settingstabplugintwofactor_gauthenticator a:before { @include icons.icon(icons_map.$user); }
 #twofactor_gauthenticator-form .show-codes:before { @include icons.icon(icons_map.$eye); }
-
+}
