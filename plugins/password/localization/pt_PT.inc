@@ -41,3 +41,10 @@ $messages['passwdconstraintviolation'] = 'Violação da limitação de senha. Se
 $messages['pwned_mustnotbedisclosed'] = 'A password não deve ser <a href="$href" target="_blank">vulgarmente conhecida</a>.';
 $messages['pwned_isdisclosed'] = 'Esta senha é vulgarmente conhecida.';
 $messages['pwned_fetcherror'] = 'Falha ao verificar a força da senha.';
+$messages['mustcontainupperlower'] = 'A password deve conter maiúsculas e minúsculas';
+$messages['containsupperlower'] = 'Contém maiúsculas e minúsculas';
+$messages['mustcontaindigit'] = 'A password deve conter pelo menos um dígito';
+$messages['containsdigit'] = 'Contém pelo menos um dígito';
+$messages['mustcontainnonalpha'] = 'A password deve conter pelo menos um caracter não alfanumérico';
+$messages['containsnonalpha'] = 'Contém pelo menos um caracter não alfanumérico';
+$messages['historicpasswordchange'] = 'Password histórica. Alterada em %s';

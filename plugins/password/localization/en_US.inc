@@ -42,3 +42,10 @@ $messages['passwdconstraintviolation'] = 'Password constraint violation. Passwor
 $messages['pwned_mustnotbedisclosed'] = 'Password must not be <a href="$href" target="_blank">commonly known</a>.';
 $messages['pwned_isdisclosed'] = 'This password is commonly known.';
 $messages['pwned_fetcherror'] = 'Failed to verify the password strength.';
+$messages['mustcontainupperlower'] = 'Password must contain upper and lower case characters';
+$messages['containsupperlower'] = 'Contains upper and lower case characters';
+$messages['mustcontaindigit'] = 'Password must contain at least one digit';
+$messages['containsdigit'] = 'Contains at least one digit';
+$messages['mustcontainnonalpha'] = 'Password must contain at least one non-alphanumeric character';
+$messages['containsnonalpha'] = 'Contains at least one non-alphanumeric character';
+$messages['historicpasswordchange'] = 'Historic password. Changed on %s';
