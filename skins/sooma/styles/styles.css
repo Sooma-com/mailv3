@@ -20147,6 +20147,9 @@ body:not(.task-login):not(.task-xcalendar) > #layout {
   height: 100vh;
   overflow: hidden;
 }
+body:not(.task-login):not(.task-xcalendar) > #layout:not(:has(#layout-list)) {
+  grid-template: "menu    menu    menu   " 8rem "sidebar content content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+}
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu {
   width: 100%;
   height: 100%;
@@ -20216,7 +20219,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > 
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
 }
-body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#button-apps {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#show-mobile-xsidebar, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#button-apps {
   display: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-selected::before, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.selected::before {
@@ -20458,6 +20461,9 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+  display: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-sidebar {
   grid-area: sidebar;
@@ -20728,7 +20734,7 @@ body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.contacts::bef
 body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a#button-apps {
+body.task-mail.action-compose > #layout #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a#button-apps {
   display: none;
 }
 body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-selected::before, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.selected::before {
@@ -20970,6 +20976,9 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar a::
 }
 body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
+}
+body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+  display: none;
 }
 body.task-mail.action-compose > #layout #layout-sidebar {
   grid-area: sidebar;
@@ -21606,7 +21615,7 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu > a.contacts::before {
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
 }
-body.task-xcalendar > #layout > #layout-menu #taskmenu > a#button-apps {
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-xcalendar > #layout > #layout-menu #taskmenu > a#button-apps {
   display: none;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-selected::before, body.task-xcalendar > #layout > #layout-menu #taskmenu > a.selected::before {
@@ -21848,6 +21857,9 @@ body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a::before {
 }
 body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+  display: none;
 }
 body.task-xcalendar > #layout > #layout-sidebar {
   display: none;
@@ -24562,6 +24574,16 @@ label.custom-control input[type=checkbox] {
 }
 .tabbed > fieldset.active {
   display: block;
+}
+
+.boxtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+#ruleslist {
+  line-height: 1.5;
+  padding-left: 0.5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */

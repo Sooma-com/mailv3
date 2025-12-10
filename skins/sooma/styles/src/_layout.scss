@@ -84,6 +84,13 @@ body:not(.task-login):not(.task-xcalendar) {
     height: 100vh;
     overflow: hidden;
 
+    &:not(:has(#layout-list)) {
+      grid-template:
+        "menu    menu    menu   " 8rem
+        "sidebar content content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+
+    }
+
     &>#layout-menu {
       width: 100%;
       height: 100%;

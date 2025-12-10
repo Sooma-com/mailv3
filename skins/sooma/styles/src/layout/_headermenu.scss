@@ -57,9 +57,11 @@
       content: fa.fa-content(fa.$var-calendar-alt);
     }
 
+    &#show-mobile-xsidebar,
     &#button-apps {
       display: none;
     }
+
 
     &.button-selected,
     &.selected {
@@ -282,6 +284,10 @@
 
     &:has(a:not(.disabled):not(.more):not(.hidden)) {
       display: flex;
+    }
+
+    #show-xsidebar {
+      display: none;
     }
   }
 
