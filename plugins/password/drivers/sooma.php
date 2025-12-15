@@ -77,9 +77,10 @@ class rcube_sooma_password
      *
      * @return int Result
      */
-    function save($curpass, $passwd)
+    function save($curpass, $passwd, $username = null)
     {
         $rcmail = rcmail::get_instance();
+        if (!$username) $username = $rcmail->user->get_username();
         $new_password_hash = $this->hash_password($passwd);
         $db_config = $rcmail->config->get('password_sooma_db');
         // Connect to PostgreSQL database
@@ -99,7 +100,7 @@ class rcube_sooma_password
 
         try {
             $stmt = $pdo->prepare("SELECT id FROM profissional_emails WHERE email = :email AND type = 'u'");
-            $stmt->bindParam(':email', $rcmail->user->get_username());
+            $stmt->bindParam(':email', $username);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             $email_id = $result ? $result['id'] : null;
@@ -108,7 +109,7 @@ class rcube_sooma_password
             return PASSWORD_ERROR;
         }
         if (!$email_id) {
-            rcube::write_log('errors', 'Sooma password driver: Email account not found for user: ' . $rcmail->user->get_username());
+            rcube::write_log('errors', 'Sooma password driver: Email account not found for user: ' . $username);
             return PASSWORD_ERROR;
         }
 
@@ -123,7 +124,7 @@ class rcube_sooma_password
             return PASSWORD_ERROR;
         }
         if (!$old_password_hash) {
-            rcube::write_log('errors', 'Sooma password driver: Email account not found for user: ' . $rcmail->user->get_username());
+            rcube::write_log('errors', 'Sooma password driver: Email account not found for user: ' . $username);
             return PASSWORD_ERROR;
         }
 

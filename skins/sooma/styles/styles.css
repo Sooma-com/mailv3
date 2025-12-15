@@ -22747,6 +22747,22 @@ body.task-login #messagestack {
   background-color: var(--color-btn-primary-background);
   color: var(--color-btn-primary);
 }
+.formcontent button[disabled],
+.propform button[disabled] {
+  opacity: 0.4;
+}
+.formcontent .forgot-password-link,
+.propform .forgot-password-link {
+  display: block;
+  text-align: center;
+}
+.formcontent .form-instructions,
+.propform .form-instructions {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 .formcontent :root,
 .propform :root {
   --color-main: #e60013;
@@ -24584,6 +24600,32 @@ label.custom-control input[type=checkbox] {
 #ruleslist {
   line-height: 1.5;
   padding-left: 0.5rem;
+}
+
+#password-restrictions {
+  line-height: 1.4;
+}
+#password-restrictions > li::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.5rem;
+  content: "X";
+}
+#password-restrictions > li.valid::before {
+  content: "\f00c";
+  color: var(--color-success);
 }
 
 /*# sourceMappingURL=styles.css.map */
