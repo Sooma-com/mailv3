@@ -133,7 +133,7 @@ body:not(.task-login):not(.task-xcalendar) {
   }
 }
 
-body.task-mail.action-compose {
+body.task-mail.action-compose:not(:has(#layout-list)) {
   &>#layout {
     --column-width-sidebar: 1fr;
     --column-width-content: 2fr;

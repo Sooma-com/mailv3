@@ -20656,7 +20656,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #xsidebar {
   display: none;
 }
 
-body.task-mail.action-compose > #layout {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout {
   --column-width-sidebar: 1fr;
   --column-width-content: 2fr;
   display: grid;
@@ -20665,25 +20665,25 @@ body.task-mail.action-compose > #layout {
   height: 100vh;
   overflow: hidden;
 }
-body.task-mail.action-compose > #layout #layout-menu {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu {
   width: 100%;
   height: 100%;
   grid-area: menu;
   display: grid;
   grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
 }
-body.task-mail.action-compose > #layout #layout-menu .popover-header {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu .popover-header {
   display: flex;
   align-items: center;
   justify-content: center;
   grid-area: logo;
 }
 @media screen and (min-width: 769px) {
-  body.task-mail.action-compose > #layout #layout-menu .popover-header a {
+  body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu .popover-header a {
     display: none;
   }
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu {
   grid-area: taskmenu;
   display: inline-flex;
   display: inline-block flex;
@@ -20694,13 +20694,13 @@ body.task-mail.action-compose > #layout #layout-menu #taskmenu {
   background-color: var(--color-taskmenu-background);
   position: relative;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a {
   text-decoration: none;
   color: var(--color-taskmenu-button);
   font-size: 1.2rem;
   margin-right: 1.2rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20725,25 +20725,25 @@ body.task-mail.action-compose > #layout #layout-menu #taskmenu > a::before {
   font-size: 1rem;
   margin-right: 0.3rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.mail::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.mail::before {
   content: "\f0e0";
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.contacts::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.contacts::before {
   content: "\f2b9";
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-calendar::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a#button-apps {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#button-apps {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-selected::before, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.selected::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-selected::before, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.selected::before {
   background-color: var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.button-selected, body.task-mail.action-compose > #layout #layout-menu #taskmenu > a.selected {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-selected, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.selected {
   color: var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile {
   position: absolute;
   right: 1.5rem;
   top: 1.1rem;
@@ -20753,15 +20753,15 @@ body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile {
   overflow: hidden;
   border: 1px solid var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile:hover {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile:hover {
   outline: 1px solid var(--color-taskmenu-button-selected);
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile img {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog {
   position: absolute;
   right: 1.5rem;
   top: 3.7rem;
@@ -20774,48 +20774,48 @@ body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-di
   opacity: 0;
   z-index: 1;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
   display: grid;
   grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
   gap: 0 0.75rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
   grid-area: identity;
   padding-top: 0.75rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
   grid-area: settings;
   display: block flex;
   text-decoration: none;
   color: var(--color-font);
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
   grid-area: profile-image;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   border: 1px solid var(--color-main);
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
   background-color: var(--color-light-gray);
   border-top: 1px solid var(--color-medium-gray);
   padding: 0.75rem;
   display: flex;
   flex-direction: row-reverse;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20833,19 +20833,19 @@ body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-di
   content: "\f011";
   padding-right: 0.25rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
   text-decoration: none;
   color: var(--color-font);
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu {
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
   grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons {
   display: inline-flex;
   display: inline-block flex;
   grid-area: action-buttons;
@@ -20854,7 +20854,7 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons 
   padding-left: 1rem;
   padding-right: 1rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons .compose::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons .compose::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20872,7 +20872,7 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons 
   content: "\e74f";
   padding-right: 0.5rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons .compose {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons .compose {
   display: inline-block;
   background-color: var(--color-main);
   color: var(--color-main-contrast);
@@ -20883,7 +20883,7 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .action-buttons 
   text-wrap: nowrap;
   line-height: 1.4;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar {
   grid-area: searchbar;
   display: block flex;
   flex-direction: row-reverse;
@@ -20899,10 +20899,10 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar {
   --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
   --input-line-height: 2.13;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar a.search {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar a.search {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .reset::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .reset::before {
   font-size: 0.8rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20920,12 +20920,12 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .rese
   width: var(--fa-width, 1.25em);
   content: "\f00d";
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .reset {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .reset {
   font-size: 0;
   position: absolute;
   right: 1.2rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .options::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .options::before {
   font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -20944,7 +20944,7 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .opti
   content: "\f107";
   line-height: var(--input-line-height);
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .options {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .options {
   display: block;
   font-size: 0;
   background-color: var(--input-background-color);
@@ -20953,7 +20953,7 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar .opti
   border-width: 1px 0 1px 1px;
   line-height: var(--input-line-height);
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar input[type=text] {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar input[type=text] {
   background-color: var(--input-background-color);
   color: var(--input-foreground-color);
   border: var(--input-border-color);
@@ -20965,47 +20965,47 @@ body.task-mail.action-compose > #layout #layout-menu #localmenu .searchbar input
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar {
   display: none;
   grid-area: mailtoolbar;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar a::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body.task-mail.action-compose > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-sidebar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
   padding: 1rem;
   --dynamic-min-width: 300px;
   --dynamic-max-width: 35vw;
 }
-body.task-mail.action-compose > #layout #layout-sidebar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar {
   display: flex;
   flex-direction: column;
   height: 100%;
   background-color: var(--color-layout-sidebar-background);
   color: var(--color-layout-sidebar-foreground);
 }
-body.task-mail.action-compose > #layout #layout-sidebar > .header {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header {
   position: relative;
   min-height: 1.48rem;
 }
-body.task-mail.action-compose > #layout #layout-sidebar > .header a.task-menu-button,
-body.task-mail.action-compose > #layout #layout-sidebar > .header a.back-list-button {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header a.task-menu-button,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header a.back-list-button {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-sidebar > .header .header-title {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header .header-title {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-sidebar > .header a.sidebar-menu::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
@@ -21023,71 +21023,71 @@ body.task-mail.action-compose > #layout #layout-sidebar > .header a.sidebar-menu
   width: var(--fa-width, 1.25em);
   content: "\f0c9";
 }
-body.task-mail.action-compose > #layout #layout-sidebar > .header a.sidebar-menu {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header a.sidebar-menu {
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
   font-size: 0;
   text-decoration: none;
 }
-body.task-mail.action-compose > #layout #layout-list {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-list {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-content {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content {
   grid-area: content;
   overflow: hidden;
   padding: 1rem;
 }
-body.task-mail.action-compose > #layout #layout-content .iframe-wrapper {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .iframe-wrapper {
   width: 100%;
   height: 100%;
 }
-body.task-mail.action-compose > #layout #layout-content .iframe-wrapper iframe {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .iframe-wrapper iframe {
   width: 100%;
   height: 100%;
 }
-body.task-mail.action-compose > #layout #layout-content > .header {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header {
   position: relative;
   min-height: 2.2rem;
 }
-body.task-mail.action-compose > #layout #layout-content > .header > span.header-title, body.task-mail.action-compose > #layout #layout-content > .header > .back-sidebar-button, body.task-mail.action-compose > #layout #layout-content > .header > .task-menu-button {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header > span.header-title, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header > .back-sidebar-button, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header > .task-menu-button {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.edit::before,
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.edit::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-append a.icon.edit::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-prepend a.icon.edit::before {
   content: "\f303";
 }
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.delete::before,
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.delete::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-append a.icon.delete::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-prepend a.icon.delete::before {
   content: "\f1f8";
 }
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.add::before,
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.add::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-append a.icon.add::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-prepend a.icon.add::before {
   content: "\+";
 }
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-append a.icon.add.recipient::before,
-body.task-mail.action-compose > #layout #layout-content .input-group > .input-group-prepend a.icon.add.recipient::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-append a.icon.add.recipient::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-prepend a.icon.add.recipient::before {
   content: "\f0c0";
 }
-body.task-mail.action-compose > #layout #layout-content #messagetoolbar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content #messagetoolbar {
   border-bottom: 1px solid var(--color-medium-gray);
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
-body.task-mail.action-compose > #layout #layout-content #messagetoolbar a.options {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content #messagetoolbar a.options {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-content #messagetoolbar a.save {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content #messagetoolbar a.save {
   margin-left: 0;
 }
-body.task-mail.action-compose > #layout #layout-content .formbuttons {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons {
   text-align: right;
 }
-body.task-mail.action-compose > #layout #layout-content .formbuttons .send {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons .send {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-body.task-mail.action-compose > #layout #layout-content .formbuttons .send::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons .send::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21106,10 +21106,10 @@ body.task-mail.action-compose > #layout #layout-content .formbuttons .send::befo
   vertical-align: middle;
   margin-right: 0.5rem;
 }
-body.task-mail.action-compose > #layout #layout-content .formbuttons a.extwin {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons a.extwin {
   display: none;
 }
-body.task-mail.action-compose > #layout #compose_recipient_buttons div a {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a {
   color: inherit;
   text-decoration: none;
   display: inline-block;
@@ -21117,26 +21117,26 @@ body.task-mail.action-compose > #layout #compose_recipient_buttons div a {
   padding: 0.25rem 0.5rem 0.25rem 0.5rem;
   margin-bottom: 1rem;
 }
-body.task-mail.action-compose > #layout #compose_recipient_buttons div a:last-child {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:last-child {
   border-right: none;
 }
-body.task-mail.action-compose > #layout #compose_recipient_buttons div a:hover, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:focus, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:focus-within, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:focus-visible, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:target, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:active, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:visited, body.task-mail.action-compose > #layout #compose_recipient_buttons div a:link {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:focus, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:focus-within, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:focus-visible, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:target, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:active, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:visited, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:link {
   color: inherit;
 }
-body.task-mail.action-compose > #layout #compose_recipient_buttons div a.disabled {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a.disabled {
   opacity: 0.5;
   cursor: default;
 }
-body.task-mail.action-compose > #layout #compose-headers label {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose-headers label {
   text-transform: none;
 }
-body.task-mail.action-compose > #layout #uploadform {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #uploadform {
   display: none;
 }
-body.task-mail.action-compose > #layout #layout-sidebar > .header {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header {
   min-height: 0;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments {
   display: block;
   border: 2px dashed var(--color-input-border);
   border-radius: 4px;
@@ -21149,7 +21149,7 @@ body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments {
   background-repeat: no-repeat;
   background-size: 15%;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
   display: inline-block;
   border: none;
   text-decoration: none;
@@ -21166,7 +21166,7 @@ body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments but
   margin: 0.65rem 0 0.65rem 0.5rem;
   margin-top: 2rem;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments button::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments button::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21185,7 +21185,7 @@ body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments but
   vertical-align: middle;
   margin-right: 0.5rem;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments button.btn.btn-primary {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments button.btn.btn-primary {
   display: inline-block;
   border: none;
   text-decoration: none;
@@ -21204,15 +21204,15 @@ body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments but
   color: var(--color-main-contrast);
   margin-top: 4rem;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list {
   text-align: left;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li {
   display: flex;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21231,15 +21231,15 @@ body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #at
   margin-right: 0.25rem;
   vertical-align: middle;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a {
   color: inherit;
   text-decoration: none;
   flex: 0;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:hover, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-within, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-visible, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:target, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:active, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:visited, body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a:link {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-within, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:focus-visible, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:target, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:active, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:visited, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a:link {
   color: inherit;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a.delete::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a.delete::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21259,10 +21259,10 @@ body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #at
   margin-right: 0.25rem;
   vertical-align: middle;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li a.filename {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a.filename {
   flex: 1;
 }
-body.task-mail.action-compose > #layout #layout-sidebar #compose-attachments #attachment-list li .attachment-size {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li .attachment-size {
   font-size: 80%;
   opacity: 0.7;
   line-height: 1.4;
