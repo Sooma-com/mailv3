@@ -1,0 +1,28 @@
+{
+    "name": "sooma-com/username_login",
+    "type": "roundcube-plugin",
+    "description": "Plugin that allows translating usernames to complete email addresses in the login process",
+    "version": "1.-",
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://sooma.com",
+    "authors": [
+        {
+            "name": "Sérgio Carvalho",
+            "email": "daf@sooma.com",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "login",
+        "authentication"
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://plugins.roundcube.net"
+        }
+    ],
+    "require": {
+        "roundcube/plugin-installer": ">=0.1.6"
+    }
+}
