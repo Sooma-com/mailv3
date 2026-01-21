@@ -1,0 +1,49 @@
+body.domain-webmail-oa-sooma-com.task-login {
+  &>#layout {
+    max-width: none;
+    width: 100vw;
+    margin-bottom: 0;
+    padding: 0;
+    display: grid;
+    grid-template: "logo form" 1fr / 50vw 50vw;
+    background-color: #fafafa;
+    background-image: url("/skins/sooma/images/logos/oa.svg");
+    background-repeat: no-repeat;
+    background-position: calc(50vw - 220px) center;
+    background-size: 200px;
+
+    &>#layout-content {
+      grid-area: form;
+      background-color: #780713;
+      color: white;
+      padding: 36px;
+
+      .propform label {
+        color: white;
+      }
+
+      .formbuttons button.mainaction,
+      .formbuttons .btn.btn-primary {
+        background-color: #288086;
+      }
+
+      p.formbuttons {
+        max-width: calc(320px - 2rem);
+
+        button {
+          margin-left: 0;
+        }
+      }
+
+      a.forgot-password-link {
+        max-width: calc(320px - 2rem);
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    &>#layout {
+      grid-template: "form form" 1fr / 50vw 50vw;
+    }
+  }
+}

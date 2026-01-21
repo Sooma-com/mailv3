@@ -182,6 +182,14 @@ body.task-mail.action-compose:not(:has(#layout-list)) {
   }
 }
 
+body.task-mail.action-show:not(:has(#layout-list)) {
+  &>#layout {
+    grid-template:
+      "menu    menu    menu   " 8rem
+      "content content content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+  }
+}
+
 body.task-addressbook.action-add,
 body.task-addressbook.action-edit,
 body.task-addressbook.action-show {
