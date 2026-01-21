@@ -25280,6 +25280,7 @@ label.custom-control input[type=checkbox] {
   color: var(--color-success);
 }
 
+body.domain-webmail-oa-pt.task-login > #layout,
 body.domain-webmail-oa-sooma-com.task-login > #layout {
   max-width: none;
   width: 100vw;
@@ -25293,29 +25294,37 @@ body.domain-webmail-oa-sooma-com.task-login > #layout {
   background-position: calc(50vw - 220px) center;
   background-size: 200px;
 }
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content {
   grid-area: form;
   background-color: #780713;
   color: white;
   padding: 36px;
 }
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content .propform label,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content .propform label {
   color: white;
 }
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content .formbuttons button.mainaction,
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content .formbuttons .btn.btn-primary,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content .formbuttons button.mainaction,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content .formbuttons .btn.btn-primary {
   background-color: #288086;
 }
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content p.formbuttons,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content p.formbuttons {
   max-width: calc(320px - 2rem);
 }
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content p.formbuttons button,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content p.formbuttons button {
   margin-left: 0;
 }
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content a.forgot-password-link,
 body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content a.forgot-password-link {
   max-width: calc(320px - 2rem);
 }
 @media (max-width: 600px) {
+  body.domain-webmail-oa-pt.task-login > #layout,
   body.domain-webmail-oa-sooma-com.task-login > #layout {
     grid-template: "form form" 1fr/50vw 50vw;
   }
