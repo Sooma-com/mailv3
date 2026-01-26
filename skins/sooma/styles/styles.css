@@ -20219,6 +20219,9 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > 
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
 }
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.directory::before {
+  content: "\f0e8";
+}
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#show-mobile-xsidebar, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#button-apps {
   display: none;
 }
@@ -20733,6 +20736,9 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.directory::before {
+  content: "\f0e8";
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#button-apps {
   display: none;
@@ -21642,6 +21648,9 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu > a.contacts::before {
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-calendar::before {
   content: "\f073";
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.directory::before {
+  content: "\f0e8";
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-xcalendar > #layout > #layout-menu #taskmenu > a#button-apps {
   display: none;
@@ -24551,7 +24560,7 @@ body.task-mail.action-show #message-header .subject .extwin {
 }
 body.task-mail.action-show #message-header .subject .extwin::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24582,7 +24591,7 @@ body.task-mail.action-show #message-header .header-content .header-links .header
 }
 body.task-mail.action-show #message-header .header-content .header-links .headers-summary::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24608,7 +24617,7 @@ body.task-mail.action-show #message-header .header-content .header-links a:hover
 }
 body.task-mail.action-show #message-header .header-content .header-links a::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24646,7 +24655,7 @@ body.task-mail.action-show #message-content #message-objects > div {
   text-indent: -1.5rem;
 }
 body.task-mail.action-show #message-content #message-objects > div.content::before, body.task-mail.action-show #message-content #message-objects > div.confirmation::before, body.task-mail.action-show #message-content #message-objects > div.notice::before, body.task-mail.action-show #message-content #message-objects > div.loading::before, body.task-mail.action-show #message-content #message-objects > div.success::before, body.task-mail.action-show #message-content #message-objects > div.warning::before, body.task-mail.action-show #message-content #message-objects > div.error::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24724,7 +24733,7 @@ body.task-mail.action-show #message-content #attachment-list li {
   flex-wrap: nowrap;
 }
 body.task-mail.action-show #message-content #attachment-list li::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24863,7 +24872,7 @@ body.task-mail.action-print #message-header .subject .extwin {
 }
 body.task-mail.action-print #message-header .subject .extwin::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24894,7 +24903,7 @@ body.task-mail.action-print #message-header .header-content .header-links .heade
 }
 body.task-mail.action-print #message-header .header-content .header-links .headers-summary::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24920,7 +24929,7 @@ body.task-mail.action-print #message-header .header-content .header-links a:hove
 }
 body.task-mail.action-print #message-header .header-content .header-links a::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24958,7 +24967,7 @@ body.task-mail.action-print #message-content #message-objects > div {
   text-indent: -1.5rem;
 }
 body.task-mail.action-print #message-content #message-objects > div.content::before, body.task-mail.action-print #message-content #message-objects > div.confirmation::before, body.task-mail.action-print #message-content #message-objects > div.notice::before, body.task-mail.action-print #message-content #message-objects > div.loading::before, body.task-mail.action-print #message-content #message-objects > div.success::before, body.task-mail.action-print #message-content #message-objects > div.warning::before, body.task-mail.action-print #message-content #message-objects > div.error::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -25036,7 +25045,7 @@ body.task-mail.action-print #message-content #attachment-list li {
   flex-wrap: nowrap;
 }
 body.task-mail.action-print #message-content #attachment-list li::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);

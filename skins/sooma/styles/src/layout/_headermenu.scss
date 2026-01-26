@@ -57,6 +57,10 @@
       content: fa.fa-content(fa.$var-calendar-alt);
     }
 
+    &.directory::before {
+      content: fa.fa-content(fa.$var-sitemap);
+    }
+
     &#show-mobile-xsidebar,
     &#button-apps {
       display: none;
