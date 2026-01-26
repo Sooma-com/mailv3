@@ -439,7 +439,7 @@ optgroup {
 .fa-utility-fill,
 .fa-whiteboard,
 .fa {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20058,7 +20058,7 @@ body {
  * Copyright 2025 Fonticons, Inc.
  */
 :root, :host {
-  --fa-family-classic: "Font Awesome 7 Pro";
+  --fa-family-classic: 'Font Awesome 7 Pro';
   --fa-font-regular: normal 400 1em/1 var(--fa-family-classic);
   /* deprecated: this older custom property will be removed next major release */
   --fa-style-family-classic: var(--fa-family-classic);
@@ -20186,7 +20186,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > 
   margin-right: 1.2rem;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20301,7 +20301,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #s
   display: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20340,7 +20340,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
   padding-right: 1rem;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .action-buttons .compose::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20379,7 +20379,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
   padding-right: 1rem;
   color: white;
   position: relative;
-  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s (255 - l));
   --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
   --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
   --input-line-height: 2.13;
@@ -20389,7 +20389,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar .reset::before {
   font-size: 0.8rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20412,7 +20412,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .searchbar .options::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20491,7 +20491,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header .
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20620,7 +20620,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist t
   background-position: right top;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20701,7 +20701,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
   margin-right: 1.2rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20816,7 +20816,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
   display: none;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20855,7 +20855,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   padding-right: 1rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons .compose::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20894,7 +20894,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   padding-right: 1rem;
   color: white;
   position: relative;
-  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s (255 - l));
   --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
   --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
   --input-line-height: 2.13;
@@ -20904,7 +20904,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .reset::before {
   font-size: 0.8rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -20927,7 +20927,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .options::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21007,7 +21007,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21088,7 +21088,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content 
   padding-right: 2rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons .send::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21167,7 +21167,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   margin-top: 2rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments button::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21213,7 +21213,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   padding-bottom: 0.25rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21240,7 +21240,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   color: inherit;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments #attachment-list li a.delete::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21331,7 +21331,7 @@ body.task-addressbook.action-show .formcontent .contact-header #contactphoto #co
 body.task-addressbook.action-add .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete::before,
 body.task-addressbook.action-edit .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete::before,
 body.task-addressbook.action-show .formcontent .contact-header #contactphoto #contactpic a.button.icon.delete::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21475,7 +21475,7 @@ body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup a.cont
 body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton::before,
 body.task-addressbook.action-edit .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton::before,
 body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup a.contactfieldbutton.deletebutton::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21606,7 +21606,7 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu > a {
   margin-right: 1.2rem;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21721,7 +21721,7 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .so
   display: none;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21760,7 +21760,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons {
   padding-right: 1rem;
 }
 body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons .compose::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21799,7 +21799,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar {
   padding-right: 1rem;
   color: white;
   position: relative;
-  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s (255 - l));
   --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
   --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
   --input-line-height: 2.13;
@@ -21809,7 +21809,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar a.search {
 }
 body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .reset::before {
   font-size: 0.8rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21832,7 +21832,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .reset {
 }
 body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .options::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -21908,7 +21908,7 @@ body.task-xcalendar > #layout #layout-sidebar > .header .header-title {
 }
 body.task-xcalendar > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22036,7 +22036,7 @@ body.task-xcalendar > #layout #layout-list .messagelist tr.flagged {
   background-position: right top;
 }
 body.task-xcalendar > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22116,7 +22116,7 @@ body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.xca
   display: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22174,7 +22174,7 @@ body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-he
   grid-area: prev;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22194,7 +22194,7 @@ body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-he
   grid-area: next;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22239,7 +22239,7 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-list-header #new-calendar-container a.create::before {
   display: inline-block !important;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22267,7 +22267,7 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-
   padding: 0.5rem 0.5rem;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-list-content .calendar-item .edit::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22300,7 +22300,7 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .
   background: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22396,7 +22396,7 @@ body > .ui-widget-overlay {
   padding-right: 1.5rem;
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22446,7 +22446,7 @@ body > .ui-widget-overlay {
   color: var(--color-main-contrast);
 }
 .ui-dialog .ui-dialog-buttonset button:before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22507,7 +22507,7 @@ body > .ui-widget-overlay {
   font-weight: bold;
 }
 .pgpkeyimport div.key label.keyid + a:before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22534,7 +22534,7 @@ body > .ui-widget-overlay {
   list-style-type: none;
 }
 .pgpkeyimport li.uid:before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -22621,7 +22621,7 @@ body > .ui-widget-overlay {
   max-width: 320px;
 }
 #messagestack > div.content::before, #messagestack > div.confirmation::before, #messagestack > div.notice::before, #messagestack > div.loading::before, #messagestack > div.success::before, #messagestack > div.warning::before, #messagestack > div.error::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23133,7 +23133,7 @@ div.formcontent:has(> .form-group.row) select {
 }
 .input-group > .input-group-append a.icon::before, .input-group > .input-group-prepend a.icon::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23162,7 +23162,7 @@ div.formcontent:has(> .form-group.row) select {
   margin: 0.5rem;
 }
 .select-menu[role=listbox] > ul > li > i.icon::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23255,7 +23255,7 @@ div.formcontent:has(> .form-group.row) select {
 }
 .toolbar.menu span.dropbutton a.dropdown::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23276,7 +23276,7 @@ div.formcontent:has(> .form-group.row) select {
 }
 .toolbar.menu a.more::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23293,7 +23293,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f142";
 }
 .toolbar.menu a.select::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23310,7 +23310,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f00c";
 }
 .toolbar.menu a.threads::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23327,7 +23327,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f4b6";
 }
 .toolbar.menu a.options::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23344,7 +23344,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f013";
 }
 .toolbar.menu a.refresh::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23361,7 +23361,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f021";
 }
 .toolbar.menu a.unread::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23381,7 +23381,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\e16f";
 }
 .toolbar.menu a.reply::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23398,7 +23398,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f3e5";
 }
 .toolbar.menu a.reply-all::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23415,7 +23415,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f122";
 }
 .toolbar.menu a.forward::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23432,7 +23432,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f04e";
 }
 .toolbar.menu a.delete::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23449,7 +23449,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f1f8";
 }
 .toolbar.menu a.markmessage::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23466,7 +23466,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f02e";
 }
 .toolbar.menu a.save.draft::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23483,7 +23483,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f0c7";
 }
 .toolbar.menu a.attach::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23500,7 +23500,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f0c6";
 }
 .toolbar.menu a.signature::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23517,7 +23517,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f2c1";
 }
 .toolbar.menu a.responses::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23534,7 +23534,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f086";
 }
 .toolbar.menu a.create::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23551,7 +23551,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\+";
 }
 .toolbar.menu a.search::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23568,7 +23568,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f002";
 }
 .toolbar.menu a.print::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23585,7 +23585,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f02f";
 }
 .toolbar.menu a.import::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23603,7 +23603,7 @@ div.formcontent:has(> .form-group.row) select {
   content: "\f56f";
 }
 .toolbar.menu a.export::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23658,7 +23658,7 @@ div.formcontent:has(> .form-group.row) select {
   color: var(--color-main);
 }
 .listing li.addressbook a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23794,7 +23794,7 @@ table.listing.iconized > thead > tr > th:first-child a, table.listing.iconized >
   display: block;
 }
 table.listing.iconized > thead > tr > th:first-child a::before, table.listing.iconized > tbody > tr > td:first-child a::before, table.listing.iconized > tfoot > tr > td:first-child a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23830,7 +23830,7 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
 #mailboxoptions-menu a.read::before,
 #mailboxoptions-menu a.purge::before,
 #mailboxoptions-menu a.expunge::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -23921,7 +23921,7 @@ ul.menu li a {
   font-size: 0.9rem;
 }
 ul.menu li a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24090,7 +24090,7 @@ ul.menu li a.recipient::before {
   justify-content: center;
   text-align: center;
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24121,7 +24121,7 @@ ul.menu li a.recipient::before {
  * Copyright 2025 Fonticons, Inc.
  */
 :root, :host {
-  --fa-family-classic: "Font Awesome 7 Pro";
+  --fa-family-classic: 'Font Awesome 7 Pro';
   --fa-font-solid: normal 900 1em/1 var(--fa-family-classic);
   /* deprecated: this older custom property will be removed next major release */
   --fa-style-family-classic: var(--fa-family-classic);
@@ -24235,7 +24235,7 @@ body.task-mail.action-preview #message-header .subject .extwin {
 }
 body.task-mail.action-preview #message-header .subject .extwin::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24266,7 +24266,7 @@ body.task-mail.action-preview #message-header .header-content .header-links .hea
 }
 body.task-mail.action-preview #message-header .header-content .header-links .headers-summary::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24292,7 +24292,7 @@ body.task-mail.action-preview #message-header .header-content .header-links a:ho
 }
 body.task-mail.action-preview #message-header .header-content .header-links a::before {
   font-size: 1rem;
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24330,7 +24330,7 @@ body.task-mail.action-preview #message-content #message-objects > div {
   text-indent: -1.5rem;
 }
 body.task-mail.action-preview #message-content #message-objects > div.content::before, body.task-mail.action-preview #message-content #message-objects > div.confirmation::before, body.task-mail.action-preview #message-content #message-objects > div.notice::before, body.task-mail.action-preview #message-content #message-objects > div.loading::before, body.task-mail.action-preview #message-content #message-objects > div.success::before, body.task-mail.action-preview #message-content #message-objects > div.warning::before, body.task-mail.action-preview #message-content #message-objects > div.error::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24408,7 +24408,7 @@ body.task-mail.action-preview #message-content #attachment-list li {
   flex-wrap: nowrap;
 }
 body.task-mail.action-preview #message-content #attachment-list li::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24499,7 +24499,7 @@ div.recipient-input > .recipient-input-recipient {
 }
 div.recipient-input > .recipient-input-recipient::after {
   content: "\e12e";
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);
@@ -24630,7 +24630,7 @@ label.custom-control input[type=checkbox] {
   line-height: 1.4;
 }
 #password-restrictions > li::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: var(--fa-display, inline-block);

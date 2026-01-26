@@ -220,7 +220,7 @@
     padding-right: 1rem;
     color: white;
     position: relative;
-    --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+    --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s (255 - l));
     --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
     --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
     --input-line-height: 2.13;
