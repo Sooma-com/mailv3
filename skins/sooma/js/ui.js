@@ -30,7 +30,6 @@
         if ("undefined" == typeof referenceNode) referenceNode = document.documentElement;
         if ("string" == typeof target) target = referenceNode.queryElement(target);
         if (!target) return;
-        console.log(target);
         target.classList.add("may-overflow");
         target.classList.remove("overflow-x");
         target.classList.remove("overflow-y");
@@ -48,6 +47,11 @@
 
     const checkOverflowing = () => {
         document.documentElement.queryElements("css:.may-overflow").forEach(markOverflowing);
+    }
+
+    const addDomainClassToBody = () => {
+        const domain = document.location.hostname.replaceAll(".", "-").toLowerCase();
+        document.body.classList.add("domain-" + domain);
     }
 
     /*
@@ -528,12 +532,21 @@
         });
     }
 
+    const clickOnLogoReturnToMail = () => {
+        document.documentElement.queryElements("css:#layout-menu > .popover-header").map(elm => {
+            elm.addEventListener("click", () => {
+                document.location.href = "/?_task=mail&_mbox=INBOX";
+            });
+        });
+    };
+
     /*
      Main entry point.
     */
     window.addEventListener('load', () => {
         if (window.UI.loaded) return;
         window.UI.loaded = true;
+        addDomainClassToBody();
         disableDeleteConfirmations();
         removeLoginFormFromTable();
         createLocalMenu();
@@ -548,6 +561,7 @@
         tagAddressForm();
         clickOnContactPhotoFireUpload();
         tagDefaultPhotoOnContactPic();
+        clickOnLogoReturnToMail();
         if ('loaded' in rcmail && rcmail.loaded) {
             initRoundcube.bind(this)();
         } else {

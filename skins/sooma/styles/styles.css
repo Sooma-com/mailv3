@@ -21293,6 +21293,10 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-cont
   grid-area: buttons;
 }
 
+body.task-mail.action-show:not(:has(#layout-list)) > #layout {
+  grid-template: "menu    menu    menu   " 8rem "content content content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+}
+
 body.task-addressbook.action-add .formcontent,
 body.task-addressbook.action-edit .formcontent,
 body.task-addressbook.action-show .formcontent {
@@ -24151,14 +24155,14 @@ body.task-mail.action-preview {
   padding-top: 1rem;
   padding-bottom: 2rem;
 }
-body.task-mail.action-preview a:not(.extwin):not(.headers-summary) {
+body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary) {
   text-decoration: none;
   color: var(--color-main);
 }
-body.task-mail.action-preview a:not(.extwin):not(.headers-summary):hover {
+body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):hover {
   color: hsl(from var(--color-main) h s calc(l * 0.9));
 }
-body.task-mail.action-preview a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):target, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):active, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-preview a:not(.extwin):not(.headers-summary):link {
+body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):target, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):active, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-preview #layout-content a:not(.extwin):not(.headers-summary):link {
   color: var(--color-main);
 }
 body.task-mail.action-preview #message-header:not(:has(.details-view)) {
@@ -24260,7 +24264,7 @@ body.task-mail.action-preview #message-header .header-content .header-links {
 }
 body.task-mail.action-preview #message-header .header-content .header-links .headers-summary {
   position: absolute;
-  top: 1rem;
+  top: 1.2rem;
   left: 1.5rem;
   font-size: 0;
 }
@@ -24448,6 +24452,630 @@ body.task-mail.action-preview #message-content #attachment-list li a.filename .a
   white-space: nowrap;
 }
 body.task-mail.action-preview #message-content #messagebody {
+  line-height: 1.5;
+}
+
+body.task-mail.action-show {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary) {
+  text-decoration: none;
+  color: var(--color-main);
+}
+body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):hover {
+  color: hsl(from var(--color-main) h s calc(l * 0.9));
+}
+body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):target, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):active, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-show #layout-content a:not(.extwin):not(.headers-summary):link {
+  color: var(--color-main);
+}
+body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary) {
+  color: inherit;
+}
+body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):target, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):active, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-show #layout-content .menu a:not(.extwin):not(.headers-summary):link {
+  color: inherit;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) {
+  display: grid;
+  grid-template: "subject" 1fr "date" 1fr/1fr;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .subject {
+  grid-area: subject;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .header {
+  grid-area: date;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .header > img {
+  display: none;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .header .header-content {
+  padding-top: 0.25rem;
+  padding-left: 3rem;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .header .header-content .header-headers {
+  display: none;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .header .header-content .header-summary {
+  text-wrap: nowrap;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .header .header-content .header-links > :not(.headers-summary) {
+  display: none;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header {
+  width: 100%;
+  display: grid;
+  grid-template: "picture headers" 1fr/min-content 1fr;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header .contactphoto {
+  grid-area: picture;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header .header-content {
+  grid-area: headers;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header .header-content .header-summary {
+  display: none;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header .header-content .header-headers {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  margin-top: -0.75rem;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header .header-content .header-headers td.header-title {
+  opacity: 0.8;
+}
+body.task-mail.action-show #message-header:has(.details-view) > .header .header-content .header-headers td:first-child {
+  text-wrap: nowrap;
+  width: 1%;
+}
+body.task-mail.action-show #message-header {
+  border-bottom: 1px solid var(--color-medium-gray);
+  padding-bottom: 1.25rem;
+  position: relative;
+}
+body.task-mail.action-show #message-header .subject {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-left: 3rem;
+  padding-top: 1rem;
+}
+body.task-mail.action-show #message-header .subject .extwin {
+  font-size: 0;
+}
+body.task-mail.action-show #message-header .subject .extwin::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f40e";
+  font-weight: normal;
+}
+body.task-mail.action-show #message-header .header-content.details-view .header-links .headers-summary::before {
+  transform: rotate(90deg);
+}
+body.task-mail.action-show #message-header .header-content .header-links {
+  padding-left: 0.3rem;
+}
+body.task-mail.action-show #message-header .header-content .header-links .headers-summary {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.5rem;
+  font-size: 0;
+}
+body.task-mail.action-show #message-header .header-content .header-links .headers-summary::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f138";
+  transition: transform 0.3s ease-in-out;
+}
+body.task-mail.action-show #message-header .header-content .header-links a {
+  color: inherit;
+  padding-right: 0.75rem;
+}
+body.task-mail.action-show #message-header .header-content .header-links a:hover, body.task-mail.action-show #message-header .header-content .header-links a:focus, body.task-mail.action-show #message-header .header-content .header-links a:focus-within, body.task-mail.action-show #message-header .header-content .header-links a:focus-visible, body.task-mail.action-show #message-header .header-content .header-links a:target, body.task-mail.action-show #message-header .header-content .header-links a:active, body.task-mail.action-show #message-header .header-content .header-links a:visited, body.task-mail.action-show #message-header .header-content .header-links a:link {
+  color: inherit;
+}
+body.task-mail.action-show #message-header .header-content .header-links a::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.25rem;
+}
+body.task-mail.action-show #message-header .header-content .header-links a.headers-all::before {
+  content: "\f30f";
+  font-weight: normal;
+}
+body.task-mail.action-show #message-header .header-content .header-links a.plain::before {
+  content: "\f15c";
+  font-weight: normal;
+}
+body.task-mail.action-show #message-header .header-content .header-links a.html::before {
+  content: "\f15c";
+  font-weight: normal;
+}
+body.task-mail.action-show #message-content {
+  padding: 1.5rem;
+}
+body.task-mail.action-show #message-content #message-objects > div {
+  display: inline-block;
+  width: 80%;
+  max-width: 320px;
+  text-indent: -1.5rem;
+}
+body.task-mail.action-show #message-content #message-objects > div.content::before, body.task-mail.action-show #message-content #message-objects > div.confirmation::before, body.task-mail.action-show #message-content #message-objects > div.notice::before, body.task-mail.action-show #message-content #message-objects > div.loading::before, body.task-mail.action-show #message-content #message-objects > div.success::before, body.task-mail.action-show #message-content #message-objects > div.warning::before, body.task-mail.action-show #message-content #message-objects > div.error::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  text-indent: -0.25rem;
+}
+body.task-mail.action-show #message-content #message-objects > div.content, body.task-mail.action-show #message-content #message-objects > div.confirmation, body.task-mail.action-show #message-content #message-objects > div.notice, body.task-mail.action-show #message-content #message-objects > div.loading, body.task-mail.action-show #message-content #message-objects > div.success, body.task-mail.action-show #message-content #message-objects > div.warning, body.task-mail.action-show #message-content #message-objects > div.error {
+  margin: 1rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border-radius: 4px;
+}
+body.task-mail.action-show #message-content #message-objects > div.confirmation::before {
+  content: "\f058";
+}
+body.task-mail.action-show #message-content #message-objects > div.confirmation {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+}
+body.task-mail.action-show #message-content #message-objects > div.loading::before {
+  content: "\f110";
+}
+body.task-mail.action-show #message-content #message-objects > div.loading {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+}
+body.task-mail.action-show #message-content #message-objects > div.notice::before {
+  content: "\f05a";
+}
+body.task-mail.action-show #message-content #message-objects > div.notice {
+  background-color: var(--color-notice);
+}
+body.task-mail.action-show #message-content #message-objects > div.success::before {
+  content: "\f058";
+}
+body.task-mail.action-show #message-content #message-objects > div.success {
+  background-color: var(--color-success);
+}
+body.task-mail.action-show #message-content #message-objects > div.warning::before {
+  content: "\f071";
+}
+body.task-mail.action-show #message-content #message-objects > div.warning {
+  background-color: var(--color-warning);
+}
+body.task-mail.action-show #message-content #message-objects > div.error::before {
+  content: "\f06a";
+}
+body.task-mail.action-show #message-content #message-objects > div.error {
+  background-color: var(--color-error);
+}
+body.task-mail.action-show #message-content #message-objects > div .boxbuttons {
+  display: block flex;
+  flex-direction: row-reverse;
+  text-indent: 0;
+}
+body.task-mail.action-show #message-content #message-objects > div .boxbuttons a {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  display: inline-block;
+}
+body.task-mail.action-show #message-content #attachment-list li {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: nowrap;
+}
+body.task-mail.action-show #message-content #attachment-list li::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+  margin-right: 0.25rem;
+}
+body.task-mail.action-show #message-content #attachment-list li a.filename {
+  color: inherit;
+  display: inline-block;
+  display: block flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-show #message-content #attachment-list li a.filename .attachment-name {
+  display: block;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-show #message-content #attachment-list li a.filename .attachment-size {
+  display: block;
+  flex: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-show #message-content #messagebody {
+  line-height: 1.5;
+}
+
+body.task-mail.action-print {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary) {
+  text-decoration: none;
+  color: var(--color-main);
+}
+body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):hover {
+  color: hsl(from var(--color-main) h s calc(l * 0.9));
+}
+body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):target, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):active, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-print #layout-content a:not(.extwin):not(.headers-summary):link {
+  color: var(--color-main);
+}
+body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary) {
+  color: inherit;
+}
+body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):hover, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):focus, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):focus-within, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):focus-visible, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):target, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):active, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):visited, body.task-mail.action-print #layout-content .menu a:not(.extwin):not(.headers-summary):link {
+  color: inherit;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) {
+  display: grid;
+  grid-template: "subject" 1fr "date" 1fr/1fr;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .subject {
+  grid-area: subject;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .header {
+  grid-area: date;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .header > img {
+  display: none;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .header .header-content {
+  padding-top: 0.25rem;
+  padding-left: 3rem;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .header .header-content .header-headers {
+  display: none;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .header .header-content .header-summary {
+  text-wrap: nowrap;
+}
+body.task-mail.action-print #message-header:not(:has(.details-view)) .header .header-content .header-links > :not(.headers-summary) {
+  display: none;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header {
+  width: 100%;
+  display: grid;
+  grid-template: "picture headers" 1fr/min-content 1fr;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header .contactphoto {
+  grid-area: picture;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header .header-content {
+  grid-area: headers;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header .header-content .header-summary {
+  display: none;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header .header-content .header-headers {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  margin-top: -0.75rem;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header .header-content .header-headers td.header-title {
+  opacity: 0.8;
+}
+body.task-mail.action-print #message-header:has(.details-view) > .header .header-content .header-headers td:first-child {
+  text-wrap: nowrap;
+  width: 1%;
+}
+body.task-mail.action-print #message-header {
+  border-bottom: 1px solid var(--color-medium-gray);
+  padding-bottom: 1.25rem;
+  position: relative;
+}
+body.task-mail.action-print #message-header .subject {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-left: 3rem;
+  padding-top: 1rem;
+}
+body.task-mail.action-print #message-header .subject .extwin {
+  font-size: 0;
+}
+body.task-mail.action-print #message-header .subject .extwin::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f40e";
+  font-weight: normal;
+}
+body.task-mail.action-print #message-header .header-content.details-view .header-links .headers-summary::before {
+  transform: rotate(90deg);
+}
+body.task-mail.action-print #message-header .header-content .header-links {
+  padding-left: 0.3rem;
+}
+body.task-mail.action-print #message-header .header-content .header-links .headers-summary {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.5rem;
+  font-size: 0;
+}
+body.task-mail.action-print #message-header .header-content .header-links .headers-summary::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f138";
+  transition: transform 0.3s ease-in-out;
+}
+body.task-mail.action-print #message-header .header-content .header-links a {
+  color: inherit;
+  padding-right: 0.75rem;
+}
+body.task-mail.action-print #message-header .header-content .header-links a:hover, body.task-mail.action-print #message-header .header-content .header-links a:focus, body.task-mail.action-print #message-header .header-content .header-links a:focus-within, body.task-mail.action-print #message-header .header-content .header-links a:focus-visible, body.task-mail.action-print #message-header .header-content .header-links a:target, body.task-mail.action-print #message-header .header-content .header-links a:active, body.task-mail.action-print #message-header .header-content .header-links a:visited, body.task-mail.action-print #message-header .header-content .header-links a:link {
+  color: inherit;
+}
+body.task-mail.action-print #message-header .header-content .header-links a::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.25rem;
+}
+body.task-mail.action-print #message-header .header-content .header-links a.headers-all::before {
+  content: "\f30f";
+  font-weight: normal;
+}
+body.task-mail.action-print #message-header .header-content .header-links a.plain::before {
+  content: "\f15c";
+  font-weight: normal;
+}
+body.task-mail.action-print #message-header .header-content .header-links a.html::before {
+  content: "\f15c";
+  font-weight: normal;
+}
+body.task-mail.action-print #message-content {
+  padding: 1.5rem;
+}
+body.task-mail.action-print #message-content #message-objects > div {
+  display: inline-block;
+  width: 80%;
+  max-width: 320px;
+  text-indent: -1.5rem;
+}
+body.task-mail.action-print #message-content #message-objects > div.content::before, body.task-mail.action-print #message-content #message-objects > div.confirmation::before, body.task-mail.action-print #message-content #message-objects > div.notice::before, body.task-mail.action-print #message-content #message-objects > div.loading::before, body.task-mail.action-print #message-content #message-objects > div.success::before, body.task-mail.action-print #message-content #message-objects > div.warning::before, body.task-mail.action-print #message-content #message-objects > div.error::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  text-indent: -0.25rem;
+}
+body.task-mail.action-print #message-content #message-objects > div.content, body.task-mail.action-print #message-content #message-objects > div.confirmation, body.task-mail.action-print #message-content #message-objects > div.notice, body.task-mail.action-print #message-content #message-objects > div.loading, body.task-mail.action-print #message-content #message-objects > div.success, body.task-mail.action-print #message-content #message-objects > div.warning, body.task-mail.action-print #message-content #message-objects > div.error {
+  margin: 1rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border-radius: 4px;
+}
+body.task-mail.action-print #message-content #message-objects > div.confirmation::before {
+  content: "\f058";
+}
+body.task-mail.action-print #message-content #message-objects > div.confirmation {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.4));
+}
+body.task-mail.action-print #message-content #message-objects > div.loading::before {
+  content: "\f110";
+}
+body.task-mail.action-print #message-content #message-objects > div.loading {
+  background-color: hsl(from var(--color-success) h s calc(l * 1.8));
+}
+body.task-mail.action-print #message-content #message-objects > div.notice::before {
+  content: "\f05a";
+}
+body.task-mail.action-print #message-content #message-objects > div.notice {
+  background-color: var(--color-notice);
+}
+body.task-mail.action-print #message-content #message-objects > div.success::before {
+  content: "\f058";
+}
+body.task-mail.action-print #message-content #message-objects > div.success {
+  background-color: var(--color-success);
+}
+body.task-mail.action-print #message-content #message-objects > div.warning::before {
+  content: "\f071";
+}
+body.task-mail.action-print #message-content #message-objects > div.warning {
+  background-color: var(--color-warning);
+}
+body.task-mail.action-print #message-content #message-objects > div.error::before {
+  content: "\f06a";
+}
+body.task-mail.action-print #message-content #message-objects > div.error {
+  background-color: var(--color-error);
+}
+body.task-mail.action-print #message-content #message-objects > div .boxbuttons {
+  display: block flex;
+  flex-direction: row-reverse;
+  text-indent: 0;
+}
+body.task-mail.action-print #message-content #message-objects > div .boxbuttons a {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  display: inline-block;
+}
+body.task-mail.action-print #message-content #attachment-list li {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: nowrap;
+}
+body.task-mail.action-print #message-content #attachment-list li::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, "Font Awesome 7 Pro"));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0c6";
+  margin-right: 0.25rem;
+}
+body.task-mail.action-print #message-content #attachment-list li a.filename {
+  color: inherit;
+  display: inline-block;
+  display: block flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-print #message-content #attachment-list li a.filename .attachment-name {
+  display: block;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-print #message-content #attachment-list li a.filename .attachment-size {
+  display: block;
+  flex: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.task-mail.action-print #message-content #messagebody {
   line-height: 1.5;
 }
 
@@ -24650,6 +25278,56 @@ label.custom-control input[type=checkbox] {
 #password-restrictions > li.valid::before {
   content: "\f00c";
   color: var(--color-success);
+}
+
+body.domain-webmail-oa-pt.task-login > #layout,
+body.domain-webmail-oa-sooma-com.task-login > #layout {
+  max-width: none;
+  width: 100vw;
+  margin-bottom: 0;
+  padding: 0;
+  display: grid;
+  grid-template: "logo form" 1fr/50vw 50vw;
+  background-color: #fafafa;
+  background-image: url("/skins/sooma/images/logos/oa.svg");
+  background-repeat: no-repeat;
+  background-position: calc(50vw - 220px) center;
+  background-size: 200px;
+}
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content {
+  grid-area: form;
+  background-color: #780713;
+  color: white;
+  padding: 36px;
+}
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content .propform label,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content .propform label {
+  color: white;
+}
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content .formbuttons button.mainaction,
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content .formbuttons .btn.btn-primary,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content .formbuttons button.mainaction,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content .formbuttons .btn.btn-primary {
+  background-color: #288086;
+}
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content p.formbuttons,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content p.formbuttons {
+  max-width: calc(320px - 2rem);
+}
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content p.formbuttons button,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content p.formbuttons button {
+  margin-left: 0;
+}
+body.domain-webmail-oa-pt.task-login > #layout > #layout-content a.forgot-password-link,
+body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content a.forgot-password-link {
+  max-width: calc(320px - 2rem);
+}
+@media (max-width: 600px) {
+  body.domain-webmail-oa-pt.task-login > #layout,
+  body.domain-webmail-oa-sooma-com.task-login > #layout {
+    grid-template: "form form" 1fr/50vw 50vw;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

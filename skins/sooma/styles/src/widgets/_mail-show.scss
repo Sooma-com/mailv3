@@ -2,7 +2,7 @@
 @use "../fontawesome/regular" as fa-regular;
 @use "../fontawesome/fa";
 
-body.task-mail.action-preview {
+body.task-mail.action-show {
   padding-top: 1rem;
   padding-bottom: 2rem;
 
@@ -23,6 +23,21 @@ body.task-mail.action-preview {
     &:visited,
     &:link {
       color: var(--color-main);
+    }
+  }
+
+  #layout-content .menu a:not(.extwin):not(.headers-summary) {
+    color: inherit;
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:focus-visible,
+    &:target,
+    &:active,
+    &:visited,
+    &:link {
+      color: inherit;
     }
   }
 
@@ -107,11 +122,13 @@ body.task-mail.action-preview {
   #message-header {
     border-bottom: 1px solid var(--color-medium-gray);
     padding-bottom: 1.25rem;
+    position: relative;
 
     .subject {
       font-size: 1.2rem;
       font-weight: bold;
       padding-left: calc(2rem + 1rem);
+      padding-top: 1rem;
 
       .extwin {
         font-size: 0;
