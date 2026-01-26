@@ -1,0 +1,160 @@
+#!/usr/bin/python3
+import psycopg2
+import psycopg2.extras
+import re
+from email.utils import formatdate
+import subprocess
+import sys
+
+def usage():
+    croak("Usage: profissional_user_quota_warn <percent> <email>", -1)
+
+def croak(msg, returncode = -1):
+    print(msg, file=sys.stderr)
+    sys.exit(returncode)
+
+def db_exec(query, *args):
+    cursor = database.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+    cursor.execute(query, args)
+    cursor.close()
+
+def fetch_all(query, *args):
+    cursor = database.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+    cursor.execute(query, args)
+    rows = cursor.fetchall()
+    cursor.close()
+    return rows
+
+try:
+    database = psycopg2.connect(host="10.3.9.3",dbname="mail_profissional", user="postgres")
+except psycopg2.DatabaseError as e:
+    croak(e, -2)
+
+def email_disk_index(email):
+    return re.sub(r'/mnt/emailp-a(..).*', "\\1", fetch_all("SELECT homedir FROM profissional_emails JOIN profissional_email_users ON profissional_emails.id = profissional_email_users.email_id WHERE email = %s", email)[0]['homedir'])
+
+    
+
+
+warningMessages = {
+    "remax.pt:very_high":"""\
+From: postmaster@[domain]
+To:   [email]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Subject: A sua caixa de correio está quase sem espaço
+
+A sua caixa de correio "[email]", está com uma utilização de espaço em disco acima de 90%. Caso atinja os 100%, deixará de receber emails até que seja libertado espaço.
+
+Pode corrigir a situação com um de dois mecanismos:
+  - Libertando espaço, apagando mensagens, ou arquivando-as localmente; ou
+  - Aumentando a capacidade da conta diretamente no MaxWork visitando o endereço https://maxwork.pt/agente/store
+
+Esta mensagem é automática, por favor não responda. Enquanto a situação não for regularizada, irá receber receber estes avisos semanalmente.
+Em caso de dúvida, por favor entre em contacto com a equipa de Suporte através do endereço suporte@remax.pt.
+
+Obrigado.
+
+Cumprimentos
+"""
+    ,"remax.pt:default":"""\
+From: postmaster@[domain]
+To:   [email]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Subject: A sua caixa de correio está a ficar sem espaço
+
+A sua caixa de correio "[email]", está com uma utilização de espaço em disco acima de 80%. Caso atinja os 100%, deixará de receber emails até que seja libertado espaço.
+
+Pode corrigir a situação com um de dois mecanismos:
+  - Libertando espaço, apagando mensagens, ou arquivando-as localmente; ou
+  - Aumentando a capacidade da conta diretamente no MaxWork visitando o endereço https://maxwork.pt/agente/store
+
+Esta mensagem é automática, por favor não responda. Enquanto a situação não for regularizada, irá receber receber estes avisos semanalmente.
+Em caso de dúvida, por favor entre em contacto com a equipa de Suporte através do endereço suporte@remax.pt.
+
+Obrigado.
+
+Cumprimentos
+"""
+    , "default:very_high":"""\
+From: postmaster@[domain]
+To:   [email]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Subject: Your mailbox is about to run out of space
+
+Your mailbox "[email]" is using over 90% of its alloted disk usage quota. If it reaches 100%, you will stop receiving new email.
+
+You may fix this issue by:
+
+ - Deleting messages from your email archive; or
+
+ - by raising your disk usage quota, eventually by contacting your email system administrator or email support team.
+
+This is an automatic message. Do not reply to this message as the origin address is not read regularly. This message will repeat weekly until the pre-failure condition ceases.
+
+"""
+    , "default:default": """\
+From: postmaster@[domain]
+To:   [email]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Subject: Your mailbox is running out of space
+
+Your mailbox "[email]" is using over 80% of its alloted disk usage quota. If it reaches 100%, you will stop receiving new email.
+
+You may fix this issue by:
+
+ - Deleting messages from your email archive; or
+
+ - by raising your disk usage quota, eventually by contacting your email system administrator or email support team.
+
+This is an automatic message. Do not reply to this message as the origin address is not read regularly. This message will repeat weekly until the pre-failure condition ceases. A new message will be sent when your mailbox crosses the 90% usage threshold.
+
+"""
+    }
+
+def get_warning_message(quota, email):
+    key = ""
+    domain = email.split("@", 2)[1]
+    if domain == "remax.pt":
+        key += domain
+    else:
+        key += "default"
+    key += ":"
+    if quota >= 90:
+        key += "very_high"
+    else:
+        key += "default"
+
+    if key not in warningMessages:
+        key = "default:default"
+
+    message = "Date: %s" % (formatdate(localtime=True),)
+    message += "\r\n"
+    message += warningMessages[key]
+    for needle,replacement in {"[domain]": domain, "[email]": email}.items():
+        message = message.replace(needle,replacement)
+
+    return message
+
+try:
+    percentage = float(sys.argv[1])
+    email = sys.argv[2]
+except IndexError:
+    usage()
+
+lda_process = subprocess.Popen([
+    "/usr/lib/dovecot/dovecot-lda",
+    "-c",
+    "/etc/dovecot/multi/profissional_%s/dovecot.conf" % (email_disk_index(email),),
+    "-o",
+    "plugin/quota=count:User quota:noenforcing",
+    "-d",
+    email
+    ],
+    stdin = subprocess.PIPE
+    )
+lda_process.communicate(input=get_warning_message(percentage, email).encode("utf-8"))
+lda_process.wait()

@@ -1,0 +1,4 @@
+# dict-type     so-name (pathname)      dict-function   mkmap-function
+pgsql   postfix-pgsql.so.1.0.1  dict_pgsql_open
+cdb     postfix-cdb.so.1.0.1    dict_cdb_open   mkmap_cdb_open
+ldap    postfix-ldap.so.1.0.1   dict_ldap_open 

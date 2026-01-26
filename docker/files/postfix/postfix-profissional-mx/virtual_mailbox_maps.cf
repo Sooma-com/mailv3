@@ -1,0 +1,7 @@
+query = SELECT 'whatever' FROM postfix.users WHERE username = lower('%u') AND domain = lower('%d') UNION SELECT 'whatever' FROM profissional_domain_secondary_target JOIN profissional_domains ON profissional_domain_secondary_target.id = profissional_domains.id WHERE profissional_domains.name = lower('%d');
+
+hosts = 127.0.0.1
+dbname = mail_profissional
+
+user = postfix
+password = ValdOojyat4

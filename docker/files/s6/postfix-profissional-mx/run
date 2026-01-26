@@ -1,0 +1,8 @@
+#!/bin/bash
+/usr/sbin/postmulti -i postfix-profissional-mx -p start
+sleep 120s
+/usr/sbin/postmulti -i postfix-profissional-mx -p status &> /dev/null
+while [ $? -eq 0 ]; do
+    sleep 120s
+    /usr/sbin/postmulti -i postfix-profissional-mx -p status &> /dev/null
+done

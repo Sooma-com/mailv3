@@ -1,0 +1,7 @@
+query = select destination from postfix.aliases where alias_username = lower('%u') and alias_domain = lower('%d')
+
+hosts = 127.0.0.1
+dbname = mail_profissional
+
+user = postfix
+password = ValdOojyat4

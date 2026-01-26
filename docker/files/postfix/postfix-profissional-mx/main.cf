@@ -1,0 +1,52 @@
+# Generic instance configuration
+myhostname = a.mx.smail.eu
+mydomain = smail.eu
+myorigin = $mydomain
+#inet_interfaces = 0.0.0.0
+inet_protocols = ipv4
+data_directory = /var/lib/postfix-profissional-mx
+queue_directory = /var/spool/postfix-profissional-mx
+multi_instance_name = postfix-profissional-mx
+multi_instance_enable = yes
+recipient_delimiter = +
+# ---
+# What does this postfix instance do
+authorized_submit_users = daemon
+mynetworks = 195.170.168.0/24,10.0.0.0/8,94.132.130.203/32
+mynetworks_style = subnet
+#smtpd_tls_cert_file = /opt/profissional-certs/certs/mail.sooma.com.pem
+#smtpd_tls_key_file = /opt/profissional-certs/keys/mail.sooma.com.key
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_security_level = may
+smtpd_recipient_restrictions = reject_unlisted_recipient, reject_unauth_destination, check_sender_access hash:${config_directory}/filter-by-from, permit
+smtpd_relay_before_recipient_restrictions = yes
+smtpd_relay_restrictions = $smtpd_recipient_restrictions
+smtpd_milters=unix:/var/spool/postfix/milter/mail-password.sock,unix:/var/spool/postfix/milter/mail-filter.sock,unix:/var/spool/postfix/milter/rspamd-milter-profissional-mx.sock
+relay_domains = 
+virtual_alias_maps = proxy:pgsql:${config_directory}/virtual_alias_maps.cf
+virtual_alias_domains = 
+virtual_mailbox_maps = proxy:pgsql:${config_directory}/virtual_mailbox_maps.cf
+virtual_mailbox_domains = proxy:pgsql:${config_directory}/virtual_mailbox_domains.cf
+transport_maps = proxy:pgsql:${config_directory}/transport_maps.cf
+#smtp_bind_address = 195.170.168.49
+#lmtp_bind_address = 10.3.1.112
+
+# ---
+# Boilerplate configuration common to all postfix instances
+milter_default_action = accept
+milter_connect_timeout = 10s
+milter_content_timeout = 55s
+message_size_limit = 52428800
+mailbox_size_limit = 52428800
+# empty alias maps so we don't get nis errors
+alias_maps =
+# do not match subdomains (we had problems with aiccopn.pt and associado.aiccopn.pt)
+parent_domain_matches_subdomains =
+setgid_group = postdrop
+virtual_alias_expansion_limit = 10000
+
+# Para experimentar
+# smtpd_soft_error_limit=3
+# smtpd_error_sleep_time=10s
+

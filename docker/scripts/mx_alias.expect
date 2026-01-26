@@ -1,0 +1,26 @@
+#!/usr/bin/expect -f
+proc slurp {file} {
+    set fh [open $file r]
+    set ret [read $fh]
+    close $fh
+    return $ret
+}
+spawn date +%Y%m%d-%H%M%S
+expect -re (.*)\r\n
+set date $expect_out(1,string)
+set email [slurp ./test.eml]
+spawn telnet 127.0.0.1 25
+expect "220 "
+send "ehlo test\r"
+expect "250 "
+send "MAIL FROM:<sergio.carvalho@sooma.com>\r"
+expect "2.1.0"
+send "RCPT TO:<alias@sooma.com>\r"
+expect "2.1.5"
+send "DATA\r"
+expect "354"
+send "$email"
+send ".\r"
+expect "2.0.0"
+send "QUIT\r"
+expect "2.0.0"

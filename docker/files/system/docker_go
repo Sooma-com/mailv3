@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd /srv/www
+chmod a+w temp logs
+./bin/install-jsdeps.sh --force
+find -mindepth 1 -maxdepth 1 -name composer.json-dist -exec mv {} composer.json \;
+composer install
+cd /
+exec /usr/bin/s6-svscan /etc/s6

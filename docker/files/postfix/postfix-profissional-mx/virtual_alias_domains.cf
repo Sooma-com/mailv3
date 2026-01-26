@@ -1,0 +1,7 @@
+query = SELECT name FROM postfix.domains WHERE name = '%s' AND migrating = false
+
+hosts = 127.0.0.1
+dbname = mail_profissional
+
+user = postfix
+password = ValdOojyat4

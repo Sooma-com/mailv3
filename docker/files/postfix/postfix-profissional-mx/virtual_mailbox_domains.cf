@@ -1,0 +1,7 @@
+query = SELECT name FROM postfix.domains WHERE name = lower('%s') AND (migrating = false OR id IN (SELECT id FROM profissional_domain_secondary_target WHERE profissional_domain_secondary_target.id = domains.id))
+
+hosts = 127.0.0.1
+dbname = mail_profissional
+
+user = postfix
+password = ValdOojyat4
