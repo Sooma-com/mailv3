@@ -167,6 +167,41 @@
         profileMenu.addEventListener("click", toggleElement.bind(null, profileDialog, "flex", false, null));
         document.addEventListener("click", cancelDialog.bind(null, profileDialog, "flex", true), { capture: true });
         document.addEventListener("keyup", cancelDialog.bind(null, profileDialog, "flex", true), { capture: true });
+        const update_profile_quota = function(element) {
+            if (!element.getAttribute("title")) return;
+            const matches = /(?<used>[0-9]+(?:\.[0-9]+)?) ?[KMGT]B ?\/ ?(?<capacity>[0-9]+(?:\.[0-9]+)?) ?[KMGT]B/.exec(element.getAttribute("title").replaceAll(",", "."));
+            if (!matches) return;
+            [ "sooma-profile-dialog-quota-label", "sooma-profile-dialog-quota-img", "quota-text"].map(id => document.getElementById(id)).filter( element => element).forEach( element => {
+                element.remove();
+            });
+            const used = parseFloat(matches.groups.used);
+            const capacity = parseFloat(matches.groups.capacity);
+            const percent = Math.round(used / capacity * 100);
+            row_2.insertBefore((function() {
+                const div = document.createElement("div");
+                div.setAttribute("id", "quota-text");
+                return div;
+            })(), row_2.firstChild);
+            row_2.insertBefore((function() {
+                const img = document.createElement("img");
+                img.setAttribute("id", "sooma-profile-dialog-quota-img");
+                img.setAttribute("src", "/skins/sooma/images/quota.svg.php?q=" + percent);
+                img.setAttribute("alt", "Quota");
+                img.setAttribute("height", "40");
+                return img;
+            })(), row_2.firstChild);
+            row_2.insertBefore((function() {
+                const div = document.createElement("div");
+                div.setAttribute("id", "sooma-profile-dialog-quota-label");
+                div.textContent = "Quota " + capacity + " GB";
+                return div;
+            })(), row_2.firstChild);
+        };
+        [ document.getElementById("rcmquotadisplay")].filter( element => element).forEach( element => {
+            const observer = new MutationObserver(update_profile_quota.bind(null, element));
+            observer.observe(element, { attributes: true, childList: true, subtree: true });
+            update_profile_quota(element);
+        });
     }
 
     /*

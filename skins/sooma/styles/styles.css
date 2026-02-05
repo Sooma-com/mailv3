@@ -20297,7 +20297,8 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #s
   border-top: 1px solid var(--color-medium-gray);
   padding: 0.75rem;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  align-items: center;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
@@ -20326,6 +20327,24 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #s
   color: var(--color-font);
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-label {
+  font-size: 0.9rem;
+  padding-right: 1rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-left: auto;
+  margin-right: auto;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog #quota-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu {
   grid-area: localmenu;
@@ -20516,6 +20535,9 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a
   right: 0.25rem;
   font-size: 0;
   text-decoration: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar #quotadisplay {
+  display: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-list {
   grid-area: list;
@@ -20815,7 +20837,8 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
   border-top: 1px solid var(--color-medium-gray);
   padding: 0.75rem;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  align-items: center;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
@@ -20844,6 +20867,24 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
   color: var(--color-font);
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-label {
+  font-size: 0.9rem;
+  padding-right: 1rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-left: auto;
+  margin-right: auto;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog #quota-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu {
   grid-area: localmenu;
@@ -21035,6 +21076,9 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   right: 0.25rem;
   font-size: 0;
   text-decoration: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #quotadisplay {
+  display: none;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-list {
   display: none;
@@ -21727,7 +21771,8 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .so
   border-top: 1px solid var(--color-medium-gray);
   padding: 0.75rem;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  align-items: center;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
@@ -21756,6 +21801,24 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .so
   color: var(--color-font);
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-label {
+  font-size: 0.9rem;
+  padding-right: 1rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-left: auto;
+  margin-right: auto;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog #quota-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 body.task-xcalendar > #layout > #layout-menu #localmenu {
   grid-area: localmenu;
@@ -21943,6 +22006,9 @@ body.task-xcalendar > #layout #layout-sidebar > .header a.sidebar-menu {
   right: 0.25rem;
   font-size: 0;
   text-decoration: none;
+}
+body.task-xcalendar > #layout #layout-sidebar #quotadisplay {
+  display: none;
 }
 body.task-xcalendar > #layout > #layout-list {
   display: none;
