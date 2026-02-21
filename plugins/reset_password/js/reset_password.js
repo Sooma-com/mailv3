@@ -34,6 +34,14 @@ window.sooma_reset_password = {
         }).bind(this)());
     },
     handleForgotPasswordClick: function (event) {
+        if (window.location.hostname == "webmail.oa.pt") {
+            window.location = "https://portal.oa.pt/reporpass";
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            return;
+        }
         const loginForm = document.getElementById('login-form');
         if (!loginForm) return;
         loginForm.replaceWith((function () {
