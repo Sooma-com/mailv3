@@ -42,6 +42,8 @@ COPY files/php/composer.phar /usr/local/bin/composer
 COPY files/nginx/vhost /etc/nginx/sites-available/default
 RUN sed --in-place "s/{php_version}/${php_version}/g" /etc/nginx/sites-available/default
 
+RUN git config --global --add safe.directory /srv/www
+
 COPY files/system/docker_go /usr/local/bin/docker_go
 
 CMD [ "/usr/local/bin/docker_go" ]

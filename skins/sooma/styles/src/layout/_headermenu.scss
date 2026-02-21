@@ -116,7 +116,8 @@
       padding: 0.75rem;
       display: grid;
       grid-template:
-        "profile-image identity" 1fr "profile-image settings" min-content / min-content 1fr;
+        "profile-image identity identity" 1fr
+        "profile-image settings upgrade" min-content / min-content 1fr;
       gap: 0 0.75rem;
 
       #sooma-profile-dialog-identity {
@@ -124,8 +125,8 @@
         padding-top: 0.75rem;
       }
 
+      a.upgrade,
       a.settings {
-        grid-area: settings;
         display: block flex;
         text-decoration: none;
         color: var(--color-font);
@@ -137,6 +138,12 @@
           border: 1px solid var(--color-medium-gray);
           padding: 6px 12px;
         }
+      }
+      a.upgrade {
+        grid-area: upgrade;
+      }
+      a.settings { 
+        grid-area: settings;
       }
 
 

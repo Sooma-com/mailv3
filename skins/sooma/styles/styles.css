@@ -20265,25 +20265,32 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #s
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
   display: grid;
-  grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
+  grid-template: "profile-image identity identity" 1fr "profile-image settings upgrade" min-content/min-content 1fr;
   gap: 0 0.75rem;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
   grid-area: identity;
   padding-top: 0.75rem;
 }
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade,
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
-  grid-area: settings;
   display: block flex;
   text-decoration: none;
   color: var(--color-font);
 }
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade span,
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade {
+  grid-area: upgrade;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  grid-area: settings;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
   grid-area: profile-image;
@@ -20805,25 +20812,32 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
   display: grid;
-  grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
+  grid-template: "profile-image identity identity" 1fr "profile-image settings upgrade" min-content/min-content 1fr;
   gap: 0 0.75rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
   grid-area: identity;
   padding-top: 0.75rem;
 }
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade,
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
-  grid-area: settings;
   display: block flex;
   text-decoration: none;
   color: var(--color-font);
 }
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade span,
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade {
+  grid-area: upgrade;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  grid-area: settings;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
   grid-area: profile-image;
@@ -21739,25 +21753,32 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog {
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
   padding: 0.75rem;
   display: grid;
-  grid-template: "profile-image identity" 1fr "profile-image settings" min-content/min-content 1fr;
+  grid-template: "profile-image identity identity" 1fr "profile-image settings upgrade" min-content/min-content 1fr;
   gap: 0 0.75rem;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
   grid-area: identity;
   padding-top: 0.75rem;
 }
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade,
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
-  grid-area: settings;
   display: block flex;
   text-decoration: none;
   color: var(--color-font);
 }
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade span,
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid var(--color-medium-gray);
   padding: 6px 12px;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade {
+  grid-area: upgrade;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  grid-area: settings;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
   grid-area: profile-image;
@@ -25353,6 +25374,220 @@ label.custom-control input[type=checkbox] {
 #password-restrictions > li.valid::before {
   content: "\f00c";
   color: var(--color-success);
+}
+
+form.nexus {
+  padding-top: 2rem;
+}
+form.nexus .form-instructions {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+form.nexus label {
+  font-weight: normal;
+}
+form.nexus #nexus-product-selector {
+  display: block flex;
+  margin-left: 4px;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  max-width: 40rem;
+  padding-left: 1rem;
+}
+form.nexus #nexus-product-selector:not(:has(input:checked)) .nexus-product-option.current,
+form.nexus #nexus-product-selector .nexus-product-option:has(input:checked) {
+  border-color: var(--color-main);
+  outline: 1px solid var(--color-main);
+}
+form.nexus #nexus-product-selector .nexus-product-option {
+  display: block flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 10rem;
+  border: 1px solid var(--color-medium-gray);
+  padding: 1rem;
+  margin: 1rem 1rem 1rem 1px;
+}
+form.nexus #nexus-product-selector .nexus-product-option input[type=radio] {
+  display: none;
+}
+form.nexus #nexus-product-selector .nexus-product-option .nexus-product-option-name {
+  min-height: 1.5rem;
+  font-weight: bold;
+}
+form.nexus #nexus-product-selector .nexus-product-option .nexus-product-option-ends_at {
+  min-height: 1.5rem;
+  white-space: nowrap;
+}
+form.nexus #nexus-product-selector .nexus-product-option .nexus-product-option-action {
+  background-color: hsl(from var(--color-main) 0 0 l);
+  color: var(--color-main-contrast);
+  padding: 0.6rem 1.4rem;
+  min-width: 6rem;
+  text-align: center;
+}
+form.nexus #nexus-product-selector .nexus-product-option .nexus-product-option-action.action-upgrade {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+}
+form.nexus #nexus-price-selector {
+  display: block;
+  margin-left: 5px;
+  margin-right: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+  max-width: 40rem;
+}
+form.nexus #nexus-price-selector:not(:has(.nexus-price-options:not(.hidden))) {
+  display: none;
+}
+form.nexus #nexus-price-selector .nexus-price-options {
+  display: block flex;
+}
+form.nexus #nexus-price-selector .nexus-price-options .nexus-price-option {
+  display: block flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem 1rem 1rem 1px;
+  min-width: 10rem;
+  text-align: center;
+  border: 1px solid var(--color-medium-gray);
+  font-size: 1.2rem;
+}
+form.nexus #nexus-price-selector .nexus-price-options .nexus-price-option input[type=radio] {
+  display: none;
+}
+form.nexus #nexus-price-selector .nexus-price-options .nexus-price-option:has(input:checked) {
+  border-color: var(--color-main);
+  outline: 1px solid var(--color-main);
+}
+form.nexus #nexus-price-selector .nexus-price-options .nexus-price-option .nexus-price-option-name {
+  min-height: 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+form.nexus #nexus-price-selector .nexus-price-options .nexus-price-option .nexus-price-option-yearly-total {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+form.nexus #nexus-customer-info {
+  display: block flex;
+  flex-direction: column;
+  margin-left: 4px;
+  max-width: 40rem;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+}
+form.nexus #nexus-customer-info label {
+  display: grid;
+  grid-template: "label input" 1fr/10rem 1fr;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+form.nexus #nexus-customer-info label input {
+  grid-area: input;
+}
+form.nexus #nexus-customer-info label input:focus, form.nexus #nexus-customer-info label input:focus-visible {
+  border-color: var(--color-medium-gray);
+  border-width: 0 0 1px 0;
+  border-style: solid;
+}
+form.nexus #nexus-customer-info label span.form-error {
+  position: absolute;
+  right: -0.5rem;
+  top: -0.5rem;
+  border: 1px solid var(--color-main);
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  padding: 0.2rem;
+}
+form.nexus #nexus-payment-method {
+  display: block flex;
+  flex-direction: column;
+  margin-left: 4px;
+  max-width: 40rem;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+}
+form.nexus #nexus-payment-method .radio-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+form.nexus #nexus-payment-method .radio-group label {
+  display: grid;
+  grid-template: "label" 1fr "image" 60px/1fr;
+  padding: 1rem;
+  margin: 1rem 1rem 1rem 1px;
+  min-width: 10rem;
+  text-align: center;
+  border: 1px solid var(--color-medium-gray);
+  font-size: 1.2rem;
+  text-align: center;
+}
+form.nexus #nexus-payment-method .radio-group label:has(input:checked) {
+  border-color: var(--color-main);
+  outline: 1px solid var(--color-main);
+}
+form.nexus #nexus-payment-method .radio-group label img {
+  grid-area: image;
+  margin-left: auto;
+  margin-right: auto;
+  height: 60px;
+}
+form.nexus #nexus-payment-method .radio-group label input[type=radio] {
+  display: none;
+}
+form.nexus #nexus-product-selector.active,
+form.nexus #nexus-price-selector.active,
+form.nexus #nexus-customer-info.active,
+form.nexus #nexus-payment-method.active {
+  border-left: 4px solid var(--color-main);
+  position: relative;
+  left: -4px;
+}
+form.nexus button[type=submit] {
+  border: 1px solid var(--color-main);
+  background: var(--color-main);
+  color: var(--color-main-contrast);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 1.8rem;
+  margin-left: 1rem;
+}
+
+.nexus-card {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.nexus-card .nexus-card-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.nexus-card .nexus-card-content p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+dl.nexus-multibanco {
+  border: 1px solid var(--color-medium-gray);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  max-width: 40rem;
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+}
+dl.nexus-multibanco dt {
+  font-weight: bold;
+  margin: 0;
+}
+dl.nexus-multibanco dd {
+  margin: 0;
 }
 
 body.domain-webmail-oa-pt.task-login > #layout,
