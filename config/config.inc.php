@@ -95,7 +95,7 @@ $config['identities_level'] = 4;
 // PLUGINS
 // ----------------------------------
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'managesieve', 'username_login', 'sooma', 'nexus' ];
+$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'managesieve', 'username_login', 'sooma', 'nexus', 'subscriptions_option' ];
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
@@ -112,3 +112,5 @@ $config['htmleditor'] = 1;
 $config['skin'] = 'sooma';
 
 $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
+$config['dont_override'] = ['use_subscriptions'];
+$config['use_subscriptions'] = false;
