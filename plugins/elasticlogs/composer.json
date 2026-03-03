@@ -1,0 +1,25 @@
+{
+    "name": "roundcube/elasticlogs",
+    "type": "roundcube-plugin",
+    "description": "Integrates roundcube with Elasticsearch, a storage engine. Allows users to search for message logs in Elasticsearch",
+    "license": "GPL-3.0-or-later",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Sérgio Carvalho",
+            "email": "daf@sooma.com",
+            "role": "Lead"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "roundcube/plugin-installer": ">=0.1.3"
+    },
+    "autoload": {
+    },
+    "config": {
+        "allow-plugins": {
+            "roundcube/plugin-installer": true
+        }
+    }
+}

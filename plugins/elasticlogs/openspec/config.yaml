@@ -1,0 +1,101 @@
+schema: spec-driven
+
+context: |
+  # Elasticlogs — Roundcube Webmail Plugin
+
+  ## What it does
+  A plugin for Roundcube Webmail that lets authenticated users retrieve
+  message delivery logs from Elasticsearch. Users can trace both outbound
+  messages (by Message-ID) and inbound messages (by sender address + time
+  window). The plugin enforces per-user access control: a user may only
+  see log entries for messages where they are the sender or a recipient.
+
+  ## Tech stack
+  - PHP 8.4, targeting latest stable Roundcube (1.6.x)
+  - Elasticsearch 9.x (official PHP client: elastic/elasticsearch-php)
+  - Roundcube plugin API (rcube_plugin, rcmail, tasks, actions, hooks)
+  - Roundcube skin system (Elastic skin) for UI
+  - Roundcube localization facilities for i18n
+
+  ## Elasticsearch data model
+  Index: configurable, currently "logs-mail-prof".
+  Ingestion pipeline: Filebeat → Logstash → Elasticsearch.
+  Authentication: HTTP Basic Auth, shared credentials for all users.
+
+  Key fields used:
+    - @timestamp              — log entry timestamp
+    - host.hostname           — server that produced the log entry
+    - message                 — raw log line
+    - postfix.queueid         — Postfix queue ID (unique per server)
+    - postfix.message-id      — Message-ID MIME header (globally unique)
+    - postfix.from            — envelope sender
+    - postfix.kv.to           — envelope recipient
+    - postfix.status          — delivery status (sent, deferred, bounced…)
+    - postfix.status_data     — extended status information
+    - postfix.kv.relay        — relay host used for delivery
+    - postfix.kv.dsn          — DSN status code
+    - postfix.kv.delay        — total delivery delay
+    - postfix.kv.delays       — breakdown of delay stages
+    - postfix.service         — Postfix service component
+    - postfix.milter_result   — milter action result
+    - postfix.milter_message  — milter message
+    - rspamd.action           — rspamd verdict (no action, soft reject, reject…)
+    - rspamd.message-id       — same as postfix.message-id when present
+    - rspamd.from             — sender as seen by rspamd
+    - rspamd.score.value      — spam score
+    - rspamd.score.threshold  — score threshold for action
+    - rspamd.connection       — rspamd connection identifier
+
+  Message-ID is globally unique and preserved across server hops.
+  Queue-IDs are unique within a single server.
+  postfix.message-id and rspamd.message-id refer to the same value;
+  use whichever is non-null.
+
+  ## Search strategies
+  Outbound (by Message-ID):
+    1. Query for entries where postfix.message-id = <id> OR rspamd.message-id = <id>
+    2. Collect all (host.hostname, postfix.queueid) pairs from results
+    3. Query all log entries matching any of those (host, queueid) pairs
+    4. Filter: logged-in user must be sender or recipient
+
+  Inbound (by sender + recipient + time window):
+    1. Query for entries where postfix.kv.to = <logged-in user> AND
+       postfix.from = <sender> within the given time range
+    2. If delivery occurred, collect (host.hostname, postfix.queueid) pairs
+    3. Query all log entries matching those pairs
+    4. If delivery was refused, return whatever matching entries were found
+
+  ## Architecture notes
+  - Plugin registers a dedicated Roundcube task ("elasticlogs")
+  - Single ES endpoint + credentials stored in plugin config (shared)
+  - Access control is enforced at the plugin level (query construction),
+    not at Elasticsearch level
+  - Users have exactly one email address, no alias support needed
+  - Localization via Roundcube's $this->add_texts() / gettext()
+
+  ## Coding conventions
+  - Follow Roundcube's coding style
+  - Do not over-generalize: inline small functions used in 1-2 places
+  - Do not over-comment: only comment surprising or non-obvious behavior
+  - Use Roundcube localization for all user-facing strings
+
+  ## Future considerations (not in v1.0 scope, but design should not preclude)
+  - Translate raw log lines into human-readable event summaries
+  - Context menu integration in mail view (trace a specific message)
+  - Context menu integration in address book (search logs for a contact)
+  - Analytics / statistics dashboards
+
+rules:
+  proposal:
+    - Keep proposals concise and focused on intent and scope
+    - Always include a Non-goals section
+  specs:
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Write scenarios in Given/When/Then format
+    - Keep specs behavior-focused, not implementation-focused
+  design:
+    - Reference Roundcube plugin API conventions
+    - Note Elasticsearch query patterns used
+  tasks:
+    - Break tasks into chunks completable in one session
+    - Group by functional area
