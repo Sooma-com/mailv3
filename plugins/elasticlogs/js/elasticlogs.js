@@ -66,7 +66,7 @@ if (window.rcmail) {
                 response.results.forEach(function(entry) {
                     var div = document.createElement('div');
                     div.className = 'elasticlogs-log-entry';
-                    div.textContent = entry.timestamp + ' ' + entry.message;
+                    div.textContent = entry['@timestamp'] + ' ' + entry.message;
                     results_list.appendChild(div);
                 });
             }

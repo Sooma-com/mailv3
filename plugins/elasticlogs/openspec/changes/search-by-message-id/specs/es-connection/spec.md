@@ -27,6 +27,20 @@ configured host, credentials, and TLS settings.
 - WHEN the client is initialized
 - THEN SSL certificate verification is enabled
 
+### Requirement: ES|QL Query Interface
+
+The plugin MUST use the ES|QL query interface (`$client->esql()->query()`)
+for all Elasticsearch queries. A `hydrate_response()` helper converts
+the columnar response (columns + values arrays) into an array of
+associative arrays keyed by column name.
+
+#### Scenario: ES|QL query executed
+
+- GIVEN a valid ES|QL query string
+- WHEN the query is sent via `$client->esql()->query()`
+- THEN the columnar response is hydrated into rows with column names
+  as keys (e.g. `@timestamp`, `message`, `postfix.from`)
+
 ### Requirement: Connection Error Handling
 
 The plugin MUST handle Elasticsearch connection failures gracefully.

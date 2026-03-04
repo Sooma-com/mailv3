@@ -5,16 +5,17 @@
 ### Requirement: Phase 1 — Message-ID Lookup
 
 The plugin MUST query Elasticsearch for log entries matching a given
-Message-ID as the first phase of outbound search.
+Message-ID as the first phase of outbound search, using ES|QL.
 
 #### Scenario: Query by postfix.message-id
 
 - GIVEN a Message-ID submitted by the user
 - WHEN phase 1 executes
-- THEN the plugin queries the configured index for documents where
-  postfix.message-id equals the submitted Message-ID
-- AND returns matching documents with at minimum @timestamp,
-  host.hostname, postfix.queueid, postfix.from, and message fields
+- THEN the plugin sends an ES|QL query to the configured index
+  filtering where `postfix.message-id` equals the submitted Message-ID,
+  sorted by @timestamp ascending
+- AND the response is hydrated into associative arrays keyed by
+  column name
 
 #### Scenario: No entries found for Message-ID
 
@@ -45,16 +46,18 @@ message before returning log entries.
 ### Requirement: Phase 2 — Queue-ID Expansion
 
 The plugin MUST collect (host.hostname, postfix.queueid) pairs from
-phase 1 results and query for all log entries matching those pairs.
+phase 1 results and query for all log entries matching those pairs,
+combined with the original message-id condition.
 
 #### Scenario: Expand by queue-id pairs
 
 - GIVEN phase 1 returned entries with host.hostname and
   postfix.queueid fields populated
 - WHEN phase 2 executes
-- THEN the plugin queries for all documents where any
-  (host.hostname, postfix.queueid) pair matches
-- AND appends the results to the phase 1 result set
+- THEN the plugin sends a single ES|QL query with an OR clause
+  combining the message-id condition and all (hostname, queueid) pairs
+- AND the phase 2 result set replaces the phase 1 result set entirely
+  (since it is a superset)
 
 #### Scenario: No queue-id pairs found
 
@@ -63,25 +66,23 @@ phase 1 results and query for all log entries matching those pairs.
 - WHEN phase 2 would execute
 - THEN only the phase 1 results are returned
 
-### Requirement: Result Deduplication and Sorting
+### Requirement: Result Sorting
 
-The plugin MUST deduplicate and chronologically sort the combined
-results from both phases.
+The plugin MUST chronologically sort the results.
 
-#### Scenario: Deduplicated and sorted results
+#### Scenario: Sorted results
 
-- GIVEN results from phase 1 and phase 2 that may overlap
-- WHEN the results are merged
-- THEN duplicate entries (by Elasticsearch document ID) are removed
-- AND the remaining entries are sorted by @timestamp ascending
-- AND returned to the frontend
+- GIVEN results from either phase 1 only or phase 2
+- WHEN the results are returned to the frontend
+- THEN entries are sorted by @timestamp ascending (via ES|QL SORT)
 
-### Requirement: Result Size Limit
+### Requirement: Input Sanitization
 
-The plugin MUST limit the number of documents returned per query phase.
+The plugin MUST sanitize user-supplied values before interpolating
+them into ES|QL query strings.
 
-#### Scenario: Query size capped
+#### Scenario: Message-ID sanitized
 
-- GIVEN any Elasticsearch query in phase 1 or phase 2
-- WHEN the query executes
-- THEN no more than 1000 documents are requested per phase
+- GIVEN a Message-ID value from the user
+- WHEN the value is used in an ES|QL query
+- THEN backslashes and double quotes are stripped from the value

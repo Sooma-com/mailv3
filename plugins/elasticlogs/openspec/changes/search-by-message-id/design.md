@@ -47,21 +47,40 @@ $client = ClientBuilder::create()
 The client instance will be created on demand in `action_search()`,
 not during `init()`, to avoid unnecessary connections on every page load.
 
-### Decision: Use Elasticsearch Search API with bool queries
+### Decision: Use ES|QL as the query language
 
-Phase 1 query: `bool.must` with a `term` match on `postfix.message-id`.
+Queries use the ES|QL query language via `$client->esql()->query()`,
+rather than JSON DSL via `$client->search()`. ES|QL provides a more
+readable pipe-based syntax and returns a columnar response (columns +
+values arrays).
 
-Phase 2 query: `bool.should` with one clause per `(host.hostname,
-postfix.queueid)` pair, each as a `bool.must` with two `term` matches.
-`minimum_should_match: 1`.
+Phase 1 query:
 
-Both queries use `_source` to request only the fields we need, and
-`sort` by `@timestamp: asc`.
+```esql
+FROM {index}
+| WHERE `postfix.message-id` == "{message_id}"
+| SORT @timestamp ASC
+```
 
-**Alternative considered**: ES|QL query language (as used in the curl
-examples during exploration). Rejected because the PHP client's
-`search()` method with JSON DSL is the standard approach, better
-documented, and more composable for building dynamic queries.
+Phase 2 query combines the message-id condition with all discovered
+(hostname, queueid) pairs in a single OR expression, replacing
+the phase 1 result set entirely:
+
+```esql
+FROM {index}
+| WHERE (`postfix.message-id` == "{message_id}")
+    OR (postfix.queueid == "{qid1}" AND host.hostname == "{host1}")
+    OR (postfix.queueid == "{qid2}" AND host.hostname == "{host2}")
+    ...
+| SORT @timestamp ASC
+```
+
+A `hydrate_response()` helper converts the columnar ES|QL response
+into an array of associative arrays keyed by column name (e.g.
+`@timestamp`, `message`, `postfix.from`, `host.hostname`).
+
+User input is sanitized by stripping backslashes and double quotes
+via `strtr()` before interpolation into ES|QL strings.
 
 ### Decision: Access control via postfix.from check
 
@@ -73,17 +92,21 @@ This is sufficient for outbound search because the user is searching
 by a Message-ID they claim to have sent. If they are not the sender
 (`postfix.from`), they should not see the logs.
 
-### Decision: Deduplicate by _id before returning results
+### Decision: Phase 2 replaces phase 1 results (no dedup needed)
 
-Phase 1 and phase 2 may return overlapping documents (entries that
-match both the Message-ID and a queue-id pair). We deduplicate by
-Elasticsearch document `_id` before sorting and returning.
+Because ES|QL does not return document `_id` fields, we cannot
+deduplicate by document ID as would be done with JSON DSL. Instead,
+phase 2 includes the message-id condition in its WHERE clause
+alongside the queue-id pair conditions, making its result set a
+superset of phase 1. The phase 1 result set is discarded when
+phase 2 executes.
 
-### Decision: Return timestamp and raw message to frontend
+### Decision: Return full ES|QL rows to frontend
 
-Each result entry sent to the JS frontend will contain `timestamp`
-(the `@timestamp` value) and `message` (the raw `message` field).
-The existing JS response handler already renders these two fields.
+Each result row sent to the JS frontend is the hydrated ES|QL row,
+containing all returned columns with their ES field names (e.g.
+`@timestamp`, `message`, `postfix.from`, `host.hostname`). The JS
+response handler reads `entry['@timestamp']` and `entry.message`.
 
 ### Decision: Error handling with localized user messages
 
@@ -91,20 +114,14 @@ ES connection or query failures are caught and result in a
 `display_message` command with a localized error string. No stack
 traces or credentials are exposed.
 
-### Decision: Size limit on queries
-
-Both phase 1 and phase 2 queries will use `size: 1000` to avoid
-unbounded result sets. This is a reasonable upper bound for a single
-message's log trail.
-
 ## Risks / Trade-offs
 
 **[Risk] Elasticsearch unreachable** → Caught by try/catch around
 the client calls. A localized error message is displayed. The plugin
 continues to function for other tasks.
 
-**[Risk] Large result sets** → The `size: 1000` limit caps both
-phases. A single message is unlikely to generate more than a few
+**[Risk] Large result sets** → ES|QL returns all matching rows by
+default. A single message is unlikely to generate more than a few
 hundred log entries across all servers.
 
 **[Trade-off] No rspamd.message-id in phase 1** → We only query
@@ -117,6 +134,12 @@ architecture.
 **[Trade-off] Access control checks only postfix.from** → For outbound
 search, checking only the sender is correct. Inbound search (future
 change) will need a different access control check.
+
+**[Trade-off] ES|QL string interpolation** → User input is sanitized
+by stripping backslashes and double quotes, but ES|QL does not
+support parameterized queries. This is acceptable because the
+Message-ID field is controlled input from the webmail system, and
+the sanitization prevents injection via the form.
 
 ## Migration Plan
 

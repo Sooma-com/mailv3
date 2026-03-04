@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
 require_once(__DIR__ . "/vendor/autoload.php");
+
+use Elastic\Elasticsearch\ClientBuilder;
+
 /**
  * Elasticlogs Plugin for Roundcube
  *
@@ -17,6 +20,28 @@ class elasticlogs extends rcube_plugin
 {
     public $task = '?(?!login|logout).*';
     public $rc;
+
+    private const ES_QUERY_SIZE = 1000;
+
+    private const ES_SOURCE_FIELDS = [
+        '@timestamp',
+        'host.hostname',
+        'message',
+        'postfix.queueid',
+        'postfix.message-id',
+        'postfix.from',
+        'postfix.kv.to',
+        'postfix.status',
+        'postfix.kv.relay',
+        'postfix.kv.dsn',
+        'postfix.kv.delay',
+        'postfix.kv.delays',
+        'postfix.service',
+        'rspamd.action',
+        'rspamd.message-id',
+        'rspamd.score.value',
+        'rspamd.score.threshold',
+    ];
 
     public function init()
     {
@@ -67,11 +92,135 @@ class elasticlogs extends rcube_plugin
 
     public function action_search()
     {
-        $this->rc->output->command('plugin.elasticlogs_search_response', [
-            'results' => [],
-            'count'   => 0,
-        ]);
+        $mode = rcube_utils::get_input_string('_mode', rcube_utils::INPUT_POST);
+
+        if ($mode === 'outbound') {
+            $this->search_outbound();
+        } else {
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => [],
+                'count'   => 0,
+            ]);
+        }
+
         $this->rc->output->send();
+    }
+
+    private function build_es_client(): \Elastic\Elasticsearch\Client
+    {
+        $config = $this->rc->config->get('elasticlogs');
+
+        return ClientBuilder::create()
+            ->setHosts([$config['elasticsearch_host']])
+            ->setBasicAuthentication($config['elasticsearch_username'], $config['elasticsearch_password'])
+            ->setSSLVerification($config['elasticsearch_verify_tls'] ?? true)
+            ->build();
+    }
+
+    private static function hydrate_response(\Elastic\Elasticsearch\Response\Elasticsearch $response): array {
+        $response = $response->asArray();
+        $keys = array_map(function ($column) { return $column['name']; }, $response['columns']);
+        $data = array_map(function ($row) use ($keys) {
+            return array_combine($keys, $row);
+        }, $response['values']);
+        return $data;
+    }
+
+    private function search_outbound(): void
+    {
+        $message_id = trim(rcube_utils::get_input_string('_message_id', rcube_utils::INPUT_POST));
+        if ($message_id === '') {
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => [],
+                'count'   => 0,
+            ]);
+            return;
+        }
+
+        $config = $this->rc->config->get('elasticlogs');
+        $index = $config['elasticsearch_index'];
+        $user_email = $_SESSION['username'];
+        try {
+            $client = $this->build_es_client();
+
+            // Phase 1: find entries by Message-ID
+            $response = static::hydrate_response($client->esql()->query([
+                'body'  => [
+                    'query' => sprintf(<<<EOQ
+FROM %s
+| WHERE `postfix.message-id` == "%s"
+| SORT @timestamp ASC
+EOQ, $index, strtr($message_id, [ '\\' => '', '"' => '' ]))
+                ]
+            ]));
+
+            if (empty($response)) {
+                $this->rc->output->command('plugin.elasticlogs_search_response', [
+                    'results' => [],
+                    'count'   => 0,
+                ]);
+                return;
+            }
+
+            // Access control: check if the logged-in user is the sender
+            $sender_match = false;
+            foreach ($response as $hit) {
+                $from = $hit['postfix.from'];
+                if ($from !== null && strcasecmp($from, $user_email) === 0) {
+                    $sender_match = true;
+                    break;
+                }
+            }
+
+            if (!$sender_match) {
+                $this->rc->output->command('plugin.elasticlogs_search_response', [
+                    'results' => [],
+                    'count'   => 0,
+                ]);
+                return;
+            }
+
+            // Phase 2: Expand by referenced (hostname, queueid) pairs
+            $pairs = [];
+            foreach ($response as $hit) {
+                $hostname = $hit['host.hostname'];
+                $queueid = $hit['postfix.queueid'];
+                if ($hostname !== null && $queueid !== null) {
+                    $key = $hostname . '|' . $queueid;
+                    $pairs[$key] = ['hostname' => $hostname, 'queueid' => $queueid];
+                }
+            }
+            if (!empty($pairs)) {
+                $response = static::hydrate_response($client->esql()->query([
+                    'body'  => [
+                        'query' => sprintf(<<<EOQ
+FROM %s
+| WHERE %s
+| SORT @timestamp ASC
+EOQ, $index, implode(
+                                ' OR ', 
+                                array_merge(...[
+                                    [ sprintf("(`postfix.message-id` == \"%s\")", strtr($message_id, [ '\\' => '', '"' => '' ])) ],
+                                    array_map(function ($pair) {
+                                        return sprintf("(postfix.queueid == \"%s\" AND host.hostname == \"%s\")", $pair['queueid'], $pair['hostname']);
+                                    }, array_values($pairs))
+                                ])))
+                            ]
+                        ]));
+            }
+
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => $response,
+                'count'   => count($response),
+            ]);
+        } catch (\Exception $e) {
+            rcube::raise_error($e, true, false);
+            $this->rc->output->command('display_message', $this->gettext('es_query_error'), 'error');
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => [],
+                'count'   => 0,
+            ]);
+        }
     }
 
     public function render_searchform(array $attrib): string

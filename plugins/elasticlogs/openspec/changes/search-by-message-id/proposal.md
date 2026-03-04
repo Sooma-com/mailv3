@@ -13,19 +13,19 @@ with that message, traced across multiple mail servers.
   (host, credentials, index, TLS verification toggle)
 - Implement Elasticsearch client initialization using configured
   credentials (Basic Auth, optional TLS verification skip)
-- Replace the stub `search` action with real logic for outbound mode:
-  1. Phase 1: Query the configured index for entries where
-     `postfix.message-id` matches the submitted Message-ID
+- Replace the stub `search` action with real logic for outbound mode,
+  using ES|QL as the query language:
+  1. Phase 1: ES|QL query filtering by `postfix.message-id`
   2. Access control: check if any returned entry has a `postfix.from`
      value matching the logged-in user's email. If not, return an
      empty result set.
   3. Phase 2: Collect all distinct `(host.hostname, postfix.queueid)`
      pairs from phase 1 results, query for all log entries matching
-     any of those pairs
-  4. Merge, deduplicate, sort by `@timestamp` ascending, return to
+     the message-id OR any of those pairs in a single ES|QL query
+  4. Sort by `@timestamp` ascending (via ES|QL SORT), return to
      the frontend
-- Update the frontend JS to render returned log entries (timestamp +
-  raw message) in the results area
+- Update the frontend JS to render returned log entries using ES|QL
+  column names (`@timestamp` + `message`) in the results area
 - Add localized error messages for connection failures
 
 ## Capabilities
