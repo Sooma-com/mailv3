@@ -1,0 +1,12 @@
+<?php
+
+$labels = [];
+$labels['task_title'] = 'Registos de Entrega';
+$labels['search_outbound'] = 'Saída (por Message-ID)';
+$labels['search_inbound'] = 'Entrada (por remetente)';
+$labels['message_id'] = 'Message-ID';
+$labels['sender'] = 'Remetente';
+$labels['date_from'] = 'De';
+$labels['date_to'] = 'Até';
+$labels['search'] = 'Pesquisar';
+$labels['no_results'] = 'Nenhum registo encontrado.';
