@@ -56,37 +56,17 @@ last 24 hours.
 ### Requirement: Form Submission via AJAX
 
 The search form MUST submit search parameters via AJAX to the server-side
-search action.
+search action, which now returns real results for sender/recipient mode.
 
-#### Scenario: Message-ID form submission
+#### Scenario: Sender/recipient search returns real results
 
-- GIVEN the user has entered a Message-ID in message-id mode
-- WHEN the user clicks the search button
-- THEN an AJAX POST is sent to the search action
-- AND the request includes the search mode and the Message-ID value
-
-#### Scenario: Sender/recipient form submission
-
-- GIVEN the user has filled in a target email address and time range
-  in sender/recipient mode
-- WHEN the user clicks the search button
-- THEN an AJAX POST is sent to the search action
-- AND the request includes the search mode, target email address,
-  start date, and end date
-
-#### Scenario: Message-ID search returns real results
-
-- GIVEN the search action receives a message-id mode request
-- WHEN the Message-ID matches entries in Elasticsearch
-- AND the logged-in user is the sender or a recipient
+- GIVEN the search action receives a sender-recipient mode request
+- WHEN the target email matches entries in Elasticsearch within the
+  time range
+- AND the logged-in user is the sender or a recipient of at least
+  one matching entry
 - THEN real log entries are returned in the AJAX response
 - AND the frontend renders them chronologically in the results area
-
-#### Scenario: Search returns error
-
-- GIVEN the search action receives a request
-- WHEN Elasticsearch is unreachable or returns an error
-- THEN a localized error message is displayed to the user
 
 ### Requirement: Results Area
 

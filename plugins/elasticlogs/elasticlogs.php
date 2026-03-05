@@ -96,6 +96,8 @@ class elasticlogs extends rcube_plugin
 
         if ($mode === 'message-id') {
             $this->search_by_message_id();
+        } elseif ($mode === 'sender-recipient') {
+            $this->search_by_sender_recipient();
         } else {
             $this->rc->output->command('plugin.elasticlogs_search_response', [
                 'results' => [],
@@ -126,6 +128,11 @@ class elasticlogs extends rcube_plugin
         return $data;
     }
 
+    private static function escape_esql_string(string $string): string
+    {
+        return strtr($string, ['\\' => '', '"' => '']);
+    }
+
     private function search_by_message_id(): void
     {
         $message_id = trim(rcube_utils::get_input_string('_message_id', rcube_utils::INPUT_POST));
@@ -150,7 +157,7 @@ class elasticlogs extends rcube_plugin
 FROM %s
 | WHERE `postfix.message-id` == "%s"
 | SORT @timestamp ASC
-EOQ, $index, strtr($message_id, [ '\\' => '', '"' => '' ]))
+EOQ, $index, static::escape_esql_string($message_id))
                 ]
             ]));
 
@@ -172,8 +179,6 @@ EOQ, $index, strtr($message_id, [ '\\' => '', '"' => '' ]))
                     break;
                 }
             }
-
-            $access_granted = true; // TODO Remove this before commit
 
             if (!$access_granted) {
                 $this->rc->output->command('plugin.elasticlogs_search_response', [
@@ -203,7 +208,7 @@ FROM %s
 EOQ, $index, implode(
                                 ' OR ', 
                                 array_merge(...[
-                                    [ sprintf("(`postfix.message-id` == \"%s\")", strtr($message_id, [ '\\' => '', '"' => '' ])) ],
+                                    [ sprintf("(`postfix.message-id` == \"%s\")", static::escape_esql_string($message_id)) ],
                                     array_map(function ($pair) {
                                         return sprintf("(postfix.queueid == \"%s\" AND host.hostname == \"%s\")", $pair['queueid'], $pair['hostname']);
                                     }, array_values($pairs))
@@ -215,6 +220,113 @@ EOQ, $index, implode(
             $this->rc->output->command('plugin.elasticlogs_search_response', [
                 'results' => $response,
                 'count'   => count($response),
+            ]);
+        } catch (\Exception $e) {
+            rcube::raise_error($e, true, false);
+            $this->rc->output->command('display_message', $this->gettext('es_query_error'), 'error');
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => [],
+                'count'   => 0,
+            ]);
+        }
+    }
+
+    private function search_by_sender_recipient(): void
+    {
+        $email = trim(rcube_utils::get_input_string('_sender_recipient', rcube_utils::INPUT_POST));
+        $date_from = trim(rcube_utils::get_input_string('_date_from', rcube_utils::INPUT_POST));
+        $date_to = trim(rcube_utils::get_input_string('_date_to', rcube_utils::INPUT_POST));
+
+        if ($email === '' || $date_from === '' || $date_to === '') {
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => [],
+                'count'   => 0,
+            ]);
+            return;
+        }
+
+        $config = $this->rc->config->get('elasticlogs');
+        $index = $config['elasticsearch_index'];
+        $user_email = $_SESSION['username'];
+
+        try {
+            $client = $this->build_es_client();
+
+            $response = static::hydrate_response($client->esql()->query([
+                'body' => [
+                    'query' => sprintf(<<<EOQ
+FROM %s
+| WHERE @timestamp >= "%s" AND @timestamp <= "%s"
+    AND (postfix.from == "%s" OR postfix.kv.to == "%s")
+| SORT @timestamp ASC
+EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string($date_to), static::escape_esql_string($email), static::escape_esql_string($email))
+                ]
+            ]));
+
+            if (empty($response)) {
+                $this->rc->output->command('plugin.elasticlogs_search_response', [
+                    'results' => [],
+                    'count'   => 0,
+                ]);
+                return;
+            }
+
+            // Access control: keep only entries where the logged-in user is sender or recipient
+            $filtered = array_values(array_filter($response, function ($hit) use ($user_email) {
+                $from = $hit['postfix.from'] ?? null;
+                $to = $hit['postfix.kv.to'] ?? null;
+                return ($from !== null && strcasecmp($from, $user_email) === 0)
+                    || ($to !== null && strcasecmp($to, $user_email) === 0);
+            }));
+
+            if (empty($filtered)) {
+                $this->rc->output->command('plugin.elasticlogs_search_response', [
+                    'results' => [],
+                    'count'   => 0,
+                ]);
+                return;
+            }
+
+            // Phase 2: expand by (hostname, queueid) pairs
+            $pairs = [];
+            foreach ($filtered as $hit) {
+                $hostname = $hit['host.hostname'] ?? null;
+                $queueid = $hit['postfix.queueid'] ?? null;
+                if ($hostname !== null && $queueid !== null) {
+                    $key = $hostname . '|' . $queueid;
+                    $pairs[$key] = ['hostname' => $hostname, 'queueid' => $queueid];
+                }
+            }
+
+            if (!empty($pairs)) {
+                $email_condition = sprintf(
+                    "(postfix.from == \"%s\" OR postfix.kv.to == \"%s\")",
+                    static::escape_esql_string($email), static::escape_esql_string($email)
+                );
+                $pair_conditions = array_map(function ($pair) {
+                    return sprintf(
+                        "(postfix.queueid == \"%s\" AND host.hostname == \"%s\")",
+                        $pair['queueid'], $pair['hostname']
+                    );
+                }, array_values($pairs));
+
+                $where = implode(' OR ', array_merge([$email_condition], $pair_conditions));
+
+                $filtered = static::hydrate_response($client->esql()->query([
+                    'body' => [
+                        'query' => sprintf(<<<EOQ
+FROM %s
+| WHERE @timestamp >= "%s" AND @timestamp <= "%s"
+    AND (%s)
+| SORT @timestamp ASC
+EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string($date_to), $where)
+                    ]
+                ]));
+            }
+
+            $this->rc->output->command('plugin.elasticlogs_search_response', [
+                'results' => $filtered,
+                'count'   => count($filtered),
             ]);
         } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
