@@ -6,9 +6,7 @@ Defines the message-id log search behavior: the two-phase ES|QL
 query strategy (Message-ID lookup, then queue-id expansion), access
 control verifying the user is the sender or a recipient, result
 sorting, and input sanitization.
-
 ## Requirements
-
 ### Requirement: Phase 1 — Message-ID Lookup
 
 The plugin MUST query Elasticsearch for log entries matching a given
@@ -100,3 +98,4 @@ them into ES|QL query strings.
 - GIVEN a Message-ID value from the user
 - WHEN the value is used in an ES|QL query
 - THEN backslashes and double quotes are stripped from the value
+

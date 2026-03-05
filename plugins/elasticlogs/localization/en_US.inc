@@ -2,10 +2,10 @@
 
 $labels = [];
 $labels['task_title'] = 'Delivery Logs';
-$labels['search_outbound'] = 'Outbound (by Message-ID)';
-$labels['search_inbound'] = 'Inbound (by sender)';
+$labels['search_message_id'] = 'By Message-ID';
+$labels['search_sender_recipient'] = 'By sender/recipient';
 $labels['message_id'] = 'Message-ID';
-$labels['sender'] = 'Sender';
+$labels['sender_recipient'] = 'Sender/Recipient';
 $labels['date_from'] = 'From';
 $labels['date_to'] = 'To';
 $labels['search'] = 'Search';

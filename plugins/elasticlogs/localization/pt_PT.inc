@@ -2,10 +2,10 @@
 
 $labels = [];
 $labels['task_title'] = 'Registos de Entrega';
-$labels['search_outbound'] = 'Saída (por Message-ID)';
-$labels['search_inbound'] = 'Entrada (por remetente)';
+$labels['search_message_id'] = 'Por Message-ID';
+$labels['search_sender_recipient'] = 'Por remetente/destinatário';
 $labels['message_id'] = 'Message-ID';
-$labels['sender'] = 'Remetente';
+$labels['sender_recipient'] = 'Remetente/Destinatário';
 $labels['date_from'] = 'De';
 $labels['date_to'] = 'Até';
 $labels['search'] = 'Pesquisar';

@@ -5,22 +5,22 @@ if (window.rcmail) {
         }
 
         var mode_radios = document.querySelectorAll('input[name="search_mode"]');
-        var outbound_fields = document.getElementById('elasticlogs-outbound-fields');
-        var inbound_fields = document.getElementById('elasticlogs-inbound-fields');
+        var message_id_fields = document.getElementById('elasticlogs-message-id-fields');
+        var sender_recipient_fields = document.getElementById('elasticlogs-sender-recipient-fields');
 
         mode_radios.forEach(function(radio) {
             radio.addEventListener('change', function() {
-                if (this.value === 'outbound') {
-                    outbound_fields.style.display = '';
-                    inbound_fields.style.display = 'none';
+                if (this.value === 'message-id') {
+                    message_id_fields.style.display = '';
+                    sender_recipient_fields.style.display = 'none';
                 } else {
-                    outbound_fields.style.display = 'none';
-                    inbound_fields.style.display = '';
+                    message_id_fields.style.display = 'none';
+                    sender_recipient_fields.style.display = '';
                 }
             });
         });
 
-        // Set default time range for inbound: last 24 hours
+        // Set default time range for sender/recipient search: last 24 hours
         var now = new Date();
         var yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
         var date_to = document.getElementById('elasticlogs-date-to');
@@ -40,10 +40,10 @@ if (window.rcmail) {
                 var mode = document.querySelector('input[name="search_mode"]:checked').value;
                 var params = { _mode: mode };
 
-                if (mode === 'outbound') {
+                if (mode === 'message-id') {
                     params._message_id = document.getElementById('elasticlogs-message-id').value;
                 } else {
-                    params._sender = document.getElementById('elasticlogs-sender').value;
+                    params._sender_recipient = document.getElementById('elasticlogs-sender-recipient').value;
                     params._date_from = document.getElementById('elasticlogs-date-from').value;
                     params._date_to = document.getElementById('elasticlogs-date-to').value;
                 }

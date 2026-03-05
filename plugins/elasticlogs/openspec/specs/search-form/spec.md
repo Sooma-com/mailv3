@@ -4,53 +4,42 @@
 
 Defines the search form UI behavior, including mode selection, form
 fields, AJAX submission, results area, and localization.
-
 ## Requirements
-
 ### Requirement: Search Mode Selection
 
 The search form MUST allow the user to switch between message-id and
 sender/recipient email search modes.
 
-#### Scenario: Mode selector is displayed
+#### Scenario: Mode selector uses new values
 
 - GIVEN a logged-in user on the elasticlogs page
 - WHEN the page loads
-- THEN a mode selector with "Message-ID" and "Sender/recipient address" options is visible
-- AND one mode is selected by default
-
-#### Scenario: Switching modes toggles form fields
-
-- GIVEN a user viewing the search form
-- WHEN the user selects a different search mode
-- THEN the form fields for the newly selected mode become visible
-- AND the form fields for the previously selected mode are hidden
+- THEN the radio buttons use values `message-id` and `sender-recipient`
+- AND the labels use the localization keys `search_message_id` and
+  `search_sender_recipient`
 
 ### Requirement: Message-ID Search Form Fields
 
-The search form MUST display a Message-ID input field when in
-message-id search mode.
+The search form MUST use element ids and variable names that reflect
+the message-id search mode.
 
-#### Scenario: Message-ID form fields displayed
+#### Scenario: Message-ID fields container
 
 - GIVEN the search mode is set to message-id
-- WHEN the form is visible
-- THEN a text input labeled "Message-ID" is displayed
-- AND a "Search" button is displayed
+- WHEN the form renders
+- THEN the fields container has id `elasticlogs-message-id-fields`
 
 ### Requirement: Sender/Recipient Search Form Fields
 
-The search form MUST display a target email address input, start date,
-and end date input fields when in sender/recipient search mode.
+The search form MUST use element ids, variable names, and localization
+keys that reflect the sender/recipient search mode.
 
-#### Scenario: Sender/recipient form fields displayed
+#### Scenario: Sender/recipient fields container
 
 - GIVEN the search mode is set to sender/recipient
-- WHEN the form is visible
-- THEN a text input labeled "Sender/Recipient" is displayed
-- AND a datetime input labeled "From" (start date) is displayed
-- AND a datetime input labeled "To" (end date) is displayed
-- AND a "Search" button is displayed
+- WHEN the form renders
+- THEN the fields container has id `elasticlogs-sender-recipient-fields`
+- AND the email input uses localization key `sender_recipient`
 
 ### Requirement: Default Time Range for Sender/Recipient Search
 
@@ -126,3 +115,4 @@ Roundcube's localization system.
 - WHEN the elasticlogs page is displayed
 - THEN all form labels, button text, mode names, and messages are
   displayed in the user's language (where translations exist)
+

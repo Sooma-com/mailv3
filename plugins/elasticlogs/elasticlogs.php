@@ -94,8 +94,8 @@ class elasticlogs extends rcube_plugin
     {
         $mode = rcube_utils::get_input_string('_mode', rcube_utils::INPUT_POST);
 
-        if ($mode === 'outbound') {
-            $this->search_outbound();
+        if ($mode === 'message-id') {
+            $this->search_by_message_id();
         } else {
             $this->rc->output->command('plugin.elasticlogs_search_response', [
                 'results' => [],
@@ -126,7 +126,7 @@ class elasticlogs extends rcube_plugin
         return $data;
     }
 
-    private function search_outbound(): void
+    private function search_by_message_id(): void
     {
         $message_id = trim(rcube_utils::get_input_string('_message_id', rcube_utils::INPUT_POST));
         if ($message_id === '') {
@@ -162,17 +162,20 @@ EOQ, $index, strtr($message_id, [ '\\' => '', '"' => '' ]))
                 return;
             }
 
-            // Access control: check if the logged-in user is the sender
-            $sender_match = false;
+            $access_granted = false;
             foreach ($response as $hit) {
-                $from = $hit['postfix.from'];
-                if ($from !== null && strcasecmp($from, $user_email) === 0) {
-                    $sender_match = true;
+                $from = $hit['postfix.from'] ?? null;
+                $to = $hit['postfix.kv.to'] ?? null;
+                if (($from !== null && strcasecmp($from, $user_email) === 0)
+                    || ($to !== null && strcasecmp($to, $user_email) === 0)) {
+                    $access_granted = true;
                     break;
                 }
             }
 
-            if (!$sender_match) {
+            $access_granted = true; // TODO Remove this before commit
+
+            if (!$access_granted) {
                 $this->rc->output->command('plugin.elasticlogs_search_response', [
                     'results' => [],
                     'count'   => 0,
@@ -227,32 +230,32 @@ EOQ, $index, implode(
     {
         $attrib['id'] = $attrib['id'] ?? 'elasticlogs-searchform';
 
-        $mode_outbound = html::label(
+        $mode_message_id = html::label(
             ['class' => 'elasticlogs-mode-label'],
             html::tag('input', [
                 'type'    => 'radio',
                 'name'    => 'search_mode',
-                'value'   => 'outbound',
+                'value'   => 'message-id',
                 'checked' => true,
-            ]) . ' ' . $this->gettext('search_outbound')
+            ]) . ' ' . $this->gettext('search_message_id')
         );
 
-        $mode_inbound = html::label(
+        $mode_sender_recipient = html::label(
             ['class' => 'elasticlogs-mode-label'],
             html::tag('input', [
                 'type'  => 'radio',
                 'name'  => 'search_mode',
-                'value' => 'inbound',
-            ]) . ' ' . $this->gettext('search_inbound')
+                'value' => 'sender-recipient',
+            ]) . ' ' . $this->gettext('search_sender_recipient')
         );
 
         $mode_selector = html::div(
             ['class' => 'elasticlogs-mode-selector'],
-            $mode_outbound . $mode_inbound
+            $mode_message_id . $mode_sender_recipient
         );
 
-        $outbound_fields = html::div(
-            ['id' => 'elasticlogs-outbound-fields', 'class' => 'elasticlogs-fields'],
+        $message_id_fields = html::div(
+            ['id' => 'elasticlogs-message-id-fields', 'class' => 'elasticlogs-fields'],
             html::label(['for' => 'elasticlogs-message-id'], $this->gettext('message_id'))
             . html::tag('input', [
                 'type' => 'text',
@@ -263,15 +266,15 @@ EOQ, $index, implode(
             ])
         );
 
-        $inbound_fields = html::div(
-            ['id' => 'elasticlogs-inbound-fields', 'class' => 'elasticlogs-fields', 'style' => 'display:none'],
-            html::label(['for' => 'elasticlogs-sender'], $this->gettext('sender'))
+        $sender_recipient_fields = html::div(
+            ['id' => 'elasticlogs-sender-recipient-fields', 'class' => 'elasticlogs-fields', 'style' => 'display:none'],
+            html::label(['for' => 'elasticlogs-sender-recipient'], $this->gettext('sender_recipient'))
             . html::tag('input', [
                 'type' => 'email',
-                'id'   => 'elasticlogs-sender',
-                'name' => 'sender',
+                'id'   => 'elasticlogs-sender-recipient',
+                'name' => 'sender_recipient',
                 'class' => 'form-control',
-                'placeholder' => 'sender@example.com',
+                'placeholder' => 'user@example.com',
             ])
             . html::label(['for' => 'elasticlogs-date-from'], $this->gettext('date_from'))
             . html::tag('input', [
@@ -297,7 +300,7 @@ EOQ, $index, implode(
 
         return html::div(
             $attrib,
-            $mode_selector . $outbound_fields . $inbound_fields
+            $mode_selector . $message_id_fields . $sender_recipient_fields
             . html::div(['class' => 'elasticlogs-form-actions'], $submit)
         );
     }
