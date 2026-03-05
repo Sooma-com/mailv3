@@ -22,23 +22,23 @@ log search interface.
 ### Requirement: Unified Search Interface
 
 The system SHALL provide a single page where users can perform both
-outbound and inbound log searches.
+types of searches. Either by message-id or by sender/recipient address
 
 #### Scenario: Search mode selection
 
 - GIVEN a user on the Elasticlogs page
 - WHEN the page loads
-- THEN the user can choose between outbound (by Message-ID) and
-  inbound (by sender + time range) search modes
+- THEN the user can choose between searching by Message-ID or by sender/recipient
+  email address modes
 
-### Requirement: Outbound Search Form
+### Requirement: Message-ID Search Form
 
 The system SHALL provide a form for outbound message log search
 containing a Message-ID input field.
 
-#### Scenario: Outbound search form displayed
+#### Scenario: Message-ID search form displayed
 
-- GIVEN the user selects outbound search mode
+- GIVEN the user selects by message-id search mode
 - WHEN the form is displayed
 - THEN it contains a text input for Message-ID
 - AND a submit button to execute the search
@@ -49,18 +49,18 @@ containing a Message-ID input field.
   (e.g., a context menu on a sent message)
 - WHEN the page loads
 - THEN the Message-ID field is pre-populated with the message's ID
-- AND the search mode is set to outbound
+- AND the search mode is set to search by message-id
 
-### Requirement: Inbound Search Form
+### Requirement: Sender/Recipient Search Form
 
-The system SHALL provide a form for inbound message log search containing
-sender address and time range inputs.
+The system SHALL provide a form for message log search by sender/recipient containing
+target email address and time range inputs.
 
-#### Scenario: Inbound search form displayed
+#### Scenario: Sender/recipient search form displayed
 
-- GIVEN the user selects inbound search mode
+- GIVEN the user selects sender/recipient search mode
 - WHEN the form is displayed
-- THEN it contains a text input for sender email address
+- THEN it contains a text input for target email address
 - AND date/time inputs for the time range (start and end)
 - AND a submit button to execute the search
 
@@ -76,7 +76,7 @@ sender address and time range inputs.
 - GIVEN the user navigates to the Elasticlogs page from a contact context
   (e.g., a context menu on an address book entry)
 - WHEN the page loads
-- THEN the sender field is pre-populated with the contact's email address
+- THEN the target email field is pre-populated with the contact's email address
 - AND the search mode is set to inbound
 
 ### Requirement: Results Display
@@ -125,7 +125,7 @@ as a plain text file.
 
 - GIVEN no search results are displayed (empty or no search performed)
 - WHEN the user views the page
-- THEN the download button is disabled or hidden
+- THEN the download button is disabled
 
 ### Requirement: Localization
 

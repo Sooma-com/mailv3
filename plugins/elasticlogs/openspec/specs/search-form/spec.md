@@ -9,14 +9,14 @@ fields, AJAX submission, results area, and localization.
 
 ### Requirement: Search Mode Selection
 
-The search form MUST allow the user to switch between outbound and
-inbound search modes.
+The search form MUST allow the user to switch between message-id and
+sender/recipient email search modes.
 
 #### Scenario: Mode selector is displayed
 
 - GIVEN a logged-in user on the elasticlogs page
 - WHEN the page loads
-- THEN a mode selector with "Outbound" and "Inbound" options is visible
+- THEN a mode selector with "Message-ID" and "Sender/recipient address" options is visible
 - AND one mode is selected by default
 
 #### Scenario: Switching modes toggles form fields
@@ -26,39 +26,39 @@ inbound search modes.
 - THEN the form fields for the newly selected mode become visible
 - AND the form fields for the previously selected mode are hidden
 
-### Requirement: Outbound Search Form Fields
+### Requirement: Message-ID Search Form Fields
 
 The search form MUST display a Message-ID input field when in outbound
 search mode.
 
-#### Scenario: Outbound form fields displayed
+#### Scenario: Message-ID form fields displayed
 
 - GIVEN the search mode is set to outbound
 - WHEN the form is visible
 - THEN a text input labeled "Message-ID" is displayed
 - AND a "Search" button is displayed
 
-### Requirement: Inbound Search Form Fields
+### Requirement: Sender/Recipient Search Form Fields
 
-The search form MUST display sender email, start date, and end date
+The search form MUST display sender/recipient email, start date, and end date
 input fields when in inbound search mode.
 
-#### Scenario: Inbound form fields displayed
+#### Scenario: Sender/recipient form fields displayed
 
 - GIVEN the search mode is set to inbound
 - WHEN the form is visible
-- THEN a text input labeled "Sender" is displayed
+- THEN a text input labeled "Sender/Recipient" is displayed
 - AND a datetime input labeled "From" (start date) is displayed
 - AND a datetime input labeled "To" (end date) is displayed
 - AND a "Search" button is displayed
 
-### Requirement: Default Time Range for Inbound Search
+### Requirement: Default Time Range for Sender/Recipient Search
 
 The inbound search form MUST default the time range to the last 24 hours.
 
 #### Scenario: Default time range on page load
 
-- GIVEN the search mode is set to inbound
+- GIVEN the search mode is set to sender/recipient
 - WHEN the form first loads
 - THEN the end date defaults to the current date and time
 - AND the start date defaults to 24 hours before the current date and time
@@ -68,20 +68,34 @@ The inbound search form MUST default the time range to the last 24 hours.
 The search form MUST submit search parameters via AJAX to the server-side
 search action.
 
-#### Scenario: Outbound form submission
+#### Scenario: Message-ID form submission
 
 - GIVEN the user has entered a Message-ID in outbound mode
 - WHEN the user clicks the search button
 - THEN an AJAX POST is sent to the search action
 - AND the request includes the search mode and the Message-ID value
 
-#### Scenario: Inbound form submission
+#### Scenario: Message-ID form submission
 
 - GIVEN the user has filled in sender and time range in inbound mode
 - WHEN the user clicks the search button
 - THEN an AJAX POST is sent to the search action
 - AND the request includes the search mode, sender address, start date,
   and end date
+
+#### Scenario: Message-ID search returns real results
+
+- GIVEN the search action receives a message-id mode request
+- WHEN the Message-ID matches entries in Elasticsearch
+- AND the logged-in user is the sender
+- THEN real log entries are returned in the AJAX response
+- AND the frontend renders them chronologically in the results area
+
+#### Scenario: Message-ID search returns error
+
+- GIVEN the search action receives a message-id mode request
+- WHEN Elasticsearch is unreachable or returns an error
+- THEN a localized error message is displayed to the user
 
 ### Requirement: Results Area
 

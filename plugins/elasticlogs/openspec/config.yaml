@@ -58,9 +58,9 @@ context: |
     3. Query all log entries matching any of those (host, queueid) pairs
     4. Filter: logged-in user must be sender or recipient
 
-  Inbound (by sender + recipient + time window):
-    1. Query for entries where postfix.kv.to = <logged-in user> AND
-       postfix.from = <sender> within the given time range
+  Inbound/outbound (by sender + recipient + time window):
+    1. Query for entries where (postfix.kv.to = <logged-in user> OR postfix.from = <logged-in user>)
+       AND (postfix.from = <sender> OR postfix.kv.to = <sender>) within the given time range
     2. If delivery occurred, collect (host.hostname, postfix.queueid) pairs
     3. Query all log entries matching those pairs
     4. If delivery was refused, return whatever matching entries were found

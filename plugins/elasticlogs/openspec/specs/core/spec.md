@@ -29,20 +29,22 @@ by providing a Message-ID.
 - WHEN no log entries match the provided Message-ID
 - THEN the plugin displays a message indicating no logs were found
 
-### Requirement: Inbound Message Log Search
+### Requirement: Inbound/Outbound message search by sender and recipients
 
-The system SHALL allow users to search for delivery logs of inbound messages
-by providing a sender address and a time window.
+The system SHALL allow users to search for delivery logs of inbound and outbound messages
+by providing an email address and a time window. The email address is to be matched against 
+message sender and recipients fields
 
-#### Scenario: Successful inbound search with delivered message
+#### Scenario: Successful search with delivered message
 
-- GIVEN a logged-in user searching for inbound messages
-- WHEN the user provides a sender email address and a time range
-- THEN the plugin queries for log entries where the recipient matches the
-  logged-in user's address, the sender matches the provided address,
-  and the timestamp falls within the specified range
+- GIVEN a logged-in user searching for messages
+- WHEN the user provides an email address and a time range
+- THEN the plugin queries for log entries where either the message sender
+  matches the email address or one of the message recipients match the email address
 - AND if delivery entries are found, collects (hostname, queue-id) pairs
 - AND queries all log entries matching those (hostname, queue-id) pairs
+- AND filters messages related to the logged-in user, where the logged-in user's email
+  matches either the sender or one of the recipients
 - AND returns the combined set of log entries sorted chronologically
 
 #### Scenario: Inbound search for refused message
@@ -52,9 +54,9 @@ by providing a sender address and a time window.
 - THEN the plugin returns whatever log entries were found for the initial query
 - AND no further (hostname, queue-id) expansion is performed
 
-#### Scenario: No matching inbound entries
+#### Scenario: No matching entries
 
-- GIVEN a logged-in user searching for inbound messages
+- GIVEN a logged-in user searching for messages
 - WHEN no log entries match the sender, recipient, and time range
 - THEN the plugin displays a message indicating no logs were found
 
