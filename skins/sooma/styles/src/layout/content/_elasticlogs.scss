@@ -1,0 +1,48 @@
+@use "../../fontawesome/fa";
+.scroller {
+  height: 100%;
+}
+div.header {
+  display: none;
+}
+#elasticlogs-content {
+  max-width: 200rem;
+}
+.formbuttons .search::before {
+  @include fa.fa-icon();
+  content: fa.fa-content(fa.$var-search);
+  vertical-align: middle;
+  margin-right: 0.5rem;
+
+}
+#elasticlogs-sender-recipient-fields {
+  display: block grid;
+  margin-right: auto;
+  grid-template: "fromto-label fromto-label" min-content
+                        "fromto-input fromto-input" min-content
+                        "date-from-label date-to-label" min-content
+                        "date-from-input date-to-input" min-content
+                        "submit-button submit-button" min-content / min-content min-content;
+  gap: 1em;
+  label[for="elasticlogs-sender-recipient"] {
+    grid-area: fromto-label;
+  }
+  input[id="elasticlogs-sender-recipient"] {
+    grid-area: fromto-input;
+  }
+  label[for="elasticlogs-date-from"] {
+    grid-area: date-from-label;
+  }
+  input[id="elasticlogs-date-from"] {
+    grid-area: date-from-input;
+  }
+  label[for="elasticlogs-date-to"] {
+    grid-area: date-to-label;
+  }
+  input[id="elasticlogs-date-to"] {
+    grid-area: date-to-input;
+  }
+  div.formbuttons {
+    grid-area: submit-button;
+  }
+}

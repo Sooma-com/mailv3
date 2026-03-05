@@ -244,3 +244,44 @@ body.task-xcalendar {
     @include meta.load-css("layout/xcalendar");
   }
 }
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) {
+  &>#layout {
+    --column-width-content: 1fr;
+    display: grid;
+    grid-template:
+      "menu   " 8rem
+      "content" auto / var(--column-width-sidebar);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    #layout-menu {
+      width: 100%;
+      height: 100%;
+      grid-area: menu;
+      display: grid;
+      grid-template:
+        "logo       taskmenu  " 4.625rem
+        "localmenu  localmenu " 1fr / 228px 1fr;
+      @include meta.load-css("layout/headermenu");
+    }
+
+    #layout-sidebar {
+      display: none;
+    }
+
+    #layout-list {
+      display: none;
+    }
+
+    #layout-content {
+      grid-area: content;
+      overflow: hidden;
+      padding: 1rem;
+
+    }
+
+    @include meta.load-css("layout/content/elasticlogs");
+
+  }
+}

@@ -20222,7 +20222,13 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > 
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.directory::before {
   content: "\f0e8";
 }
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-elasticlogs::before {
+  content: "\f15c";
+}
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#show-mobile-xsidebar, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-elasticlogs:not(.button-selected) {
   display: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.button-selected::before, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > a.selected::before {
@@ -20769,7 +20775,13 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.directory::before {
   content: "\f0e8";
 }
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-elasticlogs::before {
+  content: "\f15c";
+}
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-elasticlogs:not(.button-selected) {
   display: none;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-selected::before, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.selected::before {
@@ -21710,7 +21722,13 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-calendar::befo
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a.directory::before {
   content: "\f0e8";
 }
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-elasticlogs::before {
+  content: "\f15c";
+}
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-xcalendar > #layout > #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-elasticlogs:not(.button-selected) {
   display: none;
 }
 body.task-xcalendar > #layout > #layout-menu #taskmenu > a.button-selected::before, body.task-xcalendar > #layout > #layout-menu #taskmenu > a.selected::before {
@@ -22454,6 +22472,431 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-edit table.propform > tbo
 body.task-xcalendar > #layout #xcalendar-app #event-search table.propform > tbody > tr > td:first-child,
 body.task-xcalendar > #layout #xcalendar-app #event-edit table.propform > tbody > tr > td:first-child {
   width: 20%;
+}
+
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout {
+  --column-width-content: 1fr;
+  display: grid;
+  grid-template: "menu   " 8rem "content" auto/var(--column-width-sidebar);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu {
+  width: 100%;
+  height: 100%;
+  grid-area: menu;
+  display: grid;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu .popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: logo;
+}
+@media screen and (min-width: 769px) {
+  body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu .popover-header a {
+    display: none;
+  }
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu {
+  grid-area: taskmenu;
+  display: inline-flex;
+  display: inline-block flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--color-taskmenu-background);
+  position: relative;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a {
+  text-decoration: none;
+  color: var(--color-taskmenu-button);
+  font-size: 1.2rem;
+  margin-right: 1.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\?";
+  background-color: var(--color-taskmenu-button);
+  color: var(--color-main-contrast);
+  border-radius: 1rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.mail::before {
+  content: "\f0e0";
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.contacts::before {
+  content: "\f2b9";
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-calendar::before {
+  content: "\f073";
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.directory::before {
+  content: "\f0e8";
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-elasticlogs::before {
+  content: "\f15c";
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#show-mobile-xsidebar, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a#button-apps {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-elasticlogs:not(.button-selected) {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-selected::before, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.selected::before {
+  background-color: var(--color-taskmenu-button-selected);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.button-selected, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu > a.selected {
+  color: var(--color-taskmenu-button-selected);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--color-taskmenu-button-selected);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile:hover {
+  outline: 1px solid var(--color-taskmenu-button-selected);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog {
+  position: absolute;
+  right: 1.5rem;
+  top: 3.7rem;
+  background-color: var(--color-taskmenu-background);
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  display: none;
+  flex-direction: column;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  z-index: 1;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 {
+  padding: 0.75rem;
+  display: grid;
+  grid-template: "profile-image identity identity" 1fr "profile-image settings upgrade" min-content/min-content 1fr;
+  gap: 0 0.75rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-identity {
+  grid-area: identity;
+  padding-top: 0.75rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  display: block flex;
+  text-decoration: none;
+  color: var(--color-font);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade span,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings span {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid var(--color-medium-gray);
+  padding: 6px 12px;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.upgrade {
+  grid-area: upgrade;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 a.settings {
+  grid-area: settings;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-1 #sooma-profile-dialog-profile-image {
+  grid-area: profile-image;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--color-main);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 {
+  background-color: var(--color-light-gray);
+  border-top: 1px solid var(--color-medium-gray);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.about,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.theme {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f011";
+  padding-right: 0.25rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog .sooma-profile-dialog-row-2 a.logout {
+  text-decoration: none;
+  color: var(--color-font);
+  border: 1px solid var(--color-medium-gray);
+  padding: 6px 12px;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-label {
+  font-size: 0.9rem;
+  padding-right: 1rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog #sooma-profile-dialog-quota-img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-left: auto;
+  margin-right: auto;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #taskmenu #sooma-profile-dialog #quota-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu {
+  grid-area: localmenu;
+  background-color: var(--color-layout-header-localmenu-background);
+  display: grid;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons {
+  display: inline-flex;
+  display: inline-block flex;
+  grid-area: action-buttons;
+  align-items: center;
+  justify-content: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons .compose::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons .compose {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar {
+  grid-area: searchbar;
+  display: block flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: white;
+  position: relative;
+  --input-foreground-color: hsl(from var(--color-layout-header-localmenu-background) h s (255 - l));
+  --input-background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.45));
+  --input-border-color: 1px solid hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  --input-line-height: 2.13;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar a.search {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .reset::before {
+  font-size: 0.8rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f00d";
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .reset {
+  font-size: 0;
+  position: absolute;
+  right: 1.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .options::before {
+  font-size: 1rem;
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f107";
+  line-height: var(--input-line-height);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar .options {
+  display: block;
+  font-size: 0;
+  background-color: var(--input-background-color);
+  color: var(--input-foreground-color);
+  border: var(--input-border-color);
+  border-width: 1px 0 1px 1px;
+  line-height: var(--input-line-height);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .searchbar input[type=text] {
+  background-color: var(--input-background-color);
+  color: var(--input-foreground-color);
+  border: var(--input-border-color);
+  outline: 0;
+  margin: 0;
+  padding: 0 0 0 calc(20px + 0.2rem + 0.5rem);
+  line-height: var(--input-line-height);
+  background-image: url("/skins/sooma/images/search-white.svg");
+  background-position: 0.2rem center;
+  background-repeat: no-repeat;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar {
+  display: none;
+  grid-area: mailtoolbar;
+  color: var(--color-layout-header-localmenu-foreground);
+  --button-horizontal-margin: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before {
+  margin-right: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+  display: flex;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-sidebar {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-list {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-content {
+  grid-area: content;
+  overflow: hidden;
+  padding: 1rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout .scroller {
+  height: 100%;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout div.header {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-content {
+  max-width: 200rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout .formbuttons .search::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f002";
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields {
+  display: block grid;
+  margin-right: auto;
+  grid-template: "fromto-label fromto-label" min-content "fromto-input fromto-input" min-content "date-from-label date-to-label" min-content "date-from-input date-to-input" min-content "submit-button submit-button" min-content/min-content min-content;
+  gap: 1em;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields label[for=elasticlogs-sender-recipient] {
+  grid-area: fromto-label;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields input[id=elasticlogs-sender-recipient] {
+  grid-area: fromto-input;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields label[for=elasticlogs-date-from] {
+  grid-area: date-from-label;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields input[id=elasticlogs-date-from] {
+  grid-area: date-from-input;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields label[for=elasticlogs-date-to] {
+  grid-area: date-to-label;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields input[id=elasticlogs-date-to] {
+  grid-area: date-to-input;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #elasticlogs-sender-recipient-fields div.formbuttons {
+  grid-area: submit-button;
 }
 
 body > .ui-widget-overlay {
@@ -25588,6 +26031,31 @@ dl.nexus-multibanco dt {
 }
 dl.nexus-multibanco dd {
   margin: 0;
+}
+
+.custom-control-toggle {
+  display: inline flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  line-height: 1.5;
+  border-radius: 500px; /* Obviously too large, results in half-height (the smaller of height and width) */
+  border: 1px solid black;
+  margin-right: auto;
+  padding: 2px;
+  gap: 0.5em;
+}
+.custom-control-toggle label {
+  line-height: 1.5;
+  padding: 0.6em 1.3em;
+  border-radius: 500px; /* Obviously too large, results in half-height (the smaller of height and width) */
+  margin: 0;
+}
+.custom-control-toggle label:has(input[type=radio]:checked) {
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+}
+.custom-control-toggle label input[type=radio] {
+  display: none;
 }
 
 body.domain-webmail-oa-pt.task-login > #layout,

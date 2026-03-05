@@ -11,19 +11,9 @@
 
 /* Mode selector */
 .elasticlogs-mode-selector {
-    display: flex;
-    gap: 1.5rem;
     margin-bottom: 1rem;
-    padding: 0.75rem 0;
 }
 
-.elasticlogs-mode-label {
-    cursor: pointer;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
 
 /* Form field groups */
 .elasticlogs-fields {

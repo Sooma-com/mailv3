@@ -61,11 +61,18 @@
       content: fa.fa-content(fa.$var-sitemap);
     }
 
+    &.button-elasticlogs::before {
+      content: fa.fa-content(fa.$var-file-alt);
+    }
+
     &#show-mobile-xsidebar,
     &#button-apps {
       display: none;
     }
 
+    &.button-elasticlogs:not(.button-selected) {
+      display: none;
+    }
 
     &.button-selected,
     &.selected {

@@ -341,6 +341,7 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
     public function render_searchform(array $attrib): string
     {
         $attrib['id'] = $attrib['id'] ?? 'elasticlogs-searchform';
+        $attrib['class'] = $attrib['class'] ?? 'formcontent';
 
         $mode_message_id = html::label(
             ['class' => 'elasticlogs-mode-label'],
@@ -362,7 +363,7 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         );
 
         $mode_selector = html::div(
-            ['class' => 'elasticlogs-mode-selector'],
+            ['class' => 'elasticlogs-mode-selector custom-control-toggle'],
             $mode_message_id . $mode_sender_recipient
         );
 
@@ -407,13 +408,13 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         $submit = html::tag('button', [
             'type'  => 'button',
             'id'    => 'elasticlogs-search-btn',
-            'class' => 'btn btn-primary',
+            'class' => 'btn btn-primary search',
         ], $this->gettext('search'));
 
         return html::div(
             $attrib,
             $mode_selector . $message_id_fields . $sender_recipient_fields
-            . html::div(['class' => 'elasticlogs-form-actions'], $submit)
+            . html::div(['class' => 'elasticlogs-form-actions formbuttons'], $submit)
         );
     }
 

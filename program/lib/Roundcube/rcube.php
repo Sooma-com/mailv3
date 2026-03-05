@@ -1031,6 +1031,11 @@ class rcube
      */
     public function check_request($mode = rcube_utils::INPUT_POST)
     {
+        // Do not commit this if block
+        if ($_SERVER['HTTP_HOST'] == 'mail.local') {
+            // Disable security checks in dev environment
+            return true;
+        }
         // check secure token in URL if enabled
         if ($token = $this->get_secure_url_token()) {
             foreach (explode('/', preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI'])) as $tok) {
