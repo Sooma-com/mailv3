@@ -445,7 +445,7 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         return html::div(
             $attrib,
             $no_results . $results_list
-            . html::div(['class' => 'elasticlogs-results-actions'], $download_btn)
+            . html::div(['class' => 'elasticlogs-results-actions formbuttons'], $download_btn)
         );
     }
 }

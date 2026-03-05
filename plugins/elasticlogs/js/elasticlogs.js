@@ -92,7 +92,7 @@ if (window.rcmail) {
                 var url = URL.createObjectURL(blob);
                 var a = document.createElement('a');
                 a.href = url;
-                a.download = 'elasticlogs-' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.txt';
+                a.download = 'smtp-log-' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.txt';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
