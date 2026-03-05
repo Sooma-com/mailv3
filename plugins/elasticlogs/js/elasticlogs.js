@@ -9,15 +9,22 @@ if (window.rcmail) {
         var sender_recipient_fields = document.getElementById('elasticlogs-sender-recipient-fields');
         var current_results = [];
 
+        function select_mode(mode) {
+            mode_radios.forEach(function(radio) {
+                radio.checked = (radio.value === mode);
+            });
+            if (mode === 'message-id') {
+                message_id_fields.style.display = '';
+                sender_recipient_fields.style.display = 'none';
+            } else {
+                message_id_fields.style.display = 'none';
+                sender_recipient_fields.style.display = '';
+            }
+        }
+
         mode_radios.forEach(function(radio) {
             radio.addEventListener('change', function() {
-                if (this.value === 'message-id') {
-                    message_id_fields.style.display = '';
-                    sender_recipient_fields.style.display = 'none';
-                } else {
-                    message_id_fields.style.display = 'none';
-                    sender_recipient_fields.style.display = '';
-                }
+                select_mode(this.value);
             });
         });
 
@@ -32,6 +39,31 @@ if (window.rcmail) {
         }
         if (date_from) {
             date_from.value = to_local_datetime(yesterday);
+        }
+
+        // Read GET parameters and pre-populate form
+        var url_params = new URLSearchParams(window.location.search);
+        var param_message_id = url_params.get('message_id') || '';
+        var param_sender_recipient = url_params.get('sender_recipient') || '';
+        var param_date_from = url_params.get('date_from') || '';
+        var param_date_to = url_params.get('date_to') || '';
+        var auto_submit = false;
+
+        if (param_date_from && date_from) {
+            date_from.value = param_date_from;
+        }
+        if (param_date_to && date_to) {
+            date_to.value = param_date_to;
+        }
+
+        if (param_message_id) {
+            document.getElementById('elasticlogs-message-id').value = param_message_id;
+            select_mode('message-id');
+            auto_submit = true;
+        } else if (param_sender_recipient) {
+            document.getElementById('elasticlogs-sender-recipient').value = param_sender_recipient;
+            select_mode('sender-recipient');
+            auto_submit = true;
         }
 
         // Search button
@@ -51,6 +83,10 @@ if (window.rcmail) {
 
                 rcmail.http_post('search', params);
             });
+        }
+
+        if (auto_submit && search_btn) {
+            search_btn.click();
         }
 
         // Handle search response

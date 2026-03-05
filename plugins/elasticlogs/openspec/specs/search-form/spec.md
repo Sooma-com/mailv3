@@ -8,15 +8,16 @@ fields, AJAX submission, results area, and localization.
 ### Requirement: Search Mode Selection
 
 The search form MUST allow the user to switch between message-id and
-sender/recipient email search modes.
+sender/recipient email search modes, with sender-recipient as the
+default.
 
-#### Scenario: Mode selector uses new values
+#### Scenario: Default mode is sender-recipient
 
-- GIVEN a logged-in user on the elasticlogs page
+- GIVEN a user navigating to the elasticlogs page without parameters
 - WHEN the page loads
-- THEN the radio buttons use values `message-id` and `sender-recipient`
-- AND the labels use the localization keys `search_message_id` and
-  `search_sender_recipient`
+- THEN the sender-recipient radio is selected
+- AND the sender-recipient form fields are visible
+- AND the message-id form fields are hidden
 
 ### Requirement: Message-ID Search Form Fields
 

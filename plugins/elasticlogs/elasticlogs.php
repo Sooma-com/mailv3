@@ -349,19 +349,19 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         $mode_message_id = html::label(
             ['class' => 'elasticlogs-mode-label'],
             html::tag('input', [
-                'type'    => 'radio',
-                'name'    => 'search_mode',
-                'value'   => 'message-id',
-                'checked' => true,
+                'type'  => 'radio',
+                'name'  => 'search_mode',
+                'value' => 'message-id',
             ]) . ' ' . $this->gettext('search_message_id')
         );
 
         $mode_sender_recipient = html::label(
             ['class' => 'elasticlogs-mode-label'],
             html::tag('input', [
-                'type'  => 'radio',
-                'name'  => 'search_mode',
-                'value' => 'sender-recipient',
+                'type'    => 'radio',
+                'name'    => 'search_mode',
+                'value'   => 'sender-recipient',
+                'checked' => true,
             ]) . ' ' . $this->gettext('search_sender_recipient')
         );
 
@@ -371,7 +371,7 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         );
 
         $message_id_fields = html::div(
-            ['id' => 'elasticlogs-message-id-fields', 'class' => 'elasticlogs-fields'],
+            ['id' => 'elasticlogs-message-id-fields', 'class' => 'elasticlogs-fields', 'style' => 'display:none'],
             html::label(['for' => 'elasticlogs-message-id'], $this->gettext('message_id'))
             . html::tag('input', [
                 'type' => 'text',
@@ -383,7 +383,7 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         );
 
         $sender_recipient_fields = html::div(
-            ['id' => 'elasticlogs-sender-recipient-fields', 'class' => 'elasticlogs-fields', 'style' => 'display:none'],
+            ['id' => 'elasticlogs-sender-recipient-fields', 'class' => 'elasticlogs-fields'],
             html::label(['for' => 'elasticlogs-sender-recipient'], $this->gettext('sender_recipient'))
             . html::tag('input', [
                 'type' => 'email',
