@@ -10,5 +10,6 @@ $labels['date_from'] = 'From';
 $labels['date_to'] = 'To';
 $labels['search'] = 'Search';
 $labels['no_results'] = 'No log entries found.';
+$labels['download'] = 'Download as TXT';
 $labels['es_connect_error'] = 'Could not connect to the log server. Please try again later.';
 $labels['es_query_error'] = 'An error occurred while searching logs. Please try again later.';

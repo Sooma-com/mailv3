@@ -10,5 +10,6 @@ $labels['date_from'] = 'De';
 $labels['date_to'] = 'Até';
 $labels['search'] = 'Pesquisar';
 $labels['no_results'] = 'Nenhum registo encontrado.';
+$labels['download'] = 'Descarregar como TXT';
 $labels['es_connect_error'] = 'Não foi possível ligar ao servidor de registos. Tente novamente mais tarde.';
 $labels['es_query_error'] = 'Ocorreu um erro ao pesquisar registos. Tente novamente mais tarde.';

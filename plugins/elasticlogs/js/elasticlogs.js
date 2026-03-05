@@ -7,6 +7,7 @@ if (window.rcmail) {
         var mode_radios = document.querySelectorAll('input[name="search_mode"]');
         var message_id_fields = document.getElementById('elasticlogs-message-id-fields');
         var sender_recipient_fields = document.getElementById('elasticlogs-sender-recipient-fields');
+        var current_results = [];
 
         mode_radios.forEach(function(radio) {
             radio.addEventListener('change', function() {
@@ -53,24 +54,51 @@ if (window.rcmail) {
         }
 
         // Handle search response
+        var download_btn = document.getElementById('elasticlogs-download-btn');
+
         rcmail.addEventListener('plugin.elasticlogs_search_response', function(response) {
             var results_list = document.getElementById('elasticlogs-results-list');
             var no_results = document.getElementById('elasticlogs-no-results');
 
             results_list.innerHTML = '';
+            current_results = [];
 
             if (!response.results || response.results.length === 0) {
                 no_results.style.display = '';
+                if (download_btn) download_btn.style.display = 'none';
             } else {
                 no_results.style.display = 'none';
+                current_results = response.results;
                 response.results.forEach(function(entry) {
                     var div = document.createElement('div');
                     div.className = 'elasticlogs-log-entry';
                     div.textContent = entry['@timestamp'] + ' ' + entry.message;
                     results_list.appendChild(div);
                 });
+                if (download_btn) download_btn.style.display = '';
             }
         });
+
+        // Download button
+        if (download_btn) {
+            download_btn.addEventListener('click', function() {
+                if (!current_results.length) return;
+
+                var lines = current_results.map(function(entry) {
+                    return entry['@timestamp'] + ' ' + entry.message;
+                });
+                var text = lines.join('\n') + '\n';
+                var blob = new Blob([text], { type: 'text/plain' });
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'elasticlogs-' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
     });
 }
 

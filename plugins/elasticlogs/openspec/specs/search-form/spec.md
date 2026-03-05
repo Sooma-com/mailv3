@@ -70,19 +70,29 @@ search action, which now returns real results for sender/recipient mode.
 
 ### Requirement: Results Area
 
-The search page MUST include a results area below the search form.
+The search page MUST include a results area below the search form,
+with a download button for exporting results.
 
-#### Scenario: Empty results area on page load
+#### Scenario: Download button visible when results present
 
-- GIVEN a user who has just navigated to the elasticlogs page
-- WHEN no search has been performed
-- THEN the results area is visible but empty
+- GIVEN a search that returned results
+- WHEN the results area displays log entries
+- THEN a localized download button is visible
 
-#### Scenario: No-results message after search
+#### Scenario: Download button hidden when no results
 
-- GIVEN a search that returns no results
-- WHEN the AJAX response is received
-- THEN the results area displays a localized "No results found" message
+- GIVEN no results are displayed (empty, no search, or cleared)
+- WHEN the user views the results area
+- THEN the download button is hidden
+
+#### Scenario: Download generates TXT file
+
+- GIVEN results are displayed and the download button is visible
+- WHEN the user clicks the download button
+- THEN a .txt file is generated in the browser containing one line
+  per log entry (timestamp + space + raw message)
+- AND the browser initiates a file download
+- AND the filename includes a timestamp for uniqueness
 
 ### Requirement: Localized Labels
 
