@@ -22,23 +22,23 @@ log search interface.
 ### Requirement: Unified Search Interface
 
 The system SHALL provide a single page where users can perform both
-types of searches. Either by message-id or by sender/recipient address
+types of searches: by Message-ID or by sender/recipient address.
 
 #### Scenario: Search mode selection
 
 - GIVEN a user on the Elasticlogs page
 - WHEN the page loads
-- THEN the user can choose between searching by Message-ID or by sender/recipient
-  email address modes
+- THEN the user can choose between searching by Message-ID or by
+  sender/recipient email address
 
 ### Requirement: Message-ID Search Form
 
-The system SHALL provide a form for outbound message log search
+The system SHALL provide a form for message log search by Message-ID
 containing a Message-ID input field.
 
 #### Scenario: Message-ID search form displayed
 
-- GIVEN the user selects by message-id search mode
+- GIVEN the user selects message-id search mode
 - WHEN the form is displayed
 - THEN it contains a text input for Message-ID
 - AND a submit button to execute the search
@@ -49,12 +49,12 @@ containing a Message-ID input field.
   (e.g., a context menu on a sent message)
 - WHEN the page loads
 - THEN the Message-ID field is pre-populated with the message's ID
-- AND the search mode is set to search by message-id
+- AND the search mode is set to message-id
 
 ### Requirement: Sender/Recipient Search Form
 
-The system SHALL provide a form for message log search by sender/recipient containing
-target email address and time range inputs.
+The system SHALL provide a form for message log search by sender/recipient
+containing a target email address and time range inputs.
 
 #### Scenario: Sender/recipient search form displayed
 
@@ -66,18 +66,18 @@ target email address and time range inputs.
 
 #### Scenario: Default time range
 
-- GIVEN the user opens the inbound search form
+- GIVEN the user opens the sender/recipient search form
 - WHEN no custom time range has been specified
 - THEN the end time defaults to now
 - AND the start time defaults to 24 hours before now
 
-#### Scenario: Pre-populated sender from contact context
+#### Scenario: Pre-populated email from contact context
 
 - GIVEN the user navigates to the Elasticlogs page from a contact context
   (e.g., a context menu on an address book entry)
 - WHEN the page loads
 - THEN the target email field is pre-populated with the contact's email address
-- AND the search mode is set to inbound
+- AND the search mode is set to sender/recipient
 
 ### Requirement: Results Display
 

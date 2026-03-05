@@ -1,15 +1,18 @@
-# outbound-search Specification
+# Message-ID Search Specification
 
 ## Purpose
 
-Defines the outbound message log search behavior: the two-phase ES|QL
-query strategy (Message-ID lookup, then queue-id expansion), sender-based
-access control, result sorting, and input sanitization.
+Defines the message-id log search behavior: the two-phase ES|QL
+query strategy (Message-ID lookup, then queue-id expansion), access
+control verifying the user is the sender or a recipient, result
+sorting, and input sanitization.
+
 ## Requirements
+
 ### Requirement: Phase 1 — Message-ID Lookup
 
 The plugin MUST query Elasticsearch for log entries matching a given
-Message-ID as the first phase of outbound search, using ES|QL.
+Message-ID as the first phase of message-id search, using ES|QL.
 
 #### Scenario: Query by postfix.message-id
 
@@ -27,10 +30,10 @@ Message-ID as the first phase of outbound search, using ES|QL.
 - WHEN phase 1 executes
 - THEN an empty result set is returned to the frontend
 
-### Requirement: Access Control for Outbound Search
+### Requirement: Access Control for Message-ID Search
 
-The plugin MUST verify that the logged-in user is the sender of the
-message before returning log entries.
+The plugin MUST verify that the logged-in user is the sender or a
+recipient of the message before returning log entries.
 
 #### Scenario: User is the sender
 
@@ -39,10 +42,17 @@ message before returning log entries.
 - WHEN access control is checked
 - THEN the search proceeds to phase 2
 
-#### Scenario: User is not the sender
+#### Scenario: User is a recipient
 
-- GIVEN phase 1 returns entries but none have a postfix.from value
-  matching the logged-in user's email address
+- GIVEN phase 1 returns entries where at least one has a postfix.kv.to
+  value matching the logged-in user's email address
+- WHEN access control is checked
+- THEN the search proceeds to phase 2
+
+#### Scenario: User is neither sender nor recipient
+
+- GIVEN phase 1 returns entries but none have a postfix.from or
+  postfix.kv.to value matching the logged-in user's email address
 - WHEN access control is checked
 - THEN an empty result set is returned to the frontend
 - AND phase 2 is not executed
@@ -90,4 +100,3 @@ them into ES|QL query strings.
 - GIVEN a Message-ID value from the user
 - WHEN the value is used in an ES|QL query
 - THEN backslashes and double quotes are stripped from the value
-

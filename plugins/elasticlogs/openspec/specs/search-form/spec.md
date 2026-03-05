@@ -28,24 +28,24 @@ sender/recipient email search modes.
 
 ### Requirement: Message-ID Search Form Fields
 
-The search form MUST display a Message-ID input field when in outbound
-search mode.
+The search form MUST display a Message-ID input field when in
+message-id search mode.
 
 #### Scenario: Message-ID form fields displayed
 
-- GIVEN the search mode is set to outbound
+- GIVEN the search mode is set to message-id
 - WHEN the form is visible
 - THEN a text input labeled "Message-ID" is displayed
 - AND a "Search" button is displayed
 
 ### Requirement: Sender/Recipient Search Form Fields
 
-The search form MUST display sender/recipient email, start date, and end date
-input fields when in inbound search mode.
+The search form MUST display a target email address input, start date,
+and end date input fields when in sender/recipient search mode.
 
 #### Scenario: Sender/recipient form fields displayed
 
-- GIVEN the search mode is set to inbound
+- GIVEN the search mode is set to sender/recipient
 - WHEN the form is visible
 - THEN a text input labeled "Sender/Recipient" is displayed
 - AND a datetime input labeled "From" (start date) is displayed
@@ -54,7 +54,8 @@ input fields when in inbound search mode.
 
 ### Requirement: Default Time Range for Sender/Recipient Search
 
-The inbound search form MUST default the time range to the last 24 hours.
+The sender/recipient search form MUST default the time range to the
+last 24 hours.
 
 #### Scenario: Default time range on page load
 
@@ -70,30 +71,31 @@ search action.
 
 #### Scenario: Message-ID form submission
 
-- GIVEN the user has entered a Message-ID in outbound mode
+- GIVEN the user has entered a Message-ID in message-id mode
 - WHEN the user clicks the search button
 - THEN an AJAX POST is sent to the search action
 - AND the request includes the search mode and the Message-ID value
 
-#### Scenario: Message-ID form submission
+#### Scenario: Sender/recipient form submission
 
-- GIVEN the user has filled in sender and time range in inbound mode
+- GIVEN the user has filled in a target email address and time range
+  in sender/recipient mode
 - WHEN the user clicks the search button
 - THEN an AJAX POST is sent to the search action
-- AND the request includes the search mode, sender address, start date,
-  and end date
+- AND the request includes the search mode, target email address,
+  start date, and end date
 
 #### Scenario: Message-ID search returns real results
 
 - GIVEN the search action receives a message-id mode request
 - WHEN the Message-ID matches entries in Elasticsearch
-- AND the logged-in user is the sender
+- AND the logged-in user is the sender or a recipient
 - THEN real log entries are returned in the AJAX response
 - AND the frontend renders them chronologically in the results area
 
-#### Scenario: Message-ID search returns error
+#### Scenario: Search returns error
 
-- GIVEN the search action receives a message-id mode request
+- GIVEN the search action receives a request
 - WHEN Elasticsearch is unreachable or returns an error
 - THEN a localized error message is displayed to the user
 
@@ -109,7 +111,7 @@ The search page MUST include a results area below the search form.
 
 #### Scenario: No-results message after search
 
-- GIVEN a search that returns no results (including the current stub)
+- GIVEN a search that returns no results
 - WHEN the AJAX response is received
 - THEN the results area displays a localized "No results found" message
 

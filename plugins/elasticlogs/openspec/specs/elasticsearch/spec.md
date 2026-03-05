@@ -37,10 +37,10 @@ The system SHALL query a single configurable Elasticsearch index.
 - WHEN any log query is executed
 - THEN the query targets only the configured index
 
-### Requirement: Outbound Query Strategy
+### Requirement: Message-ID Query Strategy
 
-The system SHALL implement a two-phase query strategy for outbound
-message tracing.
+The system SHALL implement a two-phase query strategy for message
+tracing by Message-ID.
 
 #### Scenario: Phase 1 — Message-ID lookup
 
@@ -58,30 +58,30 @@ message tracing.
 - THEN the plugin queries for all documents matching any of those pairs
 - AND returns results sorted by @timestamp ascending
 
-### Requirement: Inbound Query Strategy
+### Requirement: Sender/Recipient Query Strategy
 
-The system SHALL implement a query strategy for inbound message search
-that filters by sender, recipient, and time window.
+The system SHALL implement a query strategy for message search by
+sender/recipient that filters by email address and time window.
 
-#### Scenario: Initial inbound query
+#### Scenario: Initial sender/recipient query
 
-- GIVEN a sender address, the logged-in user's address, and a time range
-- WHEN the inbound search executes
-- THEN the plugin queries for documents where postfix.kv.to matches
-  the logged-in user's address AND postfix.from matches the sender
-  AND @timestamp falls within the specified range
+- GIVEN a target email address and a time range
+- WHEN the sender/recipient search executes
+- THEN the plugin queries for documents where postfix.from or
+  postfix.kv.to matches the target email address AND @timestamp
+  falls within the specified range
 
 #### Scenario: Expansion after delivery found
 
-- GIVEN initial inbound results that contain delivery entries
+- GIVEN initial results that contain delivery entries
   (postfix.status = "sent" or similar)
 - WHEN (host.hostname, postfix.queueid) pairs can be extracted
-- THEN the plugin performs a phase 2 query identical to the outbound strategy
-  to gather all related log entries
+- THEN the plugin performs a phase 2 query identical to the message-id
+  strategy to gather all related log entries
 
 #### Scenario: No expansion when delivery refused
 
-- GIVEN initial inbound results that show only refusal (e.g., milter-reject)
+- GIVEN initial results that show only refusal (e.g., milter-reject)
   with no successful delivery entries
 - WHEN no (host.hostname, postfix.queueid) pairs yield further results
 - THEN only the initial query results are returned
