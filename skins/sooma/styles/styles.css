@@ -24556,6 +24556,12 @@ ul.menu li a.recipient::before {
   font-weight: 200;
   content: "\f0e0";
 }
+ul.menu li a.filterlink::before {
+  content: "\f0b0";
+}
+ul.menu li a.elasticsearch::before {
+  content: "\e5df";
+}
 
 .popupmenu {
   display: none;

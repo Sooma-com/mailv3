@@ -55,7 +55,13 @@ class elasticlogs extends rcube_plugin
 
         $this->register_task('elasticlogs');
         $this->register_action('index', [$this, 'action_index']);
+        $this->register_action('show', [$this, 'action_index']);
         $this->register_action('search', [$this, 'action_search']);
+        if ($this->rc->task == 'settings') {
+            $this->add_hook('settings_actions', [$this, 'settings_actions']);
+        } else if ($this->rc->task == 'mail') {
+            $this->mail_task_handler();
+        }
 
         $this->add_hook('startup', [$this, 'startup']);
     }
@@ -447,5 +453,33 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
             $no_results . $results_list
             . html::div(['class' => 'elasticlogs-results-actions formbuttons'], $download_btn)
         );
+    }
+    public function settings_actions(array $args): array {
+        $args['actions'][] = [
+            'task' => 'elasticlogs',
+            'action' => 'show',
+            'class'  => 'elasticlogs',
+            'label'  => 'elasticlogs_settings_title',
+            'domain' => 'elasticlogs',
+            'title'  => 'elasticlogs_settings_title',
+        ];
+        return $args;
+    }
+    public function mail_task_handler(): void
+    {
+        $this->add_hook('message_headers_output', array($this, 'set_env_message_id'));
+        $this->add_button([
+                'command'  => 'elasticlogs-messagesearch',
+                'label'    => 'elasticlogs.messagesearch',
+                'type'     => 'link-menuitem',
+                'classact' => 'icon elasticsearch active',
+                'class'    => 'icon elasticsearch disabled',
+                'innerclass' => 'icon filterlink',
+            ], 'messagemenu'
+        );
+    }
+    public function set_env_message_id(array $args): void
+    {
+        $this->rc->output->set_env('elasticlogs.message_id', strtr($args['headers']->get('message-id'), ['<' => '', '>' => '']));
     }
 }

@@ -1,5 +1,11 @@
 if (window.rcmail) {
     rcmail.addEventListener('init', function() {
+        if (rcmail.env.task == 'mail') {
+        if (rcmail.env.action != 'show')
+            rcmail.env.message_commands.push('elasticlogs-messagesearch');
+        else
+            rcmail.enable_command('elasticlogs-messagesearch', true);
+        }
         if (rcmail.task !== 'elasticlogs') {
             return;
         }
@@ -145,4 +151,14 @@ function to_local_datetime(date) {
     var h = String(date.getHours()).padStart(2, '0');
     var min = String(date.getMinutes()).padStart(2, '0');
     return y + '-' + m + '-' + d + 'T' + h + ':' + min;
+}
+rcube_webmail.prototype.elasticlogs_messagesearch = function(force) {
+    var message_id = this.env["elasticlogs.message_id"];
+    if (!message_id && document.getElementById('messagecontframe')) {
+        message_id = document.getElementById('messagecontframe').contentWindow.rcmail.env["elasticlogs.message_id"];
+    }
+    if (message_id) {
+        var url = '/?_task=elasticlogs&_action=index&message_id=' + encodeURIComponent(message_id);
+        window.location.href = url;
+    }
 }

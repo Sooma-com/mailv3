@@ -172,6 +172,12 @@ ul.menu {
       font-weight: 200;
       content: fa.fa-content(fa.$var-envelope);
     }
+    &.filterlink::before {
+      content: fa.fa-content(fa.$var-filter);
+    }
+    &.elasticsearch::before {
+      content: fa.fa-content(fa.$var-arrow-progress);
+    }
 
 
   }
