@@ -16,3 +16,4 @@ $labels['es_query_error'] = 'Ocorreu um erro ao pesquisar registos. Tente novame
 $labels['elasticlogs_settings_title'] = 'Registos de Entrega';
 $labels['messagesearch'] = 'Rastrear mensagem';
 $labels['search_all'] = 'Pesquisar todos os registos';
+$labels['search_my_logs'] = 'Pesquisar os meus registos';

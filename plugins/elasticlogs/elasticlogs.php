@@ -437,16 +437,28 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
 
         $search_all = '';
         if ($this->is_support_agent()) {
+
+            $search_all_all = html::label(
+                ['class' => 'elasticlogs-mode-label'],
+                html::tag('input', [
+                    'type'  => 'radio',
+                    'name'  => 'search_all',
+                    'value' => '1',
+                ]) . ' ' . $this->gettext('search_all')
+            );
+            $search_all_self = html::label(
+                ['class' => 'elasticlogs-mode-label'],
+                html::tag('input', [
+                    'type'  => 'radio',
+                    'name'  => 'search_all',
+                    'value' => '',
+                    'checked' => true,
+                ]) . ' ' . $this->gettext('search_my_logs')
+            );
+
             $search_all = html::div(
-                ['class' => 'elasticlogs-search-all'],
-                html::label(
-                    [],
-                    html::tag('input', [
-                        'type' => 'checkbox',
-                        'id'   => 'elasticlogs-search-all',
-                        'name' => 'search_all',
-                    ]) . ' ' . $this->gettext('search_all')
-                )
+                ['class' => 'elasticlogs-search-all custom-control-toggle'],
+                $search_all_all . $search_all_self
             );
         }
 

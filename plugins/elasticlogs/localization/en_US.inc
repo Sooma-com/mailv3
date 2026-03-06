@@ -16,3 +16,4 @@ $labels['es_query_error'] = 'An error occurred while searching logs. Please try 
 $labels['elasticlogs_settings_title'] = 'Delivery Logs';
 $labels['messagesearch'] = 'Trace message';
 $labels['search_all'] = 'Search all logs';
+$labels['search_my_logs'] = 'Search my logs';

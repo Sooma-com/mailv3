@@ -87,9 +87,9 @@ if (window.rcmail) {
                     params._date_to = document.getElementById('elasticlogs-date-to').value;
                 }
 
-                var search_all_cb = document.getElementById('elasticlogs-search-all');
-                if (search_all_cb && search_all_cb.checked) {
-                    params._search_all = 1;
+                const search_all = document.querySelector('.elasticlogs-search-all input[name="search_all"]:checked');
+                if (search_all) {
+                    params._search_all = search_all.value;
                 }
 
                 rcmail.http_post('search', params);
