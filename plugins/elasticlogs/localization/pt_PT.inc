@@ -15,3 +15,4 @@ $labels['es_connect_error'] = 'Não foi possível ligar ao servidor de registos.
 $labels['es_query_error'] = 'Ocorreu um erro ao pesquisar registos. Tente novamente mais tarde.';
 $labels['elasticlogs_settings_title'] = 'Registos de Entrega';
 $labels['messagesearch'] = 'Rastrear mensagem';
+$labels['search_all'] = 'Pesquisar todos os registos';

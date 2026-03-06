@@ -89,6 +89,7 @@ class elasticlogs extends rcube_plugin
     public function action_index()
     {
         $this->rc->output->set_pagetitle($this->gettext('task_title'));
+        $this->rc->output->set_env('elasticlogs.is_support_agent', $this->is_support_agent());
         $this->rc->output->add_handlers([
             'plugin.searchform'    => [$this, 'render_searchform'],
             'plugin.searchresults' => [$this, 'render_searchresults'],
@@ -134,6 +135,18 @@ class elasticlogs extends rcube_plugin
         return $data;
     }
 
+    private function is_support_agent(): bool
+    {
+        $agents = $this->rc->config->get('elasticlogs')['support-agents'] ?? [];
+        $username = strtolower($_SESSION['username']);
+        foreach ($agents as $agent) {
+            if (strtolower($agent) === $username) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static function escape_esql_string(string $string): string
     {
         return strtr($string, ['\\' => '', '"' => '']);
@@ -175,23 +188,28 @@ EOQ, $index, static::escape_esql_string($message_id))
                 return;
             }
 
-            $access_granted = false;
-            foreach ($response as $hit) {
-                $from = $hit['postfix.from'] ?? null;
-                $to = $hit['postfix.kv.to'] ?? null;
-                if (($from !== null && strcasecmp($from, $user_email) === 0)
-                    || ($to !== null && strcasecmp($to, $user_email) === 0)) {
-                    $access_granted = true;
-                    break;
-                }
-            }
+            $search_all = rcube_utils::get_input_string('_search_all', rcube_utils::INPUT_POST);
+            $bypass_acl = $search_all && $this->is_support_agent();
 
-            if (!$access_granted) {
-                $this->rc->output->command('plugin.elasticlogs_search_response', [
-                    'results' => [],
-                    'count'   => 0,
-                ]);
-                return;
+            if (!$bypass_acl) {
+                $access_granted = false;
+                foreach ($response as $hit) {
+                    $from = $hit['postfix.from'] ?? null;
+                    $to = $hit['postfix.kv.to'] ?? null;
+                    if (($from !== null && strcasecmp($from, $user_email) === 0)
+                        || ($to !== null && strcasecmp($to, $user_email) === 0)) {
+                        $access_granted = true;
+                        break;
+                    }
+                }
+
+                if (!$access_granted) {
+                    $this->rc->output->command('plugin.elasticlogs_search_response', [
+                        'results' => [],
+                        'count'   => 0,
+                    ]);
+                    return;
+                }
             }
 
             // Phase 2: Expand by referenced (hostname, queueid) pairs
@@ -277,13 +295,19 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
                 return;
             }
 
-            // Access control: keep only entries where the logged-in user is sender or recipient
-            $filtered = array_values(array_filter($response, function ($hit) use ($user_email) {
-                $from = $hit['postfix.from'] ?? null;
-                $to = $hit['postfix.kv.to'] ?? null;
-                return ($from !== null && strcasecmp($from, $user_email) === 0)
-                    || ($to !== null && strcasecmp($to, $user_email) === 0);
-            }));
+            $search_all = rcube_utils::get_input_string('_search_all', rcube_utils::INPUT_POST);
+            $bypass_acl = $search_all && $this->is_support_agent();
+
+            if ($bypass_acl) {
+                $filtered = $response;
+            } else {
+                $filtered = array_values(array_filter($response, function ($hit) use ($user_email) {
+                    $from = $hit['postfix.from'] ?? null;
+                    $to = $hit['postfix.kv.to'] ?? null;
+                    return ($from !== null && strcasecmp($from, $user_email) === 0)
+                        || ($to !== null && strcasecmp($to, $user_email) === 0);
+                }));
+            }
 
             if (empty($filtered)) {
                 $this->rc->output->command('plugin.elasticlogs_search_response', [
@@ -411,6 +435,21 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
             ])
         );
 
+        $search_all = '';
+        if ($this->is_support_agent()) {
+            $search_all = html::div(
+                ['class' => 'elasticlogs-search-all'],
+                html::label(
+                    [],
+                    html::tag('input', [
+                        'type' => 'checkbox',
+                        'id'   => 'elasticlogs-search-all',
+                        'name' => 'search_all',
+                    ]) . ' ' . $this->gettext('search_all')
+                )
+            );
+        }
+
         $submit = html::tag('button', [
             'type'  => 'button',
             'id'    => 'elasticlogs-search-btn',
@@ -420,6 +459,7 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
         return html::div(
             $attrib,
             $mode_selector . $message_id_fields . $sender_recipient_fields
+            . $search_all
             . html::div(['class' => 'elasticlogs-form-actions formbuttons'], $submit)
         );
     }

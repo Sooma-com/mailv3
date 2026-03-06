@@ -87,6 +87,11 @@ if (window.rcmail) {
                     params._date_to = document.getElementById('elasticlogs-date-to').value;
                 }
 
+                var search_all_cb = document.getElementById('elasticlogs-search-all');
+                if (search_all_cb && search_all_cb.checked) {
+                    params._search_all = 1;
+                }
+
                 rcmail.http_post('search', params);
             });
         }

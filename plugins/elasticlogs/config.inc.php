@@ -5,5 +5,6 @@ $config['elasticlogs'] = [
     'elasticsearch_password' => 'CickEksImAx5dryWuvRo',
     'elasticsearch_index' => 'logs-mail-prof',
     'elasticsearch_verify_tls' => false,
+    'support-agents' => [],
 ];
 

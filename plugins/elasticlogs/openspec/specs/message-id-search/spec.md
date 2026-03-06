@@ -31,29 +31,24 @@ Message-ID as the first phase of message-id search, using ES|QL.
 ### Requirement: Access Control for Message-ID Search
 
 The plugin MUST verify that the logged-in user is the sender or a
-recipient of the message before returning log entries.
+recipient of the message before returning log entries, unless the
+user is a support agent who has opted to search all logs.
 
-#### Scenario: User is the sender
+#### Scenario: Support agent bypasses access control
 
-- GIVEN phase 1 returns entries where at least one has a postfix.from
-  value matching the logged-in user's email address
-- WHEN access control is checked
-- THEN the search proceeds to phase 2
+- GIVEN a support agent performing a message-id search with search-all
+  enabled
+- WHEN phase 1 returns entries
+- THEN access control is skipped
+- AND the search proceeds directly to phase 2 regardless of sender
+  or recipient fields
 
-#### Scenario: User is a recipient
+#### Scenario: Server-side role verification
 
-- GIVEN phase 1 returns entries where at least one has a postfix.kv.to
-  value matching the logged-in user's email address
-- WHEN access control is checked
-- THEN the search proceeds to phase 2
-
-#### Scenario: User is neither sender nor recipient
-
-- GIVEN phase 1 returns entries but none have a postfix.from or
-  postfix.kv.to value matching the logged-in user's email address
-- WHEN access control is checked
-- THEN an empty result set is returned to the frontend
-- AND phase 2 is not executed
+- GIVEN a non-support-agent user who forges a `_search_all` parameter
+- WHEN the search action processes the request
+- THEN the server verifies the user's role before honoring the parameter
+- AND access control is enforced normally
 
 ### Requirement: Phase 2 — Queue-ID Expansion
 
