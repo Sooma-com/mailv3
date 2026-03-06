@@ -186,8 +186,6 @@ EOQ, $index, static::escape_esql_string($message_id))
                 }
             }
 
-            $access_granted = true; // TODO Remove this before commit
-
             if (!$access_granted) {
                 $this->rc->output->command('plugin.elasticlogs_search_response', [
                     'results' => [],
@@ -283,7 +281,6 @@ EOQ, $index, static::escape_esql_string($date_from), static::escape_esql_string(
             $filtered = array_values(array_filter($response, function ($hit) use ($user_email) {
                 $from = $hit['postfix.from'] ?? null;
                 $to = $hit['postfix.kv.to'] ?? null;
-                return true; // TODO Remove this before commit
                 return ($from !== null && strcasecmp($from, $user_email) === 0)
                     || ($to !== null && strcasecmp($to, $user_email) === 0);
             }));
