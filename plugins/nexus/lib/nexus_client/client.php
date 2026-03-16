@@ -47,7 +47,7 @@ class Client
     }
     public function get_customers(?array $params = []): array {
         $http = new HTTP($this->endpoint, $this->api_key);
-        $json = $http->http_get('customer/collection/');
+        $json = $http->http_get('customer/collection/', $params);
         return array_map(function ($item) { return Customer::from_json($item); }, $json['data']);
     }
     public function post_customer(Customer|string $customer): Customer {
@@ -91,7 +91,7 @@ class Client
     }
     public function get_subscriptions(?array $params = []): array {
         $http = new HTTP($this->endpoint, $this->api_key);
-        $json = $http->http_get_paged('subscription/collection/');
+        $json = $http->http_get_paged('subscription/collection/', $params);
         return array_map(function ($item) { return Subscription::from_json($item); }, $json['data']);
     }
     public function get_subscription_invoices(string $subscription, ?array $params = []): array {

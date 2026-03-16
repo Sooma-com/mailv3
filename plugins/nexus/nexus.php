@@ -203,7 +203,6 @@ class nexus extends rcube_plugin
 
     public function product_selector(array $attrib): string {
         ob_start();
-        header("Content-Type: text/plain");
         $nexus_client = new Nexus\Client($this->config['api_key'], $this->config['endpoint']);
         $products = $nexus_client->get_products();
         $product_chains = [];
@@ -306,6 +305,7 @@ class nexus extends rcube_plugin
         } else {
             $template_products[0]['action'] = 'none';
             $template_products[0]['current'] = true;
+            $template_products[0]['ends_at'] = true;
         }
 ?>
 <span class="form-instructions"><?= $this->rc->gettext('nexus.select-product', 'nexus'); ?></span>
@@ -316,7 +316,7 @@ class nexus extends rcube_plugin
 <label class="nexus-product-option<?= $template_product['current'] ? ' current' : ''; ?>">
  <input type="radio" name="product" value="<?= $template_product['nexus_id']; ?>">
  <span class="nexus-product-option-name"><?= $template_product['name']; ?></span>
- <span class="nexus-product-option-ends_at"><?= $template_product['ends_at'] ? $this->rc->gettext('product.ends_at', 'nexus') . date('Y-m-d', strtotime($template_product['ends_at'])) : ''; ?></span>
+ <span class="nexus-product-option-ends_at"><?= $template_product['ends_at'] ? ( $template_product['ends_at'] === true ? $this->rc->gettext('product.ends_at_infinity', 'nexus') : ( $this->rc->gettext('product.ends_at', 'nexus') . date('Y-m-d', strtotime($template_product['ends_at'])) )) : ''; ?></span>
 <?php if ($template_product['action'] != 'none') { ?>
  <span class="nexus-product-option-action<?= $template_product['action'] ? sprintf(' action-%s', $template_product['action']) : ' no-action'; ?>"><?php switch ($template_product['action']) {
     case 'upgrade':
@@ -358,6 +358,7 @@ class nexus extends rcube_plugin
 <?php        } ?>
  </span>
  <?php  } ?>
+ <span class="form-notes"><?= $this->rc->gettext('nexus.added-vat', 'nexus'); ?></span>
 </fieldset>
 <?php
         return ob_get_clean();
@@ -372,7 +373,6 @@ class nexus extends rcube_plugin
     }
     public function nexus_upgrade_post()
     {
-        header("Content-Type: text/plain");
         $customer_name = rcube_utils::get_input_value('customer_name', rcube_utils::INPUT_POST);
         $customer_vat_id = rcube_utils::get_input_value('customer_vat_id', rcube_utils::INPUT_POST);
         $nexus_client = new Nexus\Client($this->config['api_key'], $this->config['endpoint']);
