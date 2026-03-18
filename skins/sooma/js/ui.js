@@ -169,13 +169,29 @@
         document.addEventListener("keyup", cancelDialog.bind(null, profileDialog, "flex", true), { capture: true });
         const update_profile_quota = function(element) {
             if (!element.getAttribute("title")) return;
-            const matches = /(?<used>[0-9]+(?:\.[0-9]+)?) ?[KMGT]B ?\/ ?(?<capacity>[0-9]+(?:\.[0-9]+)?) ?[KMGT]B/.exec(element.getAttribute("title").replaceAll(",", "."));
+            const matches = /(?<used>[0-9]+(?:\.[0-9]+)?) ?(?<used_unit>[KMGT]B) ?\/ ?(?<capacity>[0-9]+(?:\.[0-9]+)?) ?(?<capacity_unit>[KMGT]B)/.exec(element.getAttribute("title").replaceAll(",", "."));
+
             if (!matches) return;
             [ "sooma-profile-dialog-quota-label", "sooma-profile-dialog-quota-img", "quota-text"].map(id => document.getElementById(id)).filter( element => element).forEach( element => {
                 element.remove();
             });
-            const used = parseFloat(matches.groups.used);
-            const capacity = parseFloat(matches.groups.capacity);
+            const unit_multiplier = function(unit) {
+                switch (unit) {
+                    case "KB":
+                        return 1.0 / (1024.0 * 1024.0);
+                    case "MB":
+                        return 1.0 / 1024.0;
+                    case "GB":
+                        return 1.0;
+                    case "TB":
+                        return 1024.0;
+                    default:
+                        return 1.0;
+                }
+            }
+
+            const used = parseFloat(matches.groups.used) * unit_multiplier(matches.groups.used_unit);
+            const capacity = parseFloat(matches.groups.capacity) * unit_multiplier(matches.groups.capacity_unit);
             const percent = Math.round(used / capacity * 100);
             row_2.insertBefore((function() {
                 const div = document.createElement("div");
