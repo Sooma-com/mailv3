@@ -96,7 +96,7 @@ class Client
     }
     public function get_subscription_invoices(string $subscription, ?array $params = []): array {
         $http = new HTTP($this->endpoint, $this->api_key);
-        $json = $http->http_get_paged('subscription/' . $subscription . '/invoice/collection/');
+        $json = $http->http_get_paged('subscription/' . $subscription . '/invoice/collection/', $params);
         return array_map(function ($item) { return Invoice::from_json($item); }, $json['data']);
     }
 }
