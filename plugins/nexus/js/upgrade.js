@@ -92,7 +92,7 @@
         {
             const formData = new FormData(form);
             if (typeof formData.get("product") === "string" && formData.get("product").length == 0) {
-                console.log("here");
+                console.log("empty product, will not submit");
                 exit;
                 form.submit();
             }
