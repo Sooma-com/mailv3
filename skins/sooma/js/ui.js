@@ -591,6 +591,16 @@
         });
     };
 
+    const submitComposeOptions = () => {
+        document.documentElement.queryElements("css:body.task-mail.action-compose #compose-content > form").forEach( form => form.addEventListener("formdata", function(ev) {
+            document
+            .documentElement
+            .queryElements("css:#compose-options input, #compose-options select, #compose-options textarea")
+            .filter( (input) => input.checked !== false )
+            .map( (input) => ev.formData.set(input.name, input.value) );
+        }));
+    }
+
     /*
      Main entry point.
     */
@@ -613,6 +623,7 @@
         clickOnContactPhotoFireUpload();
         tagDefaultPhotoOnContactPic();
         clickOnLogoReturnToMail();
+        submitComposeOptions();
         if ('loaded' in rcmail && rcmail.loaded) {
             initRoundcube.bind(this)();
         } else {

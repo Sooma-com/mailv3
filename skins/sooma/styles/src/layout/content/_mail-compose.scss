@@ -80,6 +80,10 @@
   }
 
 }
+div.form-group.row:has(>label[for='compose-store-target']),
+div.form-group.row:has(>label[for='compose-keep-formatting']) {
+ display: none;
+}
 
 #compose_recipient_buttons {
 

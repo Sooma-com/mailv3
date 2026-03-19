@@ -21185,6 +21185,10 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content 
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons a.extwin {
   display: none;
 }
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout div.form-group.row:has(> label[for=compose-store-target]),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout div.form-group.row:has(> label[for=compose-keep-formatting]) {
+  display: none;
+}
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a {
   color: inherit;
   text-decoration: none;
