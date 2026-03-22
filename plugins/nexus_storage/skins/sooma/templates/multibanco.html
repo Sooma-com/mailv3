@@ -4,18 +4,18 @@
 
 <div id="layout-content" role="main">
  <div class="nexus-card">
-  <div class="nexus-card-header"><roundcube:label name="nexus.payment_pending" /></div>
+  <div class="nexus-card-header"><roundcube:label name="nexus_storage.payment_pending" /></div>
   <div class="nexus-card-content">
-    <p><roundcube:label name="nexus.multibanco_instructions" /></p>
+    <p><roundcube:label name="nexus_storage.multibanco_instructions" /></p>
     <dl class="nexus-multibanco">
-     <dt><roundcube:label name="nexus.multibanco_entity" />:</dt>
+     <dt><roundcube:label name="nexus_storage.multibanco_entity" />:</dt>
      <dd><roundcube:exp expression="env:customer_action['multibanco']['entity']" /></dd>
-     <dt><roundcube:label name="nexus.multibanco_reference" />:</dt>
+     <dt><roundcube:label name="nexus_storage.multibanco_reference" />:</dt>
      <dd><roundcube:exp expression="preg_replace('/(\d{3})(\d{3})(\d{3})/', '$1 $2 $3', env:customer_action['multibanco']['reference'])" /></dd>
-     <dt><roundcube:label name="nexus.multibanco_value" />:</dt>
+     <dt><roundcube:label name="nexus_storage.multibanco_value" />:</dt>
      <dd><roundcube:exp expression="number_format(env:customer_action['multibanco']['value'], 2, '.', ' ')" />€</dd>
     </dl>
-    <p> <roundcube:label name="nexus.multibanco_instructions_afer" /></p>
+    <p> <roundcube:label name="nexus_storage.multibanco_instructions_afer" /></p>
   </div>
   </div>
  </div>

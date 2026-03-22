@@ -1,3 +1,6 @@
+div#layout-content:has(form.nexus) {
+ overflow: hidden auto !important;
+}
 form.nexus {
   padding-top: 2rem;
   .form-instructions {

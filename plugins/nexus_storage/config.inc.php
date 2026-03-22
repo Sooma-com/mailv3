@@ -1,5 +1,5 @@
 <?php
-$config['nexus'] = [
+$config['nexus_storage'] = [
     'sooma.com' => 'example.com',
     'example.com' => [
         'api_key' => 'sk_live_57889d960eae3ea5c4dd512e0dc7d70d8fd4185a6ad874a1',

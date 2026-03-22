@@ -155,18 +155,18 @@
             if (!errorSpan) return;
             errorSpan.textContent = "";
             if (!/^[A-Z]{2}[0-9]{9}$/.test(ev.target.value)) {
-                errorSpan.textContent = rcmail.gettext("nexus.vat_invalid");
-                ev.target.setCustomValidity(rcmail.gettext("nexus.vat_invalid"));
+                errorSpan.textContent = rcmail.gettext("nexus_storage.vat_invalid");
+                ev.target.setCustomValidity(rcmail.gettext("nexus_storage.vat_invalid"));
                 return;
             }
             if (!/^PT[0-9]{9}$/.test(ev.target.value)) {
-                errorSpan.textContent = rcmail.gettext("nexus.vat_non_portuguese");
-                ev.target.setCustomValidity(rcmail.gettext("nexus.vat_non_portuguese"));
+                errorSpan.textContent = rcmail.gettext("nexus_storage.vat_non_portuguese");
+                ev.target.setCustomValidity(rcmail.gettext("nexus_storage.vat_non_portuguese"));
                 return;
             }
             if (!isVATIDValid(ev.target.value, "PT")) {
-                errorSpan.textContent = rcmail.gettext("nexus.vat_invalid");
-                ev.target.setCustomValidity(rcmail.gettext("nexus.vat_invalid"));
+                errorSpan.textContent = rcmail.gettext("nexus_storage.vat_invalid");
+                ev.target.setCustomValidity(rcmail.gettext("nexus_storage.vat_invalid"));
                 return;
             }
             if (matches = /^PT([0-9]{3})([0-9]{3})([0-9]{3})$/.exec(ev.target.value)) {
@@ -185,8 +185,8 @@
             errorSpan.textContent = "";
             ev.target.setCustomValidity("");
             if (ev.target.value.length == 0) {
-                errorSpan.textContent = rcmail.gettext("nexus.customer_name_required");
-                ev.target.setCustomValidity(rcmail.gettext("nexus.customer_name_required"));
+                errorSpan.textContent = rcmail.gettext("nexus_storage.customer_name_required");
+                ev.target.setCustomValidity(rcmail.gettext("nexus_storage.customer_name_required"));
             }
             updateFormState(form);
         });
@@ -195,8 +195,8 @@
             errorSpan.textContent = "";
             ev.target.setCustomValidity("");
             if (ev.target.value.length == 0) {
-                errorSpan.textContent = rcmail.gettext("nexus.customer_name_required");
-                ev.target.setCustomValidity(rcmail.gettext("nexus.customer_name_required"));
+                errorSpan.textContent = rcmail.gettext("nexus_storage.customer_name_required");
+                ev.target.setCustomValidity(rcmail.gettext("nexus_storage.customer_name_required"));
             }
             updateFormState(form);
         });
@@ -225,7 +225,7 @@
             const value = ev.target.value.replace(/\s/g, '');
             ev.target.setCustomValidity("");
             if (!/^9[123][0-9]{7}$/.test(ev.target.value)) {
-                ev.target.setCustomValidity(rcmail.gettext("nexus.invalid_cellphone"));
+                ev.target.setCustomValidity(rcmail.gettext("nexus_storage:.invalid_cellphone"));
                 return;
             }
             ev.target.value = value;

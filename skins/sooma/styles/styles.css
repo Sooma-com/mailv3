@@ -25829,6 +25829,10 @@ label.custom-control input[type=checkbox] {
   color: var(--color-success);
 }
 
+div#layout-content:has(form.nexus) {
+  overflow: hidden auto !important;
+}
+
 form.nexus {
   padding-top: 2rem;
 }

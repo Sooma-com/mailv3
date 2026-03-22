@@ -15,7 +15,12 @@ class CustomerAction {
     public ?string $url = null;
 
     
-    public static function from_json(array $json): CustomerAction {
+    public static function from_json(array|string $json): CustomerAction {
+        if ($json == 'none') {
+            $result = new CustomerAction();
+            $result->type = self::TYPE_NONE;
+            return $result;
+        }
         if (is_string($json)) $json = json_decode($json, true);
         $result = new CustomerAction();
         $type = array_keys($json)[0];
