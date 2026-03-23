@@ -285,3 +285,6 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
 
   }
 }
+body.action-plugin-nexus_registered_setting {
+  @include meta.load-css("layout/content/nexus_registered_setting");
+}

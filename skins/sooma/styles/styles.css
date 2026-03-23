@@ -22903,6 +22903,14 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   grid-area: submit-button;
 }
 
+body.action-plugin-nexus_registered_setting td.title {
+  padding-right: 1rem;
+}
+body.action-plugin-nexus_registered_setting #layout-content {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 body > .ui-widget-overlay {
   position: fixed;
   top: 0;

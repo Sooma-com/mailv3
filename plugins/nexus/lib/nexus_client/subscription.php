@@ -5,6 +5,7 @@ class Subscription {
     public ?string $id = null;
     public ?string $customer = null;
     public ?string $price = null;
+    public ?string $product = null;
     public ?string $currency = null;
     public ?array $product_config = null;
     public ?string $provisioning = null;
@@ -17,7 +18,7 @@ class Subscription {
 
     public static function from_json(array $json): Subscription {
         $result = new Subscription();
-        foreach (['id', 'customer', 'price', 'currency', 'product_config', 'provisioning', 'status', 'online_success_return_url', 'event_callback_url', 'ends', 'metadata', 'created'] as $key) {
+        foreach (['id', 'customer', 'price', 'product', 'currency', 'product_config', 'provisioning', 'status', 'online_success_return_url', 'event_callback_url', 'ends', 'metadata', 'created'] as $key) {
             if (isset($json[$key])) {
                 $result->$key = $json[$key];
             }

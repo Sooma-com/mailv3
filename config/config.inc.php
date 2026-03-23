@@ -63,12 +63,12 @@ $config['smtp_host'] = 'mail.sooma.com:587';
 // SMTP username (if required)
 // Note: %u variable will be replaced with current user's username
 // Note: To disable user authentication set smtp_user and smtp_pass to ''.
-$config['smtp_user'] = '';
+$config['smtp_user'] = '%u';
 
 // SMTP password (if required)
 // Note: When set to '%p' current user's password will be used
 // Note: To disable user authentication set smtp_user and smtp_pass to ''.
-$config['smtp_pass'] = '';
+$config['smtp_pass'] = '%p';
 
 // provide an URL where a user can get support for this Roundcube installation
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
@@ -95,7 +95,7 @@ $config['identities_level'] = 4;
 // PLUGINS
 // ----------------------------------
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'username_login', 'sooma', 'subscriptions_option', 'elasticlogs', 'nexus', 'nexus_storage' ];
+$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'username_login', 'sooma', 'subscriptions_option', 'elasticlogs', 'nexus', 'nexus_storage', 'nexus_registered' ];
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
