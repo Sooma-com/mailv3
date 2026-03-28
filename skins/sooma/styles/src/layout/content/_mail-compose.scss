@@ -232,6 +232,12 @@ div#compose-content {
     display: flex;
     flex-direction: column;
 
+    input {
+      border-top-color: transparent;
+      border-left-color: transparent;
+      border-right-color: transparent;
+    }
+
     &>#compose-headers {
       flex: 0;
     }

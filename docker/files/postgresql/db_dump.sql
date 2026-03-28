@@ -2,7 +2,7 @@
 -- PostgreSQL database cluster dump
 --
 
-\restrict ZAGeqheNS9tRfeHlOl9LZ9HeG7pyuyNdzoxEM9KOqktRisBcs8mUm3wXtIbmh2A
+\restrict qvU2MT8VIVulVleWp7OCOXymI2Zv3naZRWcnrWxFcfwz8kwdHxvWttsiv5nLGvU
 
 SET default_transaction_read_only = off;
 
@@ -23,6 +23,8 @@ CREATE ROLE postfix;
 ALTER ROLE postfix WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS;
 CREATE ROLE postgres;
 ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS;
+CREATE ROLE roundcube;
+ALTER ROLE roundcube WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS;
 
 --
 -- User Configurations
@@ -35,7 +37,7 @@ ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION
 
 
 
-\unrestrict ZAGeqheNS9tRfeHlOl9LZ9HeG7pyuyNdzoxEM9KOqktRisBcs8mUm3wXtIbmh2A
+\unrestrict qvU2MT8VIVulVleWp7OCOXymI2Zv3naZRWcnrWxFcfwz8kwdHxvWttsiv5nLGvU
 
 --
 -- Databases
@@ -51,10 +53,10 @@ ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION
 -- PostgreSQL database dump
 --
 
-\restrict bqLNOdlv9mrrblnp5yGnho1z9pTxFmAa3DkfIy5gTyinJwQoidprja5rnGObZiN
+\restrict GFYGaMp3ccQb3ywrtfa8cGU62zMpqrdhfF3MPPdKU2JNdiTx8GotlC6uMMhmnYy
 
--- Dumped from database version 17.6 (Debian 17.6-0+deb13u1)
--- Dumped by pg_dump version 17.6 (Debian 17.6-0+deb13u1)
+-- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
+-- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -72,7 +74,7 @@ SET row_security = off;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict bqLNOdlv9mrrblnp5yGnho1z9pTxFmAa3DkfIy5gTyinJwQoidprja5rnGObZiN
+\unrestrict GFYGaMp3ccQb3ywrtfa8cGU62zMpqrdhfF3MPPdKU2JNdiTx8GotlC6uMMhmnYy
 
 --
 -- Database "mail_profissional" dump
@@ -82,10 +84,10 @@ SET row_security = off;
 -- PostgreSQL database dump
 --
 
-\restrict fTyhMD6tPGXF4GbIX5q4zrDbMQhTAvB4BYFMTnkTqwEhVgHKOt2KRlXdXh8L5al
+\restrict jygWSmgeavlc8IXw5Ew9V21jZ8PqCFpHxqPv9ahPEYkZKu7qLblq4Wtwdxrjbvy
 
--- Dumped from database version 17.6 (Debian 17.6-0+deb13u1)
--- Dumped by pg_dump version 17.6 (Debian 17.6-0+deb13u1)
+-- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
+-- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -108,9 +110,9 @@ CREATE DATABASE mail_profissional WITH TEMPLATE = template0 ENCODING = 'UTF8' LO
 
 ALTER DATABASE mail_profissional OWNER TO postgres;
 
-\unrestrict fTyhMD6tPGXF4GbIX5q4zrDbMQhTAvB4BYFMTnkTqwEhVgHKOt2KRlXdXh8L5al
+\unrestrict jygWSmgeavlc8IXw5Ew9V21jZ8PqCFpHxqPv9ahPEYkZKu7qLblq4Wtwdxrjbvy
 \connect mail_profissional
-\restrict fTyhMD6tPGXF4GbIX5q4zrDbMQhTAvB4BYFMTnkTqwEhVgHKOt2KRlXdXh8L5al
+\restrict jygWSmgeavlc8IXw5Ew9V21jZ8PqCFpHxqPv9ahPEYkZKu7qLblq4Wtwdxrjbvy
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -203,11 +205,11 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 CREATE FUNCTION public.profissional_alias_delete() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
- DELETE FROM profissional_email_aliases WHERE email_id = OLD.id;
- DELETE FROM profissional_emails WHERE id = OLD.id;
-END;
+    AS $$
+BEGIN
+ DELETE FROM profissional_email_aliases WHERE email_id = OLD.id;
+ DELETE FROM profissional_emails WHERE id = OLD.id;
+END;
 $$;
 
 
@@ -219,16 +221,16 @@ ALTER FUNCTION public.profissional_alias_delete() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_alias_insert() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- new_id integer;
- result profissional_alias;
-BEGIN
- INSERT INTO profissional_emails(email, parent, active, type, receive_password, permitted_senders) VALUES(NEW.email, NEW.parent, NEW.active, 'a', NEW.receive_password, NEW.permitted_senders) RETURNING id INTO new_id;
- INSERT INTO profissional_email_aliases(email_id, maildrop, tag_subject, maildrop_definition, permitted_senders_definition, maildrop_group_list_array) VALUES(new_id, NEW.maildrop, NEW.tag_subject, NEW.maildrop_definition, NEW.permitted_senders_definition, NEW.maildrop_group_list_array);
- SELECT * FROM profissional_alias WHERE id = new_id INTO result;
- RETURN result;
-END;
+    AS $$
+DECLARE
+ new_id integer;
+ result profissional_alias;
+BEGIN
+ INSERT INTO profissional_emails(email, parent, active, type, receive_password, permitted_senders) VALUES(NEW.email, NEW.parent, NEW.active, 'a', NEW.receive_password, NEW.permitted_senders) RETURNING id INTO new_id;
+ INSERT INTO profissional_email_aliases(email_id, maildrop, tag_subject, maildrop_definition, permitted_senders_definition, maildrop_group_list_array) VALUES(new_id, NEW.maildrop, NEW.tag_subject, NEW.maildrop_definition, NEW.permitted_senders_definition, NEW.maildrop_group_list_array);
+ SELECT * FROM profissional_alias WHERE id = new_id INTO result;
+ RETURN result;
+END;
 $$;
 
 
@@ -240,15 +242,15 @@ ALTER FUNCTION public.profissional_alias_insert() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_alias_update() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- result profissional_alias;
-BEGIN
- UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active, receive_password = NEW.receive_password, permitted_senders = NEW.permitted_senders WHERE id = OLD.id;
- UPDATE profissional_email_aliases SET maildrop = NEW.maildrop, tag_subject = NEW.tag_subject, maildrop_definition = NEW.maildrop_definition, permitted_senders_definition = NEW.permitted_senders_definition, maildrop_group_list_array = NEW.maildrop_group_list_array WHERE email_id = OLD.id;
- SELECT * FROM profissional_alias WHERE id = OLD.id INTO result;
- RETURN result;
-END;
+    AS $$
+DECLARE
+ result profissional_alias;
+BEGIN
+ UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active, receive_password = NEW.receive_password, permitted_senders = NEW.permitted_senders WHERE id = OLD.id;
+ UPDATE profissional_email_aliases SET maildrop = NEW.maildrop, tag_subject = NEW.tag_subject, maildrop_definition = NEW.maildrop_definition, permitted_senders_definition = NEW.permitted_senders_definition, maildrop_group_list_array = NEW.maildrop_group_list_array WHERE email_id = OLD.id;
+ SELECT * FROM profissional_alias WHERE id = OLD.id INTO result;
+ RETURN result;
+END;
 $$;
 
 
@@ -260,16 +262,16 @@ ALTER FUNCTION public.profissional_alias_update() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_domains_emails_username_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
--- This function exists because of the deprecated profissional_emails.email field.
--- If the field is dropped, and replaced by (profissional_emails.username, profissional_domains.name)
--- then this function and corresponding trigger are no longer necessary
-BEGIN
-    IF (NEW.name != OLD.name) THEN
-        UPDATE profissional_emails SET email = username || '@' || NEW.name WHERE parent = NEW.id;
-    END IF;
-    RETURN NEW;
-END;
+    AS $$
+-- This function exists because of the deprecated profissional_emails.email field.
+-- If the field is dropped, and replaced by (profissional_emails.username, profissional_domains.name)
+-- then this function and corresponding trigger are no longer necessary
+BEGIN
+    IF (NEW.name != OLD.name) THEN
+        UPDATE profissional_emails SET email = username || '@' || NEW.name WHERE parent = NEW.id;
+    END IF;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -281,13 +283,13 @@ ALTER FUNCTION public.profissional_domains_emails_username_trigger() OWNER TO ho
 
 CREATE FUNCTION public.profissional_domains_horde_groups_members_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    IF (NEW.name != OLD.name) THEN
-        UPDATE horde_groups_members SET user_uid = split_part(user_uid, '@', 1) || '@' || NEW.name WHERE user_uid LIKE '%@' || OLD.name;
-    END IF;
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    IF (NEW.name != OLD.name) THEN
+        UPDATE horde_groups_members SET user_uid = split_part(user_uid, '@', 1) || '@' || NEW.name WHERE user_uid LIKE '%@' || OLD.name;
+    END IF;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -299,13 +301,13 @@ ALTER FUNCTION public.profissional_domains_horde_groups_members_trigger() OWNER 
 
 CREATE FUNCTION public.profissional_domains_horde_prefs_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    IF (NEW.name != OLD.name) THEN
-        UPDATE horde_prefs SET pref_uid = split_part(pref_uid, '@', 1) || '@' || NEW.name WHERE pref_uid LIKE '%@' || OLD.name;
-    END IF;
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    IF (NEW.name != OLD.name) THEN
+        UPDATE horde_prefs SET pref_uid = split_part(pref_uid, '@', 1) || '@' || NEW.name WHERE pref_uid LIKE '%@' || OLD.name;
+    END IF;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -317,11 +319,11 @@ ALTER FUNCTION public.profissional_domains_horde_prefs_trigger() OWNER TO horde;
 
 CREATE FUNCTION public.profissional_email_aliases_maildrop_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    NEW.maildrop_array := array_agg(email) FROM (SELECT (regexp_matches(NEW.maildrop, '"([^"]*)"', 'g'))[1] AS email) AS foo;
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    NEW.maildrop_array := array_agg(email) FROM (SELECT (regexp_matches(NEW.maildrop, '"([^"]*)"', 'g'))[1] AS email) AS foo;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -333,25 +335,25 @@ ALTER FUNCTION public.profissional_email_aliases_maildrop_trigger() OWNER TO hor
 
 CREATE FUNCTION public.profissional_email_users_quota_deprecation() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- product_count integer;
-BEGIN
-    IF (NEW.product_id IS NULL and NEW.quota IS NOT NULL) THEN
-        NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
-    END IF;
-    IF TG_OP = 'UPDATE' THEN
-        IF OLD.quota != NEW.quota THEN
-            NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
-        END IF;
-    END IF;
-    product_count = count(*) FROM public.profissional_products WHERE id = NEW.product_id;
-    IF product_count = 0 THEN
-        RAISE EXCEPTION 'product_id not found in profissional_products';
-    END IF;
-    NEW.quota = quota FROM public.profissional_products WHERE id = NEW.product_id;
-    RETURN NEW;
-END;
+    AS $$
+DECLARE
+ product_count integer;
+BEGIN
+    IF (NEW.product_id IS NULL and NEW.quota IS NOT NULL) THEN
+        NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
+    END IF;
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.quota != NEW.quota THEN
+            NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
+        END IF;
+    END IF;
+    product_count = count(*) FROM public.profissional_products WHERE id = NEW.product_id;
+    IF product_count = 0 THEN
+        RAISE EXCEPTION 'product_id not found in profissional_products';
+    END IF;
+    NEW.quota = quota FROM public.profissional_products WHERE id = NEW.product_id;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -363,11 +365,11 @@ ALTER FUNCTION public.profissional_email_users_quota_deprecation() OWNER TO hord
 
 CREATE FUNCTION public.profissional_emails_username_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    NEW.username := split_part(NEW.email, '@', 1);
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    NEW.username := split_part(NEW.email, '@', 1);
+    RETURN NEW;
+END;
 $$;
 
 
@@ -379,19 +381,19 @@ ALTER FUNCTION public.profissional_emails_username_trigger() OWNER TO horde;
 
 CREATE FUNCTION public.profissional_sync_queue_edit(text, text, text, text) RETURNS integer
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
- arg_email_to ALIAS FOR $1;
- arg_email_from ALIAS FOR $2;
- arg_imap_from ALIAS FOR $3;
- arg_state ALIAS FOR $4;
- result integer;
-BEGIN
- LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
- UPDATE profissional_sync_queue SET email_from = COALESCE(arg_email_from, email_from), imap_from = COALESCE(arg_imap_from, imap_from), state = COALESCE(arg_state, state) WHERE email_to = arg_email_to AND state != 'SYNCING';
- GET DIAGNOSTICS result = ROW_COUNT;
- RETURN result;
-END;
+    AS $_$
+DECLARE
+ arg_email_to ALIAS FOR $1;
+ arg_email_from ALIAS FOR $2;
+ arg_imap_from ALIAS FOR $3;
+ arg_state ALIAS FOR $4;
+ result integer;
+BEGIN
+ LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
+ UPDATE profissional_sync_queue SET email_from = COALESCE(arg_email_from, email_from), imap_from = COALESCE(arg_imap_from, imap_from), state = COALESCE(arg_state, state) WHERE email_to = arg_email_to AND state != 'SYNCING';
+ GET DIAGNOSTICS result = ROW_COUNT;
+ RETURN result;
+END;
 $_$;
 
 
@@ -403,16 +405,16 @@ ALTER FUNCTION public.profissional_sync_queue_edit(text, text, text, text) OWNER
 
 CREATE FUNCTION public.profissional_sync_queue_resync_next(text) RETURNS integer
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
- arg_domain ALIAS FOR $1;
- result integer;
-BEGIN
- LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
- result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'ALREADY_SYNCED' ORDER BY last_sync_ts LIMIT 1;
- UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
- RETURN result;
-END;
+    AS $_$
+DECLARE
+ arg_domain ALIAS FOR $1;
+ result integer;
+BEGIN
+ LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
+ result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'ALREADY_SYNCED' ORDER BY last_sync_ts LIMIT 1;
+ UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
+ RETURN result;
+END;
 $_$;
 
 
@@ -424,16 +426,16 @@ ALTER FUNCTION public.profissional_sync_queue_resync_next(text) OWNER TO postgre
 
 CREATE FUNCTION public.profissional_sync_queue_sync_next(text) RETURNS integer
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
- arg_domain ALIAS FOR $1;
- result integer;
-BEGIN
- LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
- result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'NEVER_SYNCED' ORDER BY id LIMIT 1;
- UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
- RETURN result;
-END;
+    AS $_$
+DECLARE
+ arg_domain ALIAS FOR $1;
+ result integer;
+BEGIN
+ LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
+ result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'NEVER_SYNCED' ORDER BY id LIMIT 1;
+ UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
+ RETURN result;
+END;
 $_$;
 
 
@@ -445,11 +447,11 @@ ALTER FUNCTION public.profissional_sync_queue_sync_next(text) OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_users_delete() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
- DELETE FROM profissional_email_users WHERE email_id = OLD.id;
- DELETE FROM profissional_emails WHERE id = OLD.id;
-END;
+    AS $$
+BEGIN
+ DELETE FROM profissional_email_users WHERE email_id = OLD.id;
+ DELETE FROM profissional_emails WHERE id = OLD.id;
+END;
 $$;
 
 
@@ -461,16 +463,16 @@ ALTER FUNCTION public.profissional_users_delete() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_users_insert() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- new_id integer;
- result profissional_users;
-BEGIN
- INSERT INTO profissional_emails(email, parent, active, type) VALUES(NEW.email, NEW.parent, NEW.active, 'u') RETURNING id INTO new_id;
- INSERT INTO profissional_email_users(email_id, password, homedir, apikey, blocked_contents, mailbox, imapserver, smtpserver, must_change_password, product_id, pop3_disabled, outbound_volume, webmail_disabled) VALUES(new_id, NEW.password, NEW.homedir, NEW.apikey, NEW.blocked_contents, NEW.mailbox, NEW.imapserver, NEW.smtpserver, NEW.must_change_password, NEW.product_id, NEW.pop3_disabled, NEW.outbound_volume, NEW.webmail_disabled);
- SELECT * FROM profissional_users WHERE id = new_id INTO result;
- RETURN result;
-END;
+    AS $$
+DECLARE
+ new_id integer;
+ result profissional_users;
+BEGIN
+ INSERT INTO profissional_emails(email, parent, active, type) VALUES(NEW.email, NEW.parent, NEW.active, 'u') RETURNING id INTO new_id;
+ INSERT INTO profissional_email_users(email_id, password, homedir, apikey, blocked_contents, mailbox, imapserver, smtpserver, must_change_password, product_id, pop3_disabled, outbound_volume, webmail_disabled) VALUES(new_id, NEW.password, NEW.homedir, NEW.apikey, NEW.blocked_contents, NEW.mailbox, NEW.imapserver, NEW.smtpserver, NEW.must_change_password, NEW.product_id, NEW.pop3_disabled, NEW.outbound_volume, NEW.webmail_disabled);
+ SELECT * FROM profissional_users WHERE id = new_id INTO result;
+ RETURN result;
+END;
 $$;
 
 
@@ -482,17 +484,17 @@ ALTER FUNCTION public.profissional_users_insert() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_users_update() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- new_id integer;
- result profissional_users;
-BEGIN
- UPDATE profissional_email_users SET password = NEW.password, homedir = NEW.homedir, apikey = NEW.apikey, blocked_contents = NEW.blocked_contents, mailbox = NEW.mailbox, imapserver = NEW.imapserver, smtpserver = NEW.smtpserver, must_change_password = NEW.must_change_password, product_id = NEW.product_id, pop3_disabled = NEW.pop3_disabled, outbound_volume = NEW.outbound_volume, webmail_disabled = NEW.webmail_disabled WHERE email_id = OLD.id;
- UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active WHERE id = OLD.id;
- SELECT * FROM profissional_users WHERE id = OLD.id INTO result;
-
- RETURN result;
-END;
+    AS $$
+DECLARE
+ new_id integer;
+ result profissional_users;
+BEGIN
+ UPDATE profissional_email_users SET password = NEW.password, homedir = NEW.homedir, apikey = NEW.apikey, blocked_contents = NEW.blocked_contents, mailbox = NEW.mailbox, imapserver = NEW.imapserver, smtpserver = NEW.smtpserver, must_change_password = NEW.must_change_password, product_id = NEW.product_id, pop3_disabled = NEW.pop3_disabled, outbound_volume = NEW.outbound_volume, webmail_disabled = NEW.webmail_disabled WHERE email_id = OLD.id;
+ UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active WHERE id = OLD.id;
+ SELECT * FROM profissional_users WHERE id = OLD.id INTO result;
+
+ RETURN result;
+END;
 $$;
 
 
@@ -6159,7 +6161,8 @@ COPY public.profissional_email_user_credential (id, email_id, last_update, type,
 --
 
 COPY public.profissional_email_users (email_id, password, last_access, type, quota, homedir, creation_time, apikey, blocked_contents, mailbox, imapserver, smtpserver, must_change_password, product_id, pop3_disabled, outbound_volume, webmail_disabled) FROM stdin;
-1	{SSHA}8x3wGvXryaFvGWWTg/7fln+VK65hMzkzYzA5MTVj	\N	u	10485760	/mnt/email/vmail/sooma.com/sergio.carvalho	2012-07-31 19:01:08.315797	48a33eb80fdf068adc689e8715d019a8	a:0:{}	maildir:~/maildir	127.0.0.1	smtpin:127.0.0.1	f	1	f	normal	f
+1	{SSHA}8x3wGvXryaFvGWWTg/7fln+VK65hMzkzYzA5MTVj	\N	u	10485760	/mnt/email/vmail/sooma.com/sergio.carvalho	2012-07-31 19:01:08.315797	48a33eb80fdf068adc689e8715d019a8	a:0:{}	maildir:~/maildir	172.17.0.2	smtpin:172.17.0.2	f	1	f	normal	f
+2	{SSHA}8x3wGvXryaFvGWWTg/7fln+VK65hMzkzYzA5MTVj	\N	u	10485760	/mnt/email/vmail/sooma.com/elastic	2026-03-26 17:46:48.285305	48a33eb80fdf068adc689e8715d019a9	a:0:{}	maildir:~/maildir	172.17.0.2	smtpin:127.0.0.1	f	1	f	normal	f
 \.
 
 
@@ -6169,6 +6172,7 @@ COPY public.profissional_email_users (email_id, password, last_access, type, quo
 
 COPY public.profissional_emails (id, email, parent, active, type, username, sync_guid, receive_password, permitted_senders) FROM stdin;
 1	sergio.carvalho@sooma.com	1	t	u	sergio.carvalho	\N	\N	\N
+2	elastic@sooma.com	1	t	u	elastic	\N	\N	\N
 \.
 
 
@@ -6719,7 +6723,7 @@ SELECT pg_catalog.setval('public.profissional_email_user_credential_id_seq', 1, 
 -- Name: profissional_emails_id_seq; Type: SEQUENCE SET; Schema: public; Owner: horde
 --
 
-SELECT pg_catalog.setval('public.profissional_emails_id_seq', 1, true);
+SELECT pg_catalog.setval('public.profissional_emails_id_seq', 2, true);
 
 
 --
@@ -10040,7 +10044,7 @@ GRANT ALL ON TABLE public.profissional_users TO postfix;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict fTyhMD6tPGXF4GbIX5q4zrDbMQhTAvB4BYFMTnkTqwEhVgHKOt2KRlXdXh8L5al
+\unrestrict jygWSmgeavlc8IXw5Ew9V21jZ8PqCFpHxqPv9ahPEYkZKu7qLblq4Wtwdxrjbvy
 
 --
 -- Database "postgres" dump
@@ -10052,10 +10056,10 @@ GRANT ALL ON TABLE public.profissional_users TO postfix;
 -- PostgreSQL database dump
 --
 
-\restrict 2i87QUg4GXbpgzoC0c5cD0mekWBQvuPdMW5NeXkXghf21JUUqOs7d3H3djAbPMR
+\restrict jngEodZ8eUmD48miBxVzWJKlgyMwLpnpYB5i6iDMXKRYGmkwiHGhbeedgBj7cwQ
 
--- Dumped from database version 17.6 (Debian 17.6-0+deb13u1)
--- Dumped by pg_dump version 17.6 (Debian 17.6-0+deb13u1)
+-- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
+-- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -10073,7 +10077,1783 @@ SET row_security = off;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 2i87QUg4GXbpgzoC0c5cD0mekWBQvuPdMW5NeXkXghf21JUUqOs7d3H3djAbPMR
+\unrestrict jngEodZ8eUmD48miBxVzWJKlgyMwLpnpYB5i6iDMXKRYGmkwiHGhbeedgBj7cwQ
+
+--
+-- Database "roundcube" dump
+--
+
+--
+-- PostgreSQL database dump
+--
+
+\restrict NXXDbjkHLt6TE2s6K0LBtsRNvgOIdpJF3NMyivPbPPp4hCpk9GNiGLqjAMESypc
+
+-- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
+-- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: roundcube; Type: DATABASE; Schema: -; Owner: roundcube
+--
+
+CREATE DATABASE roundcube WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C.UTF-8';
+
+
+ALTER DATABASE roundcube OWNER TO roundcube;
+
+\unrestrict NXXDbjkHLt6TE2s6K0LBtsRNvgOIdpJF3NMyivPbPPp4hCpk9GNiGLqjAMESypc
+\connect roundcube
+\restrict NXXDbjkHLt6TE2s6K0LBtsRNvgOIdpJF3NMyivPbPPp4hCpk9GNiGLqjAMESypc
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: cache; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.cache (
+    user_id integer NOT NULL,
+    cache_key character varying(128) DEFAULT ''::character varying NOT NULL,
+    expires timestamp with time zone,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.cache OWNER TO roundcube;
+
+--
+-- Name: cache_index; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.cache_index (
+    user_id integer NOT NULL,
+    mailbox character varying(255) NOT NULL,
+    expires timestamp with time zone,
+    valid smallint DEFAULT 0 NOT NULL,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.cache_index OWNER TO roundcube;
+
+--
+-- Name: cache_messages; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.cache_messages (
+    user_id integer NOT NULL,
+    mailbox character varying(255) NOT NULL,
+    uid integer NOT NULL,
+    expires timestamp with time zone,
+    data text NOT NULL,
+    flags integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.cache_messages OWNER TO roundcube;
+
+--
+-- Name: cache_shared; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.cache_shared (
+    cache_key character varying(255) NOT NULL,
+    expires timestamp with time zone,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.cache_shared OWNER TO roundcube;
+
+--
+-- Name: cache_thread; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.cache_thread (
+    user_id integer NOT NULL,
+    mailbox character varying(255) NOT NULL,
+    expires timestamp with time zone,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.cache_thread OWNER TO roundcube;
+
+--
+-- Name: collected_addresses; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.collected_addresses (
+    address_id integer DEFAULT nextval(('collected_addresses_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    email character varying(255) NOT NULL,
+    type integer NOT NULL
+);
+
+
+ALTER TABLE public.collected_addresses OWNER TO roundcube;
+
+--
+-- Name: collected_addresses_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.collected_addresses_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.collected_addresses_seq OWNER TO roundcube;
+
+--
+-- Name: contactgroupmembers; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.contactgroupmembers (
+    contactgroup_id integer NOT NULL,
+    contact_id integer NOT NULL,
+    created timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.contactgroupmembers OWNER TO roundcube;
+
+--
+-- Name: contactgroups; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.contactgroups (
+    contactgroup_id integer DEFAULT nextval(('contactgroups_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    del smallint DEFAULT 0 NOT NULL,
+    name character varying(128) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE public.contactgroups OWNER TO roundcube;
+
+--
+-- Name: contactgroups_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.contactgroups_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.contactgroups_seq OWNER TO roundcube;
+
+--
+-- Name: contacts; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.contacts (
+    contact_id integer DEFAULT nextval(('contacts_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    del smallint DEFAULT 0 NOT NULL,
+    name character varying(128) DEFAULT ''::character varying NOT NULL,
+    email text DEFAULT ''::text NOT NULL,
+    firstname character varying(128) DEFAULT ''::character varying NOT NULL,
+    surname character varying(128) DEFAULT ''::character varying NOT NULL,
+    vcard text,
+    words text
+);
+
+
+ALTER TABLE public.contacts OWNER TO roundcube;
+
+--
+-- Name: contacts_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.contacts_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.contacts_seq OWNER TO roundcube;
+
+--
+-- Name: dictionary; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.dictionary (
+    user_id integer,
+    language character varying(16) NOT NULL,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.dictionary OWNER TO roundcube;
+
+--
+-- Name: filestore; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.filestore (
+    file_id integer DEFAULT nextval(('filestore_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    context character varying(32) NOT NULL,
+    filename character varying(128) NOT NULL,
+    mtime integer NOT NULL,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.filestore OWNER TO roundcube;
+
+--
+-- Name: filestore_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.filestore_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.filestore_seq OWNER TO roundcube;
+
+--
+-- Name: identities; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.identities (
+    identity_id integer DEFAULT nextval(('identities_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    del smallint DEFAULT 0 NOT NULL,
+    standard smallint DEFAULT 0 NOT NULL,
+    name character varying(128) NOT NULL,
+    organization character varying(128),
+    email character varying(128) NOT NULL,
+    "reply-to" character varying(128),
+    bcc character varying(128),
+    signature text,
+    html_signature smallint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.identities OWNER TO roundcube;
+
+--
+-- Name: identities_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.identities_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.identities_seq OWNER TO roundcube;
+
+--
+-- Name: responses; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.responses (
+    response_id integer DEFAULT nextval(('responses_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    del smallint DEFAULT 0 NOT NULL,
+    name character varying(255) NOT NULL,
+    data text NOT NULL,
+    is_html smallint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.responses OWNER TO roundcube;
+
+--
+-- Name: responses_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.responses_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.responses_seq OWNER TO roundcube;
+
+--
+-- Name: searches; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.searches (
+    search_id integer DEFAULT nextval(('searches_seq'::text)::regclass) NOT NULL,
+    user_id integer NOT NULL,
+    type smallint DEFAULT 0 NOT NULL,
+    name character varying(128) NOT NULL,
+    data text NOT NULL
+);
+
+
+ALTER TABLE public.searches OWNER TO roundcube;
+
+--
+-- Name: searches_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.searches_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.searches_seq OWNER TO roundcube;
+
+--
+-- Name: session; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.session (
+    sess_id character varying(128) DEFAULT ''::character varying NOT NULL,
+    changed timestamp with time zone DEFAULT now() NOT NULL,
+    ip character varying(41) NOT NULL,
+    vars text NOT NULL
+);
+
+
+ALTER TABLE public.session OWNER TO roundcube;
+
+--
+-- Name: system; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.system (
+    name character varying(64) NOT NULL,
+    value text
+);
+
+
+ALTER TABLE public.system OWNER TO roundcube;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.users (
+    user_id integer DEFAULT nextval(('users_seq'::text)::regclass) NOT NULL,
+    username character varying(128) DEFAULT ''::character varying NOT NULL,
+    mail_host character varying(128) DEFAULT ''::character varying NOT NULL,
+    created timestamp with time zone DEFAULT now() NOT NULL,
+    last_login timestamp with time zone,
+    failed_login timestamp with time zone,
+    failed_login_counter integer,
+    language character varying(16),
+    preferences text
+);
+
+
+ALTER TABLE public.users OWNER TO roundcube;
+
+--
+-- Name: users_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.users_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_alarms; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_alarms (
+    id integer DEFAULT nextval(('xcalendar_alarms_seq'::text)::regclass) NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    event_id integer DEFAULT 0 NOT NULL,
+    event_end timestamp without time zone,
+    alarm_number smallint DEFAULT 0 NOT NULL,
+    alarm_units character varying(255) DEFAULT 'minutes'::character varying NOT NULL,
+    snooze smallint DEFAULT 0 NOT NULL,
+    alarm_position smallint DEFAULT 0 NOT NULL,
+    alarm_time timestamp without time zone,
+    absolute_datetime timestamp without time zone,
+    alarm_type smallint DEFAULT 0 NOT NULL,
+    processing_started smallint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_alarms OWNER TO roundcube;
+
+--
+-- Name: xcalendar_alarms_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_alarms_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_alarms_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_attachments_temp; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_attachments_temp (
+    filename character varying(255) DEFAULT ''::character varying NOT NULL,
+    uploaded_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_attachments_temp OWNER TO roundcube;
+
+--
+-- Name: xcalendar_attendees; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_attendees (
+    event_id integer DEFAULT 0 NOT NULL,
+    calendar_id integer DEFAULT 0 NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    code character varying(40) DEFAULT ''::character varying NOT NULL,
+    organizer smallint DEFAULT 0 NOT NULL,
+    role smallint DEFAULT 0 NOT NULL,
+    hidden smallint DEFAULT 0 NOT NULL,
+    can_see_attendees smallint DEFAULT 1 NOT NULL,
+    notify smallint DEFAULT 1 NOT NULL,
+    status smallint DEFAULT 0 NOT NULL,
+    guests integer DEFAULT 0 NOT NULL,
+    comment character varying(255) DEFAULT ''::character varying NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    responded_at timestamp without time zone,
+    user_id integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_attendees OWNER TO roundcube;
+
+--
+-- Name: xcalendar_calendars; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_calendars (
+    id integer DEFAULT nextval(('xcalendar_calendars_seq'::text)::regclass) NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    type smallint DEFAULT 1 NOT NULL,
+    url character varying(512) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    description text,
+    timezone character varying(255) DEFAULT ''::character varying NOT NULL,
+    bg_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    tx_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    enabled smallint DEFAULT 1 NOT NULL,
+    default_event_visibility character varying(255) DEFAULT 'public'::character varying NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    modified_at timestamp without time zone,
+    removed_at timestamp without time zone,
+    properties text
+);
+
+
+ALTER TABLE public.xcalendar_calendars OWNER TO roundcube;
+
+--
+-- Name: xcalendar_calendars_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_calendars_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_calendars_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_calendars_shared; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_calendars_shared (
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    calendar_id integer DEFAULT 0 NOT NULL,
+    permissions character varying(255) DEFAULT ''::character varying NOT NULL,
+    added smallint DEFAULT 0 NOT NULL,
+    add_code character varying(40) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    description text NOT NULL,
+    bg_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    tx_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    enabled smallint DEFAULT 1 NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_calendars_shared OWNER TO roundcube;
+
+--
+-- Name: xcalendar_changes; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_changes (
+    id integer DEFAULT nextval(('xcalendar_changes_seq'::text)::regclass) NOT NULL,
+    uri character varying(200) NOT NULL,
+    sync_token integer NOT NULL,
+    calendar_id integer NOT NULL,
+    operation smallint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_changes OWNER TO roundcube;
+
+--
+-- Name: xcalendar_changes_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_changes_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_changes_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_events; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_events (
+    id integer DEFAULT nextval(('xcalendar_events_seq'::text)::regclass) NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    calendar_id integer DEFAULT 0 NOT NULL,
+    uid character varying(255) DEFAULT ''::character varying NOT NULL,
+    title character varying(255) DEFAULT ''::character varying NOT NULL,
+    location character varying(255) DEFAULT ''::character varying NOT NULL,
+    description text NOT NULL,
+    url character varying(512) DEFAULT ''::character varying NOT NULL,
+    start timestamp without time zone,
+    "end" timestamp without time zone,
+    all_day smallint DEFAULT 0 NOT NULL,
+    repeat_rule character varying(255) DEFAULT ''::character varying NOT NULL,
+    repeat_end timestamp without time zone,
+    use_calendar_colors smallint DEFAULT 1 NOT NULL,
+    bg_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    tx_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    busy smallint DEFAULT 0 NOT NULL,
+    visibility character varying(255) DEFAULT 'default'::character varying NOT NULL,
+    priority smallint DEFAULT 0 NOT NULL,
+    category character varying(255) DEFAULT ''::character varying NOT NULL,
+    attachments text NOT NULL,
+    vevent text,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    modified_at timestamp without time zone,
+    removed_at timestamp without time zone,
+    has_attendees smallint DEFAULT 0,
+    timezone_start character varying(255) DEFAULT ''::character varying NOT NULL,
+    timezone_end character varying(255) DEFAULT ''::character varying NOT NULL,
+    vevent_uid character varying(255) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_events OWNER TO roundcube;
+
+--
+-- Name: xcalendar_events_custom; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_events_custom (
+    user_id integer DEFAULT 0 NOT NULL,
+    event_id integer DEFAULT 0 NOT NULL,
+    use_calendar_colors smallint DEFAULT 1 NOT NULL,
+    bg_color character varying(255) DEFAULT ''::character varying NOT NULL,
+    tx_color character varying(255) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_events_custom OWNER TO roundcube;
+
+--
+-- Name: xcalendar_events_removed; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_events_removed (
+    id integer DEFAULT nextval(('xcalendar_events_removed_seq'::text)::regclass) NOT NULL,
+    day timestamp without time zone,
+    event_id integer DEFAULT 0 NOT NULL,
+    removed_at timestamp without time zone,
+    removed_by integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_events_removed OWNER TO roundcube;
+
+--
+-- Name: xcalendar_events_removed_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_events_removed_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_events_removed_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_events_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_events_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_events_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_published; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_published (
+    id integer DEFAULT nextval(('xcalendar_published_seq'::text)::regclass) NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    calendar_id integer DEFAULT 0 NOT NULL,
+    code character varying(255) DEFAULT ''::character varying NOT NULL,
+    "full" smallint DEFAULT 1 NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_published OWNER TO roundcube;
+
+--
+-- Name: xcalendar_published_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_published_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_published_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_scheduling_objects; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_scheduling_objects (
+    id integer DEFAULT nextval(('xcalendar_scheduling_objects_seq'::text)::regclass) NOT NULL,
+    principal_uri character varying(255),
+    calendar_data bytea,
+    uri character varying(200),
+    modified_at integer,
+    etag character varying(32),
+    size integer NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_scheduling_objects OWNER TO roundcube;
+
+--
+-- Name: xcalendar_scheduling_objects_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_scheduling_objects_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_scheduling_objects_seq OWNER TO roundcube;
+
+--
+-- Name: xcalendar_synced; Type: TABLE; Schema: public; Owner: roundcube
+--
+
+CREATE TABLE public.xcalendar_synced (
+    id integer DEFAULT nextval(('xcalendar_synced_seq'::text)::regclass) NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    calendar_id integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    username character varying(255) DEFAULT ''::character varying NOT NULL,
+    url character varying(255) DEFAULT ''::character varying NOT NULL,
+    password character varying(255) DEFAULT ''::character varying NOT NULL,
+    read_only smallint DEFAULT 0 NOT NULL,
+    connected_at timestamp without time zone,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.xcalendar_synced OWNER TO roundcube;
+
+--
+-- Name: xcalendar_synced_seq; Type: SEQUENCE; Schema: public; Owner: roundcube
+--
+
+CREATE SEQUENCE public.xcalendar_synced_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.xcalendar_synced_seq OWNER TO roundcube;
+
+--
+-- Data for Name: cache; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.cache (user_id, cache_key, expires, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cache_index; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.cache_index (user_id, mailbox, expires, valid, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cache_messages; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.cache_messages (user_id, mailbox, uid, expires, data, flags) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cache_shared; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.cache_shared (cache_key, expires, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cache_thread; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.cache_thread (user_id, mailbox, expires, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: collected_addresses; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.collected_addresses (address_id, user_id, changed, name, email, type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: contactgroupmembers; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.contactgroupmembers (contactgroup_id, contact_id, created) FROM stdin;
+\.
+
+
+--
+-- Data for Name: contactgroups; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.contactgroups (contactgroup_id, user_id, changed, del, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: contacts; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.contacts (contact_id, user_id, changed, del, name, email, firstname, surname, vcard, words) FROM stdin;
+\.
+
+
+--
+-- Data for Name: dictionary; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.dictionary (user_id, language, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: filestore; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.filestore (file_id, user_id, context, filename, mtime, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: identities; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.identities (identity_id, user_id, changed, del, standard, name, organization, email, "reply-to", bcc, signature, html_signature) FROM stdin;
+1	1	2026-03-26 18:01:47.72881+00	0	1		\N	sergio.carvalho@sooma.com	\N	\N	\N	0
+2	2	2026-03-26 18:02:17.780215+00	0	1		\N	elastic@sooma.com	\N	\N	\N	0
+\.
+
+
+--
+-- Data for Name: responses; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.responses (response_id, user_id, changed, del, name, data, is_html) FROM stdin;
+\.
+
+
+--
+-- Data for Name: searches; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.searches (search_id, user_id, type, name, data) FROM stdin;
+\.
+
+
+--
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.session (sess_id, changed, ip, vars) FROM stdin;
+jv2ogjbbaku1op1ltep4sk27mm	2026-03-26 18:04:22.135334+00	172.17.0.1	bGFuZ3VhZ2V8czo1OiJwdF9QVCI7aW1hcF9uYW1lc3BhY2V8YTo0OntzOjg6InBlcnNvbmFsIjthOjE6e2k6MDthOjI6e2k6MDtzOjA6IiI7aToxO3M6MToiLiI7fX1zOjU6Im90aGVyIjtOO3M6Njoic2hhcmVkIjtOO3M6MTA6InByZWZpeF9vdXQiO3M6MDoiIjt9aW1hcF9kZWxpbWl0ZXJ8czoxOiIuIjtpbWFwX2xpc3RfY29uZnxhOjI6e2k6MDtOO2k6MTthOjA6e319dXNlcl9pZHxpOjI7dXNlcm5hbWV8czoxNzoiZWxhc3RpY0Bzb29tYS5jb20iO3N0b3JhZ2VfaG9zdHxzOjEwOiIxNzIuMTcuMC4yIjtzdG9yYWdlX3BvcnR8aToxNDM7c3RvcmFnZV9zc2x8YjowO3Bhc3N3b3JkfHM6MzI6ImRET2VyQkQ5OEVkR2xEK0lSa2FDb1NybE54UVU5djZSIjtsb2dpbl90aW1lfGk6MTc3NDU0ODEzNzt0aW1lem9uZXxzOjEzOiJFdXJvcGUvTGlzYm9uIjtTVE9SQUdFX1NQRUNJQUwtVVNFfGI6MTthdXRoX3NlY3JldHxzOjI2OiJYSHBXVFoycXVXTHlQTVFzM2RjRGIxb0Z1RCI7cmVxdWVzdF90b2tlbnxzOjMyOiJKSXY0aURPMlkyYjh5SUtIcVVaVm45RFNJeGttTzlFSyI7dGFza3xzOjQ6Im1haWwiO3NraW5fY29uZmlnfGE6Nzp7czoxNzoic3VwcG9ydGVkX2xheW91dHMiO2E6MTp7aTowO3M6MTA6IndpZGVzY3JlZW4iO31zOjIyOiJqcXVlcnlfdWlfY29sb3JzX3RoZW1lIjtzOjk6ImJvb3RzdHJhcCI7czoxODoiZW1iZWRfY3NzX2xvY2F0aW9uIjtzOjE3OiIvc3R5bGVzL2VtYmVkLmNzcyI7czoxOToiZWRpdG9yX2Nzc19sb2NhdGlvbiI7czoxNzoiL3N0eWxlcy9lbWJlZC5jc3MiO3M6MTc6ImRhcmtfbW9kZV9zdXBwb3J0IjtiOjE7czoyNjoibWVkaWFfYnJvd3Nlcl9jc3NfbG9jYXRpb24iO3M6NDoibm9uZSI7czoyMToiYWRkaXRpb25hbF9sb2dvX3R5cGVzIjthOjM6e2k6MDtzOjQ6ImRhcmsiO2k6MTtzOjU6InNtYWxsIjtpOjI7czoxMDoic21hbGwtZGFyayI7fX14Y3NyZl90b2tlbnxzOjMxOiJtTDN2anI0QnlVd1NNRnhoQnR3azVTdHpNVmVSbllpIjtpbWFwX2hvc3R8czoxMDoiMTcyLjE3LjAuMiI7bWJveHxzOjU6IklOQk9YIjtzb3J0X2NvbHxzOjA6IiI7c29ydF9vcmRlcnxzOjQ6IkRFU0MiO1NUT1JBR0VfVEhSRUFEfGE6Mzp7aTowO3M6MTA6IlJFRkVSRU5DRVMiO2k6MTtzOjQ6IlJFRlMiO2k6MjtzOjE0OiJPUkRFUkVEU1VCSkVDVCI7fVNUT1JBR0VfUVVPVEF8YjoxO3F1b3RhX2Rpc3BsYXl8czo0OiJ0ZXh0IjtsaXN0X2F0dHJpYnxhOjY6e3M6NDoibmFtZSI7czo4OiJtZXNzYWdlcyI7czoyOiJpZCI7czoxMToibWVzc2FnZWxpc3QiO3M6NToiY2xhc3MiO3M6NDI6Imxpc3RpbmcgbWVzc2FnZWxpc3Qgc29ydGhlYWRlciBmaXhlZGhlYWRlciI7czoxNToiYXJpYS1sYWJlbGxlZGJ5IjtzOjIyOiJhcmlhLWxhYmVsLW1lc3NhZ2VsaXN0IjtzOjk6ImRhdGEtbGlzdCI7czoxMjoibWVzc2FnZV9saXN0IjtzOjE0OiJkYXRhLWxhYmVsLW1zZyI7czoyMDoiQSBsaXN0YSBlc3TDoSB2YXppYS4iO314ZnJhbWV3b3JrX2dlb184M2NkNjNhMDBlMjI0MDgwYmM2NmQxMDRmNTQwMzZjY3xhOjY6e3M6MjoiaXAiO3M6MTA6IjE3Mi4xNy4wLjEiO3M6MTI6ImNvdW50cnlfY29kZSI7YjowO3M6MTI6ImNvdW50cnlfbmFtZSI7czoxOiItIjtzOjQ6ImNpdHkiO2I6MDtzOjg6ImxhdGl0dWRlIjtiOjA7czo5OiJsb25naXR1ZGUiO2I6MDt9cHJvcGVydHlfbWFwfGI6MTt1bnNlZW5fY291bnR8YTo2OntzOjU6IklOQk9YIjtpOjA7czo5OiJSYXNjdW5ob3MiO2k6MDtzOjg6IkVudmlhZGFzIjtpOjA7czo0OiJTcGFtIjtpOjA7czo0OiJMaXhvIjtpOjA7czo3OiJBcnF1aXZvIjtpOjA7fW1hbmFnZXNpZXZlX2N1cnJlbnR8czoxMToibWFuYWdlc2lldmUiOw==
+k4v4u1kmib5m5v4pptlkm1ts1a	2026-03-26 18:08:23.861485+00	172.17.0.1	bGFuZ3VhZ2V8czo1OiJwdF9QVCI7aW1hcF9uYW1lc3BhY2V8YTo0OntzOjg6InBlcnNvbmFsIjthOjE6e2k6MDthOjI6e2k6MDtzOjA6IiI7aToxO3M6MToiLiI7fX1zOjU6Im90aGVyIjtOO3M6Njoic2hhcmVkIjtOO3M6MTA6InByZWZpeF9vdXQiO3M6MDoiIjt9aW1hcF9kZWxpbWl0ZXJ8czoxOiIuIjtpbWFwX2xpc3RfY29uZnxhOjI6e2k6MDtOO2k6MTthOjA6e319dXNlcl9pZHxpOjE7dXNlcm5hbWV8czoyNToic2VyZ2lvLmNhcnZhbGhvQHNvb21hLmNvbSI7c3RvcmFnZV9ob3N0fHM6MTA6IjE3Mi4xNy4wLjIiO3N0b3JhZ2VfcG9ydHxpOjE0MztzdG9yYWdlX3NzbHxiOjA7cGFzc3dvcmR8czozMjoiTkpLVnBhVjRYUFU4UFl6T3NlSjhwMGVhZE1OQTA0dUsiO2xvZ2luX3RpbWV8aToxNzc0NTQ4MTg0O3RpbWV6b25lfHM6MTM6IkV1cm9wZS9MaXNib24iO1NUT1JBR0VfU1BFQ0lBTC1VU0V8YjoxO2F1dGhfc2VjcmV0fHM6MjY6Ik41ZEpFMlplVzdraHZHZldmV2hBMGZuSDY3IjtyZXF1ZXN0X3Rva2VufHM6MzI6IlBsMnFuRkR1ZzlrNTR0ZVBzWVV2N0EyVjRZZmI4ajdkIjt0YXNrfHM6NDoibWFpbCI7c2tpbl9jb25maWd8YTo3OntzOjE3OiJzdXBwb3J0ZWRfbGF5b3V0cyI7YToxOntpOjA7czoxMDoid2lkZXNjcmVlbiI7fXM6MjI6ImpxdWVyeV91aV9jb2xvcnNfdGhlbWUiO3M6OToiYm9vdHN0cmFwIjtzOjE4OiJlbWJlZF9jc3NfbG9jYXRpb24iO3M6MTc6Ii9zdHlsZXMvZW1iZWQuY3NzIjtzOjE5OiJlZGl0b3JfY3NzX2xvY2F0aW9uIjtzOjE3OiIvc3R5bGVzL2VtYmVkLmNzcyI7czoxNzoiZGFya19tb2RlX3N1cHBvcnQiO2I6MTtzOjI2OiJtZWRpYV9icm93c2VyX2Nzc19sb2NhdGlvbiI7czo0OiJub25lIjtzOjIxOiJhZGRpdGlvbmFsX2xvZ29fdHlwZXMiO2E6Mzp7aTowO3M6NDoiZGFyayI7aToxO3M6NToic21hbGwiO2k6MjtzOjEwOiJzbWFsbC1kYXJrIjt9fXhjc3JmX3Rva2VufHM6MzE6Im1MM3ZqcjRCeVV3U01GeGhCdHdrNVN0ek1WZVJuWWkiO3hmcmFtZXdvcmtfZ2VvXzgzY2Q2M2EwMGUyMjQwODBiYzY2ZDEwNGY1NDAzNmNjfGE6Njp7czoyOiJpcCI7czoxMDoiMTcyLjE3LjAuMSI7czoxMjoiY291bnRyeV9jb2RlIjtiOjA7czoxMjoiY291bnRyeV9uYW1lIjtzOjE6Ii0iO3M6NDoiY2l0eSI7YjowO3M6ODoibGF0aXR1ZGUiO2I6MDtzOjk6ImxvbmdpdHVkZSI7YjowO31wcm9wZXJ0eV9tYXB8YjoxO2ltYXBfaG9zdHxzOjEwOiIxNzIuMTcuMC4yIjttYm94fHM6NToiSU5CT1giO3NvcnRfY29sfHM6MDoiIjtzb3J0X29yZGVyfHM6NDoiREVTQyI7U1RPUkFHRV9USFJFQUR8YTozOntpOjA7czoxMDoiUkVGRVJFTkNFUyI7aToxO3M6NDoiUkVGUyI7aToyO3M6MTQ6Ik9SREVSRURTVUJKRUNUIjt9U1RPUkFHRV9RVU9UQXxiOjE7cXVvdGFfZGlzcGxheXxzOjQ6InRleHQiO2xpc3RfYXR0cmlifGE6Njp7czo0OiJuYW1lIjtzOjg6Im1lc3NhZ2VzIjtzOjI6ImlkIjtzOjExOiJtZXNzYWdlbGlzdCI7czo1OiJjbGFzcyI7czo0MjoibGlzdGluZyBtZXNzYWdlbGlzdCBzb3J0aGVhZGVyIGZpeGVkaGVhZGVyIjtzOjE1OiJhcmlhLWxhYmVsbGVkYnkiO3M6MjI6ImFyaWEtbGFiZWwtbWVzc2FnZWxpc3QiO3M6OToiZGF0YS1saXN0IjtzOjEyOiJtZXNzYWdlX2xpc3QiO3M6MTQ6ImRhdGEtbGFiZWwtbXNnIjtzOjIwOiJBIGxpc3RhIGVzdMOhIHZhemlhLiI7fXVuc2Vlbl9jb3VudHxhOjY6e3M6NToiSU5CT1giO2k6MDtzOjk6IlJhc2N1bmhvcyI7aTowO3M6ODoiRW52aWFkYXMiO2k6MDtzOjQ6IlNwYW0iO2k6MDtzOjQ6IkxpeG8iO2k6MDtzOjc6IkFycXVpdm8iO2k6MDt9
+\.
+
+
+--
+-- Data for Name: system; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.system (name, value) FROM stdin;
+roundcube-version	2022081200
+xframework_db_versions	{"xcalendar":"20240911"}
+xcsrf_token	mL3vjr4ByUwSMFxhBtwk5StzMVeRnYi
+xid	980408315
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.users (user_id, username, mail_host, created, last_login, failed_login, failed_login_counter, language, preferences) FROM stdin;
+2	elastic@sooma.com	172.17.0.2	2026-03-26 18:02:17.779658+00	2026-03-26 18:02:17.779658+00	\N	\N	pt_PT	a:6:{s:4:"skin";s:7:"elastic";s:11:"client_hash";s:16:"2Ykc9K4gLL3yzAMk";s:11:"drafts_mbox";s:9:"Rascunhos";s:9:"sent_mbox";s:8:"Enviadas";s:9:"junk_mbox";s:4:"Spam";s:10:"trash_mbox";s:4:"Lixo";}
+1	sergio.carvalho@sooma.com	172.17.0.2	2026-03-26 18:01:47.728411+00	2026-03-26 18:03:04.358711+00	\N	\N	pt_PT	a:5:{s:11:"client_hash";s:16:"HcPkFWYTvoIbVVxS";s:11:"drafts_mbox";s:9:"Rascunhos";s:9:"sent_mbox";s:8:"Enviadas";s:9:"junk_mbox";s:4:"Spam";s:10:"trash_mbox";s:4:"Lixo";}
+\.
+
+
+--
+-- Data for Name: xcalendar_alarms; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_alarms (id, user_id, event_id, event_end, alarm_number, alarm_units, snooze, alarm_position, alarm_time, absolute_datetime, alarm_type, processing_started) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_attachments_temp; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_attachments_temp (filename, uploaded_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_attendees; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_attendees (event_id, calendar_id, email, name, code, organizer, role, hidden, can_see_attendees, notify, status, guests, comment, created_at, responded_at, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_calendars; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_calendars (id, user_id, type, url, name, description, timezone, bg_color, tx_color, enabled, default_event_visibility, created_at, modified_at, removed_at, properties) FROM stdin;
+1	1	1		Novo calendário			#a9d5fc	#333	1	public	2026-03-26 18:01:47.747069	\N	\N	
+2	2	1		Novo calendário			#a9d5fc	#333	1	public	2026-03-26 18:02:17.798368	\N	\N	
+\.
+
+
+--
+-- Data for Name: xcalendar_calendars_shared; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_calendars_shared (email, calendar_id, permissions, added, add_code, name, description, bg_color, tx_color, enabled, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_changes; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_changes (id, uri, sync_token, calendar_id, operation) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_events; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_events (id, user_id, calendar_id, uid, title, location, description, url, start, "end", all_day, repeat_rule, repeat_end, use_calendar_colors, bg_color, tx_color, busy, visibility, priority, category, attachments, vevent, created_at, modified_at, removed_at, has_attendees, timezone_start, timezone_end, vevent_uid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_events_custom; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_events_custom (user_id, event_id, use_calendar_colors, bg_color, tx_color) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_events_removed; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_events_removed (id, day, event_id, removed_at, removed_by) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_published; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_published (id, user_id, calendar_id, code, "full", created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_scheduling_objects; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_scheduling_objects (id, principal_uri, calendar_data, uri, modified_at, etag, size) FROM stdin;
+\.
+
+
+--
+-- Data for Name: xcalendar_synced; Type: TABLE DATA; Schema: public; Owner: roundcube
+--
+
+COPY public.xcalendar_synced (id, user_id, calendar_id, name, username, url, password, read_only, connected_at, created_at) FROM stdin;
+\.
+
+
+--
+-- Name: collected_addresses_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.collected_addresses_seq', 1, false);
+
+
+--
+-- Name: contactgroups_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.contactgroups_seq', 1, false);
+
+
+--
+-- Name: contacts_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.contacts_seq', 1, false);
+
+
+--
+-- Name: filestore_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.filestore_seq', 1, false);
+
+
+--
+-- Name: identities_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.identities_seq', 2, true);
+
+
+--
+-- Name: responses_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.responses_seq', 1, false);
+
+
+--
+-- Name: searches_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.searches_seq', 1, false);
+
+
+--
+-- Name: users_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.users_seq', 2, true);
+
+
+--
+-- Name: xcalendar_alarms_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_alarms_seq', 1, false);
+
+
+--
+-- Name: xcalendar_calendars_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_calendars_seq', 2, true);
+
+
+--
+-- Name: xcalendar_changes_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_changes_seq', 1, false);
+
+
+--
+-- Name: xcalendar_events_removed_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_events_removed_seq', 1, false);
+
+
+--
+-- Name: xcalendar_events_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_events_seq', 1, false);
+
+
+--
+-- Name: xcalendar_published_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_published_seq', 1, false);
+
+
+--
+-- Name: xcalendar_scheduling_objects_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_scheduling_objects_seq', 1, false);
+
+
+--
+-- Name: xcalendar_synced_seq; Type: SEQUENCE SET; Schema: public; Owner: roundcube
+--
+
+SELECT pg_catalog.setval('public.xcalendar_synced_seq', 1, false);
+
+
+--
+-- Name: cache_index cache_index_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_index
+    ADD CONSTRAINT cache_index_pkey PRIMARY KEY (user_id, mailbox);
+
+
+--
+-- Name: cache_messages cache_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_messages
+    ADD CONSTRAINT cache_messages_pkey PRIMARY KEY (user_id, mailbox, uid);
+
+
+--
+-- Name: cache cache_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache
+    ADD CONSTRAINT cache_pkey PRIMARY KEY (user_id, cache_key);
+
+
+--
+-- Name: cache_shared cache_shared_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_shared
+    ADD CONSTRAINT cache_shared_pkey PRIMARY KEY (cache_key);
+
+
+--
+-- Name: cache_thread cache_thread_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_thread
+    ADD CONSTRAINT cache_thread_pkey PRIMARY KEY (user_id, mailbox);
+
+
+--
+-- Name: collected_addresses collected_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.collected_addresses
+    ADD CONSTRAINT collected_addresses_pkey PRIMARY KEY (address_id);
+
+
+--
+-- Name: contactgroupmembers contactgroupmembers_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contactgroupmembers
+    ADD CONSTRAINT contactgroupmembers_pkey PRIMARY KEY (contactgroup_id, contact_id);
+
+
+--
+-- Name: contactgroups contactgroups_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contactgroups
+    ADD CONSTRAINT contactgroups_pkey PRIMARY KEY (contactgroup_id);
+
+
+--
+-- Name: contacts contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (contact_id);
+
+
+--
+-- Name: dictionary dictionary_user_id_language_key; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.dictionary
+    ADD CONSTRAINT dictionary_user_id_language_key UNIQUE (user_id, language);
+
+
+--
+-- Name: filestore filestore_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.filestore
+    ADD CONSTRAINT filestore_pkey PRIMARY KEY (file_id);
+
+
+--
+-- Name: filestore filestore_user_id_filename; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.filestore
+    ADD CONSTRAINT filestore_user_id_filename UNIQUE (user_id, context, filename);
+
+
+--
+-- Name: identities identities_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.identities
+    ADD CONSTRAINT identities_pkey PRIMARY KEY (identity_id);
+
+
+--
+-- Name: responses responses_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.responses
+    ADD CONSTRAINT responses_pkey PRIMARY KEY (response_id);
+
+
+--
+-- Name: searches searches_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.searches
+    ADD CONSTRAINT searches_pkey PRIMARY KEY (search_id);
+
+
+--
+-- Name: searches searches_user_id_key; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.searches
+    ADD CONSTRAINT searches_user_id_key UNIQUE (user_id, type, name);
+
+
+--
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT session_pkey PRIMARY KEY (sess_id);
+
+
+--
+-- Name: system system_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.system
+    ADD CONSTRAINT system_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username, mail_host);
+
+
+--
+-- Name: xcalendar_alarms xcalendar_alarms_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_alarms
+    ADD CONSTRAINT xcalendar_alarms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: xcalendar_attachments_temp xcalendar_attachments_temp_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_attachments_temp
+    ADD CONSTRAINT xcalendar_attachments_temp_pkey PRIMARY KEY (filename, uploaded_at);
+
+
+--
+-- Name: xcalendar_attendees xcalendar_attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_attendees
+    ADD CONSTRAINT xcalendar_attendees_pkey PRIMARY KEY (event_id, email);
+
+
+--
+-- Name: xcalendar_calendars xcalendar_calendars_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_calendars
+    ADD CONSTRAINT xcalendar_calendars_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: xcalendar_calendars_shared xcalendar_calendars_shared_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_calendars_shared
+    ADD CONSTRAINT xcalendar_calendars_shared_pkey PRIMARY KEY (email, calendar_id);
+
+
+--
+-- Name: xcalendar_changes xcalendar_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_changes
+    ADD CONSTRAINT xcalendar_changes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: xcalendar_events_custom xcalendar_events_custom_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_events_custom
+    ADD CONSTRAINT xcalendar_events_custom_pkey PRIMARY KEY (user_id, event_id);
+
+
+--
+-- Name: xcalendar_events xcalendar_events_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_events
+    ADD CONSTRAINT xcalendar_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: xcalendar_events_removed xcalendar_events_removed_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_events_removed
+    ADD CONSTRAINT xcalendar_events_removed_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: xcalendar_published xcalendar_published_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_published
+    ADD CONSTRAINT xcalendar_published_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: xcalendar_synced xcalendar_synced_pkey; Type: CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_synced
+    ADD CONSTRAINT xcalendar_synced_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: add_code; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX add_code ON public.xcalendar_calendars_shared USING btree (add_code);
+
+
+--
+-- Name: attendee_code; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX attendee_code ON public.xcalendar_attendees USING btree (code);
+
+
+--
+-- Name: cache_expires_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX cache_expires_idx ON public.cache USING btree (expires);
+
+
+--
+-- Name: cache_index_expires_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX cache_index_expires_idx ON public.cache_index USING btree (expires);
+
+
+--
+-- Name: cache_messages_expires_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX cache_messages_expires_idx ON public.cache_messages USING btree (expires);
+
+
+--
+-- Name: cache_shared_expires_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX cache_shared_expires_idx ON public.cache_shared USING btree (expires);
+
+
+--
+-- Name: cache_thread_expires_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX cache_thread_expires_idx ON public.cache_thread USING btree (expires);
+
+
+--
+-- Name: calendar_start_end_removed_repeat; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX calendar_start_end_removed_repeat ON public.xcalendar_events USING btree (calendar_id, start, "end", removed_at, repeat_end);
+
+
+--
+-- Name: code; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX code ON public.xcalendar_published USING btree (code);
+
+
+--
+-- Name: collected_addresses_user_id_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE UNIQUE INDEX collected_addresses_user_id_idx ON public.collected_addresses USING btree (user_id, type, email);
+
+
+--
+-- Name: contactgroupmembers_contact_id_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX contactgroupmembers_contact_id_idx ON public.contactgroupmembers USING btree (contact_id);
+
+
+--
+-- Name: contactgroups_user_id_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX contactgroups_user_id_idx ON public.contactgroups USING btree (user_id, del);
+
+
+--
+-- Name: contacts_user_id_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX contacts_user_id_idx ON public.contacts USING btree (user_id, del);
+
+
+--
+-- Name: day_event; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX day_event ON public.xcalendar_events_removed USING btree (day, event_id);
+
+
+--
+-- Name: identities_email_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX identities_email_idx ON public.identities USING btree (email, del);
+
+
+--
+-- Name: identities_user_id_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX identities_user_id_idx ON public.identities USING btree (user_id, del);
+
+
+--
+-- Name: responses_user_id_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX responses_user_id_idx ON public.responses USING btree (user_id, del);
+
+
+--
+-- Name: session_changed_idx; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX session_changed_idx ON public.session USING btree (changed);
+
+
+--
+-- Name: uid; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX uid ON public.xcalendar_events USING btree (uid);
+
+
+--
+-- Name: url; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE UNIQUE INDEX url ON public.xcalendar_synced USING btree (url);
+
+
+--
+-- Name: user_calendar; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX user_calendar ON public.xcalendar_synced USING btree (user_id, calendar_id);
+
+
+--
+-- Name: user_enabled_removed; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX user_enabled_removed ON public.xcalendar_calendars USING btree (user_id, enabled, removed_at);
+
+
+--
+-- Name: user_id_status; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX user_id_status ON public.xcalendar_attendees USING btree (user_id, status);
+
+
+--
+-- Name: username; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE UNIQUE INDEX username ON public.xcalendar_synced USING btree (username);
+
+
+--
+-- Name: vevent_uid_ix; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX vevent_uid_ix ON public.xcalendar_events USING btree (vevent_uid);
+
+
+--
+-- Name: xcalendar_alarms_time_type_end_user; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX xcalendar_alarms_time_type_end_user ON public.xcalendar_alarms USING btree (alarm_time, alarm_type, event_end, user_id);
+
+
+--
+-- Name: xcalendar_changes_calendar_id_sync_token_ix; Type: INDEX; Schema: public; Owner: roundcube
+--
+
+CREATE INDEX xcalendar_changes_calendar_id_sync_token_ix ON public.xcalendar_changes USING btree (calendar_id, sync_token);
+
+
+--
+-- Name: cache_index cache_index_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_index
+    ADD CONSTRAINT cache_index_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: cache_messages cache_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_messages
+    ADD CONSTRAINT cache_messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: cache_thread cache_thread_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache_thread
+    ADD CONSTRAINT cache_thread_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: cache cache_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.cache
+    ADD CONSTRAINT cache_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_changes calendar_id_fk_xcalendar_calendars_changes; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_changes
+    ADD CONSTRAINT calendar_id_fk_xcalendar_calendars_changes FOREIGN KEY (calendar_id) REFERENCES public.xcalendar_calendars(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_calendars_shared calendar_id_fk_xcalendar_calendars_shared; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_calendars_shared
+    ADD CONSTRAINT calendar_id_fk_xcalendar_calendars_shared FOREIGN KEY (calendar_id) REFERENCES public.xcalendar_calendars(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_events calendar_id_fk_xcalendar_events; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_events
+    ADD CONSTRAINT calendar_id_fk_xcalendar_events FOREIGN KEY (calendar_id) REFERENCES public.xcalendar_calendars(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_published calendar_id_fk_xcalendar_published; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_published
+    ADD CONSTRAINT calendar_id_fk_xcalendar_published FOREIGN KEY (calendar_id) REFERENCES public.xcalendar_calendars(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_synced calendar_id_fk_xcalendar_synced; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_synced
+    ADD CONSTRAINT calendar_id_fk_xcalendar_synced FOREIGN KEY (calendar_id) REFERENCES public.xcalendar_calendars(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: collected_addresses collected_addresses_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.collected_addresses
+    ADD CONSTRAINT collected_addresses_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: contactgroupmembers contactgroupmembers_contact_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contactgroupmembers
+    ADD CONSTRAINT contactgroupmembers_contact_id_fkey FOREIGN KEY (contact_id) REFERENCES public.contacts(contact_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: contactgroupmembers contactgroupmembers_contactgroup_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contactgroupmembers
+    ADD CONSTRAINT contactgroupmembers_contactgroup_id_fkey FOREIGN KEY (contactgroup_id) REFERENCES public.contactgroups(contactgroup_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: contactgroups contactgroups_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contactgroups
+    ADD CONSTRAINT contactgroups_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: contacts contacts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.contacts
+    ADD CONSTRAINT contacts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: dictionary dictionary_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.dictionary
+    ADD CONSTRAINT dictionary_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_alarms event_id_fk_xcalendar_alarms; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_alarms
+    ADD CONSTRAINT event_id_fk_xcalendar_alarms FOREIGN KEY (event_id) REFERENCES public.xcalendar_events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_attendees event_id_fk_xcalendar_attendees; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_attendees
+    ADD CONSTRAINT event_id_fk_xcalendar_attendees FOREIGN KEY (event_id) REFERENCES public.xcalendar_events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_events_custom event_id_fk_xcalendar_events_custom; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_events_custom
+    ADD CONSTRAINT event_id_fk_xcalendar_events_custom FOREIGN KEY (event_id) REFERENCES public.xcalendar_events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_events_removed event_id_fk_xcalendar_events_removed; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_events_removed
+    ADD CONSTRAINT event_id_fk_xcalendar_events_removed FOREIGN KEY (event_id) REFERENCES public.xcalendar_events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: filestore filestore_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.filestore
+    ADD CONSTRAINT filestore_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: identities identities_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.identities
+    ADD CONSTRAINT identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: responses responses_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.responses
+    ADD CONSTRAINT responses_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: searches searches_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.searches
+    ADD CONSTRAINT searches_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: xcalendar_calendars user_id_fk_xcalendar_calendars; Type: FK CONSTRAINT; Schema: public; Owner: roundcube
+--
+
+ALTER TABLE ONLY public.xcalendar_calendars
+    ADD CONSTRAINT user_id_fk_xcalendar_calendars FOREIGN KEY (user_id) REFERENCES public.users(user_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict NXXDbjkHLt6TE2s6K0LBtsRNvgOIdpJF3NMyivPbPPp4hCpk9GNiGLqjAMESypc
 
 --
 -- PostgreSQL database cluster dump complete

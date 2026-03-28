@@ -20512,6 +20512,10 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar {
   height: 100%;
   background-color: var(--color-layout-sidebar-background);
   color: var(--color-layout-sidebar-foreground);
+  --selected-color: var(--color-main);
+  --selected-background: var(--color-layout-sidebar-background);
+  --not-selected-color: var(--color-layout-sidebar-foreground);
+  --not-selected-background: var(--color-layout-sidebar-background);
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header {
   position: relative;
@@ -21066,6 +21070,10 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   height: 100%;
   background-color: var(--color-layout-sidebar-background);
   color: var(--color-layout-sidebar-foreground);
+  --selected-color: var(--color-main);
+  --selected-background: var(--color-layout-sidebar-background);
+  --not-selected-color: var(--color-layout-sidebar-foreground);
+  --not-selected-background: var(--color-layout-sidebar-background);
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header {
   position: relative;
@@ -21357,6 +21365,11 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-cont
   grid-area: form;
   display: flex;
   flex-direction: column;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content > .formcontent input {
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content > .formcontent > #compose-headers {
   flex: 0;
@@ -22013,6 +22026,10 @@ body.task-xcalendar > #layout #layout-sidebar {
   height: 100%;
   background-color: var(--color-layout-sidebar-background);
   color: var(--color-layout-sidebar-foreground);
+  --selected-color: var(--color-main);
+  --selected-background: var(--color-layout-sidebar-background);
+  --not-selected-color: var(--color-layout-sidebar-foreground);
+  --not-selected-background: var(--color-layout-sidebar-background);
 }
 body.task-xcalendar > #layout #layout-sidebar > .header {
   position: relative;
@@ -22911,6 +22928,910 @@ body.action-plugin-nexus_registered_setting #layout-content {
   padding-bottom: 1rem;
 }
 
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu {
+  margin-left: 1rem;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.preferences a::before {
+  content: "\f0ad";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.folders a::before {
+  content: "\f660";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.identities a::before {
+  content: "\f2bb";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.responses a::before {
+  content: "\f02e";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.password a::before {
+  content: "\f084";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.elasticlogs a::before {
+  content: "\f15c";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.status a::before {
+  content: "\f058";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.filter a::before {
+  content: "\f0b0";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.vacation a::before {
+  content: "\f017";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.forward a::before {
+  content: "\f14d";
+}
+
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .header,
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .pagenav,
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > #filtersetslistbox {
+  display: none;
+}
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #filterslist {
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-medium-gray);
+}
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #filterslist tbody > tr > td {
+  cursor: pointer;
+}
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #filterslist tbody > tr.disabled td {
+  opacity: 0.5;
+}
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #filterslist tbody > tr > td.name::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f0b0";
+  margin-right: 0.5rem;
+}
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #filterslist tbody > tr.selected > td {
+  color: var(--color-main);
+  font-weight: 600;
+}
+
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) #layout-content,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) #layout-content,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) #layout-content {
+  display: flex;
+  flex-direction: column;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]),
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]),
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) {
+  margin: 1rem;
+  max-width: 80rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] {
+  display: grid;
+  grid-template-columns: 1fr 5fr min-content;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] span.form-error,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] span.form-error,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] span.form-error {
+  position: absolute;
+  right: -0.5rem;
+  top: -0.5rem;
+  border: 1px solid var(--color-main);
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  padding: 0.2rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > div.row,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > div.row,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > div.row {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-black);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-black);
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions), body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions),
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions),
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  margin-bottom: 0.5rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowactions, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowactions, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowactions, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowactions,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowactions {
+  grid-column: 1;
+  display: flex;
+  flex-wrap: nowrap;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowactions > .flexbox, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowactions > .flexbox, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowactions > .flexbox, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowactions > .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowactions > .flexbox {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets {
+  grid-column: 2;
+  position: relative;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets textarea, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets textarea, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets textarea, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets textarea {
+  width: 100%;
+  min-height: 6rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets input[type=text], body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets input[type=text], body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets input[type=text], body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets input[type=text] {
+  margin: 0;
+  line-height: 2;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets span.label:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets span.label:first-child {
+  margin-top: 0;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets br, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets br, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets br, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets br,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets br {
+  display: none;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .input-group-append, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .input-group-append, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .input-group-append, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .input-group-append {
+  line-height: 2.4;
+  background-color: var(--color-input-border);
+  border: 1px solid var(--color-input-border);
+  border-left-width: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowtargets .flexbox .listarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowtargets .flexbox .listarea {
+  flex-grow: 1;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: start;
+  grid-column: 3;
+  padding-left: 1rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced {
+  display: none;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete {
+  font-size: 1px;
+  font-size: 0;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-size: 1rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.advanced:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.advanced:before {
+  content: "\f013";
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.create:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.create:before {
+  content: "\+";
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before, body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > fieldset:has(> #actions) > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > #actions > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .actionrow > table > tbody > tr > td.rowbuttons a.delete:before,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=filterform] > #rules > fieldset > .rulerow > table > tbody > tr > td.rowbuttons a.delete:before {
+  content: "\f1f8";
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] {
+  display: grid;
+  grid-template-columns: 1fr 5fr min-content;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset:first-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset:first-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset:first-child {
+  margin-top: 0;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset:last-child,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset:last-child,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset:last-child {
+  margin-bottom: 0;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > legend,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > legend,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > legend {
+  grid-column: 1/-1;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  margin-bottom: 0.5rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: nowrap;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td textarea,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td textarea,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td textarea {
+  width: 100%;
+  min-height: 6rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td input[type=text],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td input[type=text],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td input[type=text] {
+  margin: 0;
+  line-height: 2;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td .input-group-append,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td .input-group-append,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td .input-group-append {
+  line-height: 2.4;
+  background-color: var(--color-input-border);
+  border: 1px solid var(--color-input-border);
+  border-left-width: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td #vacation_addresses_list,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td #vacation_addresses_list,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td #vacation_addresses_list {
+  flex: 1;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td input[type=button],
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td input[type=button],
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td input[type=button] {
+  flex: 0;
+  margin: 0 0 0 1rem;
+  line-height: 1.4;
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td.title,
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td.title,
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) div.formcontent:has(> form[name=filterform], form[name=vacationform]) form[name=vacationform] > fieldset > table > tbody > tr > td.title {
+  grid-column: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
 body > .ui-widget-overlay {
   position: fixed;
   top: 0;
@@ -23242,7 +24163,9 @@ body.task-login #messagestack {
 .propform:not(.popupmenu) {
   width: 100%;
 }
+.formcontent fieldset > legend,
 .formcontent label,
+.propform fieldset > legend,
 .propform label {
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -23257,8 +24180,7 @@ body.task-login #messagestack {
   width: 100%;
   font-size: 1.2rem;
   background-color: var(--color-input-background);
-  border: 1px solid transparent;
-  border-bottom-color: var(--color-input-border);
+  border: 1px solid var(--color-input-border);
   border-radius: 2px;
   outline: none;
   line-height: 3;
@@ -24183,53 +25105,6 @@ div.formcontent:has(> .form-group.row) select {
   font-size: 1rem;
 }
 
-.listing li {
-  font-weight: 400;
-}
-.listing li.selected {
-  font-weight: 600;
-  color: var(--color-main);
-}
-.listing li a {
-  text-decoration: none;
-  color: inherit;
-  padding: 0.5rem 0.5rem;
-  display: block;
-}
-.listing li a:hover, .listing li a:focus, .listing li a:focus-within, .listing li a:focus-visible, .listing li a:target, .listing li a:active, .listing li a:visited, .listing li a:link {
-  color: inherit;
-}
-.listing li a::before {
-  width: 16px;
-  height: 18px;
-  margin-right: 1rem;
-  display: inline-block;
-  background-repeat: no-repeat;
-}
-.listing li.addressbook.selected {
-  color: inherit;
-}
-.listing li.addressbook.selected a::before {
-  color: var(--color-main);
-}
-.listing li.addressbook a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  font-weight: 200;
-  content: "\f2b9";
-}
 .listing.folderlist {
   padding-bottom: 2rem;
   padding-left: 1rem;
@@ -24367,6 +25242,65 @@ table.listing.iconized > thead > tr > th:first-child a::before, table.listing.ic
 }
 table.listing.iconized > thead > tr > th:first-child.contact a::before, table.listing.iconized > tbody > tr > td:first-child.contact a::before, table.listing.iconized > tfoot > tr > td:first-child.contact a::before {
   content: "\f007";
+}
+
+.listing li {
+  font-weight: 400;
+  color: var(--not-selected-color);
+  background-color: var(--not-selected-background);
+}
+.listing li.selected {
+  font-weight: 600;
+  color: var(--selected-color);
+  background-color: var(--selected-background);
+}
+.listing li a {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem 0.5rem;
+  display: block;
+}
+.listing li a:hover, .listing li a:focus, .listing li a:focus-within, .listing li a:focus-visible, .listing li a:target, .listing li a:active, .listing li a:visited, .listing li a:link {
+  color: inherit;
+}
+.listing li a::before {
+  width: 16px;
+  height: 18px;
+  margin-right: 1rem;
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+.listing li.addressbook.selected {
+  color: inherit;
+}
+.listing li.addressbook.selected a::before {
+  color: var(--color-main);
+}
+.listing li.addressbook a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-weight: 200;
+  content: "\f2b9";
+}
+
+.listing.iconized li a::before {
+  width: 16px;
+  height: 18px;
+  margin-right: 0.3rem;
+  display: inline-block;
+  background-repeat: no-repeat;
 }
 
 #add-calendar-menu a.folders::before,

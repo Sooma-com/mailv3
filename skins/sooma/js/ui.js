@@ -440,9 +440,13 @@
     */
     const wrapCheckboxes = () => {
         document.documentElement.queryElements("css:input[type='checkbox']").forEach(checkbox => {
-            if (checkbox.parentNode.tagName == "LABEL") return;
+            // if (checkbox.parentNode.tagName == "LABEL") return;
             const xCalendarApp = Boolean(document.documentElement.queryElement("css:body.task-xcalendar"));
-            if (!xCalendarApp && !checkbox.classList.contains("form-check-input")) return;
+            const manageSievePlugin = 0 < 
+                document.documentElement.queryElements("css:body.task-settings")
+                .map(element => Array.from(element.classList).filter(className => className.startsWith("action-plugin-managesieve")).length)
+                .reduce((a, b) => a + b, 0);
+            if (!xCalendarApp && !manageSievePlugin && !checkbox.classList.contains("form-check-input")) return;
             const label = document.createElement("label");
             label.classList.add("custom-control");
             checkbox.parentNode.replaceChild(label, checkbox);
@@ -754,6 +758,18 @@ window.UI = {
                 this.remove();
                 // (opts.focus || rcmail.env.focused_field).focus();
             }
+        });
+    },
+    form_errors: function (tips) {
+        tips.map( tip => {
+            const input = document.getElementById(tip[0]);
+            console.log(input);
+            if (!input) return;
+            input.classList.add('is-invalid');
+            const error = document.createElement('span');
+            error.classList.add('form-error');
+            error.textContent = tip[2];
+            console.log(input.insertAdjacentElement('afterend', error));
         });
     }
 }

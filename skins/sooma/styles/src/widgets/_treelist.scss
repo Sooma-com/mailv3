@@ -1,59 +1,6 @@
 @use "../fontawesome/fa" as fa;
 
 .listing {
-  li {
-    font-weight: 400;
-
-    &.selected {
-      font-weight: 600;
-      color: var(--color-main);
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-      padding: 0.5rem 0.5rem;
-      display: block;
-
-      &:hover,
-      &:focus,
-      &:focus-within,
-      &:focus-visible,
-      &:target,
-      &:active,
-      &:visited,
-      &:link {
-        color: inherit;
-      }
-
-      &::before {
-        width: 16px;
-        height: 18px;
-        margin-right: 1rem;
-        display: inline-block;
-        background-repeat: no-repeat;
-      }
-
-    }
-
-    &.addressbook {
-      &.selected {
-        color: inherit;
-
-        a::before {
-          color: var(--color-main);
-        }
-      }
-
-      a::before {
-        @include fa.fa-icon();
-        font-weight: 200;
-        content: fa.fa-content(fa.$var-address-book);
-      }
-    }
-
-  }
-
   &.folderlist {
     padding-bottom: 2rem;
     padding-left: 1rem;

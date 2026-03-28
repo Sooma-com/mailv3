@@ -1,0 +1,37 @@
+@use "../../fontawesome/fa";
+#settings-menu {
+  margin-left: 1rem;
+  li a::before {
+    @include fa.fa-icon();
+  }
+  li.preferences a::before {
+    content: fa.fa-content(fa.$var-wrench);
+  }
+  li.folders a::before {
+    content: fa.fa-content(fa.$var-folders);
+  }
+  li.identities a::before {
+    content: fa.fa-content(fa.$var-vcard);
+  }
+  li.responses a::before {
+    content: fa.fa-content(fa.$var-bookmark);
+  }
+  li.password a::before {
+    content: fa.fa-content(fa.$var-key);
+  }
+  li.elasticlogs a::before {
+    content: fa.fa-content(fa.$var-file-lines);
+  }
+  li.status a::before {
+    content: fa.fa-content(fa.$var-circle-check);
+  }
+  li.filter a::before {
+    content: fa.fa-content(fa.$var-filter);
+  }
+  li.vacation a::before {
+    content: fa.fa-content(fa.$var-clock);
+  }
+  li.forward a::before {
+    content: fa.fa-content(fa.$var-share-square);
+  }
+}

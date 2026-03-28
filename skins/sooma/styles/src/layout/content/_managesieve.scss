@@ -1,0 +1,29 @@
+@use "../../fontawesome/fa";
+#layout-list > .header,
+#layout-list > .pagenav,
+#layout-list > #filtersetslistbox {
+  display: none;
+}
+#filterslist {
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-medium-gray);
+  tbody {
+    & > tr {
+      & > td {
+        cursor: pointer;
+      }
+      &.disabled td {
+        opacity: 0.5;
+      }
+      & > td.name::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-filter);
+        margin-right: 0.5rem;
+      }
+      &.selected > td {
+        color: var(--color-main);
+        font-weight: 600;
+      }
+    }
+  }
+}

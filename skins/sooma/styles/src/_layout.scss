@@ -288,3 +288,15 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
 body.action-plugin-nexus_registered_setting {
   @include meta.load-css("layout/content/nexus_registered_setting");
 }
+
+body.task-settings:not(.task-login):not(.task-xcalendar) {
+  @include meta.load-css("layout/content/settings");
+}
+body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) {
+  @include meta.load-css("layout/content/managesieve");
+}
+body.task-settings.action-plugin-managesieve-vacation:not(.task-login):not(.task-xcalendar),
+body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xcalendar),
+body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) {
+  @include meta.load-css("layout/content/managesieve_action");
+}

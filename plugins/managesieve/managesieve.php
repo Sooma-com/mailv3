@@ -50,6 +50,14 @@ class managesieve extends rcube_plugin
         if (!empty($allowed_hosts) && !in_array($_SESSION['storage_host'], (array) $allowed_hosts)) {
             return;
         }
+        if (is_array($this->rc->config->get('managesieve_domains'))) {
+            $managesieve_domains = $this->rc->config->get('managesieve_domains');
+            $current_domain = explode('@', $_SESSION['username'])[1];
+            foreach ($managesieve_domains as $index => $domain) {
+                if ($domain === '%d') $managesieve_domains[$index] = $current_domain;
+            }
+            $this->rc->config->set('managesieve_domains', $managesieve_domains);
+        }
 
         // register actions
         $this->register_action('plugin.managesieve', [$this, 'managesieve_actions']);

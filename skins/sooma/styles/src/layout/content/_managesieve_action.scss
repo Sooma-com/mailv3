@@ -1,0 +1,222 @@
+@use "../../fontawesome/fa" as fa;
+#layout-content {
+  display: flex;
+  flex-direction: column;
+}
+div.formcontent:has(> form[name="filterform"], form[name="vacationform"]) {
+  margin: 1rem;
+  max-width: 80rem;
+  form[name="filterform"] {
+    display: grid;
+    grid-template-columns: 1fr 5fr min-content;
+    span.form-error {
+      position: absolute;
+      right: -0.5rem;
+      top: -0.5rem;
+      border: 1px solid var(--color-main);
+      background-color: var(--color-main);
+      color: var(--color-main-contrast);
+      padding: 0.2rem;
+    }
+    & > div.row {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+    }
+    & > #rules {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-black);
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-black);
+    }
+    & > fieldset:has( > #actions),
+    & > #rules {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      & > #actions,
+      & > fieldset {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: subgrid;
+        > .actionrow,
+        > .rulerow {
+          display: grid;
+          grid-column: 1 / -1;
+          grid-template-columns: subgrid;
+          > table {
+            display: grid;
+            grid-column: 1 / -1;
+            grid-template-columns: subgrid;
+            > tbody {
+              display: grid;
+              grid-column: 1 / -1;
+              grid-template-columns: subgrid;
+              > tr {
+                display: grid;
+                grid-column: 1 / -1;
+                grid-template-columns: subgrid;
+                margin-bottom: 0.5rem;
+                > td.rowactions {
+                  grid-column: 1;
+                  display: flex;
+                  flex-wrap: nowrap;
+                  & > .flexbox {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                  }
+                }
+                > td.rowtargets {
+                  grid-column: 2;
+                  position: relative;
+                  textarea {
+                    width: 100%;
+                    min-height: 6rem;
+                  }
+                  input[type="text"] {
+                    margin: 0;
+                    line-height: 2;
+                  }
+                  span.label {
+                    display: block;
+                    margin-top: 1rem;
+                    margin-bottom: 0.5rem;
+                    &:first-child {
+                      margin-top: 0;
+                    }
+                  }
+                  br {
+                    display: none;
+                  }
+                  .input-group-append {
+                    line-height: 2.4;
+                    background-color: var(--color-input-border);
+                    border: 1px solid var(--color-input-border);
+                    border-left-width: 0;
+                    padding-left: 0.5rem;
+                    padding-right: 0.5rem;
+                  }
+                  .flexbox {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    .listarea {
+                      flex-grow: 1;
+                    }
+                  }
+                }
+                > td.rowbuttons {
+                  display: flex;
+                  flex-wrap: nowrap;
+                  align-items: start;
+                  grid-column: 3;
+                  padding-left: 1rem;
+
+                  a.advanced {
+                    display: none;
+                  }
+                  a.advanced,
+                  a.create,
+                  a.delete {
+                    font-size: 1px;
+                    font-size: 0;
+                  }
+
+                  a.advanced:before,
+                  a.create:before,
+                  a.delete:before {
+                    @include fa.fa-icon();
+                    font-size: 1rem;
+                  }
+                  a.advanced:before {
+                    content: fa.fa-content(fa.$var-gear);
+                  }
+                  a.create:before {
+                    content: fa.fa-content(fa.$var-plus);
+                  }
+                  a.delete:before {
+                    content: fa.fa-content(fa.$var-trash);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  form[name="vacationform"] {
+    display: grid;
+    grid-template-columns: 1fr 5fr min-content;
+    & > fieldset {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      & > legend {
+        grid-column: 1 / -1;
+      }
+      > table {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: subgrid;
+        > tbody {
+          display: grid;
+          grid-column: 1 / -1;
+          grid-template-columns: subgrid;
+          > tr {
+            display: grid;
+            grid-column: 1 / -1;
+            grid-template-columns: subgrid;
+            margin-bottom: 0.5rem;
+            > td {
+              grid-column: 2;
+              display: flex;
+              flex-wrap: nowrap;
+              textarea {
+                width: 100%;
+                min-height: 6rem;
+              }
+              input[type="text"] {
+                margin: 0;
+                line-height: 2;
+              }
+              .input-group-append {
+                line-height: 2.4;
+                background-color: var(--color-input-border);
+                border: 1px solid var(--color-input-border);
+                border-left-width: 0;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+              }
+              #vacation_addresses_list {
+                flex: 1;
+              }
+              input[type="button"] {
+                flex: 0;
+                margin: 0 0 0 1rem;
+                line-height: 1.4;
+              }
+            }
+            > td.title {
+              grid-column: 1;
+              display: flex;
+              flex-wrap: nowrap;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
