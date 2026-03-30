@@ -5,6 +5,6 @@ $config['elasticlogs'] = [
     'elasticsearch_password' => 'CickEksImAx5dryWuvRo',
     'elasticsearch_index' => 'logs-mail-prof',
     'elasticsearch_verify_tls' => false,
-    'support-agents' => [ 'sergio.carvalho@sooma.com' ],
+    'support-agents' => [ 'sergio.carvalho@sooma.com', 'goncalo.monteiro@sooma.com', 'manuel.costa@sooma.com', 'tiago.reisinho@sooma.com' ],
 ];
 
