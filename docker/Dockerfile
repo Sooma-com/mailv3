@@ -38,6 +38,7 @@ ARG php_version=8.4
 RUN sed --in-place "s/{php_version}/${php_version}/g" /etc/s6/php-fpm/run
 COPY files/php/php.ini /etc/php/${php_version}/fpm/
 COPY files/php/composer.phar /usr/local/bin/composer
+COPY files/openssl/openssl.cnf /usr/lib/ssl/openssl.cnf
 
 COPY files/nginx/vhost /etc/nginx/sites-available/default
 RUN sed --in-place "s/{php_version}/${php_version}/g" /etc/nginx/sites-available/default
