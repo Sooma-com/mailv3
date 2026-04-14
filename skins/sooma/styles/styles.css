@@ -23965,7 +23965,7 @@ body > .ui-widget-overlay {
   display: block grid;
   grid-template: "title close" auto/1fr min-content;
   background: var(--color-layout-header-localmenu-background);
-  color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 3.07));
+  color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 15));
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
   float: none;
@@ -24192,6 +24192,11 @@ body > .ui-widget-overlay {
 }
 #recipient-dialog #contacts-table {
   margin-top: 1.5rem;
+}
+
+div.popup.iframe.ui-dialog-content > iframe {
+  width: 100%;
+  height: 100%;
 }
 
 #messagestack {

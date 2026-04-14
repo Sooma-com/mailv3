@@ -300,3 +300,6 @@ body.task-settings.action-plugin-managesieve-save:not(.task-login):not(.task-xca
 body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-xcalendar) {
   @include meta.load-css("layout/content/managesieve_action");
 }
+body.task-settings.action-plugin-sooma_smime_import_cert_dialog:not(.task-login):not(.task-xcalendar) {
+  @include meta.load-css("layout/content/sooma_smime_dialog");
+}
