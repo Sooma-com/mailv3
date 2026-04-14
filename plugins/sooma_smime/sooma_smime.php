@@ -31,7 +31,6 @@ class sooma_smime extends rcube_plugin
     {
         $this->rc = rcmail::get_instance();
         $this->load_config();
-        $this->config = $this->rc->config->get('sooma_smime');
         if (!$this->config) {
             return;
         }
@@ -53,6 +52,33 @@ class sooma_smime extends rcube_plugin
         // }
 
         // $this->add_hook('startup', [$this, 'startup']);
+    }
+    public function load_config($fname = 'config.inc.php'): void {
+        parent::load_config($fname);
+        $this->config = $this->rc->config->get('sooma_smime');
+        if (!isset($this->config['db']) || $this->config['db'] === 'inherit') {
+            unset($this->config['db']);
+            if (preg_match('_^(?P<driver>[^:]+)://(?P<username>[^@:/]+)(?:[:](?P<password>[^@/]+))?@(?P<host>[^:/]+)(?:[:](?P<port>[0-9]+))?/(?P<database>.*)$_', $this->rc->config->get('db_dsnw') ?? '', $matches)) {
+                foreach (array_keys($matches) as $key) {
+                    if (empty($matches[$key])) unset($matches[$key]);
+                }
+                if ($matches['driver'] ?? null === 'pgsql' && 
+                    isset($matches['username']) && 
+                    isset($matches['host']) && 
+                    isset($matches['database'])
+                ) {
+                    $this->config['db'] = [
+                        'host' => $matches['host'],
+                        'port' => 5432,
+                        'dbname' => $matches['database'],
+                        'username' => $matches['username']
+                    ];
+                    if (isset($matches['password'])) $this->config['db']['password'] = $matches['password'];
+                    if (isset($matches['port'])) $this->config['db']['port'] = $matches['port'];
+                }
+            }
+            if (!isset($this->config['db'])) $this->config = null;
+        }
     }
     public function db() {
         if ($this->_db === null) {
