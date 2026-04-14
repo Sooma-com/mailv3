@@ -212,7 +212,7 @@ SELECT
  certificate,
  private_key,
  CASE WHEN extra_certificates IS NULL THEN 'null' ELSE array_to_json(extra_certificates) END AS extra_certificates
-FROM roundcube.sooma_smime_certificate
+FROM sooma_smime.certificate
 WHERE
 
 EOQ;
@@ -238,7 +238,7 @@ SELECT
  certificate,
  private_key,
  CASE WHEN extra_certificates IS NULL THEN 'null' ELSE array_to_json(extra_certificates) END AS extra_certificates
-FROM roundcube.sooma_smime_certificate
+FROM sooma_smime.certificate
 WHERE id = ?
 EOQ, [$id]);
         if ($result === null) throw new DBException(sprintf('Certificate %s not found', $id));
@@ -270,13 +270,13 @@ EOQ, [$id]);
         }, array_values($delta)));
         $values[] = $this->id;
         $plugin->db_exec(<<<EOQ
-UPDATE roundcube.sooma_smime_certificate SET $changes WHERE id = ?
+UPDATE sooma_smime.certificate SET $changes WHERE id = ?
 EOQ, $values);
     }
     public function db_upsert(\sooma_smime $plugin): void {
         $existing = $plugin->db_query_row(<<<EOQ
 SELECT id
-FROM roundcube.sooma_smime_certificate
+FROM sooma_smime.certificate
 WHERE
  certificate = ?
  AND owner = ?
@@ -299,7 +299,7 @@ EOQ
             } else { $values[] = 'DEFAULT'; }
 
             $query = sprintf(<<<EOQ
-INSERT INTO roundcube.sooma_smime_certificate (
+INSERT INTO sooma_smime.certificate (
     owner,
     email,
     not_before,
@@ -325,7 +325,7 @@ EOQ, implode(',', $values));
     }
     public function db_delete(\sooma_smime $plugin): void {
         $plugin->db_exec(<<<EOQ
-DELETE FROM roundcube.sooma_smime_certificate WHERE id = ?
+DELETE FROM sooma_smime.certificate WHERE id = ?
 EOQ, [$this->id]);
     }
     public function sign_message(\Mail_mime $message): \Mail_mime {

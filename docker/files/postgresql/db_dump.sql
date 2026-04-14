@@ -2,7 +2,7 @@
 -- PostgreSQL database cluster dump
 --
 
-\restrict stjfdOUwyQowXi049g8xUbJOILRbYVNA9kthY2lhehXi54SlZWkXaUdMKirgjaQ
+\restrict BbLbaki9QesNT0pwR5eNf4jrXSZLMMKKaHQUlhNfvkaY1SIW3kQlD2dTf5rpPwy
 
 SET default_transaction_read_only = off;
 
@@ -37,7 +37,7 @@ ALTER ROLE roundcube WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NORE
 
 
 
-\unrestrict stjfdOUwyQowXi049g8xUbJOILRbYVNA9kthY2lhehXi54SlZWkXaUdMKirgjaQ
+\unrestrict BbLbaki9QesNT0pwR5eNf4jrXSZLMMKKaHQUlhNfvkaY1SIW3kQlD2dTf5rpPwy
 
 --
 -- Databases
@@ -53,7 +53,7 @@ ALTER ROLE roundcube WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NORE
 -- PostgreSQL database dump
 --
 
-\restrict PMgwbMbkff3aXKClfbXsIRY6Q4dZUTmuWkCdJPw6hy8MMDbk6cGabBcAX8X224h
+\restrict bTZWMS5pIkfewD6Igit7qE8R0YuT5ddRxitw8z6Sr85UkN1NRZVMT9wtahHe4mD
 
 -- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
 -- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
@@ -74,7 +74,7 @@ SET row_security = off;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict PMgwbMbkff3aXKClfbXsIRY6Q4dZUTmuWkCdJPw6hy8MMDbk6cGabBcAX8X224h
+\unrestrict bTZWMS5pIkfewD6Igit7qE8R0YuT5ddRxitw8z6Sr85UkN1NRZVMT9wtahHe4mD
 
 --
 -- Database "mail_profissional" dump
@@ -84,7 +84,7 @@ SET row_security = off;
 -- PostgreSQL database dump
 --
 
-\restrict 0gUFKcDuriiTTm52K2t9363D8aTVrMyBVZlhAwdqqVHye7S7lHdPW9fjccagH7I
+\restrict x52pe8sUyYT14BErTnNVuDzOSDgosvdFOETN31IiRNtT3OZiv2BsFqz50f8R7E5
 
 -- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
 -- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
@@ -110,9 +110,9 @@ CREATE DATABASE mail_profissional WITH TEMPLATE = template0 ENCODING = 'UTF8' LO
 
 ALTER DATABASE mail_profissional OWNER TO postgres;
 
-\unrestrict 0gUFKcDuriiTTm52K2t9363D8aTVrMyBVZlhAwdqqVHye7S7lHdPW9fjccagH7I
+\unrestrict x52pe8sUyYT14BErTnNVuDzOSDgosvdFOETN31IiRNtT3OZiv2BsFqz50f8R7E5
 \connect mail_profissional
-\restrict 0gUFKcDuriiTTm52K2t9363D8aTVrMyBVZlhAwdqqVHye7S7lHdPW9fjccagH7I
+\restrict x52pe8sUyYT14BErTnNVuDzOSDgosvdFOETN31IiRNtT3OZiv2BsFqz50f8R7E5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -172,13 +172,13 @@ CREATE SCHEMA postfix_submission;
 ALTER SCHEMA postfix_submission OWNER TO postfix;
 
 --
--- Name: roundcube; Type: SCHEMA; Schema: -; Owner: postgres
+-- Name: sooma_smime; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
-CREATE SCHEMA roundcube;
+CREATE SCHEMA sooma_smime;
 
 
-ALTER SCHEMA roundcube OWNER TO postgres;
+ALTER SCHEMA sooma_smime OWNER TO postgres;
 
 --
 -- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
@@ -225,11 +225,11 @@ ALTER FUNCTION public.prefixed_uuid(text) OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_alias_delete() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
- DELETE FROM profissional_email_aliases WHERE email_id = OLD.id;
- DELETE FROM profissional_emails WHERE id = OLD.id;
-END;
+    AS $$
+BEGIN
+ DELETE FROM profissional_email_aliases WHERE email_id = OLD.id;
+ DELETE FROM profissional_emails WHERE id = OLD.id;
+END;
 $$;
 
 
@@ -241,16 +241,16 @@ ALTER FUNCTION public.profissional_alias_delete() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_alias_insert() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- new_id integer;
- result profissional_alias;
-BEGIN
- INSERT INTO profissional_emails(email, parent, active, type, receive_password, permitted_senders) VALUES(NEW.email, NEW.parent, NEW.active, 'a', NEW.receive_password, NEW.permitted_senders) RETURNING id INTO new_id;
- INSERT INTO profissional_email_aliases(email_id, maildrop, tag_subject, maildrop_definition, permitted_senders_definition, maildrop_group_list_array) VALUES(new_id, NEW.maildrop, NEW.tag_subject, NEW.maildrop_definition, NEW.permitted_senders_definition, NEW.maildrop_group_list_array);
- SELECT * FROM profissional_alias WHERE id = new_id INTO result;
- RETURN result;
-END;
+    AS $$
+DECLARE
+ new_id integer;
+ result profissional_alias;
+BEGIN
+ INSERT INTO profissional_emails(email, parent, active, type, receive_password, permitted_senders) VALUES(NEW.email, NEW.parent, NEW.active, 'a', NEW.receive_password, NEW.permitted_senders) RETURNING id INTO new_id;
+ INSERT INTO profissional_email_aliases(email_id, maildrop, tag_subject, maildrop_definition, permitted_senders_definition, maildrop_group_list_array) VALUES(new_id, NEW.maildrop, NEW.tag_subject, NEW.maildrop_definition, NEW.permitted_senders_definition, NEW.maildrop_group_list_array);
+ SELECT * FROM profissional_alias WHERE id = new_id INTO result;
+ RETURN result;
+END;
 $$;
 
 
@@ -262,15 +262,15 @@ ALTER FUNCTION public.profissional_alias_insert() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_alias_update() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- result profissional_alias;
-BEGIN
- UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active, receive_password = NEW.receive_password, permitted_senders = NEW.permitted_senders WHERE id = OLD.id;
- UPDATE profissional_email_aliases SET maildrop = NEW.maildrop, tag_subject = NEW.tag_subject, maildrop_definition = NEW.maildrop_definition, permitted_senders_definition = NEW.permitted_senders_definition, maildrop_group_list_array = NEW.maildrop_group_list_array WHERE email_id = OLD.id;
- SELECT * FROM profissional_alias WHERE id = OLD.id INTO result;
- RETURN result;
-END;
+    AS $$
+DECLARE
+ result profissional_alias;
+BEGIN
+ UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active, receive_password = NEW.receive_password, permitted_senders = NEW.permitted_senders WHERE id = OLD.id;
+ UPDATE profissional_email_aliases SET maildrop = NEW.maildrop, tag_subject = NEW.tag_subject, maildrop_definition = NEW.maildrop_definition, permitted_senders_definition = NEW.permitted_senders_definition, maildrop_group_list_array = NEW.maildrop_group_list_array WHERE email_id = OLD.id;
+ SELECT * FROM profissional_alias WHERE id = OLD.id INTO result;
+ RETURN result;
+END;
 $$;
 
 
@@ -282,16 +282,16 @@ ALTER FUNCTION public.profissional_alias_update() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_domains_emails_username_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
--- This function exists because of the deprecated profissional_emails.email field.
--- If the field is dropped, and replaced by (profissional_emails.username, profissional_domains.name)
--- then this function and corresponding trigger are no longer necessary
-BEGIN
-    IF (NEW.name != OLD.name) THEN
-        UPDATE profissional_emails SET email = username || '@' || NEW.name WHERE parent = NEW.id;
-    END IF;
-    RETURN NEW;
-END;
+    AS $$
+-- This function exists because of the deprecated profissional_emails.email field.
+-- If the field is dropped, and replaced by (profissional_emails.username, profissional_domains.name)
+-- then this function and corresponding trigger are no longer necessary
+BEGIN
+    IF (NEW.name != OLD.name) THEN
+        UPDATE profissional_emails SET email = username || '@' || NEW.name WHERE parent = NEW.id;
+    END IF;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -303,13 +303,13 @@ ALTER FUNCTION public.profissional_domains_emails_username_trigger() OWNER TO ho
 
 CREATE FUNCTION public.profissional_domains_horde_groups_members_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    IF (NEW.name != OLD.name) THEN
-        UPDATE horde_groups_members SET user_uid = split_part(user_uid, '@', 1) || '@' || NEW.name WHERE user_uid LIKE '%@' || OLD.name;
-    END IF;
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    IF (NEW.name != OLD.name) THEN
+        UPDATE horde_groups_members SET user_uid = split_part(user_uid, '@', 1) || '@' || NEW.name WHERE user_uid LIKE '%@' || OLD.name;
+    END IF;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -321,13 +321,13 @@ ALTER FUNCTION public.profissional_domains_horde_groups_members_trigger() OWNER 
 
 CREATE FUNCTION public.profissional_domains_horde_prefs_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    IF (NEW.name != OLD.name) THEN
-        UPDATE horde_prefs SET pref_uid = split_part(pref_uid, '@', 1) || '@' || NEW.name WHERE pref_uid LIKE '%@' || OLD.name;
-    END IF;
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    IF (NEW.name != OLD.name) THEN
+        UPDATE horde_prefs SET pref_uid = split_part(pref_uid, '@', 1) || '@' || NEW.name WHERE pref_uid LIKE '%@' || OLD.name;
+    END IF;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -339,11 +339,11 @@ ALTER FUNCTION public.profissional_domains_horde_prefs_trigger() OWNER TO horde;
 
 CREATE FUNCTION public.profissional_email_aliases_maildrop_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    NEW.maildrop_array := array_agg(email) FROM (SELECT (regexp_matches(NEW.maildrop, '"([^"]*)"', 'g'))[1] AS email) AS foo;
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    NEW.maildrop_array := array_agg(email) FROM (SELECT (regexp_matches(NEW.maildrop, '"([^"]*)"', 'g'))[1] AS email) AS foo;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -355,25 +355,25 @@ ALTER FUNCTION public.profissional_email_aliases_maildrop_trigger() OWNER TO hor
 
 CREATE FUNCTION public.profissional_email_users_quota_deprecation() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- product_count integer;
-BEGIN
-    IF (NEW.product_id IS NULL and NEW.quota IS NOT NULL) THEN
-        NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
-    END IF;
-    IF TG_OP = 'UPDATE' THEN
-        IF OLD.quota != NEW.quota THEN
-            NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
-        END IF;
-    END IF;
-    product_count = count(*) FROM public.profissional_products WHERE id = NEW.product_id;
-    IF product_count = 0 THEN
-        RAISE EXCEPTION 'product_id not found in profissional_products';
-    END IF;
-    NEW.quota = quota FROM public.profissional_products WHERE id = NEW.product_id;
-    RETURN NEW;
-END;
+    AS $$
+DECLARE
+ product_count integer;
+BEGIN
+    IF (NEW.product_id IS NULL and NEW.quota IS NOT NULL) THEN
+        NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
+    END IF;
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.quota != NEW.quota THEN
+            NEW.product_id = id FROM profissional_products WHERE profissional_products.quota = NEW.quota;
+        END IF;
+    END IF;
+    product_count = count(*) FROM public.profissional_products WHERE id = NEW.product_id;
+    IF product_count = 0 THEN
+        RAISE EXCEPTION 'product_id not found in profissional_products';
+    END IF;
+    NEW.quota = quota FROM public.profissional_products WHERE id = NEW.product_id;
+    RETURN NEW;
+END;
 $$;
 
 
@@ -385,11 +385,11 @@ ALTER FUNCTION public.profissional_email_users_quota_deprecation() OWNER TO hord
 
 CREATE FUNCTION public.profissional_emails_username_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    NEW.username := split_part(NEW.email, '@', 1);
-    RETURN NEW;
-END;
+    AS $$
+BEGIN
+    NEW.username := split_part(NEW.email, '@', 1);
+    RETURN NEW;
+END;
 $$;
 
 
@@ -401,19 +401,19 @@ ALTER FUNCTION public.profissional_emails_username_trigger() OWNER TO horde;
 
 CREATE FUNCTION public.profissional_sync_queue_edit(text, text, text, text) RETURNS integer
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
- arg_email_to ALIAS FOR $1;
- arg_email_from ALIAS FOR $2;
- arg_imap_from ALIAS FOR $3;
- arg_state ALIAS FOR $4;
- result integer;
-BEGIN
- LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
- UPDATE profissional_sync_queue SET email_from = COALESCE(arg_email_from, email_from), imap_from = COALESCE(arg_imap_from, imap_from), state = COALESCE(arg_state, state) WHERE email_to = arg_email_to AND state != 'SYNCING';
- GET DIAGNOSTICS result = ROW_COUNT;
- RETURN result;
-END;
+    AS $_$
+DECLARE
+ arg_email_to ALIAS FOR $1;
+ arg_email_from ALIAS FOR $2;
+ arg_imap_from ALIAS FOR $3;
+ arg_state ALIAS FOR $4;
+ result integer;
+BEGIN
+ LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
+ UPDATE profissional_sync_queue SET email_from = COALESCE(arg_email_from, email_from), imap_from = COALESCE(arg_imap_from, imap_from), state = COALESCE(arg_state, state) WHERE email_to = arg_email_to AND state != 'SYNCING';
+ GET DIAGNOSTICS result = ROW_COUNT;
+ RETURN result;
+END;
 $_$;
 
 
@@ -425,16 +425,16 @@ ALTER FUNCTION public.profissional_sync_queue_edit(text, text, text, text) OWNER
 
 CREATE FUNCTION public.profissional_sync_queue_resync_next(text) RETURNS integer
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
- arg_domain ALIAS FOR $1;
- result integer;
-BEGIN
- LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
- result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'ALREADY_SYNCED' ORDER BY last_sync_ts LIMIT 1;
- UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
- RETURN result;
-END;
+    AS $_$
+DECLARE
+ arg_domain ALIAS FOR $1;
+ result integer;
+BEGIN
+ LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
+ result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'ALREADY_SYNCED' ORDER BY last_sync_ts LIMIT 1;
+ UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
+ RETURN result;
+END;
 $_$;
 
 
@@ -446,16 +446,16 @@ ALTER FUNCTION public.profissional_sync_queue_resync_next(text) OWNER TO postgre
 
 CREATE FUNCTION public.profissional_sync_queue_sync_next(text) RETURNS integer
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
- arg_domain ALIAS FOR $1;
- result integer;
-BEGIN
- LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
- result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'NEVER_SYNCED' ORDER BY id LIMIT 1;
- UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
- RETURN result;
-END;
+    AS $_$
+DECLARE
+ arg_domain ALIAS FOR $1;
+ result integer;
+BEGIN
+ LOCK TABLE profissional_sync_queue IN EXCLUSIVE MODE;
+ result := id FROM profissional_sync_queue WHERE email_to LIKE '%@' || arg_domain AND state = 'NEVER_SYNCED' ORDER BY id LIMIT 1;
+ UPDATE profissional_sync_queue SET state = 'SYNCING', last_sync_ts = now() WHERE id = result;
+ RETURN result;
+END;
 $_$;
 
 
@@ -467,11 +467,11 @@ ALTER FUNCTION public.profissional_sync_queue_sync_next(text) OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_users_delete() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-BEGIN
- DELETE FROM profissional_email_users WHERE email_id = OLD.id;
- DELETE FROM profissional_emails WHERE id = OLD.id;
-END;
+    AS $$
+BEGIN
+ DELETE FROM profissional_email_users WHERE email_id = OLD.id;
+ DELETE FROM profissional_emails WHERE id = OLD.id;
+END;
 $$;
 
 
@@ -483,16 +483,16 @@ ALTER FUNCTION public.profissional_users_delete() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_users_insert() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- new_id integer;
- result profissional_users;
-BEGIN
- INSERT INTO profissional_emails(email, parent, active, type) VALUES(NEW.email, NEW.parent, NEW.active, 'u') RETURNING id INTO new_id;
- INSERT INTO profissional_email_users(email_id, password, homedir, apikey, blocked_contents, mailbox, imapserver, smtpserver, must_change_password, product_id, pop3_disabled, outbound_volume, webmail_disabled) VALUES(new_id, NEW.password, NEW.homedir, NEW.apikey, NEW.blocked_contents, NEW.mailbox, NEW.imapserver, NEW.smtpserver, NEW.must_change_password, NEW.product_id, NEW.pop3_disabled, NEW.outbound_volume, NEW.webmail_disabled);
- SELECT * FROM profissional_users WHERE id = new_id INTO result;
- RETURN result;
-END;
+    AS $$
+DECLARE
+ new_id integer;
+ result profissional_users;
+BEGIN
+ INSERT INTO profissional_emails(email, parent, active, type) VALUES(NEW.email, NEW.parent, NEW.active, 'u') RETURNING id INTO new_id;
+ INSERT INTO profissional_email_users(email_id, password, homedir, apikey, blocked_contents, mailbox, imapserver, smtpserver, must_change_password, product_id, pop3_disabled, outbound_volume, webmail_disabled) VALUES(new_id, NEW.password, NEW.homedir, NEW.apikey, NEW.blocked_contents, NEW.mailbox, NEW.imapserver, NEW.smtpserver, NEW.must_change_password, NEW.product_id, NEW.pop3_disabled, NEW.outbound_volume, NEW.webmail_disabled);
+ SELECT * FROM profissional_users WHERE id = new_id INTO result;
+ RETURN result;
+END;
 $$;
 
 
@@ -504,17 +504,17 @@ ALTER FUNCTION public.profissional_users_insert() OWNER TO postgres;
 
 CREATE FUNCTION public.profissional_users_update() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- new_id integer;
- result profissional_users;
-BEGIN
- UPDATE profissional_email_users SET password = NEW.password, homedir = NEW.homedir, apikey = NEW.apikey, blocked_contents = NEW.blocked_contents, mailbox = NEW.mailbox, imapserver = NEW.imapserver, smtpserver = NEW.smtpserver, must_change_password = NEW.must_change_password, product_id = NEW.product_id, pop3_disabled = NEW.pop3_disabled, outbound_volume = NEW.outbound_volume, webmail_disabled = NEW.webmail_disabled WHERE email_id = OLD.id;
- UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active WHERE id = OLD.id;
- SELECT * FROM profissional_users WHERE id = OLD.id INTO result;
-
- RETURN result;
-END;
+    AS $$
+DECLARE
+ new_id integer;
+ result profissional_users;
+BEGIN
+ UPDATE profissional_email_users SET password = NEW.password, homedir = NEW.homedir, apikey = NEW.apikey, blocked_contents = NEW.blocked_contents, mailbox = NEW.mailbox, imapserver = NEW.imapserver, smtpserver = NEW.smtpserver, must_change_password = NEW.must_change_password, product_id = NEW.product_id, pop3_disabled = NEW.pop3_disabled, outbound_volume = NEW.outbound_volume, webmail_disabled = NEW.webmail_disabled WHERE email_id = OLD.id;
+ UPDATE profissional_emails SET email = NEW.email, parent = NEW.parent, active = NEW.active WHERE id = OLD.id;
+ SELECT * FROM profissional_users WHERE id = OLD.id INTO result;
+
+ RETURN result;
+END;
 $$;
 
 
@@ -4974,10 +4974,10 @@ WITH (autovacuum_vacuum_cost_delay='20');
 ALTER TABLE public.turba_sharesng_users OWNER TO horde;
 
 --
--- Name: sooma_smime_certificate; Type: TABLE; Schema: roundcube; Owner: postgres
+-- Name: certificate; Type: TABLE; Schema: sooma_smime; Owner: postgres
 --
 
-CREATE TABLE roundcube.sooma_smime_certificate (
+CREATE TABLE sooma_smime.certificate (
     id character varying(100) DEFAULT public.prefixed_uuid('certificate'::text) NOT NULL,
     owner character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
@@ -4989,7 +4989,7 @@ CREATE TABLE roundcube.sooma_smime_certificate (
 );
 
 
-ALTER TABLE roundcube.sooma_smime_certificate OWNER TO postgres;
+ALTER TABLE sooma_smime.certificate OWNER TO postgres;
 
 --
 -- Name: mailaddr id; Type: DEFAULT; Schema: amavis; Owner: postgres
@@ -6513,10 +6513,11 @@ COPY public.turba_sharesng_users (share_id, user_uid, perm_2, perm_4, perm_8, pe
 
 
 --
--- Data for Name: sooma_smime_certificate; Type: TABLE DATA; Schema: roundcube; Owner: postgres
+-- Data for Name: certificate; Type: TABLE DATA; Schema: sooma_smime; Owner: postgres
 --
 
-COPY roundcube.sooma_smime_certificate (id, owner, email, certificate, private_key, extra_certificates, not_before, not_after) FROM stdin;
+COPY sooma_smime.certificate (id, owner, email, certificate, private_key, extra_certificates, not_before, not_after) FROM stdin;
+certificate_e715f86b-cf3f-48d3-b665-3b9f1f9589fc	registado@sooma.com	registado@sooma.com	-----BEGIN CERTIFICATE-----\nMIIGAzCCA+ugAwIBAgIQDlB3N6i3PHhPWHD/a4/DNjANBgkqhkiG9w0BAQsFADBT\nMQswCQYDVQQGEwJQTDEhMB8GA1UECgwYQXNzZWNvIERhdGEgU3lzdGVtcyBTLkEu\nMSEwHwYDVQQDDBhDZXJ0dW0gU01JTUUgRzEgUjM2IENBIDIwHhcNMjYwNDA3MTY1\nMjQyWhcNMjgwNDA2MTY1MjQxWjBCMRwwGgYDVQQDDBNyZWdpc3RhZG9Ac29vbWEu\nY29tMSIwIAYJKoZIhvcNAQkBFhNyZWdpc3RhZG9Ac29vbWEuY29tMIIBIjANBgkq\nhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvWCXYi+s/s5d5EEvVWxpkG8CGy7xheFF\nZ4761+s+4KTbMk4DVSh5GTAjnKkSlIKOoHn9tdh7yUAtVvuOMMVJW5ZrCcc7mvLH\nw195hXAC6GYXm0/dVC4/0tjP6nBoxGN3yhOdF5qc7WNf1HjW7Mtky/RMDr4/nUuT\n2L9yNrwctS2lWeM6xrXLScJ8D8JnDK2VETtTnARqpgWu5Xla+WDQwItQ5kDkSSoR\nViMJfDhjkjZnNrsFLIy8gk+sV+/TyWZ3J6Iej2G9ZLd7Nm1wZ3Reyzfk+65N159i\ntJqfO+FMmxR/H79bjoGoaguP/ukEIFO87dOUUoV+Crw1T+IO47VUGQIDAQABo4IB\n4jCCAd4wDAYDVR0TAQH/BAIwADBRBgNVHR8ESjBIMEagRKBChkBodHRwOi8vY2Vy\ndHVtc21pbWVnMXIzNmNhMi5jcmwuY2VydHVtLnBsL2NlcnR1bXNtaW1lZzFyMzZj\nYTIuY3JsMIGdBggrBgEFBQcBAQSBkDCBjTA2BggrBgEFBQcwAYYqaHR0cDovL2Nl\ncnR1bXNtaW1lZzFyMzZjYTIub2NzcC1jZXJ0dW0uY29tMFMGCCsGAQUFBzAChkdo\ndHRwOi8vY2VydHVtc21pbWVnMXIzNmNhMi5yZXBvc2l0b3J5LmNlcnR1bS5wbC9j\nZXJ0dW1zbWltZWcxcjM2Y2EyLmNlcjAfBgNVHSMEGDAWgBQl5GsFfvFCAciQvWgk\nwDjRdbqaNDAdBgNVHQ4EFgQU85ErbRpfFjpaAXDqLO8LfyYYYuwwTAYDVR0gBEUw\nQzAJBgdngQwBBQECMDYGCyqEaAGG9ncCZAIBMCcwJQYIKwYBBQUHAgEWGWh0dHBz\nOi8vd3d3LmNlcnR1bS5wbC9DUFMwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUF\nBwMCMA4GA1UdDwEB/wQEAwIE8DAeBgNVHREEFzAVgRNyZWdpc3RhZG9Ac29vbWEu\nY29tMA0GCSqGSIb3DQEBCwUAA4ICAQCLbxHFVqq8vEt/ZO2zhurzCYV8thyBKTG5\na4N2aIpgPXji2/lIJ11stylHUuB7YqgmItFxZkAKDVWTw2HXgvXw9sp9pwsJjmZb\ntPONEZ818yA49/MASNZOvVQ3xnzaLEjdEGOtBv7PRoIvavABnd3VqTlhW4anVb6N\neBVGcb3600exgIPEorHZafMjblx68aZNVQbdEEc+oIE9OF6V6DBGrA/J92SPgSNA\nLOgjXGA9D6JWw2KN7dzYnYGOyVe8N/gqv+OYCSljptT+LkXJso/z6TN1EKWv9kgm\njbw/ofIhb4XDt9mrBBkp+jLec7Fhbyb2jJIBacnd5ODMa36zLE6kS9RkDXfHfhrO\n2Z7wtRSXU09x22YOGlz1n1oD+E7QDIBFwe2is6VaKCPjJrrNXAF22XM54hc84p63\nf6zRkt8clZMdN1YdyKHwoE5j19IZXiMUCjoWqL3LK62tZB77iP0LchEWx4NFs348\n9LhDMStJoGZDUpP7kK/GwEVE8O7ZfNNwioxjSSsJHUN6FYV3TE8Gf1IptzNU2kTY\nyo55PZul5x6aa3GWhVkJzIJ2+s28cTZYosPnxFajKBlExjhlgoMcuLhE+BFofPYh\nM1FO6vOE+9lAx5Zm9jZH7o6gYYCkwPAeAEzarTkJKKPp0Lr3UtCChVtVfDcdDL2J\nSjDXU+BEAA==\n-----END CERTIFICATE-----\n	-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC9YJdiL6z+zl3k\nQS9VbGmQbwIbLvGF4UVnjvrX6z7gpNsyTgNVKHkZMCOcqRKUgo6gef212HvJQC1W\n+44wxUlblmsJxzua8sfDX3mFcALoZhebT91ULj/S2M/qcGjEY3fKE50XmpztY1/U\neNbsy2TL9EwOvj+dS5PYv3I2vBy1LaVZ4zrGtctJwnwPwmcMrZURO1OcBGqmBa7l\neVr5YNDAi1DmQORJKhFWIwl8OGOSNmc2uwUsjLyCT6xX79PJZncnoh6PYb1kt3s2\nbXBndF7LN+T7rk3Xn2K0mp874UybFH8fv1uOgahqC4/+6QQgU7zt05RShX4KvDVP\n4g7jtVQZAgMBAAECggEAcBC+xK2t08NPMImadxSGi6AFQQzQhAdAyP2FV0ywksM7\nq1MbCcO/lbY0/LnYcuWnfTNzfa6z4e4GZpjKFfZJaNdkVA8AKLtOl0DiaqJUNi5j\n/daPBQexYRZIQ1VtyfmKo5xjs9oczyWlSdiQZuQdq8vPTlIq1uwoe3UfI2DCJDvu\nQ04AblTJBm4S9OEh6GBIOLaJEBzexOaveO+Yynuqu1aQi57Pgvkarys1fLn9l2EE\n+BIzlMXexc4+BXiAaf8JpSEhPz6uA0OJzbdtNycwCZVZrDGEfHsF8HphNNbfTJ+c\ntbVn8YT4B4O/50BZIy/qUR3p8LpLVokUyz0H/z/34QKBgQD4eoocwjkdBWXB8dqq\nfhTl4jRUGWI3zHWLjrU/ozROLENv924iavKUSzf2A76NvwK4OZFqnmh6+LtlsDHq\n3t7qCKJJlHt3URlDTygnP/tTwjIT6oJjk6jbIC1aJ0762ttePCBHWp6OhIdYVgex\nwULsqzayZFAYY9yd1Wz5ysaBxQKBgQDDHBNYr12e5FLXv796e/eW7NB2TDBg3D8k\nLFPnn7S7xuAf+KL4xs43y93AO3/TrV/Go8OYGz+MK6PohuDsG5Qb1WgBpzZmzgUi\nVhSC7B0s/Fbyp+43uLzpzlQmBW2oDkEROQ0ARlZlr6CbBkhcXksC3q9zZixyGIo0\nogL+6oqSRQKBgQDXj783mctggOk5au7vj7fjgu0wtGC/1ZF4A9L7pUNgOgg7H2Wd\nWDigK+0dcTwjzjy2w8KCw3ASlqxEWKnFf5nVYK4htT2zUljfStGj017e2A8Hth9t\n8ZDAoNaXapibCbjbtL+wB06chx6/pMrCC85acWJfOqU9s4yWJKyIu8CgnQKBgQCq\nZxzmedLUcSmBUPDU8uxcnlu61fPyxKlI2IY3Z56b2afphGghytBUnvL/b3fG0kcx\n39l2QWYQ8BRpg1NyIuwKGyqJNxcmVozZXkDvz3Pz1DfEGrLNa8VillecFWWeP0TI\n3ADk2omeqfMlMimEsr3ktcSajwQGajRan5zqMsHv2QKBgEld2juuibX7pbEASBIP\nXIgUIZ7MIsliKahKZ4nk7qiGroZPE2sB1ryhIr0Cm+LsB5cTJwr8VtX3m+e9oK0m\nI7fTmffivJXJ3tvx7G/l4oN9QeEfknXEWFGudMURpf+N4BmULaA4FE0/5ETKb7q1\nWiUOOQT24K1yWMmFxMrIlIPG\n-----END PRIVATE KEY-----\n	\N	2026-04-07 16:52:42	2028-04-06 16:52:41
 \.
 
 
@@ -7705,10 +7706,10 @@ ALTER TABLE ONLY public.profissional_products_sold
 
 
 --
--- Name: sooma_smime_certificate sooma_smime_certificate_pkey; Type: CONSTRAINT; Schema: roundcube; Owner: postgres
+-- Name: certificate sooma_smime_certificate_pkey; Type: CONSTRAINT; Schema: sooma_smime; Owner: postgres
 --
 
-ALTER TABLE ONLY roundcube.sooma_smime_certificate
+ALTER TABLE ONLY sooma_smime.certificate
     ADD CONSTRAINT sooma_smime_certificate_pkey PRIMARY KEY (id);
 
 
@@ -9730,10 +9731,11 @@ GRANT USAGE ON SCHEMA postfix TO postfix;
 
 
 --
--- Name: SCHEMA roundcube; Type: ACL; Schema: -; Owner: postgres
+-- Name: SCHEMA sooma_smime; Type: ACL; Schema: -; Owner: postgres
 --
 
-GRANT USAGE ON SCHEMA roundcube TO horde;
+GRANT USAGE ON SCHEMA sooma_smime TO horde;
+GRANT USAGE ON SCHEMA sooma_smime TO roundcube;
 
 
 --
@@ -9741,6 +9743,7 @@ GRANT USAGE ON SCHEMA roundcube TO horde;
 --
 
 GRANT ALL ON FUNCTION public.prefixed_uuid(text) TO horde;
+GRANT ALL ON FUNCTION public.prefixed_uuid(text) TO roundcube;
 
 
 --
@@ -10109,17 +10112,18 @@ GRANT ALL ON TABLE public.profissional_users TO postfix;
 
 
 --
--- Name: TABLE sooma_smime_certificate; Type: ACL; Schema: roundcube; Owner: postgres
+-- Name: TABLE certificate; Type: ACL; Schema: sooma_smime; Owner: postgres
 --
 
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE roundcube.sooma_smime_certificate TO horde;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE sooma_smime.certificate TO horde;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE sooma_smime.certificate TO roundcube;
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 0gUFKcDuriiTTm52K2t9363D8aTVrMyBVZlhAwdqqVHye7S7lHdPW9fjccagH7I
+\unrestrict x52pe8sUyYT14BErTnNVuDzOSDgosvdFOETN31IiRNtT3OZiv2BsFqz50f8R7E5
 
 --
 -- Database "postgres" dump
@@ -10131,7 +10135,7 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE roundcube.sooma_smime_certificate TO 
 -- PostgreSQL database dump
 --
 
-\restrict j41pUVultKuju3tjsHNlY6VsgbD2INJOKU8Mlm0lqBeIPUEbDdgp3JlAv0QIqOl
+\restrict MQG7tc5CGPTeJTHHGxBTS6EPojU4G47Wwe5ivyTpn4Us2hnHcKH1r0WS13yUgp1
 
 -- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
 -- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
@@ -10152,7 +10156,7 @@ SET row_security = off;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict j41pUVultKuju3tjsHNlY6VsgbD2INJOKU8Mlm0lqBeIPUEbDdgp3JlAv0QIqOl
+\unrestrict MQG7tc5CGPTeJTHHGxBTS6EPojU4G47Wwe5ivyTpn4Us2hnHcKH1r0WS13yUgp1
 
 --
 -- Database "roundcube" dump
@@ -10162,7 +10166,7 @@ SET row_security = off;
 -- PostgreSQL database dump
 --
 
-\restrict s9Lq2yCdmfgQb8EqqNoGfBoMcf3LONFzzTl0VwCaf2skRApAciGcGmUjw3ceqIe
+\restrict wbb2rUAhZlbIsyJofpCrYQezb4nB0Z817MfylWg7hzEoInJhx7iUn1rhYXoizl7
 
 -- Dumped from database version 17.9 (Debian 17.9-0+deb13u1)
 -- Dumped by pg_dump version 17.9 (Debian 17.9-0+deb13u1)
@@ -10188,9 +10192,9 @@ CREATE DATABASE roundcube WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PRO
 
 ALTER DATABASE roundcube OWNER TO roundcube;
 
-\unrestrict s9Lq2yCdmfgQb8EqqNoGfBoMcf3LONFzzTl0VwCaf2skRApAciGcGmUjw3ceqIe
+\unrestrict wbb2rUAhZlbIsyJofpCrYQezb4nB0Z817MfylWg7hzEoInJhx7iUn1rhYXoizl7
 \connect roundcube
-\restrict s9Lq2yCdmfgQb8EqqNoGfBoMcf3LONFzzTl0VwCaf2skRApAciGcGmUjw3ceqIe
+\restrict wbb2rUAhZlbIsyJofpCrYQezb4nB0Z817MfylWg7hzEoInJhx7iUn1rhYXoizl7
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -10203,6 +10207,26 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: sooma_smime; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA sooma_smime;
+
+
+ALTER SCHEMA sooma_smime OWNER TO postgres;
+
+--
+-- Name: prefixed_uuid(text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.prefixed_uuid(text) RETURNS text
+    LANGUAGE sql STRICT PARALLEL SAFE
+    AS $_$SELECT $1 || '_' || gen_random_uuid ();$_$;
+
+
+ALTER FUNCTION public.prefixed_uuid(text) OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -10940,6 +10964,24 @@ CREATE SEQUENCE public.xcalendar_synced_seq
 ALTER SEQUENCE public.xcalendar_synced_seq OWNER TO roundcube;
 
 --
+-- Name: certificate; Type: TABLE; Schema: sooma_smime; Owner: postgres
+--
+
+CREATE TABLE sooma_smime.certificate (
+    id character varying(100) DEFAULT public.prefixed_uuid('certificate'::text) NOT NULL,
+    owner character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    certificate text NOT NULL,
+    private_key text,
+    extra_certificates text[],
+    not_before timestamp without time zone NOT NULL,
+    not_after timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE sooma_smime.certificate OWNER TO postgres;
+
+--
 -- Data for Name: cache; Type: TABLE DATA; Schema: public; Owner: roundcube
 --
 
@@ -11060,7 +11102,9 @@ COPY public.searches (search_id, user_id, type, name, data) FROM stdin;
 --
 
 COPY public.session (sess_id, changed, ip, vars) FROM stdin;
-b0pbg71tmsfde57bmqturqdt8n	2026-04-13 16:22:00.231717+00	172.17.0.1	bGFuZ3VhZ2V8czo1OiJwdF9QVCI7aW1hcF9uYW1lc3BhY2V8YTo0OntzOjg6InBlcnNvbmFsIjthOjE6e2k6MDthOjI6e2k6MDtzOjA6IiI7aToxO3M6MToiLiI7fX1zOjU6Im90aGVyIjtOO3M6Njoic2hhcmVkIjtOO3M6MTA6InByZWZpeF9vdXQiO3M6MDoiIjt9aW1hcF9kZWxpbWl0ZXJ8czoxOiIuIjtpbWFwX2xpc3RfY29uZnxhOjI6e2k6MDtOO2k6MTthOjA6e319dXNlcl9pZHxpOjM7dXNlcm5hbWV8czoxOToicmVnaXN0YWRvQHNvb21hLmNvbSI7c3RvcmFnZV9ob3N0fHM6MTA6IjE3Mi4xNy4wLjIiO3N0b3JhZ2VfcG9ydHxpOjE0MztzdG9yYWdlX3NzbHxiOjA7cGFzc3dvcmR8czozMjoiNjJnUWMxdWNpc2lYVG9YeXVGTTZLU3ZZU1U5MFNEdkEiO2xvZ2luX3RpbWV8aToxNzc2MDg3MzgxO3RpbWV6b25lfHM6MTM6IkV1cm9wZS9MaXNib24iO1NUT1JBR0VfU1BFQ0lBTC1VU0V8YjoxO2F1dGhfc2VjcmV0fHM6MjY6Im05aldHa1lQeTJFSFdBQzdscFFublBsbUhvIjtyZXF1ZXN0X3Rva2VufHM6MzI6InZoNmRvTUlmVUtxaTlNREtndnpQd2NiTEhSaDV5ZEdqIjtza2luX2NvbmZpZ3xhOjc6e3M6MTc6InN1cHBvcnRlZF9sYXlvdXRzIjthOjE6e2k6MDtzOjEwOiJ3aWRlc2NyZWVuIjt9czoyMjoianF1ZXJ5X3VpX2NvbG9yc190aGVtZSI7czo5OiJib290c3RyYXAiO3M6MTg6ImVtYmVkX2Nzc19sb2NhdGlvbiI7czoxNzoiL3N0eWxlcy9lbWJlZC5jc3MiO3M6MTk6ImVkaXRvcl9jc3NfbG9jYXRpb24iO3M6MTc6Ii9zdHlsZXMvZW1iZWQuY3NzIjtzOjE3OiJkYXJrX21vZGVfc3VwcG9ydCI7YjoxO3M6MjY6Im1lZGlhX2Jyb3dzZXJfY3NzX2xvY2F0aW9uIjtzOjQ6Im5vbmUiO3M6MjE6ImFkZGl0aW9uYWxfbG9nb190eXBlcyI7YTozOntpOjA7czo0OiJkYXJrIjtpOjE7czo1OiJzbWFsbCI7aToyO3M6MTA6InNtYWxsLWRhcmsiO319eGNzcmZfdG9rZW58czozMToibUwzdmpyNEJ5VXdTTUZ4aEJ0d2s1U3R6TVZlUm5ZaSI7aW1hcF9ob3N0fHM6MTA6IjE3Mi4xNy4wLjIiO21ib3h8czo1OiJJTkJPWCI7c29ydF9jb2x8czowOiIiO3NvcnRfb3JkZXJ8czo0OiJERVNDIjtTVE9SQUdFX0FDTHxiOjA7eGZyYW1ld29ya19nZW9fODNjZDYzYTAwZTIyNDA4MGJjNjZkMTA0ZjU0MDM2Y2N8YTo2OntzOjI6ImlwIjtzOjEwOiIxNzIuMTcuMC4xIjtzOjEyOiJjb3VudHJ5X2NvZGUiO2I6MDtzOjEyOiJjb3VudHJ5X25hbWUiO3M6MToiLSI7czo0OiJjaXR5IjtiOjA7czo4OiJsYXRpdHVkZSI7YjowO3M6OToibG9uZ2l0dWRlIjtiOjA7fXByb3BlcnR5X21hcHxiOjE7dGFza3xzOjQ6Im1haWwiO3BhZ2V8aToxO1NUT1JBR0VfVEhSRUFEfGE6Mzp7aTowO3M6MTA6IlJFRkVSRU5DRVMiO2k6MTtzOjQ6IlJFRlMiO2k6MjtzOjE0OiJPUkRFUkVEU1VCSkVDVCI7fVNUT1JBR0VfUVVPVEF8YjoxO3F1b3RhX2Rpc3BsYXl8czo0OiJ0ZXh0IjtsaXN0X2F0dHJpYnxhOjc6e3M6NDoibmFtZSI7czo4OiJtZXNzYWdlcyI7czoyOiJpZCI7czoxMToibWVzc2FnZWxpc3QiO3M6NToiY2xhc3MiO3M6NDI6Imxpc3RpbmcgbWVzc2FnZWxpc3Qgc29ydGhlYWRlciBmaXhlZGhlYWRlciI7czoxNToiYXJpYS1sYWJlbGxlZGJ5IjtzOjIyOiJhcmlhLWxhYmVsLW1lc3NhZ2VsaXN0IjtzOjk6ImRhdGEtbGlzdCI7czoxMjoibWVzc2FnZV9saXN0IjtzOjE0OiJkYXRhLWxhYmVsLW1zZyI7czoyMDoiQSBsaXN0YSBlc3TDoSB2YXppYS4iO3M6NzoiY29sdW1ucyI7YTo4OntpOjA7czo3OiJ0aHJlYWRzIjtpOjE7czo3OiJzdWJqZWN0IjtpOjI7czo2OiJzdGF0dXMiO2k6MztzOjY6ImZyb210byI7aTo0O3M6NDoiZGF0ZSI7aTo1O3M6NDoic2l6ZSI7aTo2O3M6NDoiZmxhZyI7aTo3O3M6MTA6ImF0dGFjaG1lbnQiO319bGFzdF9jb21wb3NlX3Nlc3Npb258czoyMzoiMjAxNTAzNDAyMTY5ZGQwYjI0YTMyYmUiO3Vuc2Vlbl9jb3VudHxhOjY6e3M6NToiSU5CT1giO2k6MDtzOjk6IlJhc2N1bmhvcyI7aTowO3M6ODoiRW52aWFkYXMiO2k6MDtzOjQ6IlNwYW0iO2k6MDtzOjQ6IkxpeG8iO2k6MDtzOjc6IkFycXVpdm8iO2k6MDt9Zm9sZGVyc3xhOjE6e3M6NToiSU5CT1giO2E6Mjp7czozOiJjbnQiO2k6MDtzOjY6Im1heHVpZCI7aTowO319Y29tcG9zZV9kYXRhXzE4MDMzMjk0Mzg2OWRjZmNmOTIxYjljfE47
+2qn40ot5um82vnjqctfc777rht	2026-04-14 16:42:01.457692+00	172.17.0.1	dGVtcHxiOjE7bGFuZ3VhZ2V8czo1OiJwdF9QVCI7c2tpbl9jb25maWd8YTo3OntzOjE3OiJzdXBwb3J0ZWRfbGF5b3V0cyI7YToxOntpOjA7czoxMDoid2lkZXNjcmVlbiI7fXM6MjI6ImpxdWVyeV91aV9jb2xvcnNfdGhlbWUiO3M6OToiYm9vdHN0cmFwIjtzOjE4OiJlbWJlZF9jc3NfbG9jYXRpb24iO3M6MTc6Ii9zdHlsZXMvZW1iZWQuY3NzIjtzOjE5OiJlZGl0b3JfY3NzX2xvY2F0aW9uIjtzOjE3OiIvc3R5bGVzL2VtYmVkLmNzcyI7czoxNzoiZGFya19tb2RlX3N1cHBvcnQiO2I6MTtzOjI2OiJtZWRpYV9icm93c2VyX2Nzc19sb2NhdGlvbiI7czo0OiJub25lIjtzOjIxOiJhZGRpdGlvbmFsX2xvZ29fdHlwZXMiO2E6Mzp7aTowO3M6NDoiZGFyayI7aToxO3M6NToic21hbGwiO2k6MjtzOjEwOiJzbWFsbC1kYXJrIjt9fXJlcXVlc3RfdG9rZW58czozMjoiM1RpZW9ScXNzTWxzUkJHWUJJUTY5Z0Exemx0NXdGeXoiOw==
+tffet2i31nhtnbpb31a86rrbsa	2026-04-14 16:42:01.495899+00	172.17.0.1	dGVtcHxiOjE7bGFuZ3VhZ2V8czo1OiJwdF9QVCI7c2tpbl9jb25maWd8YTo3OntzOjE3OiJzdXBwb3J0ZWRfbGF5b3V0cyI7YToxOntpOjA7czoxMDoid2lkZXNjcmVlbiI7fXM6MjI6ImpxdWVyeV91aV9jb2xvcnNfdGhlbWUiO3M6OToiYm9vdHN0cmFwIjtzOjE4OiJlbWJlZF9jc3NfbG9jYXRpb24iO3M6MTc6Ii9zdHlsZXMvZW1iZWQuY3NzIjtzOjE5OiJlZGl0b3JfY3NzX2xvY2F0aW9uIjtzOjE3OiIvc3R5bGVzL2VtYmVkLmNzcyI7czoxNzoiZGFya19tb2RlX3N1cHBvcnQiO2I6MTtzOjI2OiJtZWRpYV9icm93c2VyX2Nzc19sb2NhdGlvbiI7czo0OiJub25lIjtzOjIxOiJhZGRpdGlvbmFsX2xvZ29fdHlwZXMiO2E6Mzp7aTowO3M6NDoiZGFyayI7aToxO3M6NToic21hbGwiO2k6MjtzOjEwOiJzbWFsbC1kYXJrIjt9fXJlcXVlc3RfdG9rZW58czozMjoiUm5RZ2pIRGxqbGd6UFRocVpmcFZqVDNjZnN4SkJLUG0iOw==
+95aefr02bs75gqmqet0ugjnj7j	2026-04-14 17:21:07.682608+00	172.17.0.1	bGFuZ3VhZ2V8czo1OiJwdF9QVCI7aW1hcF9uYW1lc3BhY2V8YTo0OntzOjg6InBlcnNvbmFsIjthOjE6e2k6MDthOjI6e2k6MDtzOjA6IiI7aToxO3M6MToiLiI7fX1zOjU6Im90aGVyIjtOO3M6Njoic2hhcmVkIjtOO3M6MTA6InByZWZpeF9vdXQiO3M6MDoiIjt9aW1hcF9kZWxpbWl0ZXJ8czoxOiIuIjtpbWFwX2xpc3RfY29uZnxhOjI6e2k6MDtOO2k6MTthOjA6e319dXNlcl9pZHxpOjM7dXNlcm5hbWV8czoxOToicmVnaXN0YWRvQHNvb21hLmNvbSI7c3RvcmFnZV9ob3N0fHM6MTA6IjE3Mi4xNy4wLjIiO3N0b3JhZ2VfcG9ydHxpOjE0MztzdG9yYWdlX3NzbHxiOjA7cGFzc3dvcmR8czozMjoiQ3FBVEhoQ2JzTk5nNXN2SDlzWXU2U25OR1J6VjJrVTEiO2xvZ2luX3RpbWV8aToxNzc2MTg0MTc4O3RpbWV6b25lfHM6MTM6IkV1cm9wZS9MaXNib24iO1NUT1JBR0VfU1BFQ0lBTC1VU0V8YjoxO2F1dGhfc2VjcmV0fHM6MjY6ImJ1S29YMG9OMGdzbEMzRmQwZjRLNDNGWnR0IjtyZXF1ZXN0X3Rva2VufHM6MzI6ImgzUFpETW5NV21DOGJwMUYyVVM0ZGxOU3l6cjMzaEdSIjt0YXNrfHM6NDoibWFpbCI7c2tpbl9jb25maWd8YTo3OntzOjE3OiJzdXBwb3J0ZWRfbGF5b3V0cyI7YToxOntpOjA7czoxMDoid2lkZXNjcmVlbiI7fXM6MjI6ImpxdWVyeV91aV9jb2xvcnNfdGhlbWUiO3M6OToiYm9vdHN0cmFwIjtzOjE4OiJlbWJlZF9jc3NfbG9jYXRpb24iO3M6MTc6Ii9zdHlsZXMvZW1iZWQuY3NzIjtzOjE5OiJlZGl0b3JfY3NzX2xvY2F0aW9uIjtzOjE3OiIvc3R5bGVzL2VtYmVkLmNzcyI7czoxNzoiZGFya19tb2RlX3N1cHBvcnQiO2I6MTtzOjI2OiJtZWRpYV9icm93c2VyX2Nzc19sb2NhdGlvbiI7czo0OiJub25lIjtzOjIxOiJhZGRpdGlvbmFsX2xvZ29fdHlwZXMiO2E6Mzp7aTowO3M6NDoiZGFyayI7aToxO3M6NToic21hbGwiO2k6MjtzOjEwOiJzbWFsbC1kYXJrIjt9fXhjc3JmX3Rva2VufHM6MzE6Im1MM3ZqcjRCeVV3U01GeGhCdHdrNVN0ek1WZVJuWWkiO2ltYXBfaG9zdHxzOjEwOiIxNzIuMTcuMC4yIjttYm94fHM6NToiSU5CT1giO3NvcnRfY29sfHM6MDoiIjtzb3J0X29yZGVyfHM6NDoiREVTQyI7U1RPUkFHRV9USFJFQUR8YTozOntpOjA7czoxMDoiUkVGRVJFTkNFUyI7aToxO3M6NDoiUkVGUyI7aToyO3M6MTQ6Ik9SREVSRURTVUJKRUNUIjt9U1RPUkFHRV9RVU9UQXxiOjE7cXVvdGFfZGlzcGxheXxzOjQ6InRleHQiO2xpc3RfYXR0cmlifGE6Nzp7czo0OiJuYW1lIjtzOjg6Im1lc3NhZ2VzIjtzOjI6ImlkIjtzOjExOiJtZXNzYWdlbGlzdCI7czo1OiJjbGFzcyI7czo0MjoibGlzdGluZyBtZXNzYWdlbGlzdCBzb3J0aGVhZGVyIGZpeGVkaGVhZGVyIjtzOjE1OiJhcmlhLWxhYmVsbGVkYnkiO3M6MjI6ImFyaWEtbGFiZWwtbWVzc2FnZWxpc3QiO3M6OToiZGF0YS1saXN0IjtzOjEyOiJtZXNzYWdlX2xpc3QiO3M6MTQ6ImRhdGEtbGFiZWwtbXNnIjtzOjIwOiJBIGxpc3RhIGVzdMOhIHZhemlhLiI7czo3OiJjb2x1bW5zIjthOjg6e2k6MDtzOjc6InRocmVhZHMiO2k6MTtzOjc6InN1YmplY3QiO2k6MjtzOjY6InN0YXR1cyI7aTozO3M6NjoiZnJvbXRvIjtpOjQ7czo0OiJkYXRlIjtpOjU7czo0OiJzaXplIjtpOjY7czo0OiJmbGFnIjtpOjc7czoxMDoiYXR0YWNobWVudCI7fX14ZnJhbWV3b3JrX2dlb184M2NkNjNhMDBlMjI0MDgwYmM2NmQxMDRmNTQwMzZjY3xhOjY6e3M6MjoiaXAiO3M6MTA6IjE3Mi4xNy4wLjEiO3M6MTI6ImNvdW50cnlfY29kZSI7YjowO3M6MTI6ImNvdW50cnlfbmFtZSI7czoxOiItIjtzOjQ6ImNpdHkiO2I6MDtzOjg6ImxhdGl0dWRlIjtiOjA7czo5OiJsb25naXR1ZGUiO2I6MDt9cHJvcGVydHlfbWFwfGI6MTtmb2xkZXJzfGE6MTp7czo1OiJJTkJPWCI7YToyOntzOjM6ImNudCI7aTowO3M6NjoibWF4dWlkIjtpOjA7fX11bnNlZW5fY291bnR8YToxOntzOjU6IklOQk9YIjtpOjA7fQ==
 \.
 
 
@@ -11083,7 +11127,7 @@ xid	980408315
 COPY public.users (user_id, username, mail_host, created, last_login, failed_login, failed_login_counter, language, preferences) FROM stdin;
 2	elastic@sooma.com	172.17.0.2	2026-03-26 18:02:17.779658+00	2026-03-26 18:02:17.779658+00	\N	\N	pt_PT	a:6:{s:4:"skin";s:7:"elastic";s:11:"client_hash";s:16:"2Ykc9K4gLL3yzAMk";s:11:"drafts_mbox";s:9:"Rascunhos";s:9:"sent_mbox";s:8:"Enviadas";s:9:"junk_mbox";s:4:"Spam";s:10:"trash_mbox";s:4:"Lixo";}
 1	sergio.carvalho@sooma.com	172.17.0.2	2026-03-26 18:01:47.728411+00	2026-03-26 18:03:04.358711+00	\N	\N	pt_PT	a:5:{s:11:"client_hash";s:16:"HcPkFWYTvoIbVVxS";s:11:"drafts_mbox";s:9:"Rascunhos";s:9:"sent_mbox";s:8:"Enviadas";s:9:"junk_mbox";s:4:"Spam";s:10:"trash_mbox";s:4:"Lixo";}
-3	registado@sooma.com	172.17.0.2	2026-04-08 14:57:20.332708+00	2026-04-13 13:36:21.202888+00	2026-04-08 17:47:31+00	2	pt_PT	a:6:{s:4:"skin";s:7:"elastic";s:11:"client_hash";s:16:"TPsLqcNvr6xr7V3l";s:11:"drafts_mbox";s:9:"Rascunhos";s:9:"sent_mbox";s:8:"Enviadas";s:9:"junk_mbox";s:4:"Spam";s:10:"trash_mbox";s:4:"Lixo";}
+3	registado@sooma.com	172.17.0.2	2026-04-08 14:57:20.332708+00	2026-04-14 16:29:38.175014+00	2026-04-08 17:47:31+00	2	pt_PT	a:6:{s:4:"skin";s:5:"sooma";s:11:"client_hash";s:16:"TPsLqcNvr6xr7V3l";s:11:"drafts_mbox";s:9:"Rascunhos";s:9:"sent_mbox";s:8:"Enviadas";s:9:"junk_mbox";s:4:"Spam";s:10:"trash_mbox";s:4:"Lixo";}
 \.
 
 
@@ -11183,6 +11227,14 @@ COPY public.xcalendar_scheduling_objects (id, principal_uri, calendar_data, uri,
 --
 
 COPY public.xcalendar_synced (id, user_id, calendar_id, name, username, url, password, read_only, connected_at, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: certificate; Type: TABLE DATA; Schema: sooma_smime; Owner: postgres
+--
+
+COPY sooma_smime.certificate (id, owner, email, certificate, private_key, extra_certificates, not_before, not_after) FROM stdin;
 \.
 
 
@@ -11544,6 +11596,14 @@ ALTER TABLE ONLY public.xcalendar_published
 
 ALTER TABLE ONLY public.xcalendar_synced
     ADD CONSTRAINT xcalendar_synced_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: certificate sooma_smime_certificate_pkey; Type: CONSTRAINT; Schema: sooma_smime; Owner: postgres
+--
+
+ALTER TABLE ONLY sooma_smime.certificate
+    ADD CONSTRAINT sooma_smime_certificate_pkey PRIMARY KEY (id);
 
 
 --
@@ -11928,10 +11988,32 @@ ALTER TABLE ONLY public.xcalendar_calendars
 
 
 --
+-- Name: SCHEMA sooma_smime; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA sooma_smime TO roundcube;
+
+
+--
+-- Name: FUNCTION prefixed_uuid(text); Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON FUNCTION public.prefixed_uuid(text) TO horde;
+GRANT ALL ON FUNCTION public.prefixed_uuid(text) TO roundcube;
+
+
+--
+-- Name: TABLE certificate; Type: ACL; Schema: sooma_smime; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE sooma_smime.certificate TO roundcube;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-\unrestrict s9Lq2yCdmfgQb8EqqNoGfBoMcf3LONFzzTl0VwCaf2skRApAciGcGmUjw3ceqIe
+\unrestrict wbb2rUAhZlbIsyJofpCrYQezb4nB0Z817MfylWg7hzEoInJhx7iUn1rhYXoizl7
 
 --
 -- PostgreSQL database cluster dump complete
