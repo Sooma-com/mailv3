@@ -22977,6 +22977,119 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.vacat
 body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.forward a::before {
   content: "\f14d";
 }
+body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li.sooma_smime_section a::before {
+  content: "\e829";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr > td.section::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.3rem;
+  font-weight: 200;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.general > td.section::before {
+  content: "\e163";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.mailbox > td.section::before {
+  content: "\f813";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.mailview > td.section::before {
+  content: "\f15c";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.compose > td.section::before {
+  content: "\f304";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.addressbook > td.section::before {
+  content: "\f2bb";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.folders > td.section::before {
+  content: "\f07b";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.server > td.section::before {
+  content: "\f8b1";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.encryption > td.section::before {
+  content: "\f023";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.xsidebar > td.section::before {
+  content: "\e24e";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.xcalendar > td.section::before {
+  content: "\f133";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list td.section::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.5rem;
+  font-weight: 200;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.settings > td.section::before {
+  content: "\e829";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.certificates_title > td.sooma_smime_my_certificates_item::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.5rem;
+  font-weight: 200;
+  content: "\e0ab";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.certificates_title > td.sooma_smime_public_certificates_item::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 900);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  padding-right: 0.5rem;
+  font-weight: 200;
+  content: "\f0ac";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.public_certificates_item > td.section::before {
+  content: "\f0a3";
+}
 
 body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .header,
 body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .pagenav,

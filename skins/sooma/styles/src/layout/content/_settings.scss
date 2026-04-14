@@ -34,4 +34,69 @@
   li.forward a::before {
     content: fa.fa-content(fa.$var-share-square);
   }
+  li.sooma_smime_section a::before {
+    content: fa.fa-content(fa.$var-envelope-ribbon);
+  }
+}
+#sections-table {
+  tr > td.section::before {
+    @include fa.fa-icon();
+    padding-right: 0.3rem;
+    font-weight: 200;
+  }
+  tr.general > td.section::before {
+    content: fa.fa-content(fa.$var-display);
+  }
+  tr.mailbox > td.section::before {
+    content: fa.fa-content(fa.$var-mailbox);
+  }
+  tr.mailview > td.section::before {
+    content: fa.fa-content(fa.$var-file-lines);
+  }
+  tr.compose > td.section::before {
+    content: fa.fa-content(fa.$var-pen);
+  }
+  tr.addressbook > td.section::before {
+    content: fa.fa-content(fa.$var-address-card);
+  }
+  tr.folders > td.section::before {
+    content: fa.fa-content(fa.$var-folder);
+  }
+  tr.server > td.section::before {
+    content: fa.fa-content(fa.$var-computer-classic);
+  }
+  tr.encryption > td.section::before {
+    content: fa.fa-content(fa.$var-lock);
+  }
+  tr.xsidebar > td.section::before {
+    content: fa.fa-content(fa.$var-sidebar);
+  }
+  tr.xcalendar > td.section::before {
+    content: fa.fa-content(fa.$var-calendar);
+  }
+}
+#sooma-smime-list {
+  td.section::before {
+    @include fa.fa-icon();
+    padding-right: 0.5rem;
+    font-weight: 200;
+  }
+  tbody > tr.settings > td.section::before {
+    content: fa.fa-content(fa.$var-envelope-ribbon);
+  }
+  tbody > tr.certificates_title > td.sooma_smime_my_certificates_item::before {
+    @include fa.fa-icon();
+    padding-right: 0.5rem;
+    font-weight: 200;
+    content: fa.fa-content(fa.$var-award-simple);
+  }
+  tbody > tr.certificates_title > td.sooma_smime_public_certificates_item::before {
+    @include fa.fa-icon();
+    padding-right: 0.5rem;
+    font-weight: 200;
+    content: fa.fa-content(fa.$var-globe);
+  }
+  tbody > tr.public_certificates_item > td.section::before {
+    content: fa.fa-content(fa.$var-certificate);
+  }
 }
