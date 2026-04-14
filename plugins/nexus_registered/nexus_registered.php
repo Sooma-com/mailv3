@@ -94,7 +94,7 @@ class nexus_registered extends rcube_plugin
 <div class="form-group row form-check">
 	<label for="compose-registered" class="col-form-label col-6"><?= $this->rc->gettext('registered_checkbox', 'nexus_registered') ?></label>
     <div class="col-6 form-check">
-        <label class="custom-control"><input name="_registered" id="compose-registered" tabindex="2" class="form-check-input" value="1" type="checkbox"></label>
+        <input name="_registered" id="compose-registered" tabindex="2" class="form-check-input" value="1" type="checkbox">
     </div>
 </div>
         <?php

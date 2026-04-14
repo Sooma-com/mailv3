@@ -25,7 +25,7 @@ class Compose
         <div class="form-group row form-check">
             <label for="compose-sooma-smime" class="col-form-label col-6"><?= $this->plugin->gettext('sign_message') ?></label>
             <div class="col-6 form-check">
-                <label class="custom-control"><input name="_sooma_smime_sign" id="compose-sooma-smime-sign" tabindex="2" class="form-check-input" value="1" type="checkbox" checked></label>
+                <input name="_sooma_smime_sign" id="compose-sooma-smime-sign" tabindex="2" class="form-check-input" value="1" type="checkbox" checked>
             </div>
         </div>
 <?php
