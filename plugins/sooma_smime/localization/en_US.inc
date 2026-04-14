@@ -14,6 +14,7 @@ $labels['options_title'] = 'S/MIME settings';
 $labels['options_title_first'] = 'Main options';
 $labels['deletecerts'] = 'Delete certificate';
 $labels['importcerts'] = 'Import certificate';
+$labels['importkeys'] = 'Import key';
 $labels['exportcerts'] = 'Export certificate';
 $labels['select_import_file'] = 'Select import file';
 $labels['no_file_uploaded'] = 'No file uploaded';

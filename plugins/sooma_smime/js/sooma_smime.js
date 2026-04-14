@@ -19,8 +19,8 @@
                     this.import_cert(dialog);
                 };
 
-            this.cert_import_dialog = rcmail.simple_dialog(dialog, 'sooma_smime.importcerts', import_func.bind(this, dialog), {
-                button: 'import',
+            this.cert_import_dialog = rcmail.simple_dialog(dialog, selected_certificate_id ? 'sooma_smime.importkeys' : 'sooma_smime.importcerts', import_func.bind(this, dialog), {
+                button: selected_certificate_id ? rcmail.get_label('sooma_smime.importkeys') : rcmail.get_label('sooma_smime.importcerts'),
                 width: 500,
                 height: 180
             });

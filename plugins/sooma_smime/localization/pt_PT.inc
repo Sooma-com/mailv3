@@ -14,6 +14,7 @@ $labels['options_title'] = 'Configurações de S/MIME';
 $labels['options_title_first'] = 'Opções principais';
 $labels['deletecerts'] = 'Eliminar certificado';
 $labels['importcerts'] = 'Importar certificado';
+$labels['importkeys'] = 'Importar chave';
 $labels['exportcerts'] = 'Exportar certificado';
 $labels['select_import_file'] = 'Selecione um ficheiro para importar';
 $labels['no_file_uploaded'] = 'Nenhum ficheiro enviado';

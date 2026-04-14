@@ -28,6 +28,8 @@ class Settings
         $this->plugin->rc->output->add_label('no_certificates');
         $this->plugin->rc->output->add_label('no_private_key');
         $this->plugin->rc->output->add_label('cert_delete_msg');
+        $this->plugin->rc->output->add_label('importcerts');
+        $this->plugin->rc->output->add_label('importkeys');
     }
 
     public function settings_actions($args)
