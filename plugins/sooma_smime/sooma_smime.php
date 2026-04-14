@@ -37,6 +37,7 @@ class sooma_smime extends rcube_plugin
         }
         $this->add_texts('localization/', true);
         $this->include_script('js/sooma_smime.js');
+        $this->include_stylesheet('css/sooma_smime.css');
         new \Sooma\Smime\Settings($this);
         new \Sooma\Smime\Compose($this);
         new \Sooma\Smime\Signer($this);

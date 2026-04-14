@@ -1,6 +1,6 @@
 <?php
 $labels = [];
-$labels['sooma_smime'] = 'S/MIME';
+$labels['sooma_smime'] = 'Certificados';
 $labels['settings'] = 'Configurações de S/MIME';
 $labels['smime'] = 'S/MIME';
 $labels['myCerts'] = 'Certificados pessoais';

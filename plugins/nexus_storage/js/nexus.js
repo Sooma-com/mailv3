@@ -46,6 +46,7 @@
     };
 
     window.addEventListener('load', () => {
+        if (typeof sergiosgc === 'undefined') return;
         linkSoomaProfileDialogQuotaLabel();
         addUpgradeButton();
     });

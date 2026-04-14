@@ -1,0 +1,22 @@
+.sooma_smime_section:only-child::before {
+    content: url("../images/sooma_smime_section_light.svg");
+}
+.dark-mode .sooma_smime_section:only-child::before {
+    content: url("../images/sooma_smime_section.svg");
+}
+.sooma_smime_my_certificates_item::before {
+    content: url("../images/own_certificates_light.svg");
+}
+.dark-mode .sooma_smime_my_certificates_item::before {
+    content: url("../images/own_certificates.svg");
+}
+.sooma_smime_public_certificates_item::before {
+    content: url("../images/public_certificates_light.svg");
+}
+.dark-mode .sooma_smime_public_certificates_item::before {
+    content: url("../images/public_certificates.svg");
+}
+#my_certs-table,
+#sooma_other_certs-table {
+    margin-left: 3rem;
+}
