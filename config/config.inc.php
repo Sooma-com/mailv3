@@ -115,7 +115,7 @@ $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
 $config['dont_override'] = ['use_subscriptions'];
 $config['use_subscriptions'] = false;
 {
-    $local_config_file = realpath(__DIR__ . '/' . strtr($_SERVER['HTTP_HOST'], [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
+    $local_config_file = realpath(__DIR__ . '/' . strtr($_SERVER['HTTP_HOST'] ?? '', [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
     if ($local_config_file) include $local_config_file;
     unset($local_config_file);
 }
