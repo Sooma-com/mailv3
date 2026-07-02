@@ -20138,9 +20138,9 @@ a:hover, a:focus, a:focus-within, a:focus-visible, a:target, a:active, a:visited
 }
 
 body:not(.task-login):not(.task-xcalendar) > #layout {
-  --column-width-sidebar: 1fr;
+  --column-width-sidebar: 300px;
   --column-width-list: 1fr;
-  --column-width-content: 1fr;
+  --column-width-content: 2fr;
   display: grid;
   grid-template: "menu    menu    menu   " 8rem "sidebar list    content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
   width: 100vw;
@@ -20684,7 +20684,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout .listing:not(.withselection
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-content {
   grid-area: content;
-  overflow: hidden;
+  overflow: hidden auto;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-content .iframe-wrapper {
   width: 100%;
@@ -21388,6 +21388,9 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-cont
 
 body.task-mail.action-show:not(:has(#layout-list)) > #layout {
   grid-template: "menu    menu    menu   " 8rem "content content content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+}
+body.task-mail.action-show:not(:has(#layout-list)):not(:has(#layout-menu)) > #layout {
+  grid-template: "content content content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
 }
 
 body.task-addressbook.action-add .formcontent,
@@ -23090,6 +23093,32 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody
 body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.public_certificates_item > td.section::before {
   content: "\f0a3";
 }
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-list {
+  --selected-color: var(--color-main);
+  --selected-background: var(--color-layout-list-background);
+  --not-selected-color: var(--color-layout-list-foreground);
+  --not-selected-background: var(--color-layout-list-background);
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-list > .header {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-list > .header > span.header-title {
+  display: block;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-label);
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-content > .header {
+  padding-left: 1rem;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-content .iframe-wrapper {
+  box-sizing: border-box;
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
 
 body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .header,
 body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .pagenav,
@@ -23945,6 +23974,13 @@ body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-x
   align-items: center;
 }
 
+#message-content:has(#xcalendar-message-itip) #attachment-list li.ics {
+  display: none;
+}
+#message-content:has(#xcalendar-message-itip) .leftcol:not(:has(li:not(.ics))) {
+  display: none;
+}
+
 body > .ui-widget-overlay {
   position: fixed;
   top: 0;
@@ -24644,6 +24680,36 @@ body.task-login #messagestack {
   width: 0;
 }
 
+body.task-settings fieldset {
+  margin-bottom: 1.5rem;
+}
+body.task-settings fieldset:last-child {
+  margin-bottom: 0;
+}
+body.task-settings table.propform {
+  width: 100%;
+}
+body.task-settings table.propform td {
+  padding: 0.4rem 0;
+  vertical-align: middle;
+}
+body.task-settings table.propform td.title {
+  width: 1%;
+  white-space: nowrap;
+  padding-right: 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-font);
+  opacity: 0.75;
+}
+body.task-settings table.propform input,
+body.task-settings table.propform select {
+  margin: 0;
+}
+body.task-settings table.propform input {
+  max-width: 24rem;
+}
+
 .formcontent > div:has(> .form-group.row),
 div.formcontent:has(> .form-group.row) {
   display: table;
@@ -25246,19 +25312,19 @@ div.formcontent:has(> .form-group.row) select {
   background-position: right bottom;
   content: " ";
 }
-.listing.folderlist li.inbox a::before {
+.listing.folderlist li.inbox > a::before {
   background-image: url("/skins/sooma/images/sidebar/inbox.svg");
 }
-.listing.folderlist li.drafts a::before {
+.listing.folderlist li.drafts > a::before {
   background-image: url("/skins/sooma/images/sidebar/drafts.svg");
 }
-.listing.folderlist li.sent a::before {
+.listing.folderlist li.sent > a::before {
   background-image: url("/skins/sooma/images/sidebar/sent.svg");
 }
-.listing.folderlist li.spam a::before {
+.listing.folderlist li.spam > a::before {
   background-image: url("/skins/sooma/images/sidebar/spam.svg");
 }
-.listing.folderlist li.trash a::before {
+.listing.folderlist li.trash > a::before {
   background-image: url("/skins/sooma/images/sidebar/trash.svg");
 }
 .listing.folderlist li > ul > li a::before {
@@ -25299,23 +25365,63 @@ div.formcontent:has(> .form-group.row) select {
 }
 .listing.folderlist li div.treetoggle {
   position: absolute;
-  top: 8px;
+  top: 12px;
   left: 0;
   height: 18px;
   min-height: 18px;
   max-height: 18px;
   min-width: 18px;
   max-width: 18px;
-  background-position: left bottom;
+  background-position: center;
   background-repeat: no-repeat;
+  background-image: url("/skins/sooma/images/sidebar/treetoggle.svg");
   margin-left: 1.5rem;
   margin-right: 1.5rem;
+  transform: rotate(0deg);
+  transition: transform 0.15s ease-in-out;
 }
 .listing.folderlist li div.treetoggle.expanded {
-  background-image: url("/skins/sooma/images/sidebar/folder-minus.svg");
+  transform: rotate(90deg);
 }
 .listing.folderlist li div.treetoggle.collapsed {
-  background-image: url("/skins/sooma/images/sidebar/folder-plus.svg");
+  transform: rotate(0deg);
+}
+
+body.task-settings .listing.folderlist > li > a::before {
+  margin-right: calc(1.5rem + 18px - (0.5rem + 16px) + 2px);
+}
+
+.footer.small {
+  padding: 0.6rem 1rem;
+}
+.footer.small .quota-widget {
+  background: var(--color-quota-background);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.footer.small .quota-widget .count {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--color-font);
+  opacity: 0.75;
+}
+.footer.small .quota-widget .bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-light-gray);
+  overflow: hidden;
+}
+.footer.small .quota-widget .bar .value {
+  display: block;
+  height: 100%;
+  min-width: 6px;
+  border-radius: 3px;
+  background: var(--color-quota-value);
+  transition: width 0.2s ease-in-out;
+}
+.footer.small .quota-widget .bar .value.warning {
+  background: var(--color-quota-value-warning);
 }
 
 table.listing {
@@ -25937,10 +26043,17 @@ body.task-mail.action-preview #message-content {
   padding: 1.5rem;
 }
 body.task-mail.action-preview #message-content #message-objects > div {
-  display: inline-block;
-  width: 80%;
-  max-width: 320px;
-  text-indent: -1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+body.task-mail.action-preview #message-content #message-objects > div.content, body.task-mail.action-preview #message-content #message-objects > div.confirmation, body.task-mail.action-preview #message-content #message-objects > div.notice, body.task-mail.action-preview #message-content #message-objects > div.loading, body.task-mail.action-preview #message-content #message-objects > div.success, body.task-mail.action-preview #message-content #message-objects > div.warning, body.task-mail.action-preview #message-content #message-objects > div.error {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
 }
 body.task-mail.action-preview #message-content #message-objects > div.content::before, body.task-mail.action-preview #message-content #message-objects > div.confirmation::before, body.task-mail.action-preview #message-content #message-objects > div.notice::before, body.task-mail.action-preview #message-content #message-objects > div.loading::before, body.task-mail.action-preview #message-content #message-objects > div.success::before, body.task-mail.action-preview #message-content #message-objects > div.warning::before, body.task-mail.action-preview #message-content #message-objects > div.error::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -25957,12 +26070,7 @@ body.task-mail.action-preview #message-content #message-objects > div.content::b
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  text-indent: -0.25rem;
-}
-body.task-mail.action-preview #message-content #message-objects > div.content, body.task-mail.action-preview #message-content #message-objects > div.confirmation, body.task-mail.action-preview #message-content #message-objects > div.notice, body.task-mail.action-preview #message-content #message-objects > div.loading, body.task-mail.action-preview #message-content #message-objects > div.success, body.task-mail.action-preview #message-content #message-objects > div.warning, body.task-mail.action-preview #message-content #message-objects > div.error {
-  margin: 1rem;
-  padding: 1rem 1rem 1rem 2.5rem;
-  border-radius: 4px;
+  flex: 0 0 auto;
 }
 body.task-mail.action-preview #message-content #message-objects > div.confirmation::before {
   content: "\f058";
@@ -26001,9 +26109,8 @@ body.task-mail.action-preview #message-content #message-objects > div.error {
   background-color: var(--color-error);
 }
 body.task-mail.action-preview #message-content #message-objects > div .boxbuttons {
-  display: block flex;
-  flex-direction: row-reverse;
-  text-indent: 0;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 body.task-mail.action-preview #message-content #message-objects > div .boxbuttons a {
   background-color: var(--color-main);
@@ -26012,8 +26119,8 @@ body.task-mail.action-preview #message-content #message-objects > div .boxbutton
   padding: 0.25rem 0.5rem;
   font-weight: bold;
   font-size: 0.9rem;
-  margin-top: 0.25rem;
   display: inline-block;
+  white-space: nowrap;
 }
 body.task-mail.action-preview #message-content #attachment-list li {
   margin-bottom: 1.5rem;
@@ -26249,10 +26356,17 @@ body.task-mail.action-show #message-content {
   padding: 1.5rem;
 }
 body.task-mail.action-show #message-content #message-objects > div {
-  display: inline-block;
-  width: 80%;
-  max-width: 320px;
-  text-indent: -1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+body.task-mail.action-show #message-content #message-objects > div.content, body.task-mail.action-show #message-content #message-objects > div.confirmation, body.task-mail.action-show #message-content #message-objects > div.notice, body.task-mail.action-show #message-content #message-objects > div.loading, body.task-mail.action-show #message-content #message-objects > div.success, body.task-mail.action-show #message-content #message-objects > div.warning, body.task-mail.action-show #message-content #message-objects > div.error {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
 }
 body.task-mail.action-show #message-content #message-objects > div.content::before, body.task-mail.action-show #message-content #message-objects > div.confirmation::before, body.task-mail.action-show #message-content #message-objects > div.notice::before, body.task-mail.action-show #message-content #message-objects > div.loading::before, body.task-mail.action-show #message-content #message-objects > div.success::before, body.task-mail.action-show #message-content #message-objects > div.warning::before, body.task-mail.action-show #message-content #message-objects > div.error::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -26269,12 +26383,7 @@ body.task-mail.action-show #message-content #message-objects > div.content::befo
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  text-indent: -0.25rem;
-}
-body.task-mail.action-show #message-content #message-objects > div.content, body.task-mail.action-show #message-content #message-objects > div.confirmation, body.task-mail.action-show #message-content #message-objects > div.notice, body.task-mail.action-show #message-content #message-objects > div.loading, body.task-mail.action-show #message-content #message-objects > div.success, body.task-mail.action-show #message-content #message-objects > div.warning, body.task-mail.action-show #message-content #message-objects > div.error {
-  margin: 1rem;
-  padding: 1rem 1rem 1rem 2.5rem;
-  border-radius: 4px;
+  flex: 0 0 auto;
 }
 body.task-mail.action-show #message-content #message-objects > div.confirmation::before {
   content: "\f058";
@@ -26313,9 +26422,8 @@ body.task-mail.action-show #message-content #message-objects > div.error {
   background-color: var(--color-error);
 }
 body.task-mail.action-show #message-content #message-objects > div .boxbuttons {
-  display: block flex;
-  flex-direction: row-reverse;
-  text-indent: 0;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 body.task-mail.action-show #message-content #message-objects > div .boxbuttons a {
   background-color: var(--color-main);
@@ -26324,8 +26432,8 @@ body.task-mail.action-show #message-content #message-objects > div .boxbuttons a
   padding: 0.25rem 0.5rem;
   font-weight: bold;
   font-size: 0.9rem;
-  margin-top: 0.25rem;
   display: inline-block;
+  white-space: nowrap;
 }
 body.task-mail.action-show #message-content #attachment-list li {
   margin-bottom: 1.5rem;

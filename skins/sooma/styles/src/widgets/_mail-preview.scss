@@ -197,10 +197,10 @@ body.task-mail.action-preview {
 
     #message-objects {
       &>div {
-        display: inline-block;
-        width: 80%;
-        max-width: 320px;
-        text-indent: -1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        column-gap: 0.5rem;
 
         &.content,
         &.confirmation,
@@ -209,14 +209,16 @@ body.task-mail.action-preview {
         &.success,
         &.warning,
         &.error {
+          box-sizing: border-box;
+          width: 100%;
+          margin: 0 0 1rem;
+          padding: 0.5rem 0.75rem;
+          border-radius: 4px;
+
           &::before {
             @include fa.fa-icon();
-            text-indent: -0.25rem;
+            flex: 0 0 auto;
           }
-
-          margin: 1rem;
-          padding: 1rem 1rem 1rem calc(1.5rem + 1rem);
-          border-radius: 4px;
         }
 
         &.confirmation {
@@ -267,10 +269,14 @@ body.task-mail.action-preview {
           background-color: var(--color-error);
         }
 
+        // Single-row layout: icon, then the plain text run, then the
+        // button pinned to the far right via margin-left: auto (instead
+        // of the old fixed 320px card + text-indent icon hack + button
+        // stacked underneath). flex-wrap above lets genuinely long text
+        // fall to a second line rather than being truncated.
         .boxbuttons {
-          display: block flex;
-          flex-direction: row-reverse;
-          text-indent: 0;
+          flex: 0 0 auto;
+          margin-left: auto;
 
           a {
             background-color: var(--color-main);
@@ -279,8 +285,8 @@ body.task-mail.action-preview {
             padding: 0.25rem 0.5rem;
             font-weight: bold;
             font-size: 0.9rem;
-            margin-top: 0.25rem;
             display: inline-block;
+            white-space: nowrap;
           }
         }
       }

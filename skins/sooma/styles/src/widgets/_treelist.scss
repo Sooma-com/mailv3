@@ -30,23 +30,30 @@
         }
       }
 
-      &.inbox a::before {
+      // Direct-child combinator (> a) is deliberate: these special-folder
+      // icons must only apply to the folder's own row. A descendant
+      // selector (.inbox a::before) would also match subfolder links
+      // nested inside e.g. Inbox's <ul>, stealing their icon and (due to
+      // higher specificity from the extra class) silently dropping the
+      // folder+subfolder-arrow background the generic nested rule below
+      // sets for every other subfolder.
+      &.inbox > a::before {
         background-image: url("/skins/sooma/images/sidebar/inbox.svg");
       }
 
-      &.drafts a::before {
+      &.drafts > a::before {
         background-image: url("/skins/sooma/images/sidebar/drafts.svg");
       }
 
-      &.sent a::before {
+      &.sent > a::before {
         background-image: url("/skins/sooma/images/sidebar/sent.svg");
       }
 
-      &.spam a::before {
+      &.spam > a::before {
         background-image: url("/skins/sooma/images/sidebar/spam.svg");
       }
 
-      &.trash a::before {
+      &.trash > a::before {
         background-image: url("/skins/sooma/images/sidebar/trash.svg");
       }
 
@@ -104,25 +111,113 @@
 
       div.treetoggle {
         position: absolute;
-        top: 8px;
+        top: 12px;
         left: 0;
         height: 18px;
         min-height: 18px;
         max-height: 18px;
         min-width: 18px;
         max-width: 18px;
-        background-position: left bottom;
+        background-position: center;
         background-repeat: no-repeat;
+        background-image: url("/skins/sooma/images/sidebar/treetoggle.svg");
         margin-left: 1.5rem;
         margin-right: 1.5rem;
+        transform: rotate(0deg);
+        transition: transform 0.15s ease-in-out;
       }
 
+      // Same neutral chevron for both states, just rotated: pointing right
+      // when collapsed (more to reveal) and down when expanded. Deliberately
+      // no color-coding here (was orange plus / blue minus) so this doesn't
+      // read as a notification/unread badge next to real ones (e.g. inbox
+      // unread count).
       div.treetoggle.expanded {
-        background-image: url("/skins/sooma/images/sidebar/folder-minus.svg");
+        transform: rotate(90deg);
       }
 
       div.treetoggle.collapsed {
-        background-image: url("/skins/sooma/images/sidebar/folder-plus.svg");
+        transform: rotate(0deg);
+      }
+    }
+  }
+}
+
+// Settings > Folders (folders.html, #subscription-table) reuses this exact
+// ".listing.folderlist" markup, so nothing above already scopes to it. Two
+// distinct problems show up there that don't show up in the Mail sidebar:
+//
+// 1. Rows with their own subfolders (Inbox, Reciclagem/Trash...) render the
+//    toggle chevron on top of the first letter of the label. The base
+//    ".listing li a::before { margin-right: 1rem }" rule (widgets/_listing)
+//    reserves 16px after the icon, but div.treetoggle's box (left:0 +
+//    margin-left:1.5rem + 18px width) ends 18px after the icon — 2px short.
+//    That 2px overhang happens to land clear of the Mail sidebar's own
+//    "Reciclagem"/"Archives" labels there (their first letter's glyph
+//    shape/kerning has just enough clearance) but does visibly clip the "A"
+//    in Settings' "A receber" — confirmed by temporarily removing this rule
+//    and watching the overlap reappear. Rather than rely on which letters
+//    happen to survive a 2px short margin, reserve enough to clear the
+//    toggle outright: the same math as the toggle-margin comment above.
+// 2. If that extra margin were only applied to rows *with* a toggle, their
+//    labels would start 4px later than toggle-less rows (Rascunhos, Spam,
+//    ...), breaking the left-aligned column of folder names that the Mail
+//    sidebar has. So apply it to every direct child row uniformly instead
+//    — the ">" here (not "li" alone) deliberately limits this to top-level
+//    rows; nested "&>ul>li" rows already have their own per-depth width
+//    math further up in this file and shouldn't be touched by this.
+body.task-settings {
+  .listing.folderlist > li > a::before {
+    margin-right: calc((1.5rem + 18px) - (0.5rem + 16px) + 2px);
+  }
+}
+
+// Quota widget: sits in the "<div class="footer small">" below the folder
+// tree in both the main mail sidebar (mail.html) and Settings > Folders
+// (folders.html). The --color-quota-* tokens already existed in
+// global/_colors.scss but nothing ever consumed them, so this rendered as
+// bare unstyled text ("65%") with no bar. Filling that gap in.
+.footer.small {
+  padding: 0.6rem 1rem;
+
+  .quota-widget {
+    background: var(--color-quota-background);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    // Deliberately not using --color-quota-text here: it chains to
+    // --color-black-shade-text, whose hsl(from ...) formula adds
+    // "255 * 0.40" to a 0-100 lightness value, overshooting to >100%
+    // lightness. That computes to an out-of-gamut color that renders as
+    // (near-)invisible white-on-white text. Same "* 255 *" pattern shows
+    // up in a couple of other --color-black-shade-*/--color-list-* tokens
+    // too, so this looks like a systemic bug in the color palette, not
+    // a one-off — worth its own fix, tracked separately, rather than
+    // patched here as a side effect of the quota widget.
+    .count {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--color-font);
+      opacity: 0.75;
+    }
+
+    .bar {
+      display: block;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--color-light-gray);
+      overflow: hidden;
+
+      .value {
+        display: block;
+        height: 100%;
+        min-width: 6px;
+        border-radius: 3px;
+        background: var(--color-quota-value);
+        transition: width 0.2s ease-in-out;
+
+        &.warning {
+          background: var(--color-quota-value-warning);
+        }
       }
     }
   }
