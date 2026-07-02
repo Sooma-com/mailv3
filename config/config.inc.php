@@ -120,7 +120,11 @@ $config['use_subscriptions'] = false;
 // Settings > Preferences since it's not in dont_override.
 $config['show_images'] = 2;
 {
-    $local_config_file = realpath(__DIR__ . '/' . strtr($_SERVER['HTTP_HOST'] ?? '', [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
+    // Strip the port (e.g. "localhost:8080" -> "localhost") before
+    // resolving the per-host override file, otherwise a request that
+    // includes a port never matches config/localhost.inc.php.
+    $local_config_host = explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0];
+    $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
     if ($local_config_file) include $local_config_file;
-    unset($local_config_file);
+    unset($local_config_file, $local_config_host);
 }
