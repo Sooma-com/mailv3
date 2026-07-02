@@ -335,6 +335,14 @@
     }
 
     const initRoundcube = () => {
+        // Sooma's toolbar (icons + labels, wider than elastic's defaults) needs a bit
+        // more room in extwin/compose popups than core's defaults (1150/900), or the
+        // last toolbar buttons (e.g. "Seguinte") get clipped off the right edge.
+        rcmail.set_env({
+            popup_width_small: 1000,
+            popup_width: 1300
+        });
+
         if (window.UI.prefs.get('list-selection', false)) {
             document.documentElement.queryElements("xpath://*[@data-list]").forEach(list => {
                 window.rcmail[list.dataset.list].enable_checkbox_selection();

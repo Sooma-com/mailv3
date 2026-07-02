@@ -114,8 +114,13 @@ $config['skin'] = 'sooma';
 $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
 $config['dont_override'] = ['use_subscriptions'];
 $config['use_subscriptions'] = false;
+
+// Always show remote images by default (0=never, 1=contacts only,
+// 2=always, 3=trusted senders only). Users can still override this in
+// Settings > Preferences since it's not in dont_override.
+$config['show_images'] = 2;
 {
-    $local_config_file = realpath(__DIR__ . '/' . strtr($_SERVER['HTTP_HOST'], [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
+    $local_config_file = realpath(__DIR__ . '/' . strtr($_SERVER['HTTP_HOST'] ?? '', [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
     if ($local_config_file) include $local_config_file;
     unset($local_config_file);
 }

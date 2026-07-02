@@ -73,9 +73,9 @@ a {
 
 body:not(.task-login):not(.task-xcalendar) {
   &>#layout {
-    --column-width-sidebar: 1fr;
+    --column-width-sidebar: 300px;
     --column-width-list: 1fr;
-    --column-width-content: 1fr;
+    --column-width-content: 2fr;
     display: grid;
     grid-template:
       "menu    menu    menu   " 8rem
@@ -122,7 +122,13 @@ body:not(.task-login):not(.task-xcalendar) {
 
     &>#layout-content {
       grid-area: content;
-      overflow: hidden;
+      // In the 3-pane view this just wraps a 100%-height iframe (which
+      // scrolls internally), so this is a no-op there. But in single-pane
+      // contexts that render this same #layout grid without a list/sidebar
+      // (extwin, message print, etc.) #layout-content IS the actual message
+      // view — it needs to scroll itself, or long messages get clipped with
+      // no way to reach the rest of the content.
+      overflow: hidden auto;
     }
 
     @include meta.load-css("layout/content");
@@ -187,6 +193,15 @@ body.task-mail.action-show:not(:has(#layout-list)) {
     grid-template:
       "menu    menu    menu   " 8rem
       "content content content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+  }
+
+  // extwin (and any other action-show context without the header/menu bar):
+  // don't reserve a blank 8rem row for a #layout-menu that was never rendered.
+  &:not(:has(#layout-menu)) {
+    &>#layout {
+      grid-template:
+        "content content content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+    }
   }
 }
 
@@ -302,4 +317,24 @@ body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-x
 }
 body.task-settings.action-plugin-sooma_smime_import_cert_dialog:not(.task-login):not(.task-xcalendar) {
   @include meta.load-css("layout/content/sooma_smime_dialog");
+}
+
+// Calendar invites: xcalendar already renders a rich "you're invited" card
+// (with Accept/Tentative/Decline) from the .ics part, so the raw .ics
+// attachment link(s) above it are redundant. Hide just the .ics entries;
+// if that empties the attachments column entirely, hide it too. Any
+// non-.ics attachments (e.g. a real PDF alongside the invite) stay.
+// Deliberately a plain top-level rule, not routed through meta.load-css
+// from within a #layout-scoped block: the normal 3-pane preview pane
+// renders message.html inside a plain iframe with no #layout wrapper at
+// all (only extwin/standalone views have one), so this needs to match
+// regardless of whether #layout exists.
+#message-content:has(#xcalendar-message-itip) {
+  #attachment-list li.ics {
+    display: none;
+  }
+
+  .leftcol:not(:has(li:not(.ics))) {
+    display: none;
+  }
 }
