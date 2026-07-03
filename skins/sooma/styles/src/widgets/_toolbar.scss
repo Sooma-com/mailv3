@@ -86,6 +86,20 @@
     }
   }
 
+  // The envelope (a.unread, JS-injected in setupMailListMenu) → gear gap
+  // was double the pill → envelope gap: every "a" here gets its own
+  // margin: 0 var(--button-horizontal-margin) (above), so two adjacent
+  // "a"s each contribute a facing 0.62rem, stacking to ~19.8px — while the
+  // Lista/Tópicos pill is a bare <div> with no margin of its own, so its
+  // neighboring gaps are only ever the other side's single 0.62rem
+  // (~9.9px). Zeroing just this one facing margin — rather than gear's
+  // margin generally, in case a.options ever sits next to something else
+  // that does want the full double gap — brings this pair down to that
+  // same single-margin width.
+  a.unread+a.options {
+    margin-left: 0;
+  }
+
   // Icon-only always, same reasoning as a.options above: a refresh glyph
   // is self-explanatory, "Atualizar" is redundant space that this narrow
   // toolbar can't spare.

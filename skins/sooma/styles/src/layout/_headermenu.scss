@@ -318,6 +318,37 @@
       margin-right: 0.2rem;
     }
 
+    // Hover/focus cue for these action buttons (Responder/Reencaminhar/
+    // Eliminar/Marcar/etc.) — previously nothing distinguished the item
+    // under the cursor from any other; the only :hover rule reaching this
+    // toolbar was the global "a:hover { color: inherit }" reset
+    // (global/_layout.scss), which suppresses the browser default link
+    // color but draws nothing of its own. Kept to the existing box (no
+    // added padding/margin) so it can't perturb this toolbar's width and
+    // its own overflow/icon-collapse math (--button-horizontal-margin is
+    // already tighter here than the messagelist toolbar's, presumably for
+    // exactly that reason). Excludes .disabled so a greyed-out, inert
+    // action doesn't visually invite a click.
+    //
+    // Lightness bump is additive (l + 14), not multiplicative (l * N):
+    // --color-layout-header-localmenu-background is white-labeled per
+    // domain (plugins/sooma/css.php), and on this Ordem dos Advogados
+    // account it's overridden to #0B1313 — l≈5.9%. Multiplying that by
+    // 1.5 only reaches l≈8.8%, an imperceptible change (confirmed live:
+    // :hover matched but the highlight was invisible). An additive bump
+    // scales the same regardless of how dark the base is, and lands close
+    // to the multiplicative result on sooma.com's own lighter default
+    // (#474747, l≈27.8% → ~42% either way).
+    a:not(.disabled) {
+      border-radius: 4px;
+      transition: background-color .15s ease;
+
+      &:hover,
+      &:focus-visible {
+        background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+      }
+    }
+
     &:has(a:not(.disabled):not(.more):not(.hidden)) {
       display: flex;
     }

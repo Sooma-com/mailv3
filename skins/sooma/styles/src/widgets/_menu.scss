@@ -98,6 +98,32 @@ ul.menu {
       content: fa.fa-content(fa.$var-xmark);
     }
 
+    // #threadselect-menu's three items (Expandir não lidas / Expandir tudo /
+    // Recolher tudo, class="expand unread|all|none"). "Expandir não lidas"
+    // already picked up an icon here, but only by accident: it also carries
+    // a bare "unread" class, so it was matching the unrelated &.unread::
+    // before rule below (meant for mark-as-read/unread toggles) rather than
+    // anything scoped to this menu. "Expandir tudo"/"Recolher tudo" have no
+    // such coincidental match — "all"/"none" alone don't hit &.select.all/
+    // &.select.none above (those require the "select" class too, which
+    // these items don't have) — so they rendered with no icon at all.
+    // Explicit &.expand.* rules here fix that and stop "unread" from
+    // depending on an unrelated rule matching by chance. angles-down/
+    // angles-up (rather than plus/minus) to read as "expand outward"/
+    // "collapse inward" and match the chevron language already used for
+    // the folder tree's own toggle (widgets/_treelist.scss).
+    &.expand.unread::before {
+      content: fa.fa-content(fa.$var-envelope);
+    }
+
+    &.expand.all::before {
+      content: fa.fa-content(fa.$var-angles-down);
+    }
+
+    &.expand.none::before {
+      content: fa.fa-content(fa.$var-angles-up);
+    }
+
     &.print::before {
       content: fa.fa-content(fa.$var-print);
     }

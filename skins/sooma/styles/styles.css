@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /**
  * modified version of eric meyer's reset 2.0
  * http://meyerweb.com/eric/tools/css/reset/
@@ -20494,6 +20493,13 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
 }
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
@@ -20559,7 +20565,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar #quotadispl
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-list {
   grid-area: list;
   overflow: hidden;
-  --dynamic-min-width: 300px;
+  --dynamic-min-width: 20rem;
   --dynamic-max-width: 35vw;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout .listbox .scroller {
@@ -20589,9 +20595,15 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list a.toolbar-menu
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header {
   position: relative;
   min-height: 2.2rem;
+  display: flex;
+  align-items: center;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > span.header-title, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > .back-sidebar-button, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > .task-menu-button {
   display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list #messagelist-header > .toolbar.menu {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist {
   border-top: 1px solid var(--color-medium-gray);
@@ -20656,10 +20668,24 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist t
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.selected td {
   background-color: var(--color-list-selected-background);
 }
-body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged {
-  background-image: url("/skins/sooma/images/flagged.svg");
-  background-repeat: no-repeat;
-  background-position: right top;
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged td:last-child {
+  position: relative;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged td:last-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-main);
+  -webkit-mask-image: url("/skins/sooma/images/flagged.svg");
+  mask-image: url("/skins/sooma/images/flagged.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: right top;
+  mask-position: right top;
+  pointer-events: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -21050,6 +21076,13 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
@@ -22029,6 +22062,13 @@ body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar {
 body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
 }
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
 body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
@@ -22090,7 +22130,7 @@ body.task-xcalendar > #layout #layout-sidebar #quotadisplay {
 }
 body.task-xcalendar > #layout > #layout-list {
   display: none;
-  --dynamic-min-width: 300px;
+  --dynamic-min-width: 20rem;
   --dynamic-max-width: 35vw;
 }
 body.task-xcalendar > #layout .listbox .scroller {
@@ -22120,9 +22160,15 @@ body.task-xcalendar > #layout #layout-list a.toolbar-menu-button {
 body.task-xcalendar > #layout #layout-list > .header {
   position: relative;
   min-height: 2.2rem;
+  display: flex;
+  align-items: center;
 }
 body.task-xcalendar > #layout #layout-list > .header > span.header-title, body.task-xcalendar > #layout #layout-list > .header > .back-sidebar-button, body.task-xcalendar > #layout #layout-list > .header > .task-menu-button {
   display: none;
+}
+body.task-xcalendar > #layout #layout-list #messagelist-header > .toolbar.menu {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 body.task-xcalendar > #layout #layout-list .messagelist {
   border-top: 1px solid var(--color-medium-gray);
@@ -22187,10 +22233,24 @@ body.task-xcalendar > #layout #layout-list .messagelist tr.unread td.subject spa
 body.task-xcalendar > #layout #layout-list .messagelist tr.selected td {
   background-color: var(--color-list-selected-background);
 }
-body.task-xcalendar > #layout #layout-list .messagelist tr.flagged {
-  background-image: url("/skins/sooma/images/flagged.svg");
-  background-repeat: no-repeat;
-  background-position: right top;
+body.task-xcalendar > #layout #layout-list .messagelist tr.flagged td:last-child {
+  position: relative;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.flagged td:last-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-main);
+  -webkit-mask-image: url("/skins/sooma/images/flagged.svg");
+  mask-image: url("/skins/sooma/images/flagged.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: right top;
+  mask-position: right top;
+  pointer-events: none;
 }
 body.task-xcalendar > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -22864,6 +22924,13 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before {
   margin-right: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
@@ -24645,10 +24712,11 @@ body.task-login #messagestack {
 }
 .formcontent label.custom-control,
 .propform label.custom-control {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-wrap: nowrap;
   --control-height: 1.5rem;
-  --control-width: calc(2 * var(--control-height));
+  --control-width: calc(1.85 * var(--control-height));
   --control-foreground-color: var(--color-input);
   --control-background-color: var(--color-input-background);
   --control-button-margin: calc(0.1 * var(--control-height));
@@ -24663,20 +24731,19 @@ body.task-login #messagestack {
   width: var(--control-width);
   height: var(--control-height);
   background-color: var(--control-foreground-color);
-  content: "⠀";
+  content: "";
   border-radius: calc(var(--control-height) / 2);
 }
 .formcontent label.custom-control::after,
 .propform label.custom-control::after {
   display: inline-block;
-  content: "⠀";
+  content: "";
   width: calc(var(--control-height) - 2 * var(--control-button-margin));
   height: calc(var(--control-height) - 2 * var(--control-button-margin));
   border-radius: calc(0.8 * var(--control-height) / 2);
   background-color: var(--control-background-color);
   position: relative;
   left: calc(-1 * var(--control-width) + var(--control-button-margin));
-  top: calc(var(--control-button-margin));
 }
 .formcontent label.custom-control:has(input[type=checkbox]:checked),
 .propform label.custom-control:has(input[type=checkbox]:checked) {
@@ -25001,6 +25068,9 @@ div.formcontent:has(> .form-group.row) select {
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f013";
+}
+.toolbar.menu a.unread + a.options {
+  margin-left: 0;
 }
 .toolbar.menu a.refresh {
   font-size: 0;
@@ -25430,30 +25500,30 @@ body.task-settings .listing.folderlist > li > a::before {
   background: var(--color-quota-value-warning);
 }
 
-table.listing {
+table.listing:not(.messagelist) {
   width: 100%;
 }
-table.listing > tfoot > tr > th, table.listing > tfoot > tr > td, table.listing > thead > tr > th, table.listing > thead > tr > td, table.listing > tbody > tr > th, table.listing > tbody > tr > td, table.listing > tr > th, table.listing > tr > td {
+table.listing:not(.messagelist) > tfoot > tr > th, table.listing:not(.messagelist) > tfoot > tr > td, table.listing:not(.messagelist) > thead > tr > th, table.listing:not(.messagelist) > thead > tr > td, table.listing:not(.messagelist) > tbody > tr > th, table.listing:not(.messagelist) > tbody > tr > td, table.listing:not(.messagelist) > tr > th, table.listing:not(.messagelist) > tr > td {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-table.listing > tfoot > tr > th:first-child, table.listing > tfoot > tr > td:first-child, table.listing > thead > tr > th:first-child, table.listing > thead > tr > td:first-child, table.listing > tbody > tr > th:first-child, table.listing > tbody > tr > td:first-child, table.listing > tr > th:first-child, table.listing > tr > td:first-child {
+table.listing:not(.messagelist) > tfoot > tr > th:first-child, table.listing:not(.messagelist) > tfoot > tr > td:first-child, table.listing:not(.messagelist) > thead > tr > th:first-child, table.listing:not(.messagelist) > thead > tr > td:first-child, table.listing:not(.messagelist) > tbody > tr > th:first-child, table.listing:not(.messagelist) > tbody > tr > td:first-child, table.listing:not(.messagelist) > tr > th:first-child, table.listing:not(.messagelist) > tr > td:first-child {
   padding-left: 0.5rem;
 }
-table.listing > tfoot > tr > th:last-child, table.listing > tfoot > tr > td:last-child, table.listing > thead > tr > th:last-child, table.listing > thead > tr > td:last-child, table.listing > tbody > tr > th:last-child, table.listing > tbody > tr > td:last-child, table.listing > tr > th:last-child, table.listing > tr > td:last-child {
+table.listing:not(.messagelist) > tfoot > tr > th:last-child, table.listing:not(.messagelist) > tfoot > tr > td:last-child, table.listing:not(.messagelist) > thead > tr > th:last-child, table.listing:not(.messagelist) > thead > tr > td:last-child, table.listing:not(.messagelist) > tbody > tr > th:last-child, table.listing:not(.messagelist) > tbody > tr > td:last-child, table.listing:not(.messagelist) > tr > th:last-child, table.listing:not(.messagelist) > tr > td:last-child {
   padding-right: 0.5rem;
 }
-table.listing > tfoot > tr.selected > th, table.listing > tfoot > tr.selected > td, table.listing > thead > tr.selected > th, table.listing > thead > tr.selected > td, table.listing > tbody > tr.selected > th, table.listing > tbody > tr.selected > td, table.listing > tr.selected > th, table.listing > tr.selected > td {
+table.listing:not(.messagelist) > tfoot > tr.selected > th, table.listing:not(.messagelist) > tfoot > tr.selected > td, table.listing:not(.messagelist) > thead > tr.selected > th, table.listing:not(.messagelist) > thead > tr.selected > td, table.listing:not(.messagelist) > tbody > tr.selected > th, table.listing:not(.messagelist) > tbody > tr.selected > td, table.listing:not(.messagelist) > tr.selected > th, table.listing:not(.messagelist) > tr.selected > td {
   font-weight: bold;
 }
-table.listing > tfoot > tr.selected > th a::before, table.listing > tfoot > tr.selected > td a::before, table.listing > thead > tr.selected > th a::before, table.listing > thead > tr.selected > td a::before, table.listing > tbody > tr.selected > th a::before, table.listing > tbody > tr.selected > td a::before, table.listing > tr.selected > th a::before, table.listing > tr.selected > td a::before {
+table.listing:not(.messagelist) > tfoot > tr.selected > th a::before, table.listing:not(.messagelist) > tfoot > tr.selected > td a::before, table.listing:not(.messagelist) > thead > tr.selected > th a::before, table.listing:not(.messagelist) > thead > tr.selected > td a::before, table.listing:not(.messagelist) > tbody > tr.selected > th a::before, table.listing:not(.messagelist) > tbody > tr.selected > td a::before, table.listing:not(.messagelist) > tr.selected > th a::before, table.listing:not(.messagelist) > tr.selected > td a::before {
   color: var(--color-main);
   font-weight: normal;
 }
-table.listing.iconized > thead > tr > th:first-child a, table.listing.iconized > tbody > tr > td:first-child a, table.listing.iconized > tfoot > tr > td:first-child a {
+table.listing:not(.messagelist).iconized > thead > tr > th:first-child a, table.listing:not(.messagelist).iconized > tbody > tr > td:first-child a, table.listing:not(.messagelist).iconized > tfoot > tr > td:first-child a {
   display: block;
 }
-table.listing.iconized > thead > tr > th:first-child a::before, table.listing.iconized > tbody > tr > td:first-child a::before, table.listing.iconized > tfoot > tr > td:first-child a::before {
+table.listing:not(.messagelist).iconized > thead > tr > th:first-child a::before, table.listing:not(.messagelist).iconized > tbody > tr > td:first-child a::before, table.listing:not(.messagelist).iconized > tfoot > tr > td:first-child a::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25470,7 +25540,7 @@ table.listing.iconized > thead > tr > th:first-child a::before, table.listing.ic
   width: var(--fa-width, 1.25em);
   margin-right: 1rem;
 }
-table.listing.iconized > thead > tr > th:first-child.contact a::before, table.listing.iconized > tbody > tr > td:first-child.contact a::before, table.listing.iconized > tfoot > tr > td:first-child.contact a::before {
+table.listing:not(.messagelist).iconized > thead > tr > th:first-child.contact a::before, table.listing:not(.messagelist).iconized > tbody > tr > td:first-child.contact a::before, table.listing:not(.messagelist).iconized > tfoot > tr > td:first-child.contact a::before {
   content: "\f007";
 }
 
@@ -25674,6 +25744,15 @@ ul.menu li a.select.invert::before {
 ul.menu li a.select.none::before {
   content: "\f00d";
 }
+ul.menu li a.expand.unread::before {
+  content: "\f0e0";
+}
+ul.menu li a.expand.all::before {
+  content: "\f103";
+}
+ul.menu li a.expand.none::before {
+  content: "\f102";
+}
 ul.menu li a.print::before {
   content: "\f02f";
 }
@@ -25788,6 +25867,10 @@ ul.menu li a.elasticsearch::before {
 }
 .pagenav.footer {
   border-top: 1px solid var(--color-medium-gray);
+}
+#layout-list > .pagenav.footer {
+  min-height: 2.2rem;
+  padding: 0;
 }
 .pagenav input,
 .pagenav .lastpage,
@@ -26898,10 +26981,11 @@ div.recipient-input > input {
 }
 
 label.custom-control {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-wrap: nowrap;
   --control-height: 1.5rem;
-  --control-width: calc(2 * var(--control-height));
+  --control-width: calc(1.85 * var(--control-height));
   --control-foreground-color: var(--color-input);
   --control-background-color: var(--color-input-background);
   --control-button-margin: calc(0.1 * var(--control-height));
@@ -26914,19 +26998,18 @@ label.custom-control::before {
   width: var(--control-width);
   height: var(--control-height);
   background-color: var(--control-foreground-color);
-  content: "⠀";
+  content: "";
   border-radius: calc(var(--control-height) / 2);
 }
 label.custom-control::after {
   display: inline-block;
-  content: "⠀";
+  content: "";
   width: calc(var(--control-height) - 2 * var(--control-button-margin));
   height: calc(var(--control-height) - 2 * var(--control-button-margin));
   border-radius: calc(0.8 * var(--control-height) / 2);
   background-color: var(--control-background-color);
   position: relative;
   left: calc(-1 * var(--control-width) + var(--control-button-margin));
-  top: calc(var(--control-button-margin));
 }
 label.custom-control:has(input[type=checkbox]:checked) {
   --control-foreground-color: var(--color-main);

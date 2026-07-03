@@ -1,6 +1,20 @@
 @use "../fontawesome/fa";
 
-table.listing {
+// :not(.messagelist): this generic rule's &.selected>td { font-weight: bold }
+// below was winning against layout/_list.scss's own, read/unread-aware
+// bold logic for Mail (tr.unread td.subject span.fromto/date { font-weight:
+// 600 }) — because #messagelist carries both "listing" and "messagelist"
+// classes, and font-weight set directly on the <td> here cascades to
+// every span inside it regardless of actual read state. Net effect: any
+// selected row — including already-read ones, and in threaded/multi-select
+// views this can be more than one row at once — rendered fully bold,
+// visually indistinguishable from unread. Mail's own tr.selected rule
+// (_list.scss) deliberately only touches background-color, not
+// font-weight, for exactly this reason; excluding .messagelist here keeps
+// this table's own "selected row goes bold" behavior for Settings tables
+// (#sections-table, #identities-table, etc.) where there's no separate
+// unread concept to protect.
+table.listing:not(.messagelist) {
   width: 100%;
 
   &>tfoot>tr,

@@ -1,10 +1,16 @@
 @use "../global/colors";
 
 label.custom-control {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-wrap: nowrap;
   --control-height: 1.5rem;
-  --control-width: calc(2 * var(--control-height));
+  // 1.85x rather than the classic iOS 2x: same height (24px, at/above the
+  // WCAG 2.5.8 24px touch-target floor — not touching that), but a
+  // narrower track so the switch reads less bulky next to the small
+  // (0.75rem) uppercase row labels it sits beside in settings propform
+  // rows. Knob still has clear travel distance between states.
+  --control-width: calc(1.85 * var(--control-height));
   --control-foreground-color: var(--color-input);
   --control-background-color: var(--color-input-background);
   --control-button-margin: calc(0.1 * var(--control-height));
@@ -18,20 +24,19 @@ label.custom-control {
     width: var(--control-width);
     height: var(--control-height);
     background-color: var(--control-foreground-color);
-    content: "\2800";
+    content: "";
     border-radius: calc(var(--control-height) / 2);
   }
 
   &::after {
     display: inline-block;
-    content: "\2800";
+    content: "";
     width: calc(var(--control-height) - 2 * var(--control-button-margin));
     height: calc(var(--control-height) - 2 * var(--control-button-margin));
     border-radius: calc(0.8 * var(--control-height) / 2);
     background-color: var(--control-background-color);
     position: relative;
     left: calc(-1 * var(--control-width) + var(--control-button-margin));
-    top: calc(var(--control-button-margin));
   }
 
   &:has(input[type="checkbox"]:checked) {

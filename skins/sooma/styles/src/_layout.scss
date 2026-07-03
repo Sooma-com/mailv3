@@ -121,7 +121,12 @@ body:not(.task-login):not(.task-xcalendar) {
     &>#layout-list {
       grid-area: list;
       overflow: hidden;
-      --dynamic-min-width: 300px;
+      // rem, not px, to match #layout-sidebar's own --dynamic-min-width
+      // (14rem) — a relative unit so this floor scales with the user's
+      // root font-size/zoom instead of staying pinned at a fixed pixel
+      // count. 20rem = 320px at the default 16px root (bumped up from the
+      // original 300px floor).
+      --dynamic-min-width: 20rem;
       --dynamic-max-width: 35vw;
     }
 
@@ -318,7 +323,12 @@ body.task-xcalendar {
 
     &>#layout-list {
       display: none;
-      --dynamic-min-width: 300px;
+      // rem, not px, to match #layout-sidebar's own --dynamic-min-width
+      // (14rem) — a relative unit so this floor scales with the user's
+      // root font-size/zoom instead of staying pinned at a fixed pixel
+      // count. 20rem = 320px at the default 16px root (bumped up from the
+      // original 300px floor).
+      --dynamic-min-width: 20rem;
       --dynamic-max-width: 35vw;
     }
 

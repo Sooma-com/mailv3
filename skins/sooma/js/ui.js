@@ -574,18 +574,23 @@
         });
     }
     /*
-     Prepare checkboxes for CSS styling. This involves wrapping the checkbox in a label with the 
+     Prepare checkboxes for CSS styling. This involves wrapping the checkbox in a label with the
      custom-control class. Styling happens in widgets/_checkbox.scss.
+
+     Originally this only covered the managesieve plugin (filters/vacation/forward), so every
+     other Settings page kept native, unstyled checkboxes: General, Mailbox, Mail View,
+     Composing, Addressbook, Server, Encryption (enigma), Calendar prefs, and the folder
+     subscription list all render bare <input type="checkbox"> with no wrapping <label> and no
+     form-check-input class (see rcube_output::prefs_field() / actions/settings/folders.php in
+     core) — so the "action-plugin-managesieve" scoping was excluding them. Scoping to
+     body.task-settings as a whole picks up all of those consistently.
     */
     const wrapCheckboxes = () => {
         document.documentElement.queryElements("css:input[type='checkbox']").forEach(checkbox => {
             // if (checkbox.parentNode.tagName == "LABEL") return;
             const xCalendarApp = Boolean(document.documentElement.queryElement("css:body.task-xcalendar"));
-            const manageSievePlugin = 0 < 
-                document.documentElement.queryElements("css:body.task-settings")
-                .map(element => Array.from(element.classList).filter(className => className.startsWith("action-plugin-managesieve")).length)
-                .reduce((a, b) => a + b, 0);
-            if (!xCalendarApp && !manageSievePlugin && !checkbox.classList.contains("form-check-input")) return;
+            const settingsTask = Boolean(document.documentElement.queryElement("css:body.task-settings"));
+            if (!xCalendarApp && !settingsTask && !checkbox.classList.contains("form-check-input")) return;
             const label = document.createElement("label");
             label.classList.add("custom-control");
             checkbox.parentNode.replaceChild(label, checkbox);

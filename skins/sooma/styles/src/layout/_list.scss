@@ -32,6 +32,22 @@ tr.droptarget>td {
   &>.header {
     position: relative;
     min-height: 2.2rem;
+    // display:flex + align-items:center (matches the override
+    // layout/content/_settings.scss already adds for its own header, for
+    // the same reason): without this, .header is a plain block box and
+    // .toolbar.menu — its only visible child once task-menu-button/
+    // back-sidebar-button/header-title are hidden below — just sits at the
+    // block's top edge instead of being centered in the 2.2rem min-height.
+    // .toolbar.menu's own children (the "a" icons, 32px tall from their
+    // own 0.5rem vertical padding) already center shorter items like the
+    // Lista/Tópicos pill (28px) within themselves, evenly split top/bottom
+    // — but that whole 32px toolbar row was itself flush against .header's
+    // top, dumping 100% of the leftover 3.2px (2.2rem − 32px) below it
+    // instead of splitting it, so the pill's gap to the divider line below
+    // ended up ~5px against only ~2px above it. Centering .header's own
+    // box distributes that leftover evenly instead.
+    display: flex;
+    align-items: center;
 
     &>span.header-title,
     &>.back-sidebar-button,
@@ -39,6 +55,22 @@ tr.droptarget>td {
       display: none;
     }
 
+  }
+
+  // Side effect of the &>.header display:flex switch above: .toolbar.menu
+  // (Mail's Selecionar/Lista-Tópicos/etc. row) becomes its only meaningful
+  // flex-item child, and a flex item with no flex-grow defaults to
+  // shrinking to fit its own content instead of stretching like a block
+  // child would — so its clientWidth silently became identical to its
+  // scrollWidth (confirmed live: both 357px, while the header only had
+  // 318px available). ui.js's markOverflowing() decides icon-only mode by
+  // comparing exactly those two numbers, so with them forced equal it
+  // could never detect overflow again — "Selecionar" stopped collapsing to
+  // make room for the refresh icon. flex-grow + min-width:0 restores
+  // stretch-to-fill-available-space, so the comparison is meaningful again.
+  #messagelist-header > .toolbar.menu {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .messagelist {
@@ -121,10 +153,43 @@ tr.droptarget>td {
       background-color: var(--color-list-selected-background);
     }
 
-    tr.flagged {
-      background-image: url("/skins/sooma/images/flagged.svg");
-      background-repeat: no-repeat;
-      background-position: right top;
+    // Was a plain background-image, which meant this always rendered in
+    // flagged.svg's own hardcoded fill (#e60013 — sooma.com's own default
+    // --color-main, coincidentally, since that's who originally drew it).
+    // On white-labeled domains where --color-main is overridden (e.g. this
+    // Ordem dos Advogados instance's maroon), that hardcoded red stayed put
+    // instead of following the client's brand color like every other accent
+    // in the skin. A background-image can't be recolored by CSS at all, so
+    // this moves the icon to a ::before painted via background-color (a
+    // real CSS value, var(--color-main)) shaped by mask-image instead —
+    // mask only reads the SVG's alpha channel, not its fill, so
+    // flagged.svg's own hardcoded color no longer matters.
+    // position:relative goes on the row's last <td>, not the <tr> itself:
+    // position on a table-row breaks Chrome's shared column-width
+    // calculation for that one row (confirmed live — a flagged row's
+    // td.threads/td.subject/td.flags came out 247/145/3px instead of the
+    // 6/247/145px every other row gets, garbling the whole list). A td can
+    // take position:relative safely; it doesn't participate in that
+    // per-row width quirk.
+    tr.flagged td:last-child {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        background-color: var(--color-main);
+        -webkit-mask-image: url("/skins/sooma/images/flagged.svg");
+        mask-image: url("/skins/sooma/images/flagged.svg");
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: right top;
+        mask-position: right top;
+        pointer-events: none;
+      }
     }
 
     tr:has(span.attachment > span) span.subject::before {
