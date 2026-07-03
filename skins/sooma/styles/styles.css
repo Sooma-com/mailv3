@@ -24758,20 +24758,21 @@ body.task-login #messagestack {
   width: 0;
 }
 
-body.task-settings fieldset {
+fieldset {
   margin-bottom: 1.5rem;
 }
-body.task-settings fieldset:last-child {
+fieldset:last-child {
   margin-bottom: 0;
 }
-body.task-settings table.propform {
+
+table.propform {
   width: 100%;
 }
-body.task-settings table.propform td {
+table.propform td {
   padding: 0.4rem 0;
   vertical-align: middle;
 }
-body.task-settings table.propform td.title {
+table.propform td.title {
   width: 1%;
   white-space: nowrap;
   padding-right: 1.5rem;
@@ -24780,11 +24781,11 @@ body.task-settings table.propform td.title {
   color: var(--color-font);
   opacity: 0.75;
 }
-body.task-settings table.propform input,
-body.task-settings table.propform select {
+table.propform input,
+table.propform select {
   margin: 0;
 }
-body.task-settings table.propform input {
+table.propform input {
   max-width: 24rem;
 }
 

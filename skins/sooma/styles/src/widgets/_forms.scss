@@ -110,50 +110,50 @@
   @include meta.load-css("checkbox");
 }
 
-// Settings-only refinements for the .propform/table.propform pattern above.
-// Scoped to body.task-settings deliberately: "propform" is reused well
-// beyond Settings (Mail's search/list-options popups, Contacts'
-// edit/search/import screens, even the login form), none of which have
-// been reviewed against these changes — so this must not leak there.
-body.task-settings {
-  fieldset {
-    margin-bottom: 1.5rem;
+// Refinements for the .propform/table.propform pattern above. Was scoped to
+// body.task-settings; now applied globally by request (2026-07-04) - this
+// pattern is reused well beyond Settings (Mail's search/list-options
+// popups, Contacts' edit/search/import screens, Calendar's event/calendar
+// dialogs, the login form, reset_password's login-form replacement, and
+// new_user_dialog's cross-task identity overlay). Going through each of
+// those one by one to fix whatever breaks from unscoping this.
+fieldset {
+  margin-bottom: 1.5rem;
 
-    &:last-child {
-      margin-bottom: 0;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+table.propform {
+  width: 100%;
+
+  td {
+    padding: 0.4rem 0;
+    vertical-align: middle;
+
+    &.title {
+      width: 1%;
+      white-space: nowrap;
+      padding-right: 1.5rem;
+      // Deliberately not var(--color-quota-text)/--color-black-shade-text
+      // here — see the quota widget comment elsewhere in this codebase:
+      // that token's hsl(from ...) formula overshoots 100% lightness and
+      // renders as invalid/near-invisible white-on-white.
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-font);
+      opacity: 0.75;
     }
   }
 
-  table.propform {
-    width: 100%;
+  input,
+  select {
+    margin: 0;
+  }
 
-    td {
-      padding: 0.4rem 0;
-      vertical-align: middle;
-
-      &.title {
-        width: 1%;
-        white-space: nowrap;
-        padding-right: 1.5rem;
-        // Deliberately not var(--color-quota-text)/--color-black-shade-text
-        // here — see the quota widget comment elsewhere in this codebase:
-        // that token's hsl(from ...) formula overshoots 100% lightness and
-        // renders as invalid/near-invisible white-on-white.
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--color-font);
-        opacity: 0.75;
-      }
-    }
-
-    input,
-    select {
-      margin: 0;
-    }
-
-    input {
-      max-width: 24rem;
-    }
+  input {
+    max-width: 24rem;
   }
 }
 
