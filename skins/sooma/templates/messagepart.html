@@ -2,7 +2,7 @@
 
 <h1 class="voice"><roundcube:var name="env:filename" /></h1>
 
-<div id="layout-content" class="selected">
+<div id="layout-content" class="selected<roundcube:exp expression="stripos(env:mimetype, 'application/pdf') === 0 ? ' pdf' : ''">">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<span class="header-title constant"><roundcube:var name="env:filename" /></span>

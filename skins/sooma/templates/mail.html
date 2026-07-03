@@ -34,7 +34,15 @@
 		<div class="toolbar menu" role="toolbar">
 			<a href="#select" class="select disabled" data-popup="listselect-menu" data-toggle-button="list-toggle-button" title="<roundcube:label name="select" />"><span class="inner"><roundcube:label name="select" /></span></a>
 			<roundcube:if condition="env:threads" />
-				<a href="#threads" class="threads disabled" data-popup="threadselect-menu" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
+				<div class="listmode-toggle" role="group" aria-label="<roundcube:label name="lmode" />">
+					<a href="#list" class="listmode-option" data-mode="list" title="<roundcube:label name="list" />"><span class="inner"><roundcube:label name="list" /></span></a>
+					<span class="dropbutton">
+						<a href="#threads" class="listmode-option" data-mode="threads" title="<roundcube:label name="threads" />"><span class="inner"><roundcube:label name="threads" /></span></a>
+						<a href="#threads-actions" class="dropdown" data-popup="threadselect-menu" tabindex="0">
+							<span class="inner"><roundcube:label name="arialabelthreadselectmenu" /></span>
+						</a>
+					</span>
+				</div>
 			<roundcube:endif />
 			<roundcube:object name="listmenulink" class="options active" label="options" innerclass="inner" />
 			<roundcube:container name="listcontrols" id="listcontrols" />
@@ -204,12 +212,12 @@
 	<roundcube:endif />
 	<roundcube:if condition="env:threads" />
 	<div class="form-group row">
-		<label for="listoptions-threads" class="col-form-label col-sm-4"><roundcube:label name="lmode" /></label>
+		<label id="listoptions-threads-label" class="col-form-label col-sm-4"><roundcube:label name="lmode" /></label>
 		<div class="col-sm-8">
-			<select id="listoptions-threads" name="mode">
-				<option value="list"><roundcube:label name="list" /></option>
-				<option value="threads"><roundcube:label name="threads" /></option>
-			</select>
+			<div class="listmode-toggle" role="group" aria-labelledby="listoptions-threads-label">
+				<a href="#list" class="listmode-option" data-mode="list"><span class="inner"><roundcube:label name="list" /></span></a>
+				<a href="#threads" class="listmode-option" data-mode="threads"><span class="inner"><roundcube:label name="threads" /></span></a>
+			</div>
 		</div>
 	</div>
 	<roundcube:endif />

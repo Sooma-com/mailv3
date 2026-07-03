@@ -72,17 +72,40 @@
     content: fa.fa-content(fa.$var-check);
   }
 
-  a.threads::before {
-    @include fa.fa-icon();
-    content: fa.fa-content(fa.$var-messages);
+  // Icon-only always (not just when .overflow kicks in, unlike a.select/
+  // a.refresh/etc. above): the segmented Lista/Tópicos control next to it
+  // already eats most of this toolbar's width, so "Opções" stays as a
+  // tooltip/title only, same treatment as a.more above.
+  a.options {
+    font-size: 0;
+
+    &::before {
+      font-size: 1rem;
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-gear);
+    }
   }
 
-  a.options::before {
-    @include fa.fa-icon();
-    content: fa.fa-content(fa.$var-gear);
+  // Icon-only always, same reasoning as a.options above: a refresh glyph
+  // is self-explanatory, "Atualizar" is redundant space that this narrow
+  // toolbar can't spare.
+  a.refresh {
+    font-size: 0;
+    // ui.js's setupMailListMenu already moves this to be the last DOM
+    // child of .toolbar.menu (moveElement calls for a.options then
+    // a.refresh, in that order), but the flex row's own children are
+    // shrink-to-fit by default (no flex-grow), so being "last" only meant
+    // last among the packed-left items — it left a gap between it and the
+    // toolbar's own right edge whenever the toolbar itself is wider than
+    // its content. margin-left: auto is the standard flex trick to push
+    // just this one item (and nothing before it) all the way to the
+    // container's actual right edge, regardless of how much unused width
+    // the row has.
+    margin-left: auto;
   }
 
   a.refresh::before {
+    font-size: 1rem;
     @include fa.fa-icon();
     content: fa.fa-content(fa.$var-arrows-rotate);
   }

@@ -23,6 +23,14 @@
       position: relative;
 
       a {
+        // Long folder names (e.g. "recibo correio registado") used to wrap
+        // onto a second line, pushing every row below it down and breaking
+        // the tree's fixed row height / toggle-chevron positioning. Truncate
+        // to one line with an ellipsis instead, at every nesting depth.
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
         &::before {
           background-image: url("/skins/sooma/images/sidebar/folder.svg");
           background-position: right bottom;

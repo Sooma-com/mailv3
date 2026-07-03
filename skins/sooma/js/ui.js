@@ -364,21 +364,152 @@
             button.classList.remove('disabled');
             button.classList.add('active');
         });
+        setupListModeToggle();
+        setupSelectMenuAlignment();
+    }
+
+    /*
+     Segmented Lista/Tópicos control in the main toolbar. Unlike the old
+     single a.threads element (permanently styled .disabled regardless of
+     whether threaded view was actually on, indistinguishable from a
+     genuinely inert control), each segment here is independently clickable
+     and switches mode directly.
+    */
+    const setupListModeToggle = () => {
+        document.documentElement.queryElements("css:.toolbar.menu > .listmode-toggle .listmode-option").forEach(option => {
+            option.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (option.classList.contains('active')) {
+                    /*
+                     Already the active mode — there's no further mode to
+                     switch to by clicking it again. For Tópicos specifically
+                     (the only segment with a caret sibling in its
+                     .dropbutton), reuse that caret's own popup instead of
+                     doing nothing: same toggleElement call the caret itself
+                     is wired to (see setupPopupMenu above), just invoked
+                     directly here since the click landed on the text, not
+                     the caret. activeClass is passed as null to skip
+                     toggleElement's own "was the clicked element already
+                     .active" guard — we've already established that above.
+                     Lista has no .dropbutton/caret, so this is a no-op for
+                     it — ":scope >" (direct child only) matters here:
+                     Lista's parentNode is .listmode-toggle itself, which
+                     DOES contain a.dropdown[data-popup] as a descendant
+                     (nested one level down inside Tópicos's .dropbutton), so
+                     a plain (non-scoped) querySelector would incorrectly
+                     match that unrelated caret and wrongly open the popup
+                     for Lista too.
+                    */
+                    const caret = option.parentNode.querySelector(':scope > a.dropdown[data-popup]');
+                    const menu = caret && document.getElementById(caret.dataset.popup);
+                    if (menu) toggleElement(menu, 'block', true, null, event);
+                    return;
+                }
+                rcmail.command('set-listmode', option.dataset.mode);
+            });
+        });
+        /*
+         Both ways of opening #threadselect-menu — clicking the caret
+         directly (generic data-popup/setupPopupMenu wiring, above) or
+         clicking "Tópicos" text while it's already active (handled just
+         above) — leave the menu positioned by toggleElement's default
+         reposition logic, centered under wherever the click happened.
+         Left-align it instead to the active Tópicos chip's own left edge.
+         Not done by changing toggleElement/setupPopupMenu themselves,
+         since those are shared by every other popup/dropbutton in this
+         skin, not just this one. Instead, listen on .dropbutton itself:
+         that fires on the click's bubble phase, after whichever inner
+         handler already opened (or closed) the menu, so this only needs
+         to correct target.style.left afterwards, not reimplement the
+         open/close toggle. The opacity check skips this on the closing
+         click, when there's nothing left to reposition.
+        */
+        document.documentElement.queryElements("css:.toolbar.menu > .listmode-toggle .dropbutton").forEach(dropbutton => {
+            dropbutton.addEventListener('click', () => {
+                const caret = dropbutton.querySelector(':scope > a.dropdown[data-popup]');
+                const menu = caret && document.getElementById(caret.dataset.popup);
+                if (menu && getComputedStyle(menu).opacity !== '0') {
+                    menu.style.left = dropbutton.getBoundingClientRect().left + 'px';
+                }
+            });
+        });
+        updateListModeToggle();
+    }
+
+    /*
+     "Selecionar" (a.select, data-popup="listselect-menu") has its own
+     checkmark icon drawn as its own ::before (_toolbar.scss, fa.$var-check)
+     — the leftmost thing in the button, so the button's own bounding-rect
+     left edge IS that checkmark's left edge. Same fix as #threadselect-menu
+     above and for the same reason: the generic setupPopupMenu/toggleElement
+     wiring (data-popup attribute → click → toggleElement) centers the menu
+     under wherever the click happened, rather than aligning it to the
+     button that opened it. Listening on .toolbar.menu (an ancestor of
+     a.select, not a.select itself) guarantees this runs after
+     setupPopupMenu's own click listener on the button has already opened
+     (or closed) #listselect-menu, regardless of which of the two listeners
+     happened to be registered first — bubble-phase listeners on an
+     ancestor always run after the target's own, so this only needs to
+     correct style.left afterwards rather than reimplement the toggle.
+    */
+    const setupSelectMenuAlignment = () => {
+        document.documentElement.queryElements("css:.toolbar.menu").forEach(toolbar => {
+            toolbar.addEventListener('click', (event) => {
+                const button = event.target.closest('a.select[data-popup]');
+                if (!button) return;
+                const menu = document.getElementById(button.dataset.popup);
+                if (menu && getComputedStyle(menu).opacity !== '0') {
+                    menu.style.left = button.getBoundingClientRect().left + 'px';
+                }
+            });
+        });
+    }
+
+    /*
+     Keeps the toolbar's .listmode-toggle in sync with the actual list mode:
+     called once on init and again after every list reload (rcmail fires
+     'listupdate' once set-listmode's AJAX round-trip completes). Also
+     toggles "active" on the split-button caret: besides the visual state,
+     toggleElement's guard (see setupPopupMenu, above) requires that exact
+     class on the clicked element before it will open #threadselect-menu at
+     all, so this is what makes the caret genuinely open (or not open) the
+     expand/collapse actions menu depending on the current mode.
+    */
+    const updateListModeToggle = () => {
+        const toggle = document.documentElement.queryElement("css:.toolbar.menu > .listmode-toggle");
+        if (!toggle) return;
+        const mode = rcmail.env.threading ? 'threads' : 'list';
+        toggle.queryElements("css:.listmode-option").forEach(option => {
+            option.classList.toggle('active', option.dataset.mode == mode);
+        });
+        const caret = toggle.queryElement("css:a.dropdown");
+        if (caret) caret.classList.toggle('active', mode == 'threads');
     }
 
     const menu_messagelist = (menu) => {
         const dialog = document.getElementById('listoptions-menu').cloneNode(true);
         const sort_col = dialog.queryElement("xpath://select[@name='sort_col']");
         const sort_ord = dialog.queryElement("xpath://select[@name='sort_ord']");
-        const thread_mode = dialog.queryElement("xpath://select[@name='mode']");
+        const mode_toggle = dialog.queryElement("css:.listmode-toggle");
+        let current_mode = rcmail.env.threading ? 'threads' : 'list';
         sort_col.value = rcmail.env.sort_col || '';
         sort_ord.value = rcmail.env.sort_order || 'ASC';
-        thread_mode.value = rcmail.env.threading ? 'threads' : 'list';
+        if (mode_toggle) {
+            const options = mode_toggle.queryElements("css:.listmode-option");
+            options.forEach(option => {
+                option.classList.toggle('active', option.dataset.mode == current_mode);
+                option.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    current_mode = option.dataset.mode;
+                    options.forEach(o => o.classList.toggle('active', o == option));
+                });
+            });
+        }
         const save_func = (event) => {
             if (event.originalEvent.type.startsWith("key")) {
                 document.getElementById('listmenulink').focus();
             }
-            rcmail.set_list_options([], sort_col.value, sort_ord.value, thread_mode.value == 'threads' ? 1 : 0);
+            rcmail.set_list_options([], sort_col.value, sort_ord.value, current_mode == 'threads' ? 1 : 0);
             return true;
         };
         rcmail.simple_dialog(dialog, 'listoptionstitle', save_func, {
@@ -624,8 +755,17 @@
         removeLoginFormFromTable();
         createLocalMenu();
         setupPopupMenus();
-        setupMailListMenu();
+        // setupColumnResizer must run before setupMailListMenu: it restores
+        // any saved drag-resized column width (window.UI.prefs), and
+        // setupMailListMenu's markOverflowing() measures the messagelist
+        // toolbar's width to decide text-vs-icons-only mode. Doing it in the
+        // other order (as before) measured against the pre-restore/default
+        // width on every full page load, so a previously narrowed list
+        // column never got the icon-only ".overflow" class and its full
+        // text labels stayed and overflowed the header until the next
+        // manual drag (which does call checkOverflowing()).
         setupColumnResizer();
+        setupMailListMenu();
         moveComposeCCandBCCButtons();
         hideComposeFromIfSingle();
         wrapCheckboxes();
@@ -643,7 +783,8 @@
         }
         rcmail
             .addEventListener('menu-open', menu_toggle.bind(this))
-            .addEventListener('menu-close', menu_toggle.bind(this));
+            .addEventListener('menu-close', menu_toggle.bind(this))
+            .addEventListener('listupdate', updateListModeToggle);
 
         allowRendering();
     });
