@@ -181,13 +181,11 @@
 
   a.import::before {
     @include fa.fa-icon();
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-import);
   }
 
   a.export::before {
     @include fa.fa-icon();
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-export);
   }
 

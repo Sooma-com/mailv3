@@ -104,7 +104,6 @@ table.listing {
 
       a::before {
         @include fa.fa-icon();
-        font-weight: 200;
         content: fa.fa-content(fa.$var-address-book);
       }
     }

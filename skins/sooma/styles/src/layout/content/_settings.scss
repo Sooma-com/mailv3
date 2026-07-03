@@ -42,7 +42,6 @@
   tr > td.section::before {
     @include fa.fa-icon();
     padding-right: 0.3rem;
-    font-weight: 200;
   }
   tr.general > td.section::before {
     content: fa.fa-content(fa.$var-display);
@@ -79,7 +78,6 @@
   td.section::before {
     @include fa.fa-icon();
     padding-right: 0.5rem;
-    font-weight: 200;
   }
   tbody > tr.settings > td.section::before {
     content: fa.fa-content(fa.$var-envelope-ribbon);
@@ -87,13 +85,11 @@
   tbody > tr.certificates_title > td.sooma_smime_my_certificates_item::before {
     @include fa.fa-icon();
     padding-right: 0.5rem;
-    font-weight: 200;
     content: fa.fa-content(fa.$var-award-simple);
   }
   tbody > tr.certificates_title > td.sooma_smime_public_certificates_item::before {
     @include fa.fa-icon();
     padding-right: 0.5rem;
-    font-weight: 200;
     content: fa.fa-content(fa.$var-globe);
   }
   tbody > tr.public_certificates_item > td.section::before {

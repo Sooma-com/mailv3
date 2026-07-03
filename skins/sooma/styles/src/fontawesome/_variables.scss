@@ -2,7 +2,18 @@
 // --------------------------
 
 $css-prefix            : fa !default;
-$style                 : 900 !default;
+// Project override: FA ships this at 900 (Solid) by default. Sooma's skin
+// uses the Regular (400) cut for every icon site-wide instead — changed
+// here rather than per fa.fa-icon() call site, since fa-icon()'s
+// font-weight declaration reads this value as its fallback
+// (var(--fa-style, #{$style})) everywhere it's included. A handful of
+// individual icons previously fought the old 900 default with their own
+// explicit `font-weight: 200;` overrides (an approximation of Regular via
+// CSS's nearest-available-weight font matching, since only 400/900 faces
+// are registered in this skin — see _layout.scss/_mail-*.scss's `@use
+// "regular"`/`@use "solid"`) — those overrides are now redundant and have
+// been removed at their call sites.
+$style                 : 400 !default;
 $family                : "Font Awesome 7 Pro" !default;
 
 $icon-property         : --fa !default;

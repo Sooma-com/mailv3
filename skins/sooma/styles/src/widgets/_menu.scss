@@ -50,12 +50,10 @@
   }
 
   a.export.select::before {
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-export);
   }
 
   a.export.all::before {
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-export);
   }
 
@@ -169,7 +167,6 @@ ul.menu {
     }
 
     &.recipient::before {
-      font-weight: 200;
       content: fa.fa-content(fa.$var-envelope);
     }
     &.filterlink::before {
