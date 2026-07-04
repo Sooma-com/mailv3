@@ -11,7 +11,19 @@ label.custom-control {
   // (0.75rem) uppercase row labels it sits beside in settings propform
   // rows. Knob still has clear travel distance between states.
   --control-width: calc(1.85 * var(--control-height));
-  --control-foreground-color: var(--color-input);
+  // Was var(--color-input) - that resolves to --color-font, i.e. near-
+  // black, essentially the same visual weight/saturation as the checked
+  // state's --color-main (brand red). Off and on both read as "filled,
+  // strongly colored," so the only cues left to tell them apart were hue
+  // and knob position - easy to misread at a glance as "both states look
+  // active" (Manuel, 2026-07-04). --color-medium-gray is the skin's
+  // existing light neutral (already used for e.g. .help-tip's border) -
+  // pairing a muted grey "off" against a saturated red "on" is the
+  // conventional toggle-switch affordance and reads unambiguously at a
+  // glance. Skin-wide: every label.custom-control pill (Recibos,
+  // Certificado, Email registado, Manter formatação, settings-page
+  // checkboxes, etc.) inherits this.
+  --control-foreground-color: var(--color-medium-gray);
   --control-background-color: var(--color-input-background);
   --control-button-margin: calc(0.1 * var(--control-height));
 

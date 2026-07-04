@@ -214,8 +214,16 @@
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
+  // minmax(0, 1fr), not a bare 1fr: a bare 1fr still won't shrink a track
+  // below its content's min-content width (grid tracks default to
+  // minmax(auto, ...), and "auto" here means "at least min-content"), so
+  // if this column's content ever needs more room than is actually left
+  // over, minmax(0, 1fr) is what lets the track give up and cap at the
+  // available space instead of growing the whole row past it. Defensive
+  // - #mailtoolbar/#messagetoolbar's own overflow-x below is the intended
+  // fallback once a track is properly capped (2026-07-04).
   grid-template:
-    "action-buttons mailtoolbar searchbar" 1fr / min-content 1fr min-content;
+    "action-buttons mailtoolbar searchbar" 1fr / min-content minmax(0, 1fr) min-content;
 
   .action-buttons {
     display: inline-flex;
@@ -308,12 +316,38 @@
     }
   }
 
-  #mailtoolbar {
+  // #messagetoolbar (compose's Guardar/Anexar/Assinatura/Respostas) shares
+  // this rule rather than getting its own copy: it's moved into this same
+  // grid-area (ui.js's moveComposeToolbarToLocalMenu) as #mailtoolbar's
+  // direct counterpart for compose, and the two never exist in the DOM at
+  // the same time - one page is never both a mail list/preview and a
+  // compose view - so there's no risk of them colliding in the "mailtoolbar"
+  // grid slot (Manuel, 2026-07-04).
+  #mailtoolbar,
+  #messagetoolbar {
     display: none;
     grid-area: mailtoolbar;
+    min-width: 0;
     color: var(--color-layout-header-localmenu-foreground);
     --button-horizontal-margin: 0.2rem;
-
+    // This column is only ever as wide as "row width minus the compose
+    // button minus the searchbar," which shrinks a lot faster than the old
+    // full-width row #messagetoolbar used to get (_mail-compose.scss). At
+    // narrow widths, that's not enough room for Guardar/Anexar/Assinatura/
+    // Respostas's full text labels - markOverflowing (ui.js) then adds
+    // .overflow, and .toolbar.menu.overflow (widgets/_toolbar.scss) is the
+    // *existing* generic mechanism this and every other toolbar.menu in the
+    // app already collapse to icons-only through; #messagetoolbar picks it
+    // up automatically via its own "toolbar menu" classes, no extra rule
+    // needed here.
+    //
+    // That mechanism was actually never the problem - what looked like a
+    // clipping bug at ~530px turned out to be a separate, pre-existing
+    // #layout-menu width-constraint gap (fixed in _layout.scss: a bare 1fr
+    // track let #taskmenu's un-collapsed nav inflate #localmenu wider than
+    // #layout's own box). Once that's fixed, this column is correctly
+    // capped *before* markOverflowing ever measures it, so the icon
+    // collapse triggers exactly when it should (2026-07-04).
     a::before {
       margin-right: 0.2rem;
     }

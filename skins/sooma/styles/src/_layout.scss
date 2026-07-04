@@ -99,9 +99,29 @@ body:not(.task-login):not(.task-xcalendar) {
       height: 100%;
       grid-area: menu;
       display: grid;
+      // Second column is minmax(0, 1fr), not a bare 1fr: a bare 1fr track
+      // won't shrink below its content's min-content width (grid tracks
+      // default to minmax(auto, ...) - "auto" meaning "at least
+      // min-content" - so at ≤768px, elastic's own is_mobile() breakpoint
+      // (skins/elastic/ui.js screen_mode()), #taskmenu's un-collapsed nav
+      // (Mensagens/Contactos/Calendário/...) forced this column - and with
+      // it #layout-menu and #localmenu, both spanning it - wider than
+      // #layout's own 100vw box, silently overflowing past the viewport
+      // with no scrollbar to reach it (#layout has overflow: hidden, so
+      // the excess just clips rather than resizes anything). Confirmed
+      // this predates today's changes - reproduces on the plain mail list
+      // view too, with no compose toolbar involved. minmax(0, 1fr) caps
+      // this column at the space #layout actually has, matching the same
+      // fix already applied one level down, on #localmenu's own inner
+      // "mailtoolbar" column (layout/headermenu.scss). Note this doesn't
+      // fix #taskmenu's own narrow-width overflow - it stops that overflow
+      // from inflating the *whole page*, but #taskmenu's nav items still
+      // need their own responsive treatment (icon-only, hamburger, etc.)
+      // at this breakpoint - flagged to Manuel as separate follow-up work,
+      // out of scope here (2026-07-04).
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
@@ -153,8 +173,16 @@ body:not(.task-login):not(.task-xcalendar) {
 
 body.task-mail.action-compose:not(:has(#layout-list)) {
   &>#layout {
+    // Mockup (2026-07-04, Manuel's proportions feedback): was 1fr/2fr -
+    // sidebar at a third of the page for an attachment dropzone plus a
+    // handful of per-message toggles most people never touch on most
+    // sends. Narrowed to a quarter so the compose body (To/Subject/
+    // message, the actual task) gets the reclaimed width instead. Still
+    // a ratio, not a fixed width, so it keeps scaling with viewport and
+    // stays draggable within #layout-sidebar's existing
+    // --dynamic-min-width/--dynamic-max-width floor/ceiling below.
     --column-width-sidebar: 1fr;
-    --column-width-content: 2fr;
+    --column-width-content: 3fr;
     display: grid;
     grid-template:
       "menu    menu   " 8rem
@@ -168,9 +196,11 @@ body.task-mail.action-compose:not(:has(#layout-list)) {
       height: 100%;
       grid-area: menu;
       display: grid;
+      // minmax(0, 1fr): see the identical fix on the main mail #layout's
+      // own #layout-menu above for why a bare 1fr track doesn't work here.
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
@@ -309,9 +339,12 @@ body.task-xcalendar {
       height: 100%;
       grid-area: menu;
       display: grid;
+      // minmax(0, 1fr): see the identical fix on the main mail #layout's
+      // own #layout-menu (top of this file) for why a bare 1fr track
+      // doesn't work here.
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
@@ -360,9 +393,12 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
       height: 100%;
       grid-area: menu;
       display: grid;
+      // minmax(0, 1fr): see the identical fix on the main mail #layout's
+      // own #layout-menu (top of this file) for why a bare 1fr track
+      // doesn't work here.
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
