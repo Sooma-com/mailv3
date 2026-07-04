@@ -18,6 +18,13 @@
   --color-success: #41b849;
   --color-warning: #ffd452;
   --color-notice: #e8f3ff;
+  // Priority "low" used to reuse --color-success, but green reads as
+  // "good/positive" (same hue as a healthy quota, a successful send, etc.),
+  // not as "low priority" - it's a status color, not a magnitude color.
+  // Blue is the conventional low-priority hue (Todoist, Asana, etc. all use
+  // blue for their lowest tier, reserving red/orange for high and leaving
+  // gray/none for normal) (Manuel, 2026-07-04).
+  --color-priority-low: #4a90d9;
 
   --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
   --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));

@@ -127,7 +127,7 @@
     }
 
     /*
-     Move the mail toolbar from the taskmenu to the localmenu. Again, this is done in Javascript in 
+     Move the mail toolbar from the taskmenu to the localmenu. Again, this is done in Javascript in
      order to preserve the original templates of the elastic theme.
     */
     const moveMailToolbarToLocalMenu = (layoutMenu, localMenu) => {
@@ -135,6 +135,25 @@
             .queryElements("xpath://div[@id='mailtoolbar']")
             .forEach(localMenu.appendChild.bind(localMenu));
         markOverflowing("css:#mailtoolbar");
+    }
+
+    /*
+     Move compose's own action toolbar (Guardar/Anexar/Assinatura/Respostas)
+     into the localmenu's shared middle slot too - the same slot
+     moveMailToolbarToLocalMenu already puts the mail list's toolbar into.
+     #mailtoolbar (list/preview) and #messagetoolbar (compose) never exist
+     in the DOM at the same time, so they can share that slot - and
+     _headermenu.scss's #mailtoolbar rules are written to match both
+     selectors for exactly that reason. This is what used to leave the
+     localmenu's middle column empty on compose specifically: nothing
+     equivalent to moveMailToolbarToLocalMenu ever ran for it (Manuel,
+     2026-07-04).
+    */
+    const moveComposeToolbarToLocalMenu = (layoutMenu, localMenu) => {
+        layoutMenu
+            .queryElements("xpath://div[@id='messagetoolbar']")
+            .forEach(localMenu.appendChild.bind(localMenu));
+        markOverflowing("css:#messagetoolbar");
     }
 
     /*
@@ -230,6 +249,7 @@
         localMenu.setAttribute("id", "localmenu");
         moveComposeToLocalMenu(layoutMenu, localMenu);
         moveMailToolbarToLocalMenu(layoutMenu, localMenu);
+        moveComposeToolbarToLocalMenu(layoutMenu, localMenu);
         moveElement("css:#layout-list div.searchbar.menu", localMenu);
         createSoomaProfileMenu(layoutMenu);
     }
@@ -532,24 +552,21 @@
         const ccButton = document.documentElement.queryElement("css:body.task-mail.action-compose #headers-menu a.recipient[data-target='cc']");
         const bccButton = document.documentElement.queryElement("css:body.task-mail.action-compose #headers-menu a.recipient[data-target='bcc']");
         if (!referenceRow || !ccButton || !bccButton) return;
-        referenceRow.parentNode.insertBefore((function () {
-            const row = document.createElement("div");
-            row.setAttribute("id", "compose_recipient_buttons");
-            row.classList.add("form-group", "row");
-            row.appendChild((function () {
-                const label = document.createElement("label");
-                label.classList.add("col-2", "col-form-label");
-                return label;
-            })());
-            row.appendChild((function () {
-                const div = document.createElement("div");
-                div.classList.add("col-10");
-                div.appendChild(ccButton);
-                div.appendChild(bccButton);
-                return div;
-            })());
-            return row;
-        })(), referenceRow.nextSibling);
+        const inputGroup = referenceRow.queryElement("css:.input-group");
+        if (!inputGroup) return;
+        // Land Cc/Bcc inside the SAME .input-group-append that already
+        // holds Para's "add contact" icon, instead of a new sibling span.
+        // Every other header row (Cc, Bcc, Replyto, ...) ends up with
+        // exactly one trailing .input-group-append once its "delete" icon
+        // is stripped below - keeping Para down to one as well means the
+        // CSS grid/subgrid layout in _mail-compose.scss can treat "the
+        // row's trailing column" identically everywhere, with no
+        // Para-specific exception (2026-07-04).
+        const trailingGroup = inputGroup.queryElement("css:.input-group-append");
+        if (!trailingGroup) return;
+        trailingGroup.setAttribute("id", "compose_recipient_buttons");
+        trailingGroup.appendChild(ccButton);
+        trailingGroup.appendChild(bccButton);
         document.documentElement.queryElements("css:body.task-mail.action-compose #compose-headers .compose-headers a[data-popup='headers-menu']").forEach(button => {
             button.parentNode.remove();
         });
@@ -572,6 +589,78 @@
                 row.classList.add("hidden");
             }
         });
+    }
+    /*
+     Move "From" into the page header bar, above Para - that band used to
+     hold #messagetoolbar (now relocated into #localmenu by
+     moveComposeToolbarToLocalMenu) and, with the title/back-button/
+     task-menu-button already hidden there for compose, had nothing left
+     in it. Only relevant with multiple identities - hideComposeFromIfSingle
+     above already hides this row entirely on accounts with just one, and
+     _mail-compose.scss collapses the header band's own reserved height to
+     match, so single-identity accounts don't carry a blank gap for a
+     control they'll never see (Manuel, 2026-07-04).
+    */
+    const moveComposeFromToHeader = () => {
+        const header = document.documentElement.queryElement("css:body.task-mail.action-compose #layout-content > .header");
+        const fromRow = document.documentElement.queryElement("css:body.task-mail.action-compose #compose_from");
+        if (!header || !fromRow) return;
+        header.appendChild(fromRow);
+    }
+    /*
+     Replaces the native 5-option #compose-priority <select> (Muito baixa/
+     Baixa/Normal/Alta/Muito alta) with 3 colored dots (Baixa/Normal/Alta) -
+     Manuel decided to drop the two extremes and make the remaining 3 levels
+     visual rather than a dropdown, after research showed every major client
+     treats a 5-tier priority scale as a barely-used, often hidden setting
+     (2026-07-04). The <select> itself is kept in the DOM, just hidden
+     (_mail-compose.scss) - #compose-options's own "formdata" handler
+     (submitComposeOptions, below) already reads #compose-priority's .value
+     on submit, so the dots only need to drive that value, not replace the
+     submission path.
+    */
+    const buildPriorityDots = () => {
+        const select = document.documentElement.queryElement("css:body.task-mail.action-compose #compose-priority");
+        if (!select) return;
+        const tiers = [
+            { value: "4", cls: "low" },
+            { value: "0", cls: "normal" },
+            { value: "2", cls: "high" },
+        ];
+        const groupLabel = select.closest(".form-group")?.queryElement("css:label")?.textContent?.trim();
+        const wrap = document.createElement("div");
+        wrap.className = "priority-dots";
+        wrap.setAttribute("role", "radiogroup");
+        if (groupLabel) wrap.setAttribute("aria-label", groupLabel);
+        const buttons = tiers.map(tier => {
+            const option = select.querySelector(`option[value="${tier.value}"]`);
+            const label = option ? option.text : tier.cls;
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `priority-dot ${tier.cls}`;
+            btn.title = label;
+            btn.setAttribute("aria-label", label);
+            btn.setAttribute("role", "radio");
+            btn.dataset.value = tier.value;
+            wrap.appendChild(btn);
+            return btn;
+        });
+        const sync = () => {
+            buttons.forEach(btn => {
+                const active = btn.dataset.value === select.value;
+                btn.classList.toggle("active", active);
+                btn.setAttribute("aria-checked", active ? "true" : "false");
+            });
+        };
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                select.value = btn.dataset.value;
+                select.dispatchEvent(new Event("change", { bubbles: true }));
+                sync();
+            });
+        });
+        select.insertAdjacentElement("afterend", wrap);
+        sync();
     }
     /*
      Prepare checkboxes for CSS styling. This involves wrapping the checkbox in a label with the
@@ -773,6 +862,8 @@
         setupMailListMenu();
         moveComposeCCandBCCButtons();
         hideComposeFromIfSingle();
+        moveComposeFromToHeader();
+        buildPriorityDots();
         wrapCheckboxes();
         setupTabbed();
         rearrangeContactEditForm();

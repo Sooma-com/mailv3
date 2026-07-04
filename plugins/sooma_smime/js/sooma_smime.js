@@ -48,6 +48,34 @@
                 var lock = ref.display_message(ref.get_label('slime_smime.cert_delete_title'), 'loading');
                 ref.http_post('plugin.sooma_smime_cert_delete', {'_id': certificate_id}, lock);
             });
+        },
+        // Accounts without a valid certificate still see the Certificado
+        // (S/MIME) row's two controls (Compose.php always renders it now,
+        // see that file's 2026-07-04 comment) - clicking either one here is
+        // an upsell opportunity rather than a real toggle, since there's no
+        // certificate/private key to actually sign or encrypt with.
+        // Compose.php marks which checkboxes need this via the
+        // ".smime-requires-certificate" class (only present when
+        // data-has-certificate="0" on #compose-smime-row); accounts that
+        // do have a certificate never get this class and behave normally.
+        init_compose_upsell: function() {
+            const row = document.getElementById('compose-smime-row');
+            if (!row || row.dataset.hasCertificate === '1') return;
+            row.querySelectorAll('input.smime-requires-certificate').forEach(function(input) {
+                input.addEventListener('click', function(e) {
+                    // Blocks the actual check/uncheck - nothing should look
+                    // "on" for a feature the account can't use yet.
+                    e.preventDefault();
+                    sooma_smime.show_upsell();
+                });
+            });
+        },
+        // Placeholder message only - Manuel plans to design the real
+        // upsell copy/flow (CTA, pricing link, etc.) separately; this just
+        // wires the trigger point using the same rcmail.display_message()
+        // pattern the rest of this plugin already uses for user feedback.
+        show_upsell: function() {
+            rcmail.display_message('Este recurso requer um certificado S/MIME ativo. Contacte-nos para o ativar.', 'notice');
         }
     };
 
@@ -60,6 +88,9 @@
                 rcmail.register_command('plugin.sooma-cert-import', sooma_smime.open_import_window.bind(sooma_smime), true);
                 rcmail.register_command('plugin.sooma-cert-delete', sooma_smime.open_delete_window.bind(sooma_smime), true);
             }
+        }
+        if (sooma_smime.env.task == 'mail' && sooma_smime.env.action == 'compose') {
+            sooma_smime.init_compose_upsell();
         }
         if (sooma_smime.gui.mycertslist) {
             rcmail.mycertslist = new rcube_list_widget(sooma_smime.gui.mycertslist,
