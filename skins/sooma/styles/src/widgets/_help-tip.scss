@@ -1,0 +1,85 @@
+// Small "hover for help" affordance: a circled "?" that reveals a text
+// bubble on hover/focus. Extracted out of _mail-compose.scss (its first
+// use, on the compose sidebar's "Recibos" row) into a shared widget once
+// Manuel decided - after researching it against a plain "[?]" bracket-text
+// alternative - to standardize on this treatment skin-wide rather than
+// re-deriving it per feature (2026-07-04). Research findings: a circled
+// question mark is an actual standardized convention (macOS HIG ships a
+// native help-button control with exactly this shape; Font Awesome/
+// Bootstrap Icons/Material Symbols, Salesforce Lightning, and Ant Design
+// all encode it as a named primitive), whereas square brackets already
+// carry a competing, well-established meaning as placeholder/optional-
+// parameter notation ("[Nome]", "[Data]") - exactly the bracket
+// convention Portuguese legal document templates use, which risked "[?]"
+// reading as an unfilled template field rather than a help trigger for
+// this specific (Ordem dos Advogados) audience.
+//
+// Markup:
+//   <span class="help-tip" tabindex="0">
+//     <span class="help-tip-icon" aria-hidden="true">?</span>
+//     <span class="help-tip-bubble" role="tooltip">...explanation...</span>
+//   </span>
+//
+// Positioning notes for whoever reuses this next: the bubble defaults to
+// opening *below* and *left-aligned* with the icon. If the icon sits near
+// the top edge of a scrollable ancestor (overflow: hidden/auto/scroll),
+// opening upward will get silently clipped rather than shown - this
+// happened on first use here, in the compose sidebar's own .scroller.
+// Override .help-tip-bubble's top/bottom/left/right per usage site if the
+// surrounding layout needs it to open in a different direction.
+.help-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-medium-gray);
+  color: var(--color-medium-gray);
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: help;
+
+  .help-tip-bubble {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 210px;
+    background-color: var(--color-popupmenu-background);
+    color: var(--color-popupmenu-foreground);
+    border-radius: 4px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1.4;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+    z-index: 5;
+
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  &:hover .help-tip-bubble,
+  &:focus-visible .help-tip-bubble {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Common usage pattern: a help-tip sitting right after a label's own text
+// (see #compose-options's "Recibos" row, _mail-compose.scss). Kept here
+// rather than re-declared per usage site since the spacing need is the
+// same wherever this happens.
+label .help-tip {
+  margin-left: 0.3rem;
+  vertical-align: 1px;
+}

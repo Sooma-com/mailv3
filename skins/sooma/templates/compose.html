@@ -29,20 +29,37 @@
 		<!-- compose options -->
 		<div id="compose-options" class="formcontent" role="region" aria-labelledby="aria-label-composeoptions">
 			<h2 id="aria-label-composeoptions" class="voice"><roundcube:label name="arialabelcomposeoptions" /></h2>
+			<!--
+				"Email registado" moved to the very top of this sidebar (was
+				the last row, rendered via roundcube:object at the bottom of
+				#compose-options) - Manuel ranked the sidebar's controls by
+				importance: Email registado, Certificado (S/MIME), Recibos,
+				Prioridade, top to bottom (2026-07-04).
+			-->
+			<roundcube:object name="compose-registered" />
 			<roundcube:container name="composeoptions" id="compose-options" />
-			<roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
-			<div class="form-group row form-check">
-				<label for="compose-mdn" class="col-form-label col-6"><roundcube:label name="returnreceipt" /></label>
-				<div class="col-6 form-check">
-					<roundcube:object name="mdnCheckBox" id="compose-mdn" noform="true" tabindex="2" class="form-check-input" />
-				</div>
-			</div>
-			<roundcube:endif />
-			<roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
-			<div class="form-group row form-check">
-				<label for="compose-dsn" class="col-form-label col-6"><roundcube:label name="dsn" /></label>
-				<div class="col-6 form-check">
-					<roundcube:object name="dsnCheckBox" id="compose-dsn" noform="true" tabindex="2" class="form-check-input" />
+			<roundcube:if condition="!in_array('mdn_default', (array)config:dont_override) || !in_array('dsn_default', (array)config:dont_override)" />
+			<div class="form-group row form-check receipts-row">
+				<label class="col-form-label col-6">
+					Recibos
+					<span class="help-tip" tabindex="0">
+						<span class="help-tip-icon" aria-hidden="true">?</span>
+						<span class="help-tip-bubble" role="tooltip"><strong>Leitura</strong> - confirmação quando o destinatário abre a mensagem.<br /><strong>Entrega</strong> - confirmação quando o servidor do destinatário a recebe.</span>
+					</span>
+				</label>
+				<div class="col-6 toggle-group">
+					<roundcube:if condition="!in_array('mdn_default', (array)config:dont_override)" />
+					<div class="toggle-item">
+						<span class="toggle-item-label">Leitura</span>
+						<roundcube:object name="mdnCheckBox" id="compose-mdn" noform="true" tabindex="2" class="form-check-input" />
+					</div>
+					<roundcube:endif />
+					<roundcube:if condition="!in_array('dsn_default', (array)config:dont_override)" />
+					<div class="toggle-item">
+						<span class="toggle-item-label">Entrega</span>
+						<roundcube:object name="dsnCheckBox" id="compose-dsn" noform="true" tabindex="2" class="form-check-input" />
+					</div>
+					<roundcube:endif />
 				</div>
 			</div>
 			<roundcube:endif />
@@ -66,7 +83,6 @@
 				</div>
 			</div>
 			<roundcube:endif />
-            <roundcube:object name="compose-registered" />
 		</div>
 	</div>
 </div>
