@@ -153,6 +153,10 @@ body.task-mail.action-print {
       .header-links {
         padding-left: 0.3rem;
 
+        // Kept in sync with widgets/_mail-show.scss's icon choice, though
+        // templates/messageprint.html has no .headers-summary markup to
+        // apply this to - print output has nothing to toggle/click, so
+        // this selector is currently unused here.
         .headers-summary {
           position: absolute;
           top: 1.2rem;
@@ -161,9 +165,9 @@ body.task-mail.action-print {
 
 
           &::before {
-            font-size: 1rem;
+            font-size: 0.91875rem;
             @include fa.fa-icon();
-            content: fa.fa-content(fa.$var-circle-chevron-right);
+            content: fa.fa-content(fa.$var-chevron-right);
             transition: transform 0.3s ease-in-out;
           }
 
