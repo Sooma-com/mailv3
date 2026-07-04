@@ -26,7 +26,10 @@
 // here would leave a real <label> nested inside another one.
 .toggle-group {
   display: flex;
-  gap: 1.5rem;
+  // Was 1.5rem - read as too much air between Assinar/Encriptar and
+  // Leitura/Entrega for how small/related a pair each is (Manuel,
+  // 2026-07-04).
+  gap: 0.75rem;
 }
 
 .toggle-item {
