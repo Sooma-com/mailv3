@@ -135,18 +135,32 @@ body.task-mail.action-preview {
 
       .header-links {
         padding-left: 0.3rem;
+        // Kept in sync with widgets/_mail-show.scss's equivalent block -
+        // see that file's comment for why this was added.
+        font-size: 0.9rem;
 
         .headers-summary {
           position: absolute;
-          top: 1.2rem;
+          // Kept in sync with widgets/_mail-show.scss's equivalent block -
+          // see that file's comments for why top/padding/icon changed.
+          // top further tuned by measuring actual ink centers: canvas
+          // actualBoundingBoxAscent/Descent for both the chevron glyph and
+          // the subject's "D", combined with each one's real on-screen
+          // baseline position (line-box top + CSS2.1 half-leading + font
+          // ascent) - not just matching ink *height* as before, since equal
+          // height doesn't guarantee equal ink *center*. Chevron's ink
+          // center sat ~1.84px below the subject's - shifted top up by
+          // that amount (0.95rem - 1.84px = 0.835rem).
+          top: 0.835rem;
           left: 1.5rem;
           font-size: 0;
+          padding: 4.65px 0;
 
 
           &::before {
-            font-size: 1rem;
+            font-size: 0.91875rem;
             @include fa.fa-icon();
-            content: fa.fa-content(fa.$var-circle-chevron-right);
+            content: fa.fa-content(fa.$var-chevron-right);
             transition: transform 0.3s ease-in-out;
           }
 

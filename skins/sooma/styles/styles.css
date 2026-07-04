@@ -20726,7 +20726,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #xsidebar {
 
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout {
   --column-width-sidebar: 1fr;
-  --column-width-content: 2fr;
+  --column-width-content: 3fr;
   display: grid;
   grid-template: "menu    menu   " 8rem "content sidebar" auto/var(--column-width-content) var(--column-width-sidebar);
   width: 100vw;
@@ -21256,6 +21256,48 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #uploadform {
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header {
   min-height: 0;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar details.compose-more-options {
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-medium-gray);
+  padding-top: 0.75rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar details.compose-more-options summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar details.compose-more-options summary::-webkit-details-marker {
+  display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar details.compose-more-options summary::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\f054";
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar details.compose-more-options[open] summary::before {
+  transform: rotate(90deg);
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar details.compose-more-options .form-group:first-of-type {
+  margin-top: 1rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments {
   display: block;
@@ -24175,6 +24217,12 @@ body > .ui-widget-overlay {
 .ui-dialog .ui-dialog-buttonset button.cancel:before {
   content: "\f00d";
 }
+.ui-dialog .ui-dialog-buttonset button.copy:before {
+  content: "\f0c5";
+}
+.ui-dialog .ui-dialog-buttonset button.copy.copied:before {
+  content: "\f00c";
+}
 
 #listoptions-menu select {
   min-width: 10rem;
@@ -24308,9 +24356,15 @@ body > .ui-widget-overlay {
   margin-top: 1.5rem;
 }
 
+div.popup.iframe.ui-dialog-content {
+  overflow: hidden;
+}
 div.popup.iframe.ui-dialog-content > iframe {
   width: 100%;
   height: 100%;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 #messagestack {
@@ -25361,6 +25415,14 @@ div.formcontent:has(> .form-group.row) select {
   font-size: 1rem;
 }
 
+#mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+#mailtoolbar a:not(.disabled):hover, #mailtoolbar a:not(.disabled):focus-visible {
+  background-color: var(--color-popupmenu-hover-background);
+}
+
 .listing.folderlist {
   padding-bottom: 2rem;
   padding-left: 1rem;
@@ -26062,15 +26124,17 @@ body.task-mail.action-preview #message-header .header-content.details-view .head
 }
 body.task-mail.action-preview #message-header .header-content .header-links {
   padding-left: 0.3rem;
+  font-size: 0.9rem;
 }
 body.task-mail.action-preview #message-header .header-content .header-links .headers-summary {
   position: absolute;
-  top: 1.2rem;
+  top: 0.835rem;
   left: 1.5rem;
   font-size: 0;
+  padding: 4.65px 0;
 }
 body.task-mail.action-preview #message-header .header-content .header-links .headers-summary::before {
-  font-size: 1rem;
+  font-size: 0.91875rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26085,7 +26149,7 @@ body.task-mail.action-preview #message-header .header-content .header-links .hea
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  content: "\f138";
+  content: "\f054";
   transition: transform 0.3s ease-in-out;
 }
 body.task-mail.action-preview #message-header .header-content .header-links a {
@@ -26375,15 +26439,17 @@ body.task-mail.action-show #message-header .header-content.details-view .header-
 }
 body.task-mail.action-show #message-header .header-content .header-links {
   padding-left: 0.3rem;
+  font-size: 0.9rem;
 }
 body.task-mail.action-show #message-header .header-content .header-links .headers-summary {
   position: absolute;
-  top: 1.2rem;
+  top: 0.835rem;
   left: 1.5rem;
   font-size: 0;
+  padding: 4.65px 0;
 }
 body.task-mail.action-show #message-header .header-content .header-links .headers-summary::before {
-  font-size: 1rem;
+  font-size: 0.91875rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26398,7 +26464,7 @@ body.task-mail.action-show #message-header .header-content .header-links .header
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  content: "\f138";
+  content: "\f054";
   transition: transform 0.3s ease-in-out;
 }
 body.task-mail.action-show #message-header .header-content .header-links a {
@@ -26696,7 +26762,7 @@ body.task-mail.action-print #message-header .header-content .header-links .heade
   font-size: 0;
 }
 body.task-mail.action-print #message-header .header-content .header-links .headers-summary::before {
-  font-size: 1rem;
+  font-size: 0.91875rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26711,7 +26777,7 @@ body.task-mail.action-print #message-header .header-content .header-links .heade
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  content: "\f138";
+  content: "\f054";
   transition: transform 0.3s ease-in-out;
 }
 body.task-mail.action-print #message-header .header-content .header-links a {
@@ -27457,5 +27523,3 @@ body.domain-webmail-oa-sooma-com.task-login > #layout > #layout-content a.forgot
     grid-template: "form form" 1fr/50vw 50vw;
   }
 }
-
-/*# sourceMappingURL=styles.css.map */

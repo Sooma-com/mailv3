@@ -854,6 +854,109 @@ window.UI = {
         });
         this.prefs.set(key, nextState);
     },
+    // Ported from skins/elastic/ui.js's rcube_elastic_ui.headers_dialog -
+    // Sooma's window.UI replaces (rather than extends) Elastic's UI object,
+    // so this never made the jump over and "Cabeçalhos" threw
+    // "UI.headers_dialog is not a function" on click (see message.html's
+    // .headers-all link, onclick="return UI.headers_dialog()"). Same
+    // approach as the original: build a framed iframe pointing at the
+    // 'headers' action for the open message, open it in a modal.
+    headers_dialog: function () {
+        var props = { _uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _framed: 1 },
+            dialog = $('<iframe>').attr({ id: 'headersframe', src: rcmail.url('headers', props) }),
+            popup,
+            // Users typically paste this into an external header analyser,
+            // so copy plain text, not markup - headers.php renders
+            // continuation-line indentation as literal &nbsp; runs (see
+            // program/actions/mail/headers.php), which .innerText turns
+            // into U+00A0 characters. Normalized back to plain spaces so
+            // the pasted result matches what a header analyser expects.
+            copy_headers = function () {
+                var win = dialog[0].contentWindow,
+                    body = win && win.document ? win.document.body : null,
+                    text = body ? body.innerText.replace(/\u00A0/g, ' ').trim() : '';
+
+                // Visually select the framed document's own text, as
+                // immediate feedback that Copiar acted on this content
+                // specifically (useful once the dialog is wide enough - see
+                // the 70vw width above - that it's not obvious at a glance
+                // which text got copied). This happens synchronously,
+                // ahead of the checkmark below, since selecting is instant
+                // while the clipboard write is async.
+                if (body && win.getSelection && win.document.createRange) {
+                    var range = win.document.createRange();
+                    range.selectNodeContents(body);
+                    win.getSelection().removeAllRanges();
+                    win.getSelection().addRange(range);
+                }
+
+                // The "Copiar" button lives in the top window (dialogs
+                // always get built there - see the parent.rcmail comment
+                // below), so that's where the click's user activation
+                // actually landed. navigator.clipboard.writeText() needs
+                // that activation on the SAME window whose navigator it's
+                // called on; calling it on this frame's own navigator
+                // (which never received any activation of its own) gets
+                // silently rejected. Use the top window's navigator
+                // instead - same reasoning as the parent.rcmail label fix.
+                var clipboard = parent && parent.navigator ? parent.navigator.clipboard : navigator.clipboard;
+
+                if (!text || !clipboard) {
+                    return false;
+                }
+
+                clipboard.writeText(text).then(function () {
+                    // .ui-dialog-buttonpane is a *sibling* of the content
+                    // div (popup), not a descendant of it - jQuery UI's
+                    // dialog() wraps both as children of .ui-dialog - so
+                    // popup.find(...) alone can never match it; has to go
+                    // up to their shared ancestor first. Same reasoning
+                    // applies below.
+                    var button = popup.closest('.ui-dialog').find('.ui-dialog-buttonpane button.copy');
+                    button.addClass('copied');
+                    window.setTimeout(function () {
+                        button.removeClass('copied');
+                    }, 1500);
+                });
+
+                // Returning false (rather than truthy) keeps the dialog
+                // open - same rationale as Fechar staying a separate
+                // button rather than double-purposing this one - so the
+                // person can still see/re-copy the headers afterwards.
+                return false;
+            };
+
+        popup = rcmail.simple_dialog(dialog, 'arialabelmessageheaders', copy_headers, {
+            cancel_button: 'close',
+            button: 'copy',
+            button_class: 'copy',
+            // A vw unit rather than a fixed px number, so this scales with
+            // the browser window instead of the ~528px jQuery UI's default
+            // (500 + its own resize fudge) gave on every screen size. Passed
+            // straight through to show_popup_dialog, which does
+            // popup.width(options.width) - jQuery resolves the vw string to
+            // real px at that point, then its own resize logic (width+28,
+            // capped at viewport width - 20) takes over from there, same as
+            // it would for a plain number.
+            width: '70vw',
+            height: 400
+        });
+
+        // simple_dialog's own button label lookup (this.get_label, where
+        // `this` is whichever rcmail instance called it - this frame's
+        // own, not the top window's) uses this frame's own loaded labels,
+        // which don't include the core 'copy' label - it isn't sent to
+        // the message-preview frame - so the button rendered the literal
+        // key "copy" instead of "Copiar". show_popup_dialog itself always
+        // builds the actual dialog DOM in the top window (it forwards
+        // there whenever called from a framed page - see app.js's
+        // is_framed() check), so parent.rcmail reliably has it loaded;
+        // only the button's *text* is wrong, so just relabel it directly
+        // rather than reimplementing simple_dialog's label resolution.
+        if (parent && parent.rcmail) {
+            popup.closest('.ui-dialog').find('.ui-dialog-buttonpane button.copy').text(parent.rcmail.gettext('copy'));
+        }
+    },
     recipient_selector: function (field, opts) {
         if (!opts) opts = {};
 

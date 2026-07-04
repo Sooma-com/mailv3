@@ -214,3 +214,34 @@
     }
   }
 }
+
+// Baseline hover/focus cue for #mailtoolbar's action buttons (Responder/
+// Reencaminhar/Eliminar/Marcar/etc.), for contexts where it never gets
+// moved into #localmenu at all - namely extwin (the standalone message
+// popup opened via the subject line's "open in new window" button).
+// js/ui.js's moveMailToolbarToLocalMenu bails out via
+// `if (!layoutMenu) return` when #layout-menu doesn't exist, which is the
+// case there, so #mailtoolbar stays put in its original .header - sitting
+// on the page's own light content background there, not localmenu's dark
+// one. layout/_headermenu.scss already has a hover rule for the
+// #localmenu case, but that whole file only ever gets loaded (4x, for as
+// many body-class variants) nested inside "&>#layout-menu { ... }" in
+// _layout.scss - so anything added there, even unindented in the source,
+// compiles wrapped in a "#layout-menu ..." ancestor requirement that can
+// never match in extwin (confirmed live: adding the rule there compiled
+// to "...#layout > #layout-menu #mailtoolbar a:not(.disabled):hover",
+// which never matched since #layout-menu doesn't exist in extwin's DOM -
+// this file, loaded via plain @use from _widgets.scss, isn't wrapped that
+// way). Reuses the same variable pair popupmenu items already use for
+// exactly this light-background case (widgets/_menu.scss), since
+// #mailtoolbar's own text color here is dark-on-light, unlike localmenu's
+// light-on-dark.
+#mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color .15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-popupmenu-hover-background);
+  }
+}

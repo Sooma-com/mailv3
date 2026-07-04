@@ -17,11 +17,11 @@
       background-color: #21292c;
     }
 
-    /* Heart mark. Static, hardcoded soft tints of sooma's brand red
-       (rgb(213, 56, 50)) - deliberately NOT derived from a domain lookup
-       or a cross-frame color read: this frame is served to every one of
-       roughly 100k mailboxes at launch, so it's a plain static asset with
-       no per-request PHP and no JS, safe to cache indefinitely. */
+    /* Heart mark. Static, hardcoded tints - deliberately NOT derived from
+       a domain lookup or a cross-frame color read: this frame is served
+       to every one of roughly 100k mailboxes at launch, so it's a plain
+       static asset with no per-request PHP and no JS, safe to cache
+       indefinitely. */
     #watermark {
       position: absolute;
       top: 50%;
@@ -31,8 +31,11 @@
       max-width: 220px;
       max-height: 220px;
       transform: translate(-50%, -50%);
-      background-color: #f7d7d6;
-      /* rgb(213, 56, 50) blended ~20% into white */
+      background-color: #ececec;
+      /* Neutral gray, same lightness as the previous pale-red tint
+         (#f9e1e0) - trying grayscale instead of a brand-red tint at
+         Manuel's request (2026-07-04), on the theory that the hue itself,
+         not just its intensity, was what read as distracting. */
       -webkit-mask-image: url(images/logo.svg);
       mask-image: url(images/logo.svg);
       -webkit-mask-repeat: no-repeat;
@@ -44,10 +47,9 @@
     }
 
     html.dark-mode #watermark {
-      /* Same brand red, blended ~25% into the dark-mode background
-         (#21292c) instead of white, so it stays equally soft/muted
-         rather than turning into a bright pink patch on a dark page. */
-      background-color: #4e2d2e;
+      /* Same idea in dark mode: neutral gray at the same lightness as the
+         previous pale-red tint (#452c2d), instead of a brand-red hue. */
+      background-color: #383838;
     }
   </style>
 </head>
