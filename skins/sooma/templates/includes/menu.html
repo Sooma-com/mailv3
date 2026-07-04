@@ -2,11 +2,17 @@
 	<h2 id="aria-label-tasknav" class="voice">
 		<roundcube:label name="arialabeltasknav" />
 	</h2>
+	<!--
+		Dropped the "Fechar" close link that used to sit next to the logo
+		here on phone-width viewports - it was never load-bearing: any
+		click inside #layout-menu (including on a nav item like
+		"Mensagens") already closes this popover via the delegated
+		listener in ui.js's app_menu(), and clicking the #menu-overlay
+		backdrop closes it too. It was just a second, redundant close
+		affordance crowding the header row (Manuel, 2026-07-04).
+	-->
 	<div class="popover-header">
 		<roundcube:object name="logo" src="/../../plugins/sooma/logo.php" id="logo" alt="Logo" />
-		<a class="button icon cancel"><span class="inner">
-				<roundcube:label name="close" />
-			</span></a>
 	</div>
 	<div id="taskmenu" class="menu toolbar" role="navigation" aria-labelledby="aria-label-tasknav">
 		<span class="action-buttons">
