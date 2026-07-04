@@ -89,10 +89,33 @@ class nexus_registered extends rcube_plugin
         return 0;
     }
     public function compose_checkbox(array $attrib): string {
+        $registered_label = $this->rc->gettext('registered_checkbox', 'nexus_registered');
+        // Split off the label's last word so it can be wrapped together
+        // with the .help-tip icon in .help-tip-nowrap below - see that
+        // widget's comment (widgets/_help-tip.scss) for why a trailing
+        // &nbsp; alone doesn't reliably keep them on the same line
+        // (Manuel, 2026-07-04). Falls back to the whole label as the
+        // "last word" if it's a single word, which still works fine with
+        // the same markup.
+        $registered_label_words = explode(' ', $registered_label);
+        $registered_label_last_word = array_pop($registered_label_words);
+        $registered_label_rest = implode(' ', $registered_label_words);
         ob_start();
         ?>
-<div class="form-group row form-check">
-	<label for="compose-registered" class="col-form-label col-6"><?= $this->rc->gettext('registered_checkbox', 'nexus_registered') ?></label>
+<!--
+    Added a .help-tip (skin's shared widget, widgets/_help-tip.scss) next
+    to the label - "Email registado" alone doesn't explain what the
+    feature actually does (a certified, timestamped send/receipt record,
+    per this plugin's own registration-stamp accounting), and it's the
+    very first control a lawyer using this sees in the compose sidebar
+    (Manuel, 2026-07-04).
+-->
+<div class="form-group row form-check" id="compose-registered-row">
+	<label for="compose-registered" class="col-form-label col-6"><?= $registered_label_rest ? htmlspecialchars($registered_label_rest) . ' ' : '' ?><span class="help-tip-nowrap"><?= htmlspecialchars($registered_label_last_word) ?> <span class="help-tip" tabindex="0">
+			<span class="help-tip-icon" aria-hidden="true">?</span>
+			<span class="help-tip-bubble" role="tooltip">Envia esta mensagem como registada, com prova certificada da data e hora de envio e de receção pelo servidor do destinatário.</span>
+		</span></span>
+	</label>
     <div class="col-6 form-check">
         <input name="_registered" id="compose-registered" tabindex="2" class="form-check-input" value="1" type="checkbox">
     </div>
