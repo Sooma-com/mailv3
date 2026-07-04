@@ -48,6 +48,16 @@
     top: calc(100% + 8px);
     left: 0;
     width: 210px;
+    // Reset explicitly: .help-tip-nowrap (below) wraps this whole .help-tip
+    // together with a label's last word so the icon can't break onto its
+    // own line, but white-space is an inherited property - without this
+    // reset the bubble silently inherited nowrap too, so its text stopped
+    // wrapping inside its own 210px box and overflowed way past it instead
+    // (607px of actual content width measured against a 234px box),
+    // getting clipped by the sidebar's own overflow: hidden further out.
+    // Caught via scrollWidth vs clientWidth comparison, not visually
+    // obvious from a screenshot alone (Manuel, 2026-07-04).
+    white-space: normal;
     background-color: var(--color-popupmenu-background);
     color: var(--color-popupmenu-foreground);
     border-radius: 4px;
@@ -82,4 +92,26 @@
 label .help-tip {
   margin-left: 0.3rem;
   vertical-align: 1px;
+}
+
+// For labels long enough to wrap onto multiple lines in a narrow column
+// (e.g. "Certificado digital", "Email registado"): wrap the *last word*
+// of the label together with its .help-tip in one of these, instead of
+// leaving the icon as a plain sibling after a normal space. A trailing
+// &nbsp; alone isn't enough to keep them together - Chromium still
+// offers a line-break opportunity right before an atomic inline-level
+// box (.help-tip is display: inline-flex) regardless of whether the
+// preceding whitespace was breakable, so "digital" could still end up
+// on one line and the bare "?" alone on the next (reproduced directly,
+// Manuel flagged it from a real screenshot, 2026-07-04). white-space:
+// nowrap on a plain inline wrapper *does* hold the two together
+// reliably, while still letting everything before this span wrap
+// normally against it.
+//
+// Markup:
+//   Certificado <span class="help-tip-nowrap">digital
+//     <span class="help-tip" tabindex="0">...</span>
+//   </span>
+.help-tip-nowrap {
+  white-space: nowrap;
 }

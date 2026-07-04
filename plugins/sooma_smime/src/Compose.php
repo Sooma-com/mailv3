@@ -47,7 +47,24 @@ class Compose
             control alongside Assinar rather than looking broken/disabled.
         -->
         <div class="form-group row form-check" id="compose-smime-row" data-has-certificate="<?= $has_certificate ? '1' : '0' ?>">
-            <label for="compose-sooma-smime-sign" class="col-form-label col-6">Certificado digital</label>
+            <!--
+                Same .help-tip widget as Recibos - "Assinar"/"Encriptar" are
+                jargon (S/MIME signing vs. encryption) that a lawyer using
+                this compose sidebar for the first time has no reason to
+                already know, same rationale as the Recibos row's own tip
+                (Manuel, 2026-07-04).
+
+                "digital" and the icon are wrapped together in
+                .help-tip-nowrap (widgets/_help-tip.scss) rather than just
+                separated by a &nbsp; - a trailing non-breaking space alone
+                wasn't enough to stop the "?" landing alone on its own line
+                below "Certificado digital" in this narrow column; see that
+                widget's comment for why (Manuel, 2026-07-04).
+            -->
+            <label for="compose-sooma-smime-sign" class="col-form-label col-6">Certificado <span class="help-tip-nowrap">digital <span class="help-tip" tabindex="0">
+                    <span class="help-tip-icon" aria-hidden="true">?</span>
+                    <span class="help-tip-bubble" role="tooltip"><strong>Assinar</strong> - aplica uma assinatura digital S/MIME que garante a autenticidade do remetente e a integridade da mensagem.<br /><strong>Encriptar</strong> - cifra o conteúdo da mensagem, garantindo que só o destinatário a consegue ler.</span>
+                </span></span></label>
             <div class="col-6 toggle-group">
                 <div class="toggle-item">
                     <span class="toggle-item-label">Assinar</span>

@@ -21360,9 +21360,11 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar .scroller {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options {
   order: 1;
+  flex: 0 0 auto;
   border-collapse: separate;
   border-spacing: 0 0.65rem;
 }
@@ -21371,6 +21373,39 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .toggle-group {
   display: flex;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .form-group.row:has(.toggle-group) > label {
+  position: relative;
+  top: -1.7656px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row > label.col-form-label {
+  position: relative;
+  top: -3.796875px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .form-group.row:has(.priority-dots) > label {
+  position: relative;
+  top: -4.59375px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row {
+  position: relative;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row .help-tip,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row .help-tip {
+  position: static;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row .help-tip-bubble,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row .help-tip-bubble {
+  left: auto;
+  right: 16px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row .help-tip-bubble {
+  right: calc(-100% + 16px);
+  top: 64.8px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row .help-tip-bubble {
+  right: calc(-100% + 16px);
+  top: 66.81px;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-priority {
   display: none;
@@ -21406,13 +21441,15 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments {
   order: 2;
-  margin-top: 8.4px;
+  margin-bottom: 64.9px;
   display: block;
   border: 2px dashed var(--color-input-border);
   border-radius: 4px;
   padding: 1rem;
   text-align: center;
+  flex: 1 1 auto;
   min-height: 10rem;
+  overflow-y: auto;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
   display: inline-block;
@@ -21555,6 +21592,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-cont
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 300px;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content > .formcontent > #composebodycontainer > .tox {
   flex: 1;
@@ -27642,6 +27680,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .listmode-togg
   top: calc(100% + 8px);
   left: 0;
   width: 210px;
+  white-space: normal;
   background-color: var(--color-popupmenu-background);
   color: var(--color-popupmenu-foreground);
   border-radius: 4px;
@@ -27668,6 +27707,10 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .listmode-togg
 label .help-tip {
   margin-left: 0.3rem;
   vertical-align: 1px;
+}
+
+.help-tip-nowrap {
+  white-space: nowrap;
 }
 
 .toggle-group {
