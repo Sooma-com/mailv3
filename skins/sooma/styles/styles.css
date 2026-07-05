@@ -27740,6 +27740,10 @@ label .help-tip {
   cursor: not-allowed;
 }
 
+.tox-tinymce .tox-tbtn--bespoke + .tox-tbtn--bespoke .tox-tbtn__select-label {
+  width: 3em;
+}
+
 body.domain-webmail-oa-pt.task-login > #layout,
 body.domain-webmail-oa-sooma-com.task-login > #layout {
   max-width: none;
