@@ -1,0 +1,32 @@
+// Trims the width TinyMCE reserves for the compose toolbar's font-size
+// dropdown (see plugins/sooma/js/editor_toolbar.js for the toolbar order
+// this belongs to).
+//
+// oxide's own skin CSS gives every "bespoke" select-style toolbar button's
+// inner label a flat, fixed width regardless of what it actually needs to
+// display: ".tox-tbtn--bespoke .tox-tbtn__select-label { width: 7em }"
+// (program/js/tinymce/skins/ui/oxide/skin.min.css - a TinyMCE core file,
+// not something we can/should edit directly). That's sized for the FONT
+// FAMILY select ("Verdana", "Times New Roman"...), but the font SIZE
+// select right next to it inherits the exact same width even though it
+// only ever needs to show two or three digits plus "pt" - Manuel noticed
+// this was eating unnecessary toolbar space (2026-07-05).
+//
+// Targeting: TinyMCE marks both selects with the same ".tox-tbtn--bespoke"
+// class, so a bare override would shrink the font-FAMILY select too,
+// clipping real family names. "+ .tox-tbtn--bespoke" (adjacent-sibling)
+// only matches a bespoke select immediately preceded by *another* bespoke
+// select - i.e. specifically the second of the pair in our own toolbar
+// order (editor_toolbar.js keeps "fontselect fontsizeselect" together,
+// undivided by any "|"), which is always fontsizeselect. This is tied to
+// that ordering rather than to language-specific text (an aria-label match
+// would've been simpler, but Roundcube's UI language is a per-user
+// setting - hard-coding the Portuguese aria-label text here would silently
+// stop working for anyone using this webmail in another language).
+.tox-tinymce .tox-tbtn--bespoke + .tox-tbtn--bespoke .tox-tbtn__select-label {
+  // Comfortably fits "8pt".."36pt" (today's preset list, set in
+  // program/js/editor.js's own fontsize_formats) with room to spare for a
+  // manually-typed 3-digit value, since this field is an editable combobox
+  // and not a fixed dropdown - was 7em (~112px unpadded).
+  width: 3em;
+}
