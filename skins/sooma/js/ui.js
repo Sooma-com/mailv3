@@ -600,11 +600,39 @@
      _mail-compose.scss collapses the header band's own reserved height to
      match, so single-identity accounts don't carry a blank gap for a
      control they'll never see (Manuel, 2026-07-04).
+
+     Bug fix (2026-07-05): appendChild() here physically relocates
+     #compose_from - and the real <select name="_from"> inside it - out of
+     #compose-content's <form> and into this sibling .header band. A form's
+     native submission (form.elements / new FormData(form) / jQuery's
+     serializeArray, all of which the compose form and program/js/app.js's
+     send handler rely on) only include a field if it's a DESCENDANT of the
+     <form> OR carries an HTML5 `form="<form id>"` attribute pointing back
+     to it - neither was true here, so `_from` silently dropped out of
+     every submit once this ran, and rcmail_sendmail.php's server-side
+     `empty($from)` check (program/include/rcmail_sendmail.php:175) always
+     saw it missing and rejected the send with "nofromaddress" ("Falta o
+     endereço de email na identidade selecionada"), for every single
+     compose/reply/forward, not just this feature's original single-vs-
+     multiple-identity concern - the compose.html template already
+     declares `form="form"` on this object (skins/sooma/templates/
+     compose.html) expecting exactly this HTML5 out-of-form-association
+     mechanism, but core's compose_headers() renderer doesn't apply it, so
+     it never actually reached the rendered <select>. Restoring that
+     association here - by ID rather than by DOM nesting - keeps the field
+     submitted correctly no matter where in the document this function
+     moves it (Manuel, 2026-07-05).
     */
     const moveComposeFromToHeader = () => {
         const header = document.documentElement.queryElement("css:body.task-mail.action-compose #layout-content > .header");
         const fromRow = document.documentElement.queryElement("css:body.task-mail.action-compose #compose_from");
         if (!header || !fromRow) return;
+        const form = document.documentElement.queryElement("css:body.task-mail.action-compose #compose-content form[name='form']");
+        const fromSelect = fromRow.queryElement("css:select#_from");
+        if (form && fromSelect) {
+            if (!form.id) form.id = 'composeform';
+            fromSelect.setAttribute('form', form.id);
+        }
         header.appendChild(fromRow);
     }
     /*
