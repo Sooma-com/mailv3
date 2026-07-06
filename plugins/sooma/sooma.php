@@ -24,6 +24,27 @@ class sooma extends rcube_plugin
         $this->include_stylesheet('css.php');
         $this->add_hook('html_editor', [$this, 'html_editor']);
         $this->include_script('js/editor_toolbar.js');
+
+        // Override the core pt_PT 'list' label ("Em lista" -> "Lista") to
+        // fit the shorter Lista/Tópicos segmented toggle from the
+        // skin-design toolbar redesign - the pill has no room for the
+        // longer default string. Was previously a direct edit to
+        // program/localization/pt_PT/labels.inc; moved here so it survives
+        // a Roundcube core upgrade instead of being silently reverted by
+        // one, same reasoning as html_editor() above.
+        //
+        // add_texts() can't do this: it always prefixes new labels with
+        // this plugin's domain ('sooma.list'), so it can only add new
+        // labels, not override an existing core one. Calling
+        // rcube::load_language() directly with the $merge argument is the
+        // one path in core that array_merge()s over already-loaded texts
+        // instead of only filling in missing keys (see rcube::load_language()
+        // in program/lib/Roundcube/rcube.php) - it's safe to call here
+        // regardless of whether core has already lazily loaded its own
+        // labels.inc via gettext()/text_exists() or not, since
+        // load_language() loads the base files on first call either way
+        // and applies $merge in that same call (Manuel, 2026-07-06).
+        $this->rc->load_language(null, [], ['list' => 'Lista']);
     }
 
     // Adds TinyMCE's own "fullscreen" plugin to every rich-text editor
