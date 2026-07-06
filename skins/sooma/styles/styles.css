@@ -20696,6 +20696,34 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist t
   mask-position: right top;
   pointer-events: none;
 }
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist .priority-indicator-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.priority-high .priority-indicator-dot {
+  background: var(--color-error);
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.priority-low .priority-indicator-dot {
+  background: var(--color-priority-low);
+}
+#message-header h2.subject .priority-indicator-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+#message-header h2.subject .priority-indicator-dot.priority-high {
+  background: var(--color-error);
+}
+#message-header h2.subject .priority-indicator-dot.priority-low {
+  background: var(--color-priority-low);
+}
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
