@@ -948,6 +948,56 @@
         });
     };
 
+    /*
+     Bug: on a new message, Roundcube's own init_messageform() correctly
+     decides to autofocus _to (or _subject, if _to is already filled -
+     e.g. mailto: links) since they start empty. But recipient-input.js
+     (this skin's To/Cc/Bcc/Reply-To/Followup-To chip widget) hides the
+     real _to textarea (opacity:0, kept in the DOM) behind a decorated,
+     unnamed visible <input> - and whichever of core's several focus()
+     calls against the real _to node ends up "winning" the race against
+     TinyMCE's async init (see editor.js's init_callback, which redoes
+     the same focus() call once the HTML editor is ready), the result is
+     always the hidden textarea (or nothing at all - document.body -
+     depending on exactly how the race resolves) getting real keyboard
+     focus, never the visible input the user actually sees and can click
+     into. It reads as focused (it's sitting exactly where _to always
+     sits) but silently drops every keystroke until manually clicked
+     (2026-07-06).
+
+     Fixed here rather than by patching core's init_messageform/editor.js
+     because the visible/hidden split is entirely this skin's doing.
+     Mirrors init_messageform()'s own to-then-subject-then-body priority
+     order rather than trusting rcmail.env.compose_focus_elem, since
+     editor.js nulls that out partway through its own sequence.
+
+     Deliberately paranoid about *when* this runs: logged, empirically,
+     as genuinely racy in this environment - which of core's own several
+     focus() calls "wins" varies from load to load (sometimes the hidden
+     textarea ends up focused, sometimes document.body), and the
+     'editor-load' rcmail event (fired once by editor.js's init_callback
+     right as TinyMCE finishes) isn't reliably *after* this script's own
+     setup runs either - TinyMCE can finish first. So this runs from
+     every angle available rather than trusting any single one: once
+     immediately in case TinyMCE already finished, again on 'editor-load'
+     in case it hadn't, and twice more on a plain delay as a last resort.
+     It's idempotent (just re-checks which field is empty and (re)focuses
+     it), so calling it redundantly is harmless.
+
+     Only meaningful for the HTML editor (htmleditor=1 covers all compose
+     actions here) - a plain-text compose has no async TinyMCE init to
+     lose the fight against in the first place.
+    */
+    const restoreRecipientInputFocus = () => {
+        if (rcmail.env.action !== "compose") return;
+        const to = rcube_find_object("_to"),
+            subject = rcube_find_object("_subject"),
+            target = (to && to.value === "") ? to : ((subject && subject.value === "") ? subject : null);
+        if (!target) return;
+        if (target.recipientInput) target.recipientInput.userInput.focus();
+        else target.focus();
+    }
+
     const submitComposeOptions = () => {
         document.documentElement.queryElements("css:body.task-mail.action-compose #compose-content > form").forEach( form => form.addEventListener("formdata", function(ev) {
             document
@@ -1002,7 +1052,11 @@
             .addEventListener('menu-open', menu_toggle.bind(this))
             .addEventListener('menu-close', menu_toggle.bind(this))
             .addEventListener('listupdate', updateListModeToggle)
-            .addEventListener('insertrow', applyPriorityIndicator);
+            .addEventListener('insertrow', applyPriorityIndicator)
+            .addEventListener('editor-load', restoreRecipientInputFocus);
+        restoreRecipientInputFocus();
+        setTimeout(restoreRecipientInputFocus, 500);
+        setTimeout(restoreRecipientInputFocus, 1500);
 
         allowRendering();
     });

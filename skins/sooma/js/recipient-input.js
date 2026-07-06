@@ -14,6 +14,18 @@ window.sergiosgc.callOnLoad(function () {
 
             this.topElement.appendChild(element);
             this.submittedInput = element;
+            // Back-reference so other skin code (see ui.js's
+            // restoreRecipientInputFocus, called on the 'editor-load'
+            // rcmail event) can find the visible userInput given only
+            // the original hidden textarea - e.g. rcube_find_object('_to').
+            // Needed because "element" stays in the DOM (moved above, not
+            // removed) as this.submittedInput, still opacity:0 rather
+            // than display:none, so it's still focusable - and it's the
+            // exact node Roundcube core's autofocus logic in
+            // init_messageform() looks up and calls .focus() on by name,
+            // with no awareness that this class hid it behind a
+            // decorated visible replacement (2026-07-06).
+            element.recipientInput = this;
             this.parseRecipients();
             this.userInput.addEventListener("keyup", this.onKeyUp.bind(this));
             this.topElement.addEventListener("click", this.onRecipientClick.bind(this));
