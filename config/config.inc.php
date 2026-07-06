@@ -109,6 +109,13 @@ $config['language'] = 'pt_PT';
 //  4 - always, except when replying to plain text message
 $config['htmleditor'] = 1;
 
+// When replying, place the cursor above the quoted original message
+// (top posting) instead of the Roundcube default of below it, so
+// replying doesn't require scrolling past the whole quoted thread
+// before typing. 1 = top posting with the quote still indented;
+// 2 would do the same without indenting the quote.
+$config['reply_mode'] = 1;
+
 $config['skin'] = 'sooma';
 
 $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
