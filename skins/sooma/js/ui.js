@@ -691,6 +691,98 @@
         sync();
     }
     /*
+     A/B comparison of 3 candidate visual treatments for marking message-list
+     rows as high/low priority, WITHOUT turning on the 'priority' list
+     column (Manuel explicitly doesn't want an extra column - the column
+     only shows a small icon in its own <td>, whereas these paint the
+     row/subject itself). Server-side, program/actions/mail/index.php
+     already puts the raw X-Priority value into every row's flags
+     unconditionally (`$a_msg_flags['prio']`) regardless of which columns
+     are configured to display - list_cols only gates the <td> markup for
+     an explicit "priority" column, not whether the flag data reaches the
+     client. rcmail's own init_message_row() then `$.extend`s those flags
+     directly onto the <tr> DOM node and fires a public 'insertrow' event
+     - that's the hook used here instead of touching list_cols at all.
+
+     Manuel compared 3 candidate styles live (bar on the row's left edge,
+     dot before the subject text, and a corner triangle mirroring
+     flagged.svg) and picked the dot (2026-07-06) - see _list.scss.
+    */
+    const applyPriorityIndicator = (e) => {
+        // e.row is list.js's internal row RECORD ({uid, id, obj, ...} -
+        // see program/js/list.js's this.rows[uid] = {uid, id:row.id,
+        // obj:row}), not the <tr> itself - the actual DOM node this
+        // record wraps is e.row.obj. flags (including .prio, merged in by
+        // app.js's init_message_row via $.extend) live on the record, so
+        // e.row.prio is correct, but classList/querySelector need .obj.
+        const record = e && e.row;
+        const tr = record && record.obj;
+        if (!tr) return;
+        tr.classList.remove("priority-high", "priority-low");
+        const oldDot = tr.querySelector(".priority-indicator-dot");
+        if (oldDot) oldDot.remove();
+        const prio = record.prio;
+        // Mapping from rcmail_sendmail.php's priority_selector(): 1/2 =
+        // highest/high, 4/5 = low/lowest, 0 (or absent) = normal - and
+        // normal never even reaches here since the server only sets
+        // flags.prio `if (!empty($header->priority))`, so 0 is skipped
+        // upstream already.
+        if (prio === 1 || prio === 2) {
+            tr.classList.add("priority-high");
+        } else if (prio === 4 || prio === 5) {
+            tr.classList.add("priority-low");
+        } else {
+            return;
+        }
+        const subject = tr.querySelector("td.subject span.subject");
+        if (subject) {
+            const dot = document.createElement("span");
+            dot.className = "priority-indicator-dot";
+            subject.insertBefore(dot, subject.firstChild);
+        }
+    }
+    /*
+     Same dot indicator as applyPriorityIndicator above, but for the
+     single-message reading view (action=show, loaded in the
+     #messagecontframe iframe) instead of the message list row. This
+     view's own ui.js load runs independently inside that iframe (see
+     footer.html: /js/ui.js is included unconditionally, framed or not),
+     so this just runs alongside everything else in the same
+     window.addEventListener('load', ...) below.
+
+     Unlike the list, Roundcube core here already renders the priority
+     value unprompted - program/actions/mail/show.php's messageHeaders
+     object always includes a 'priority' row (never excluded by either
+     skin's message.html), producing
+     <td class="header priority"><span class="prioN">...</span></td>
+     inside table.header-headers. That table is only shown when Manuel
+     expands "Cabeçalhos"/full headers though, so on its own it doesn't
+     satisfy "junto ao assunto" - this reads that already-correct prioN
+     value and mirrors it as a dot next to the subject, which is always
+     visible.
+    */
+    const applyMessageViewPriorityIndicator = () => {
+        const prioSpan = document.querySelector("#message-header td.header.priority span[class^='prio']");
+        const subject = document.querySelector("#message-header h2.subject");
+        if (!subject) return;
+        const oldDot = subject.querySelector(".priority-indicator-dot");
+        if (oldDot) oldDot.remove();
+        if (!prioSpan) return;
+        const match = prioSpan.className.match(/prio(\d)/);
+        if (!match) return;
+        // Same 1/2 = high, 4/5 = low mapping as applyPriorityIndicator
+        // (rcmail_sendmail.php's priority_selector()); 3/absent = normal,
+        // which core never even renders a prioN span for.
+        const prio = parseInt(match[1], 10);
+        let level = null;
+        if (prio === 1 || prio === 2) level = "priority-high";
+        else if (prio === 4 || prio === 5) level = "priority-low";
+        if (!level) return;
+        const dot = document.createElement("span");
+        dot.className = "priority-indicator-dot " + level;
+        subject.insertBefore(dot, subject.firstChild);
+    }
+    /*
      Prepare checkboxes for CSS styling. This involves wrapping the checkbox in a label with the
      custom-control class. Styling happens in widgets/_checkbox.scss.
 
@@ -892,6 +984,7 @@
         hideComposeFromIfSingle();
         moveComposeFromToHeader();
         buildPriorityDots();
+        applyMessageViewPriorityIndicator();
         wrapCheckboxes();
         setupTabbed();
         rearrangeContactEditForm();
@@ -908,7 +1001,8 @@
         rcmail
             .addEventListener('menu-open', menu_toggle.bind(this))
             .addEventListener('menu-close', menu_toggle.bind(this))
-            .addEventListener('listupdate', updateListModeToggle);
+            .addEventListener('listupdate', updateListModeToggle)
+            .addEventListener('insertrow', applyPriorityIndicator);
 
         allowRendering();
     });

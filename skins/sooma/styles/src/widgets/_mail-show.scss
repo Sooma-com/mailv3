@@ -48,6 +48,28 @@ body.task-mail.action-show {
 
     .subject {
       grid-area: subject;
+
+      // High/low priority indicator dot, mirroring the one used in the
+      // message list (skins/sooma/js/ui.js's applyMessageViewPriorityIndicator,
+      // styles/src/layout/_list.scss) - reads the prioN class Roundcube
+      // core already renders in the (normally hidden) header-headers
+      // table and prepends this dot right before the subject text.
+      .priority-indicator-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: middle;
+
+        &.priority-high {
+          background: var(--color-error);
+        }
+
+        &.priority-low {
+          background: var(--color-priority-low);
+        }
+      }
     }
 
     .header {
