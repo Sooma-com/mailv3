@@ -671,6 +671,59 @@
           }
         }
       }
+
+      // Manuel asked (2026-07-10) for the "Sem" week-number column to
+      // read as distinct from the day-of-month numbers next to it -
+      // confirmed live they were rendering identically (same 13px/400
+      // weight/--color-font as every day cell, since .ui-datepicker-
+      // week-col picked up nothing beyond the bare th/td rules above).
+      // Both the header cell and its data cells share this one class
+      // (jquery-ui's own markup - a plain "27" td with no <a>, unlike
+      // every real day cell), so a single selector covers both ends of
+      // the column at once. First pass used --color-black-shade-text
+      // (this codebase's "de-emphasized/secondary" convention) at 11px -
+      // Manuel tried that live and called it too washed out to read at a
+      // glance, and asked for the template's own primary color instead:
+      // --color-main (the brand red), same variable "Hoje"'s own circle
+      // marker uses elsewhere in this file - reads as a clear, intentional
+      // accent rather than muted-to-the-point-of-illegible (Manuel,
+      // 2026-07-10).
+      // Went through a few passes here (2026-07-10): muted grey text,
+      // then --color-main text on every week, then a lighter background
+      // on every week on top of that - Manuel tried each live and ended
+      // up asking for something narrower: leave every ordinary week's
+      // "Sem" cell mostly alone (matching the day-of-month cells beside
+      // it - no font-size/color override), and reserve --color-main for
+      // just the *current* week's number, as a "you are here" marker
+      // rather than a permanently styled column. tr:has(.ui-datepicker-
+      // today) picks out the one row containing today's own day cell
+      // (jquery-ui's own class, confirmed live on the "7" cell) - its own
+      // .ui-datepicker-week-col sibling is the only one this touches.
+      tr:has(.ui-datepicker-today) .ui-datepicker-week-col {
+        color: var(--color-main);
+      }
+
+      // Whole-column background (a hsl(from var(--color-light-gray) ...)
+      // tint, tried at a couple of shades) got dropped again right after
+      // adding the bold weight below - once every cell in the column
+      // reads bold, that alone already does the "this column is
+      // different" signalling the tint was there for, without stacking a
+      // second visual treatment on top or running a vertical band down
+      // every row of an otherwise plain grid (Manuel, 2026-07-10 - agreed
+      // live rather than pushing back: bold weight plus --color-main on
+      // the current week above already carries the distinction on its
+      // own).
+      //
+      // Bolded here (Manuel, 2026-07-10) - the header cell (a plain
+      // <th>) was already bold by browser default, but the week-number
+      // <td>s below it were still inheriting the table's own plain 400
+      // weight, same as every day-of-month cell. Restating it here makes
+      // the whole column - header and every week number alike, current
+      // week included - consistently bold, rather than just the header
+      // standing out on its own.
+      .ui-datepicker-week-col {
+        font-weight: 700;
+      }
     }
   }
 

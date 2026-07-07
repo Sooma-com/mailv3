@@ -23222,6 +23222,12 @@ body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepick
   background-color: var(--color-main);
   color: var(--color-main-contrast);
 }
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar tr:has(.ui-datepicker-today) .ui-datepicker-week-col {
+  color: var(--color-main);
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar .ui-datepicker-week-col {
+  font-weight: 700;
+}
 body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-list-header {
   text-align: left;
   padding-left: 1rem;
