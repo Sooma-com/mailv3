@@ -42,7 +42,6 @@
   tr > td.section::before {
     @include fa.fa-icon();
     padding-right: 0.3rem;
-    font-weight: 200;
   }
   tr.general > td.section::before {
     content: fa.fa-content(fa.$var-display);
@@ -79,7 +78,6 @@
   td.section::before {
     @include fa.fa-icon();
     padding-right: 0.5rem;
-    font-weight: 200;
   }
   tbody > tr.settings > td.section::before {
     content: fa.fa-content(fa.$var-envelope-ribbon);
@@ -87,16 +85,81 @@
   tbody > tr.certificates_title > td.sooma_smime_my_certificates_item::before {
     @include fa.fa-icon();
     padding-right: 0.5rem;
-    font-weight: 200;
     content: fa.fa-content(fa.$var-award-simple);
   }
   tbody > tr.certificates_title > td.sooma_smime_public_certificates_item::before {
     @include fa.fa-icon();
     padding-right: 0.5rem;
-    font-weight: 200;
     content: fa.fa-content(fa.$var-globe);
   }
   tbody > tr.public_certificates_item > td.section::before {
     content: fa.fa-content(fa.$var-certificate);
+  }
+}
+
+// Every Settings sub-page (folders, identities, responses, filters...)
+// renders its own #layout-list > .header > span.header-title straight from
+// the template, already carrying that page's own label ("Pastas",
+// "Identidades", ...) via the same roundcube:label used in the panel1 nav.
+// layout/_list.scss hides it globally, since in Mail's message list a
+// repeated "A receber" title next to the sidebar would be redundant — but
+// here it's the only thing telling you which section's list panel2 is
+// showing, so it's worth surfacing just in Settings.
+//
+// The "#layout" ancestor below is deliberate, not decorative: the global
+// hide rule compiles to "...> #layout #layout-list > .header >
+// span.header-title" (two IDs), so a version of this selector with only
+// one ID (#layout-list) loses the specificity fight and stays hidden
+// despite computing to display:block. Repeating the same two-ID shape is
+// the simplest way to win without reaching for !important.
+// Clicking a folder/identity/response row adds .selected (confirmed live —
+// Roundcube core does this regardless of skin), and widgets/_listing.scss
+// already has a rule for it: ".listing li.selected { color:
+// var(--selected-color); ...}". But that custom property is only ever
+// *defined* on #layout-sidebar (panel1's task nav, e.g. "Preferências" /
+// "Pastas"), which is why panel1's own active section goes maroon but
+// panel2's selected folder just goes bold black — var(--selected-color)
+// resolves to nothing there. Defining the same variables on #layout-list
+// (using its own background/foreground tokens, already set two rules
+// down in layout/_list.scss) makes panel2's selection match panel1's.
+#layout #layout-list {
+  --selected-color: var(--color-main);
+  --selected-background: var(--color-layout-list-background);
+  --not-selected-color: var(--color-layout-list-foreground);
+  --not-selected-background: var(--color-layout-list-background);
+
+  &>.header {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+
+    &>span.header-title {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-label);
+    }
+  }
+}
+
+// Panel3 — the folder/identity/etc. edit pane — sits flush against the top
+// and left edge with no breathing room: the "+Criar/Eliminar/Esvaziar"
+// toolbar touches the top-left corner, and the iframed property form's
+// "LOCALIZAÇÃO" heading touches the divider line. Scoped to Settings only:
+// #layout-content/.iframe-wrapper is shared with Mail's message-preview
+// pane and Contacts' contact-view pane, both already fine as-is, so this
+// shouldn't move anything there.
+#layout #layout-content {
+  &>.header {
+    padding-left: 1rem;
+  }
+
+  .iframe-wrapper {
+    // Needed so the added padding insets the iframe instead of pushing
+    // its total box past the 100%/100% it's given by layout/_content.scss.
+    box-sizing: border-box;
+    padding-top: 1rem;
+    padding-left: 1rem;
   }
 }

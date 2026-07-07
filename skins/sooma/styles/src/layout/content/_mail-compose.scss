@@ -15,7 +15,22 @@
 
   &>.header {
     position: relative;
-    min-height: 2.2rem;
+    // No reserved height by default - with title/back-button/task-menu
+    // hidden below and #messagetoolbar relocated into #localmenu
+    // (ui.js's moveComposeToolbarToLocalMenu), this band has nothing of
+    // its own to show most of the time. It only earns height back when
+    // "From" (moveComposeFromToHeader, ui.js) actually has something to
+    // display - accounts with a single identity never show it
+    // (hideComposeFromIfSingle) and get the fully collapsed band instead
+    // of a blank gap reserved for a control they can't use (Manuel,
+    // 2026-07-04).
+    min-height: 0;
+    display: flex;
+    align-items: center;
+
+    &:has(#compose_from:not(.hidden)) {
+      min-height: 2.2rem;
+    }
 
     &>span.header-title,
     &>.back-sidebar-button,
@@ -23,6 +38,47 @@
       display: none;
     }
 
+    // Was a normal stacked .form-group.row (label above input, like Para/
+    // Cc/Bcc/Assunto below) - moved here, it needs its own compact,
+    // single-line layout instead: labeled inline, sized to its own content
+    // rather than the 83.33%-wide .col-10/.input-group treatment those
+    // rows use (widgets/_forms.scss), which assumed a full-width row of
+    // its own to stretch into.
+    #compose_from {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      label {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+        // none, not the generic .formcontent label's uppercase default:
+        // Para/Cc/Bcc/Assunto's own labels below are already normalized to
+        // sentence case (#compose-headers label, above) - matching that
+        // instead of the generic default keeps "De" reading the same way
+        // as its neighbors instead of standing out as "DE".
+        text-transform: none;
+        color: var(--color-label);
+        white-space: nowrap;
+      }
+
+      .col-10 {
+        width: auto;
+      }
+
+      .input-group {
+        width: auto;
+      }
+
+      select {
+        width: auto;
+        height: auto;
+        padding: 0.3rem 1.75rem 0.3rem 0.6rem;
+        margin: 0;
+        font-size: 0.9rem;
+      }
+    }
   }
 
   .input-group>.input-group-append a.icon,
@@ -45,11 +101,14 @@
 
   }
 
+  // Used to sit in-flow, in its old white-background spot right below this
+  // header and above Para/Cc/Bcc, with a border-bottom to separate the two
+  // - now that ui.js's moveComposeToolbarToLocalMenu relocates it into the
+  // dark #localmenu bar (_headermenu.scss), that border and the vertical
+  // padding/margin around it would just be a stray line and dead space
+  // floating inside the dark bar, so they're dropped rather than carried
+  // over (Manuel, 2026-07-04).
   #messagetoolbar {
-    border-bottom: 1px solid var(--color-medium-gray);
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-
     a.options {
       display: none;
     }
@@ -65,6 +124,25 @@
     .send {
       padding-left: 2rem;
       padding-right: 2rem;
+      // Bootstrap's default .btn margin is 0.65rem, symmetric top+bottom -
+      // that's what actually pinned "Enviar" above the window's bottom
+      // edge, not #layout-content's 1rem/16px padding alone. Between the
+      // two, the button sat 26.4px up (16 + 10.4), overshooting the 16px
+      // match to Para's left-edge gap, so margin-bottom got zeroed to land
+      // the button's own visible edge flush with that 16px (Manuel,
+      // 2026-07-04).
+      //
+      // margin-top is now declared explicitly here, at the same 0.65rem
+      // Bootstrap already defaulted to, rather than left to inherit it:
+      // Manuel liked the resulting proportion (top gap to the message body
+      // = 65% of the bottom gap to the window edge) and wants it treated
+      // as an intentional ratio, not an accident of whatever Bootstrap's
+      // .btn margin happens to be. Writing it down here means it can't
+      // silently drift if that framework default ever changes, or if
+      // "Enviar" stops inheriting .btn's base styles later (Manuel,
+      // 2026-07-04).
+      margin-top: 0.65rem;
+      margin-bottom: 0;
 
       &::before {
         @include fa.fa-icon();
@@ -85,43 +163,230 @@ div.form-group.row:has(>label[for='compose-keep-formatting']) {
  display: none;
 }
 
+// Cc/Bcc used to render as their own .form-group.row below "Para" (ui.js's
+// moveComposeCCandBCCButtons) - but #compose_to's .col-10 only claims
+// 83.33% width (widgets/_forms.scss's generic .col-10 rule), vestigial
+// from a side-by-side label+input layout this skin doesn't actually use
+// (labels stack above their inputs here, not beside them), leaving an
+// unused ~16.7% gap at the row's right edge, right next to the
+// recipient-picker icon.
+//
+// Went through a few absolute-positioning attempts to land Cc/Bcc in that
+// margin, then a flexbox version (.col-10 widened to 100%, Cc/Bcc appended
+// as ordinary trailing flex items after the icon, "To" input's flex: 1
+// absorbing whatever's left) that finally got a single row's icon+input
+// split right: dynamic, no wasted width, no clipping, no magic numbers.
+//
+// But that fix only ever touched #compose_to. Cc/Bcc/Assunto's rows kept
+// the old 83.33%-width .col-10, so once Cc/Bcc are expanded (Para's
+// trailing group shrinks back to icon-only, same as Cc/Bcc's own rows)
+// the *rows* still don't match: Para spans the row's full width while
+// Cc/Bcc/Assunto stop at 83.33% - matching by coincidence, not because
+// their inputs are actually aligned (Manuel noticed this once Cc/Bcc were
+// both expanded, 2026-07-04).
+//
+// A single row's flexbox can't fix that: flex only balances items within
+// *one* flex container, so each row's input still gets sized independent
+// of its neighbors. What's needed is one shared column - sized once,
+// reused by every row - for "whatever trailing icons/buttons this row
+// happens to have," so every row's input stops at the same edge. That's
+// exactly what CSS grid tracks are, and subgrid lets each row's own
+// input/icon split reuse its *ancestor's* tracks instead of establishing
+// its own: the shared "auto" column ends up exactly as wide as whichever
+// row's trailing content is currently the widest (Para's, whenever Cc/Bcc
+// are still sitting there unclicked), and every row's input - Para, Cc,
+// Bcc, Assunto - stops at that identical boundary. Still dynamic, still
+// no magic numbers, but now aligned across rows instead of reset by each
+// row on its own.
+.compose-headers {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.5rem;
+}
+
+.compose-headers > .form-group.row {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: auto auto;
+  grid-column: 1 / -1;
+
+  > label {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  // Unwrap - .col-10 only ever existed to cap width under the old
+  // label-above-input layout, so let its child become a direct
+  // participant in the row's subgrid instead of hiding it in a box the
+  // grid can't see through.
+  > .col-10 {
+    display: contents;
+  }
+}
+
+// Rows with an .input-group (Para/Cc/Bcc/Reply-To/Followup-To): input in
+// the shared 1fr column, the row's one trailing wrapper - "add contact"
+// icon alone on Cc/Bcc, icon+Cc+Bcc buttons on Para - in the shared auto
+// column next to it.
+.compose-headers .input-group {
+  display: contents;
+
+  > input {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  > .input-group-append {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+// Assunto (and any other icon-less row) has no .input-group to split -
+// pin its lone input to the same 1fr column the other rows' inputs use,
+// rather than the default auto-placement spanning both columns, so its
+// underline lines up with theirs instead of running under where their
+// icons sit.
+#compose_subject > .col-10 > input {
+  grid-column: 1;
+  grid-row: 2;
+  // Para/Cc/Bcc aren't plain <input>s - Roundcube renders them as
+  // div.recipient-input, which wraps its own visible typing-input in
+  // compact metrics of its own (widgets/_recipient-input.scss: line-height:
+  // 1, no padding, font-size: 1rem). Assunto has no such wrapper, so it
+  // fell through to .formcontent input's generic, much taller defaults
+  // (font-size: 1.2rem, line-height: 3, vertical margin) - sized for
+  // one-off forms elsewhere in the app (login, settings), not for sitting
+  // directly below three rows using the compact metrics. Matching those
+  // metrics here is what actually makes the vertical rhythm consistent
+  // across all four rows, not just their underlines' horizontal stop
+  // point (Manuel, 2026-07-04).
+  font-size: 1rem;
+  line-height: 1;
+  // Bottom margin can't do this job - a margin sits *outside* the border,
+  // so growing it only adds invisible dead space below the input's own
+  // visible bottom border, it never moves that border itself (confirmed
+  // live: setting margin-bottom to the needed 3px grew the row's track to
+  // the right total height but left the border exactly where it was,
+  // 3px short of the track's true bottom edge - the same failure mode as
+  // the flat-0 attempt before it, just relocated). Padding, being *inside*
+  // the border, is what actually pushes the border down to meet it.
+  //
+  // Target is Para/Cc/Bcc's row2 track height (32px, set by
+  // #compose_recipient_buttons - the trailing icon strip next to their
+  // input, not by their input itself). Assunto has no icon strip, so its
+  // own margin-box is what sizes its row2 track: margin-top(4px) +
+  // padding-bottom(needed) + content+border height(25px) = 32px, i.e.
+  // padding-bottom: 3px - with margin-bottom back to 0 so the border sits
+  // flush with the track's true bottom edge instead of short of it
+  // (Manuel, 2026-07-04).
+  margin: 0.25rem 0 0;
+  padding: 0 0 0.1875rem;
+}
+
 #compose_recipient_buttons {
+  // This is now the SAME span as Para's default "add contact" icon
+  // wrapper (ui.js appends Cc/Bcc's buttons into it directly rather than
+  // a separate sibling span) - switching it from the generic
+  // one-icon-per-line default to a single-line row, with dividers
+  // between icon/Cc/Bcc since, unlike the plain icon, Cc and Bcc render
+  // as short text rather than a glyph and need a visual separator to
+  // read as distinct buttons rather than one run-on label.
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
 
-  div {
-    a {
-      color: inherit;
-      text-decoration: none;
-      display: inline-block;
-      border-right: 1px solid var(--color-input-border);
-      padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-      margin-bottom: 1rem;
+  a {
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    border-right: 1px solid var(--color-input-border);
+    margin: 0;
+    padding: 0.5rem 0.5rem;
 
-      &:last-child {
-        border-right: none;
-      }
-
-      &:hover,
-      &:focus,
-      &:focus-within,
-      &:focus-visible,
-      &:target,
-      &:active,
-      &:visited,
-      &:link {
-        color: inherit;
-      }
-
-      &.disabled {
-        opacity: 0.5;
-        cursor: default;
-      }
-
+    &:last-child {
+      border-right: none;
     }
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:focus-visible,
+    &:target,
+    &:active,
+    &:visited,
+    &:link {
+      color: inherit;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
   }
 }
 
 #compose-headers label {
   text-transform: none;
+  // Each row's only visible "line" is the previous row's own input
+  // underline (border-bottom - see #compose-content .formcontent input's
+  // transparent top/left/right borders in _layout.scss), and labels had
+  // no top margin of their own, so each one sat flush against the line
+  // above it. Manuel's request (2026-07-04).
+  margin-top: 0.75rem;
+}
+
+// Para/Cc/Bcc/Replyto/Followupto render as div.recipient-input
+// (widgets/_recipient-input.scss), not a plain <input> like Assunto - and
+// with no recipients typed in yet, that div's own border-bottom (its
+// visible "line") sits ~4px below its inner <input>'s own bottom edge,
+// purely because the input carries a symmetric margin: 0.25rem 0. The
+// *top* margin earns its keep (matches the label-to-field gap Assunto's
+// bare input gets for free from the row's own layout), but the bottom
+// half doesn't - it just adds dead space the container's border-bottom
+// has to stretch to include, throwing Para's label-to-line distance off
+// from Assunto's by that same ~4px (Manuel, 2026-07-04). Scoped to compose
+// specifically rather than editing the shared widget rule directly, since
+// div.recipient-input is reused elsewhere in the app (contact groups,
+// etc.) this session hasn't touched or verified.
+//
+// Only matters with zero recipients typed in: once there's at least one
+// chip, its own margin-bottom (unaffected by this) already determines the
+// container's bottom edge instead.
+#compose-headers .recipient-input > input {
+  margin-bottom: 0;
+}
+
+// The first row in .compose-headers - always Para now, since ui.js's
+// moveComposeFromToHeader relocates "De" out into the page header band
+// above (present or not) - isn't preceded by another row's underline the
+// way Cc/Bcc/Assunto are below it. The 0.75rem margin-top above, stacked
+// on #layout-content's own 1rem padding-top (_layout.scss), left 28px of
+// vertical space above "Para" against only 16px to its left - inconsistent
+// with nothing to visually justify the extra 12px here specifically.
+// Zeroing it out on just the first row matches that horizontal gap exactly
+// (2026-07-04).
+//
+// Needs the #compose-headers ID prefix (not just .compose-headers, the
+// inner wrapper div it's nested in), or this loses the specificity fight
+// with the rule right above: an ID beats any number of classes regardless
+// of how many are stacked on the losing side.
+#compose-headers .form-group.row:first-child label {
+  margin-top: 0;
+}
+
+// ...except when "De" IS visible just above, in the header band - #compose_to
+// stays .compose-headers' structural first-child either way (De lives over
+// in #layout-content > .header, never a sibling inside .compose-headers
+// itself), so "first-child" alone can't tell these two cases apart. Without
+// this, De's own row and Para ended up touching (~1px apart) with nothing
+// to separate them, unlike every other adjacent pair of rows. Deliberately
+// not tested visually yet - Manuel's asked to hold off on the
+// multiple-identities case for now (2026-07-04) - but left correct rather
+// than shipping the zeroed-out margin unconditionally.
+#layout-content:has(#compose_from:not(.hidden)) #compose-headers .form-group.row:first-child label {
+  margin-top: 0.75rem;
 }
 
 #uploadform {
@@ -129,23 +394,418 @@ div.form-group.row:has(>label[for='compose-keep-formatting']) {
 }
 
 #layout-sidebar {
+  // #layout-sidebar's own 16px padding (all four sides, Roundcube core)
+  // was stacking with #compose-options's border-spacing top-inset below,
+  // putting 26.4px total between the dark #localmenu bar above and
+  // "Email registado"'s toggle (16px sidebar padding + 10.4px table
+  // inset), not the 10.4px Manuel wants there. Zeroing just this side
+  // leaves border-spacing as the sole source of that gap, while left/
+  // right/bottom padding (e.g. the row labels' own left-edge inset) stay
+  // untouched (Manuel, 2026-07-04).
+  padding-top: 0;
+
   &>.header {
     min-height: 0;
   }
 
+  // #compose-attachments and #compose-options (Recibo de leitura/Recibo de
+  // entrega/Prioridade/Email registado) are plain siblings inside the
+  // sidebar's own .scroller (Roundcube core), attachments first in markup
+  // order. Attachments are the one part of this sidebar that grows
+  // unpredictably - zero files today, a dozen tomorrow - while the options
+  // below are fixed-height and rarely touched. With attachments first,
+  // adding enough files pushed the options further down the shared scroll
+  // area every time, so toggling something as simple as "Recibo de
+  // leitura" meant scrolling past however many files happened to be
+  // attached. Flipping the *visual* order - without touching markup, so
+  // Roundcube's own attachment-list JS keeps targeting the same DOM
+  // position - keeps the fixed controls reachable at a glance regardless
+  // of how long the attachment list gets (Manuel, 2026-07-04).
+  .scroller {
+    display: flex;
+    flex-direction: column;
+    // With enough attachments, this became the single scroll container for
+    // *both* #compose-options and #compose-attachments together, so
+    // scrolling to reach a toggle at the top also scrolled the attachment
+    // list out of view underneath it. Turning this element's own scrolling
+    // off and instead making #compose-attachments the one internally-
+    // scrolling child (below) keeps #compose-options fixed in place and
+    // contains the scrollbar to just the attachment box, as Manuel wants
+    // (Manuel, 2026-07-04).
+    overflow: hidden;
+  }
+
+  #compose-options {
+    order: 1;
+    // Fixed size, never grows/shrinks - #compose-attachments (below) is the
+    // one flexible child that absorbs any extra space and does its own
+    // internal scrolling instead (Manuel, 2026-07-04).
+    flex: 0 0 auto;
+
+    // Uniform 0.65rem/10.4px vertical rhythm between every row in this
+    // section - top bar to "Email registado", then each row down to
+    // "Prioridade" - same unit "Enviar" uses above the message body (see
+    // .formbuttons .send). Manuel wants all of this sidebar's row-to-row
+    // spacing pinned to that one shared value rather than left at today's
+    // 0 (Manuel, 2026-07-04).
+    //
+    // border-spacing, not padding/margin on the rows themselves: this
+    // element matches widgets/_forms.scss's table-layout hack
+    // (".formcontent:has(> .form-group.row)"), forcing every direct
+    // .form-group.row child to display:table-row and their own children
+    // to display:table-cell. Margin has no effect on table-row/table-cell
+    // (CSS table layout algorithm ignores it), and padding-top on the
+    // cells was tried first but broke each row's internal alignment - a
+    // row's label cell and its value cell can have different natural
+    // heights (e.g. "Certificado (S/MIME)"'s single-line label next to
+    // its two-line Assinar/Encriptar toggle-group), and vertical-align:
+    // middle centers each cell's content independently, so adding padding
+    // per-cell shifted the label and its control out of alignment with
+    // each other instead of just spacing the row from its neighbor.
+    // border-spacing operates on the table/row boundaries themselves, so
+    // it adds space between rows (and between the table's own top/bottom
+    // edge and its first/last row) without touching any row's internal
+    // layout. The same div-as-table + border-spacing pairing is already
+    // used elsewhere in this skin for HTML-email-derived layouts (see
+    // widgets/_dialogs.scss, _mail-show.scss, _mail-preview.scss).
+    // Horizontal spacing stays 0 - only the row-to-row rhythm changes.
+    border-collapse: separate;
+    border-spacing: 0 0.65rem;
+
+    // Every row's .toggle-group value cell (Certificado's and Recibos's
+    // alike) is display:flex, not display:table-cell like this table hack
+    // expects (see the override further down) - so unlike a normal cell,
+    // it doesn't get vertical-align:middle centering within its row's full
+    // height, and its content (the toggle-items) starts flush at the
+    // row's own top edge. Measured ink-to-ink from the *previous* row's
+    // toggle to a toggle-item's own caption (e.g. "Email registado" to
+    // "Assinar", or "Assinar" to "Leitura") came out to ~15px (10.4px
+    // border-spacing + ~4.6px of the caption text's own invisible
+    // ascender headroom above its visible glyph ink), not the 10.4px
+    // Manuel wants. Pulling every toggle-item up by that same ~4.6px
+    // closes the gap uniformly, without touching border-spacing itself
+    // (which the label-cell rows, e.g. "Certificado (S/MIME)" itself,
+    // still depend on) (Manuel, 2026-07-04).
+    .toggle-item {
+      margin-top: -4.6px;
+    }
+
+    // Third pass on Recibo de leitura/entrega: "Leitura"/"Entrega" captioned
+    // above the sidebar's usual active/inactive pill toggle (Manuel,
+    // 2026-07-04). The label-above-pill layout itself (.toggle-group/
+    // .toggle-item) is the shared widget in widgets/_toggle-group.scss now -
+    // extracted once the same pattern was needed a second time for the
+    // Certificado (S/MIME) row (2026-07-04).
+    //
+    // One override IS still needed here though: widgets/_forms.scss makes
+    // this whole sidebar's rows behave like an HTML table (".formcontent >
+    // div:has(> .form-group.row) > .form-group.row > *" forces every row's
+    // direct children, including the .col-6 div .toggle-group lives on, to
+    // display: table-cell) at a specificity - four classes/pseudo-classes -
+    // that beats the widget's own bare ".toggle-group { display: flex }"
+    // (one class). Without this, .toggle-group falls back to table-cell and
+    // its two .toggle-item children stack vertically instead of sitting
+    // side by side. Re-declaring display:flex under the "#compose-options"
+    // id selector restores enough specificity to win, and since the
+    // Certificado (S/MIME) row (sooma_smime plugin) renders into this same
+    // #compose-options container, this one override covers both usages
+    // (Manuel, 2026-07-04).
+    .toggle-group {
+      display: flex;
+    }
+
+    // "Certificado digital" and "Recibos"'s own labels sit vertically
+    // centered across their *row's* full height (table-cell + vertical-
+    // align: middle, from the table-layout hack above). First pass here
+    // aligned the label with the toggle-item *captions* ("Assinar"/
+    // "Encriptar", "Leitura"/"Entrega") instead, since those sit flush at
+    // the row's own top edge - that cell's own display: flex override,
+    // just above, escapes table-cell layout entirely, so it was never
+    // part of the centering in the first place. Manuel clarified he
+    // actually wants the label aligned with the *pill switches*
+    // themselves (label.custom-control, widgets/_checkbox.scss), not
+    // their captions above them - a screenshot of the caption-aligned
+    // result made this explicit. -1.7656px is live-measured
+    // (Range.getBoundingClientRect ink-to-ink comparison between the
+    // label's text and the switch's own box center - align-items: center
+    // on label.custom-control keeps the switch centered in its own box
+    // regardless of that box's total height, so the box's own center is
+    // reliable here even though that height itself isn't fully accounted
+    // for by its own children). Both rows need the same offset, since the
+    // switch widget and font metrics are shared between them. position:
+    // relative + top, not margin - margin has no effect on this table-
+    // cell (same reason border-spacing exists further up), and unlike a
+    // margin/padding change, position: relative's visual offset doesn't
+    // touch the row's own rendered height, so nothing below either row
+    // moves (Manuel, 2026-07-04).
+    .form-group.row:has(.toggle-group) > label {
+      position: relative;
+      top: -1.7656px;
+    }
+
+    // Same idea as the toggle-group rows above, for the two remaining
+    // "label + control(s)" rows that aren't a toggle-group: Email
+    // registado's label against its own lone pill (label.custom-control,
+    // widgets/_checkbox.scss - .col-6.form-check here was never given a
+    // display: flex override the way .toggle-group was, so it's still a
+    // plain table-cell, and its vertical-align: middle centering was
+    // already close to the label's own centering, hence the much smaller
+    // offset than the toggle-group rows needed), and Prioridade's label
+    // against its dots (.priority-dots already escapes table-cell layout
+    // via its own cell override further down, same reasoning as the
+    // toggle-group case). Both offsets are live-measured the same way -
+    // Range.getBoundingClientRect ink center for the label text, plain
+    // getBoundingClientRect center for the pill/dot (Manuel, 2026-07-04).
+    #compose-registered-row > label.col-form-label {
+      position: relative;
+      top: -3.796875px;
+    }
+
+    .form-group.row:has(.priority-dots) > label {
+      position: relative;
+      top: -4.59375px;
+    }
+
+    // .help-tip itself (the circled "?" + bubble) is the shared widget in
+    // widgets/_help-tip.scss now - standardized skin-wide after Manuel
+    // researched it against a plain "[?]" bracket-text alternative and
+    // kept the circle (2026-07-04). Its default top+left bubble position
+    // already matches what this row needs (open downward - this row sits
+    // near the top of the sidebar's own scrollable area, .scroller, and
+    // opening upward got clipped by that ancestor's overflow on first
+    // attempt; open left-aligned - nothing here needs the few px of
+    // right-edge nudging the original one-off version had), so no override
+    // is needed at this specific call site.
+
+    // Unlike Recibos, "Email registado" and "Certificado digital"'s own
+    // label text is long enough that their .help-tip icon sits well into
+    // the row rather than right at its start - the bubble's default
+    // left: 0 (opens rightward from the icon) ran out of room before the
+    // sidebar's own right edge at normal window widths, so its last few
+    // pixels (and whatever text happened to fall there) got clipped by
+    // .scroller's overflow: hidden (Manuel reported this directly,
+    // 2026-07-04). Anchoring the bubble to its *row* instead of the tiny
+    // icon fixes this regardless of label length or sidebar width - the
+    // row spans the sidebar's full content width, so right: 0 here can
+    // never overflow it the way anchoring to the icon could.
+    //
+    // This needs .help-tip itself set to position: static so the
+    // bubble's containing-block search skips past it and lands on the
+    // row instead, which means giving up automatically tracking the
+    // icon's own bottom edge for vertical placement too - top has to be
+    // a fixed offset from the *row's* top edge instead. That offset
+    // isn't just the icon's own height + the widget's usual 8px gap,
+    // though - the icon doesn't sit flush with its row's top edge (the
+    // label cell's content is vertically centered within the row by the
+    // table-layout hack above), so each row needed its own live-measured
+    // value: 43px for Email registado, matching Certificado's own value
+    // below before its label got the toggle-group alignment fix further
+    // up. Both still work correctly regardless of how tall the row's
+    // *other* column is, since that's exactly what was measured against
+    // (Manuel, 2026-07-04).
+    #compose-registered-row,
+    #compose-smime-row {
+      position: relative;
+
+      .help-tip {
+        position: static;
+      }
+
+      .help-tip-bubble {
+        left: auto;
+        // Not right: 0 - the bubble's own box-shadow (widgets/_help-tip.scss,
+        // 15px blur) renders *outside* its border box, so flush against the
+        // row's own right edge meant the shadow's right side had nowhere to
+        // render but into .scroller's own overflow: hidden, which clipped
+        // it off entirely (no shadow visible on that side, unlike the other
+        // three). 16px - this skin's standard spacing unit, same as the
+        // sidebar's own padding - comfortably clears the blur radius
+        // (Manuel, 2026-07-04).
+        right: 16px;
+      }
+    }
+
+    // Email registado's own label also matches "#compose-registered-row >
+    // label.col-form-label" above (shifted up to align with its own pill
+    // switch) - and for the same reason as Certificado below, that
+    // position: relative shift makes the label - not the row - the
+    // bubble's actual containing block, breaking the row-anchoring set up
+    // above. #compose-registered-row's label is also a plain, fixed col-6
+    // (same 50/50 split as Certificado's), so the same right: calc(-100%
+    // + 16px) trick applies unchanged; top: 64.8px is this row's own
+    // fresh live-measured value (Manuel, 2026-07-04).
+    #compose-registered-row .help-tip-bubble {
+      right: calc(-100% + 16px);
+      top: 64.8px;
+    }
+
+    // Certificado's own label also matches ".form-group.row:has(.toggle-
+    // group) > label" above (shifted up to align with the Assinar/
+    // Encriptar pills) - and since that shift uses position: relative,
+    // the label itself becomes a *new* positioned ancestor sitting
+    // between .help-tip (kept position: static, above) and the row, so
+    // it - not the row - ends up as the bubble's actual containing block,
+    // silently breaking the row-anchoring this same block sets up for
+    // both rows. Rather than fight that, this recalibrates the bubble
+    // relative to the label instead of overriding it away. Because the
+    // label and the toggle-group are both a plain, unconditional "col-6"
+    // (an equal, fixed 50/50 split of the row that never depends on
+    // "Certificado digital"'s own text length or how it wraps), the
+    // label's width is always exactly equal to the *other* column's
+    // width - so anchoring 16px in from the label's own right edge via
+    // right: calc(-100% + 16px) (100% of the label's width standing in
+    // for the toggle-group's width) lands in exactly the same place the
+    // row-relative right: 16px above did, and stays just as robust to
+    // viewport width, without a hardcoded pixel guess that would only
+    // hold at one window size. top: 66.81px is a fresh live-measured
+    // value (opens the bubble right below the toggle-group's own
+    // switches, not just below the icon, so it doesn't cover them) -
+    // it'll need re-measuring again if the label's own vertical-align
+    // shift above ever changes (Manuel, 2026-07-04).
+    #compose-smime-row .help-tip-bubble {
+      right: calc(-100% + 16px);
+      top: 66.81px;
+    }
+
+    // Reduced from Roundcube's default 5-tier dropdown (Muito baixa/Baixa/
+    // Normal/Alta/Muito alta) to 3 colored dots (Baixa/Normal/Alta) - same
+    // simplification classic Outlook's own compose ribbon makes (it only
+    // ever exposes High/Normal/Low, never the two extremes), and every
+    // client researched treats a 5-level scale as at best an opt-in power-
+    // user setting, never a prominent one. #compose-priority itself stays
+    // in the DOM (hidden, not removed) since #compose-options's own
+    // "formdata" handler (submitComposeOptions, ui.js) already reads
+    // #compose-priority's .value on submit - the dots just drive that value
+    // instead of a dropdown UI, so nothing else needs to change (Manuel,
+    // 2026-07-04).
+    #compose-priority {
+      display: none;
+    }
+
+    // Unlike .toggle-group, this cell was never given its own display:flex
+    // override, so it stayed display:table-cell/vertical-align:middle per
+    // widgets/_forms.scss's table hack. That was invisible while the dots
+    // + their old "padding: 0.3rem 0" together filled the cell's natural
+    // height, but once margins started shrinking .priority-dots below the
+    // cell's own height (chasing the ink-to-ink gaps below), vertical-
+    // align:middle centered the now-"overflowing" dots symmetrically -
+    // every top/bottom margin split I tried kept landing both gaps at the
+    // same value instead of independently. Escaping table-cell layout the
+    // same way .toggle-group does removes that centering, so the dots sit
+    // exactly where their own margin says, top-anchored (Manuel,
+    // 2026-07-04).
+    .col-6:has(>.priority-dots) {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .priority-dots {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      // Was "padding: 0.3rem 0" (4.8px top+bottom), replaced with 0 - that
+      // padding was invisible dead space between the dots' real ink and
+      // this box's own edges, inflating both neighboring ink-to-ink gaps
+      // (Manuel, 2026-07-04).
+      padding: 0;
+      // Closes the gap from Recibos's toggles above down to 10.4px, now
+      // that the cell-level fix above means this margin isn't being
+      // partly absorbed by vertical-align centering (Manuel, 2026-07-04).
+      margin-top: -7.6px;
+      // margin-bottom here does NOT reach the attachment box below - that
+      // gap is set by #compose-options's own border-spacing bottom-inset,
+      // anchored to this *row's* box, not to .priority-dots itself (a
+      // margin-bottom tried here measured zero effect on it). See
+      // #compose-attachments's own margin-top instead for that gap
+      // (Manuel, 2026-07-04).
+
+      .priority-dot {
+        width: 18px;
+        height: 18px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        // Grey, not amber, for "normal": amber already means "warning" /
+        // "needs attention" everywhere else in this app (--color-warning),
+        // so using it here would wrongly suggest every ordinary email is
+        // cautionary. Grey instead matches how Outlook itself treats
+        // Normal priority - no marker at all - color only appears once you
+        // deviate from the default, in either direction (Manuel, 2026-07-04).
+        background: var(--color-medium-gray);
+
+        // Was --color-success (green) - that's a status color meaning
+        // "good/healthy", not a magnitude color meaning "low". Blue is the
+        // conventional low-priority hue instead (see global/_colors.scss's
+        // --color-priority-low, Manuel, 2026-07-04).
+        &.low {
+          background: var(--color-priority-low);
+        }
+
+        &.high {
+          background: var(--color-error);
+        }
+
+        &.active {
+          box-shadow: 0 0 0 2px var(--color-layout-content-background), 0 0 0 3.5px var(--color-font);
+        }
+      }
+    }
+  }
+
   #compose-attachments {
+    order: 2;
+    // First pass here was a flat "stop 16px before the window's bottom
+    // edge" margin-bottom, added when this box could still grow tall
+    // enough on its own to reach the window edge. Manuel then asked for
+    // something more specific: line this box's own bottom edge up with
+    // the compose editor's bottom edge (the message body area, Roundcube
+    // core) instead of just clearing an arbitrary gap from the window.
+    // There's no CSS anchor that naturally ties this sidebar box to the
+    // *editor's* bottom edge (they're unrelated subtrees - one a flex
+    // column in the sidebar, the other Roundcube's own iframe-based
+    // editor layout) - so this is a pragmatic fixed-offset match instead,
+    // 64.9px live-measured against the editor's own rendered bottom edge
+    // at a normal window size. It'll drift if the editor's own chrome
+    // (toolbar height, etc.) changes later, but Manuel accepted that
+    // tradeoff over the complexity of a JS-measured live sync for this
+    // (Manuel, 2026-07-04).
+    margin-bottom: 64.9px;
     display: block;
     border: 2px dashed var(--color-input-border);
     border-radius: 4px;
     padding: 1rem;
     text-align: center;
+    // Used to be height: auto, growing with #attachment-list's own content
+    // and relying on the *sidebar's* .scroller (Roundcube core) to scroll
+    // once that pushed past the window edge - but that made .scroller the
+    // single shared scroll container for both this box and #compose-options
+    // above it, so scrolling to reach "Email registado" also scrolled the
+    // attachment list out of view underneath it (Manuel reported this
+    // directly, 2026-07-04). flex: 1 1 auto instead makes this the one
+    // child that actually absorbs #layout-sidebar's leftover height (now
+    // that #compose-options above is pinned to flex: 0 0 auto and
+    // .scroller itself no longer scrolls, both above), and overflow-y:
+    // auto makes it scroll internally once #attachment-list's content
+    // exceeds that. min-height: 10rem only takes effect because of that
+    // overflow - flexbox's "automatic minimum size" (which would
+    // otherwise keep forcing this box to grow to fit its content,
+    // ignoring min-height entirely) drops to 0 once a flex item's own
+    // overflow is anything other than visible (Manuel, 2026-07-04).
+    flex: 1 1 auto;
     min-height: 10rem;
-    height: 30%;
-    background-image: url("/skins/sooma/images/download-b8b8b8.svg");
-    background-position: center bottom 10%;
-    background-repeat: no-repeat;
-    background-size: 15%;
+    overflow-y: auto;
 
+    // Was a background-image (images/download-b8b8b8.svg, then briefly a
+    // large fa.$var-upload glyph after fixing its direction to agree with
+    // the "Adicionar anexo" button above) - dropped entirely rather than
+    // just fixed. With files actually attached, this decorative icon sat
+    // inside the same dashed drop-zone as the attachment list itself
+    // (#attachment-list, below), competing with real content - a paperclip
+    // icon, a filename, and a delete icon - for attention instead of
+    // reinforcing it. The dashed border alone already signals "drop zone"
+    // once there's a use for one; the icon was pure decoration once
+    // anything was actually in the box (Manuel, 2026-07-04).
 
     button.btn:not(.btn-primary) {
       @include mixins.button;
@@ -199,7 +859,6 @@ div.form-group.row:has(>label[for='compose-keep-formatting']) {
           &.delete::before {
             @include fa.fa-icon();
             content: fa.fa-content(fa.$var-trash-can);
-            font-weight: 200;
             margin-right: 0.25rem;
             vertical-align: middle;
           }
@@ -222,7 +881,17 @@ div.form-group.row:has(>label[for='compose-keep-formatting']) {
 }
 
 div#compose-content {
-  height: calc(100% - 4rem);
+  // Was calc(100% - 4rem): a flat 64px reserved below the form, unused -
+  // a leftover from before #messagetoolbar moved into the dark #localmenu
+  // bar (moveComposeToolbarToLocalMenu, ui.js) this same session, back when
+  // this height needed to leave room for that toolbar sitting in-flow right
+  // above "Enviar". With nothing left down there to reserve room for, this
+  // just pushed "Enviar" up and left a dead gap between it and the window's
+  // own bottom edge - full 100% reclaims that space for the message body
+  // (#composebodycontainer's flex:1 below absorbs it automatically), and
+  // #layout-content's own 16px bottom padding is what's left to separate
+  // "Enviar" from the window edge (Manuel, 2026-07-04).
+  height: 100%;
   display: grid;
   grid-template: "form" 1fr
     "buttons" min-content / 1fr;
@@ -240,12 +909,39 @@ div#compose-content {
 
     &>#compose-headers {
       flex: 0;
+      // Was flush against the toolbar below it (0px gap) - Assunto's
+      // underline and the toolbar's own top edge touched directly, with
+      // nothing marking where "headers" end and "message body" begins
+      // (Manuel, 2026-07-04).
+      margin-bottom: 1.5rem;
     }
 
     &>#composebodycontainer {
       flex: 1;
       display: flex;
       flex-direction: column;
+      // With enough To/Cc/Bcc recipients, #compose-headers (flex: 0, just
+      // above) grows tall enough on its own content that this container
+      // used to get flex-shrunk all the way down to nothing - not just
+      // "smaller than ideal," but a literal 0px, leaving only the
+      // toolbar/buttons row visible with no message body at all (Manuel
+      // reported this directly, with a screenshot of exactly that,
+      // 2026-07-04). This container's own flex-shrink floor was
+      // effectively 0 rather than its content's natural size (the same
+      // "automatic minimum size drops to 0 once overflow isn't visible"
+      // mechanism as #compose-attachments elsewhere in this file - here
+      // the non-visible overflow lives somewhere inside TinyMCE's own
+      // .tox markup, not something this skin controls directly). An
+      // explicit min-height overrides that regardless of where it comes
+      // from - this container can still grow past it freely (flex: 1,
+      // unchanged), but never shrinks below it. The overflow this then
+      // pushes onto #compose-headers doesn't get lost - .formcontent.
+      // scroller (the shared element wrapping both, roundcube:object
+      // composeFormHead in compose.html) already has its own
+      // overflow-y: auto (_layout.scss's shared .scroller class), so an
+      // unusually long recipient list just scrolls within that instead of
+      // squeezing the message body away (Manuel, 2026-07-04).
+      min-height: 300px;
 
       &>.tox {
         flex: 1;

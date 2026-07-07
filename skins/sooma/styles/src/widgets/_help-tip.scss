@@ -1,0 +1,117 @@
+// Small "hover for help" affordance: a circled "?" that reveals a text
+// bubble on hover/focus. Extracted out of _mail-compose.scss (its first
+// use, on the compose sidebar's "Recibos" row) into a shared widget once
+// Manuel decided - after researching it against a plain "[?]" bracket-text
+// alternative - to standardize on this treatment skin-wide rather than
+// re-deriving it per feature (2026-07-04). Research findings: a circled
+// question mark is an actual standardized convention (macOS HIG ships a
+// native help-button control with exactly this shape; Font Awesome/
+// Bootstrap Icons/Material Symbols, Salesforce Lightning, and Ant Design
+// all encode it as a named primitive), whereas square brackets already
+// carry a competing, well-established meaning as placeholder/optional-
+// parameter notation ("[Nome]", "[Data]") - exactly the bracket
+// convention Portuguese legal document templates use, which risked "[?]"
+// reading as an unfilled template field rather than a help trigger for
+// this specific (Ordem dos Advogados) audience.
+//
+// Markup:
+//   <span class="help-tip" tabindex="0">
+//     <span class="help-tip-icon" aria-hidden="true">?</span>
+//     <span class="help-tip-bubble" role="tooltip">...explanation...</span>
+//   </span>
+//
+// Positioning notes for whoever reuses this next: the bubble defaults to
+// opening *below* and *left-aligned* with the icon. If the icon sits near
+// the top edge of a scrollable ancestor (overflow: hidden/auto/scroll),
+// opening upward will get silently clipped rather than shown - this
+// happened on first use here, in the compose sidebar's own .scroller.
+// Override .help-tip-bubble's top/bottom/left/right per usage site if the
+// surrounding layout needs it to open in a different direction.
+.help-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-medium-gray);
+  color: var(--color-medium-gray);
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: help;
+
+  .help-tip-bubble {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 210px;
+    // Reset explicitly: .help-tip-nowrap (below) wraps this whole .help-tip
+    // together with a label's last word so the icon can't break onto its
+    // own line, but white-space is an inherited property - without this
+    // reset the bubble silently inherited nowrap too, so its text stopped
+    // wrapping inside its own 210px box and overflowed way past it instead
+    // (607px of actual content width measured against a 234px box),
+    // getting clipped by the sidebar's own overflow: hidden further out.
+    // Caught via scrollWidth vs clientWidth comparison, not visually
+    // obvious from a screenshot alone (Manuel, 2026-07-04).
+    white-space: normal;
+    background-color: var(--color-popupmenu-background);
+    color: var(--color-popupmenu-foreground);
+    border-radius: 4px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1.4;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+    z-index: 5;
+
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  &:hover .help-tip-bubble,
+  &:focus-visible .help-tip-bubble {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Common usage pattern: a help-tip sitting right after a label's own text
+// (see #compose-options's "Recibos" row, _mail-compose.scss). Kept here
+// rather than re-declared per usage site since the spacing need is the
+// same wherever this happens.
+label .help-tip {
+  margin-left: 0.3rem;
+  vertical-align: 1px;
+}
+
+// For labels long enough to wrap onto multiple lines in a narrow column
+// (e.g. "Certificado digital", "Email registado"): wrap the *last word*
+// of the label together with its .help-tip in one of these, instead of
+// leaving the icon as a plain sibling after a normal space. A trailing
+// &nbsp; alone isn't enough to keep them together - Chromium still
+// offers a line-break opportunity right before an atomic inline-level
+// box (.help-tip is display: inline-flex) regardless of whether the
+// preceding whitespace was breakable, so "digital" could still end up
+// on one line and the bare "?" alone on the next (reproduced directly,
+// Manuel flagged it from a real screenshot, 2026-07-04). white-space:
+// nowrap on a plain inline wrapper *does* hold the two together
+// reliably, while still letting everything before this span wrap
+// normally against it.
+//
+// Markup:
+//   Certificado <span class="help-tip-nowrap">digital
+//     <span class="help-tip" tabindex="0">...</span>
+//   </span>
+.help-tip-nowrap {
+  white-space: nowrap;
+}

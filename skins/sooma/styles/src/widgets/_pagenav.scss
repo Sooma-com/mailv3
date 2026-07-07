@@ -10,6 +10,27 @@
     border-top: 1px solid var(--color-medium-gray);
   }
 
+  // Pane-2's own header/footer should read as the same visual weight.
+  // #layout-list > .header (layout/_list.scss) is unpadded, sized purely
+  // by min-height: 2.2rem. This pagenav footer also picks up
+  // widgets/_treelist.scss's ".footer.small { padding: 0.6rem 1rem }"
+  // (shared with the sidebar's quota-widget footer, which does want that
+  // padding — not touched here), which on top of this element's own
+  // line-height:2 content pushed it to ~52px versus the header's 35.2px.
+  // Scoped to #layout-list's pagenav specifically (id + two classes
+  // outranks the two-class rule above regardless of source order) so the
+  // sidebar quota footer is unaffected.
+  #layout-list > &.footer {
+    // min-height, not height: #layout-list is a column flexbox and every
+    // child defaults to flex-shrink:1 — min-height is what actually holds
+    // the line against shrinking when the list content overflows (that's
+    // how #layout-list > .header's own 2.2rem floor survives, confirmed
+    // live). A plain height here still let it get shrunk to ~33px instead
+    // of the intended 35.2px.
+    min-height: 2.2rem;
+    padding: 0;
+  }
+
   input,
   .lastpage,
   .firstpage {

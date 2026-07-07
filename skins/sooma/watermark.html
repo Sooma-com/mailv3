@@ -8,32 +8,54 @@
     html,
     body {
       height: 100%;
+      margin: 0;
       overflow: hidden;
+      background-color: #fff;
     }
 
-    body {
-      background: url(images/logo.svg) center no-repeat #fff;
-      background-size: 30%;
-      background-blend-mode: luminosity;
+    html.dark-mode body {
+      background-color: #21292c;
     }
 
-    html:not(.dark-mode) body:before {
-      content: "";
+    /* Heart mark. Static, hardcoded tints - deliberately NOT derived from
+       a domain lookup or a cross-frame color read: this frame is served
+       to every one of roughly 100k mailboxes at launch, so it's a plain
+       static asset with no per-request PHP and no JS, safe to cache
+       indefinitely. */
+    #watermark {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 1;
-      }
+      top: 50%;
+      left: 50%;
+      width: 30vw;
+      height: 30vw;
+      max-width: 220px;
+      max-height: 220px;
+      transform: translate(-50%, -50%);
+      background-color: #ececec;
+      /* Neutral gray, same lightness as the previous pale-red tint
+         (#f9e1e0) - trying grayscale instead of a brand-red tint at
+         Manuel's request (2026-07-04), on the theory that the hue itself,
+         not just its intensity, was what read as distracting. */
+      -webkit-mask-image: url(images/logo.svg);
+      mask-image: url(images/logo.svg);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+    }
 
-      html.dark-mode > body {
-        background-color: #21292c;
-        background-blend-mode: soft-light;
-      }
+    html.dark-mode #watermark {
+      /* Same idea in dark mode: neutral gray at the same lightness as the
+         previous pale-red tint (#452c2d), instead of a brand-red hue. */
+      background-color: #383838;
+    }
   </style>
 </head>
 
-<body></body>
+<body>
+  <div id="watermark"></div>
+</body>
 
 </html>

@@ -48,6 +48,28 @@ body.task-mail.action-show {
 
     .subject {
       grid-area: subject;
+
+      // High/low priority indicator dot, mirroring the one used in the
+      // message list (skins/sooma/js/ui.js's applyMessageViewPriorityIndicator,
+      // styles/src/layout/_list.scss) - reads the prioN class Roundcube
+      // core already renders in the (normally hidden) header-headers
+      // table and prepends this dot right before the subject text.
+      .priority-indicator-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: middle;
+
+        &.priority-high {
+          background: var(--color-error);
+        }
+
+        &.priority-low {
+          background: var(--color-priority-low);
+        }
+      }
     }
 
     .header {
@@ -152,18 +174,60 @@ body.task-mail.action-show {
 
       .header-links {
         padding-left: 0.3rem;
+        // Matches .header-headers's font-size below it - without this,
+        // "Cabeçalhos"/"Texto simples" fell through to the page's base
+        // 16px by omission (no rule existed here at all), while the
+        // From/To/Date content above it was explicitly set to 0.9rem.
+        // Icons keep their own explicit font-size rules below, so this
+        // only resizes the link text itself.
+        font-size: 0.9rem;
 
         .headers-summary {
           position: absolute;
-          top: 1.2rem;
+          // top shifted up by half of the padding added below, so the
+          // icon's own rendered position doesn't move - only the
+          // invisible clickable box around it grows. Further tuned by
+          // measuring actual ink centers (see widgets/_mail-preview.scss's
+          // equivalent comment for the full method) - the chevron's ink
+          // center sat ~1.84px below the subject's despite matching ink
+          // *height*, so shifted up by that amount (0.95rem - 1.84px =
+          // 0.835rem). Same delta measured in both mail-show and
+          // mail-preview contexts despite their different subject
+          // padding-top, since subject and chevron shift together.
+          top: 0.835rem;
           left: 1.5rem;
           font-size: 0;
+          // This link had no vertical padding at all, so its clickable
+          // box was exactly the icon glyph's own line box - measured
+          // live at 36x16px, well under the WCAG 2.5.8 24x24px minimum
+          // target size (the same gap already flagged on the settings
+          // checkbox toggle). Padding grows the hit area to 24px without
+          // changing the glyph's own rendered size/position (padding +
+          // glyph line-height + padding = 24px, whatever the glyph's
+          // font-size ends up being - see ::before below).
+          padding: 4.65px 0;
 
 
           &::before {
-            font-size: 1rem;
+            // Pixel-matched to the subject text it sits next to via
+            // canvas actualBoundingBox measurements: "WHMCS" at this
+            // skin's 1.2rem bold renders at 12.9747px of ink. Font
+            // Awesome's chevron-right glyph fills more of its em box
+            // than capital letters do, so equal *font-size* isn't equal
+            // *ink height* - 0.91875rem (14.7px) is what actually lines
+            // the glyph's rendered height up with the text's, not a
+            // rounder-looking value chosen for its own sake.
+            font-size: 0.91875rem;
             @include fa.fa-icon();
-            content: fa.fa-content(fa.$var-circle-chevron-right);
+            // Every other expand/collapse/nav control in this skin
+            // (pagenav prev/next, xcalendar's month nav, expand-all/
+            // collapse-all, the search-options caret) uses a bare
+            // chevron/angle glyph; circle-* icons elsewhere are reserved
+            // for status/feedback (circle-check, circle-exclamation in
+            // messagestack/settings). This was the one interactive
+            // toggle borrowing that status-icon language - swapped to
+            // match the rest of the skin's convention.
+            content: fa.fa-content(fa.$var-chevron-right);
             transition: transform 0.3s ease-in-out;
           }
 
@@ -214,10 +278,10 @@ body.task-mail.action-show {
 
     #message-objects {
       &>div {
-        display: inline-block;
-        width: 80%;
-        max-width: 320px;
-        text-indent: -1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        column-gap: 0.5rem;
 
         &.content,
         &.confirmation,
@@ -226,14 +290,16 @@ body.task-mail.action-show {
         &.success,
         &.warning,
         &.error {
+          box-sizing: border-box;
+          width: 100%;
+          margin: 0 0 1rem;
+          padding: 0.5rem 0.75rem;
+          border-radius: 4px;
+
           &::before {
             @include fa.fa-icon();
-            text-indent: -0.25rem;
+            flex: 0 0 auto;
           }
-
-          margin: 1rem;
-          padding: 1rem 1rem 1rem calc(1.5rem + 1rem);
-          border-radius: 4px;
         }
 
         &.confirmation {
@@ -284,10 +350,12 @@ body.task-mail.action-show {
           background-color: var(--color-error);
         }
 
+        // Single-row layout: icon, then the plain text run, then the
+        // button pinned to the far right via margin-left: auto. Kept in
+        // sync with the equivalent block in widgets/_mail-preview.scss.
         .boxbuttons {
-          display: block flex;
-          flex-direction: row-reverse;
-          text-indent: 0;
+          flex: 0 0 auto;
+          margin-left: auto;
 
           a {
             background-color: var(--color-main);
@@ -296,8 +364,8 @@ body.task-mail.action-show {
             padding: 0.25rem 0.5rem;
             font-weight: bold;
             font-size: 0.9rem;
-            margin-top: 0.25rem;
             display: inline-block;
+            white-space: nowrap;
           }
         }
       }

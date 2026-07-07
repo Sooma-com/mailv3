@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /**
  * modified version of eric meyer's reset 2.0
  * http://meyerweb.com/eric/tools/css/reset/
@@ -448,7 +447,7 @@ optgroup {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -19813,6 +19812,7 @@ optgroup {
   --color-success: #41b849;
   --color-warning: #ffd452;
   --color-notice: #e8f3ff;
+  --color-priority-low: #4a90d9;
   --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
   --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));
   --color-black-shade-bg: hsl(from var(--color-black) h s calc(l * 0.85));
@@ -20138,9 +20138,9 @@ a:hover, a:focus, a:focus-within, a:focus-visible, a:target, a:active, a:visited
 }
 
 body:not(.task-login):not(.task-xcalendar) > #layout {
-  --column-width-sidebar: 1fr;
+  --column-width-sidebar: minmax(14rem, 15%);
   --column-width-list: 1fr;
-  --column-width-content: 1fr;
+  --column-width-content: 2fr;
   display: grid;
   grid-template: "menu    menu    menu   " 8rem "sidebar list    content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
   width: 100vw;
@@ -20155,7 +20155,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu {
   height: 100%;
   grid-area: menu;
   display: grid;
-  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px minmax(0, 1fr);
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu .popover-header {
   display: flex;
@@ -20195,7 +20195,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu > 
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20327,7 +20327,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #taskmenu #s
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20363,7 +20363,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu {
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
-  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content minmax(0, 1fr) min-content;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .action-buttons {
   display: inline-flex;
@@ -20384,7 +20384,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20433,7 +20433,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20456,7 +20456,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20485,25 +20485,193 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar {
   display: none;
   grid-area: mailtoolbar;
+  min-width: 0;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a::before {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a::before,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar a::before,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a::before,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a::before {
   margin-right: 0.2rem;
 }
-body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled),
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar a:not(.disabled),
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a:not(.disabled),
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar a:not(.disabled):hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar a:not(.disabled):focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #mailtoolbar #show-xsidebar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #messagetoolbar #show-xsidebar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar #show-xsidebar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar #show-xsidebar {
   display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar {
+  padding-left: 1rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a.create {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a.create::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a.create:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a.create:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #addressbooktoolbar a.create.disabled {
+  opacity: 1;
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  color: var(--color-layout-header-localmenu-foreground);
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:disabled,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:disabled,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:disabled:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:disabled:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
-  --dynamic-min-width: 300px;
+  --dynamic-min-width: 14rem;
   --dynamic-max-width: 35vw;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar {
@@ -20539,7 +20707,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar > .header a
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20559,7 +20727,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-sidebar #quotadispl
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-list {
   grid-area: list;
   overflow: hidden;
-  --dynamic-min-width: 300px;
+  --dynamic-min-width: 20rem;
   --dynamic-max-width: 35vw;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout .listbox .scroller {
@@ -20589,9 +20757,15 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list a.toolbar-menu
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header {
   position: relative;
   min-height: 2.2rem;
+  display: flex;
+  align-items: center;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > span.header-title, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > .back-sidebar-button, body:not(.task-login):not(.task-xcalendar) > #layout #layout-list > .header > .task-menu-button {
   display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list #messagelist-header > .toolbar.menu {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist {
   border-top: 1px solid var(--color-medium-gray);
@@ -20656,10 +20830,24 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist t
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.selected td {
   background-color: var(--color-list-selected-background);
 }
-body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged {
-  background-image: url("/skins/sooma/images/flagged.svg");
-  background-repeat: no-repeat;
-  background-position: right top;
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged td:last-child {
+  position: relative;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.flagged td:last-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-main);
+  -webkit-mask-image: url("/skins/sooma/images/flagged.svg");
+  mask-image: url("/skins/sooma/images/flagged.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: right top;
+  mask-position: right top;
+  pointer-events: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -20671,7 +20859,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist t
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20679,12 +20867,26 @@ body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist t
   content: "\f0c6";
   margin-right: 0.25rem;
 }
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist .priority-indicator-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.priority-high .priority-indicator-dot {
+  background: var(--color-error);
+}
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .messagelist tr.priority-low .priority-indicator-dot {
+  background: var(--color-priority-low);
+}
 body:not(.task-login):not(.task-xcalendar) > #layout .listing:not(.withselection) td.selection {
   display: none;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-content {
   grid-area: content;
-  overflow: hidden;
+  overflow: hidden auto;
 }
 body:not(.task-login):not(.task-xcalendar) > #layout #layout-content .iframe-wrapper {
   width: 100%;
@@ -20700,7 +20902,7 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #xsidebar {
 
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout {
   --column-width-sidebar: 1fr;
-  --column-width-content: 2fr;
+  --column-width-content: 3fr;
   display: grid;
   grid-template: "menu    menu   " 8rem "content sidebar" auto/var(--column-width-content) var(--column-width-sidebar);
   width: 100vw;
@@ -20712,7 +20914,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu {
   height: 100%;
   grid-area: menu;
   display: grid;
-  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px minmax(0, 1fr);
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu .popover-header {
   display: flex;
@@ -20752,7 +20954,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20884,7 +21086,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #ta
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20920,7 +21122,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
-  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content minmax(0, 1fr) min-content;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons {
   display: inline-flex;
@@ -20941,7 +21143,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -20990,7 +21192,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21013,7 +21215,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21042,26 +21244,194 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar {
   display: none;
   grid-area: mailtoolbar;
+  min-width: 0;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a::before,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a::before {
   margin-right: 0.2rem;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a:not(.disabled),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a:not(.disabled),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a:not(.disabled):hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a:not(.disabled):focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar #show-xsidebar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar #show-xsidebar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar #show-xsidebar {
   display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar {
+  padding-left: 1rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create.disabled {
+  opacity: 1;
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  color: var(--color-layout-header-localmenu-foreground);
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
   padding: 1rem;
-  --dynamic-min-width: 300px;
+  --dynamic-min-width: 14rem;
   --dynamic-max-width: 35vw;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar {
@@ -21097,7 +21467,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21132,10 +21502,41 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content 
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header {
   position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header:has(#compose_from:not(.hidden)) {
   min-height: 2.2rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header > span.header-title, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header > .back-sidebar-button, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header > .task-menu-button {
   display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header #compose_from {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header #compose_from label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: none;
+  color: var(--color-label);
+  white-space: nowrap;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header #compose_from .col-10 {
+  width: auto;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header #compose_from .input-group {
+  width: auto;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content > .header #compose_from select {
+  width: auto;
+  height: auto;
+  padding: 0.3rem 1.75rem 0.3rem 0.6rem;
+  margin: 0;
+  font-size: 0.9rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-append a.icon.edit::before,
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-prepend a.icon.edit::before {
@@ -21153,11 +21554,6 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content 
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .input-group > .input-group-prepend a.icon.add.recipient::before {
   content: "\f0c0";
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content #messagetoolbar {
-  border-bottom: 1px solid var(--color-medium-gray);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-}
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content #messagetoolbar a.options {
   display: none;
 }
@@ -21170,6 +21566,8 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content 
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons .send {
   padding-left: 2rem;
   padding-right: 2rem;
+  margin-top: 0.65rem;
+  margin-bottom: 0;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content .formbuttons .send::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -21181,7 +21579,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content 
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21197,45 +21595,181 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div.form-group.r
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div.form-group.row:has(> label[for=compose-keep-formatting]) {
   display: none;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.5rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers > .form-group.row {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: auto auto;
+  grid-column: 1/-1;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers > .form-group.row > label {
+  grid-column: 1/-1;
+  grid-row: 1;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers > .form-group.row > .col-10 {
+  display: contents;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers .input-group {
+  display: contents;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers .input-group > input {
+  grid-column: 1;
+  grid-row: 2;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout .compose-headers .input-group > .input-group-append {
+  grid-column: 2;
+  grid-row: 2;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_subject > .col-10 > input {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 1rem;
+  line-height: 1;
+  margin: 0.25rem 0 0;
+  padding: 0 0 0.1875rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a {
   color: inherit;
   text-decoration: none;
   display: inline-block;
   border-right: 1px solid var(--color-input-border);
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-  margin-bottom: 1rem;
+  margin: 0;
+  padding: 0.5rem 0.5rem;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:last-child {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:last-child {
   border-right: none;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:focus, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:focus-within, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:focus-visible, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:target, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:active, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:visited, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a:link {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:focus, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:focus-within, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:focus-visible, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:target, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:active, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:visited, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a:link {
   color: inherit;
 }
-body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons div a.disabled {
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose_recipient_buttons a.disabled {
   opacity: 0.5;
   cursor: default;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose-headers label {
   text-transform: none;
+  margin-top: 0.75rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose-headers .recipient-input > input {
+  margin-bottom: 0;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #compose-headers .form-group.row:first-child label {
+  margin-top: 0;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-content:has(#compose_from:not(.hidden)) #compose-headers .form-group.row:first-child label {
+  margin-top: 0.75rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #uploadform {
   display: none;
 }
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar {
+  padding-top: 0;
+}
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar > .header {
   min-height: 0;
 }
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar .scroller {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options {
+  order: 1;
+  flex: 0 0 auto;
+  border-collapse: separate;
+  border-spacing: 0 0.65rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .toggle-item {
+  margin-top: -4.6px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .toggle-group {
+  display: flex;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .form-group.row:has(.toggle-group) > label {
+  position: relative;
+  top: -1.7656px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row > label.col-form-label {
+  position: relative;
+  top: -3.796875px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .form-group.row:has(.priority-dots) > label {
+  position: relative;
+  top: -4.59375px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row {
+  position: relative;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row .help-tip,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row .help-tip {
+  position: static;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row .help-tip-bubble,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row .help-tip-bubble {
+  left: auto;
+  right: 16px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-registered-row .help-tip-bubble {
+  right: calc(-100% + 16px);
+  top: 64.8px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-smime-row .help-tip-bubble {
+  right: calc(-100% + 16px);
+  top: 66.81px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options #compose-priority {
+  display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .col-6:has(> .priority-dots) {
+  display: flex;
+  align-items: flex-start;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .priority-dots {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  margin-top: -7.6px;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .priority-dots .priority-dot {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--color-medium-gray);
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .priority-dots .priority-dot.low {
+  background: var(--color-priority-low);
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .priority-dots .priority-dot.high {
+  background: var(--color-error);
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-options .priority-dots .priority-dot.active {
+  box-shadow: 0 0 0 2px var(--color-layout-content-background), 0 0 0 3.5px var(--color-font);
+}
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments {
+  order: 2;
+  margin-bottom: 64.9px;
   display: block;
   border: 2px dashed var(--color-input-border);
   border-radius: 4px;
   padding: 1rem;
   text-align: center;
+  flex: 1 1 auto;
   min-height: 10rem;
-  height: 30%;
-  background-image: url("/skins/sooma/images/download-b8b8b8.svg");
-  background-position: center bottom 10%;
-  background-repeat: no-repeat;
-  background-size: 15%;
+  overflow-y: auto;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar #compose-attachments button.btn:not(.btn-primary) {
   display: inline-block;
@@ -21264,7 +21798,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21310,7 +21844,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21337,13 +21871,12 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f2ed";
-  font-weight: 200;
   margin-right: 0.25rem;
   vertical-align: middle;
 }
@@ -21357,7 +21890,7 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar 
   padding-left: 0.5rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content {
-  height: calc(100% - 4rem);
+  height: 100%;
   display: grid;
   grid-template: "form" 1fr "buttons" min-content/1fr;
 }
@@ -21373,11 +21906,13 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-cont
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content > .formcontent > #compose-headers {
   flex: 0;
+  margin-bottom: 1.5rem;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content > .formcontent > #composebodycontainer {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 300px;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-content > .formcontent > #composebodycontainer > .tox {
   flex: 1;
@@ -21386,8 +21921,29 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout div#compose-cont
   grid-area: buttons;
 }
 
-body.task-mail.action-show:not(:has(#layout-list)) > #layout {
+body.task-mail.action-show:not(:has(#layout-list)) > #layout,
+body.task-mail.action-get:not(:has(#layout-list)) > #layout {
   grid-template: "menu    menu    menu   " 8rem "content content content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+}
+body.task-mail.action-show:not(:has(#layout-list)):not(:has(#layout-menu)) > #layout,
+body.task-mail.action-get:not(:has(#layout-list)):not(:has(#layout-menu)) > #layout {
+  grid-template: "content content content" auto/var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+}
+
+body.task-mail.action-get #layout-content.pdf > .header {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+body.task-mail.action-get > #layout > #layout-content {
+  overflow: hidden;
 }
 
 body.task-addressbook.action-add .formcontent,
@@ -21437,14 +21993,13 @@ body.task-addressbook.action-show .formcontent .contact-header #contactphoto #co
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f2ed";
   font-size: 1rem;
-  font-weight: 200;
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.5);
   padding: 0.25rem;
@@ -21581,14 +22136,13 @@ body.task-addressbook.action-show .formcontent fieldset.contactfieldgroup a.cont
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f2ed";
   font-size: 1rem;
-  font-weight: 200;
 }
 body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup select.ff_gender,
 body.task-addressbook.action-add .formcontent fieldset.contactfieldgroup input.ff_anniversary,
@@ -21672,7 +22226,7 @@ body.task-xcalendar > #layout > #layout-menu {
   height: 100%;
   grid-area: menu;
   display: grid;
-  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px minmax(0, 1fr);
 }
 body.task-xcalendar > #layout > #layout-menu .popover-header {
   display: flex;
@@ -21712,7 +22266,7 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu > a::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21844,7 +22398,7 @@ body.task-xcalendar > #layout > #layout-menu #taskmenu #sooma-profile-dialog .so
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21880,7 +22434,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu {
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
-  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content minmax(0, 1fr) min-content;
 }
 body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons {
   display: inline-flex;
@@ -21901,7 +22455,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .action-buttons .compose
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21950,7 +22504,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .reset::befor
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -21973,7 +22527,7 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar .options::bef
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22002,20 +22556,188 @@ body.task-xcalendar > #layout > #layout-menu #localmenu .searchbar input[type=te
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar {
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar {
   display: none;
   grid-area: mailtoolbar;
+  min-width: 0;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a::before {
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a::before,
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar a::before,
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a::before,
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a::before {
   margin-right: 0.2rem;
 }
-body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled),
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar a:not(.disabled),
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a:not(.disabled),
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar a:not(.disabled):hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar a:not(.disabled):focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+body.task-xcalendar > #layout > #layout-menu #localmenu #mailtoolbar #show-xsidebar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #messagetoolbar #show-xsidebar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar #show-xsidebar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar #show-xsidebar {
   display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar,
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar {
+  padding-left: 1rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a.create {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a.create::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a.create:hover, body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a.create:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #addressbooktoolbar a.create.disabled {
+  opacity: 1;
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  color: var(--color-layout-header-localmenu-foreground);
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:hover, body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:disabled,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:disabled,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:disabled:hover, body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:disabled:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
 }
 body.task-xcalendar > #layout > #layout-sidebar {
   display: none;
@@ -22053,7 +22775,7 @@ body.task-xcalendar > #layout #layout-sidebar > .header a.sidebar-menu::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22072,7 +22794,7 @@ body.task-xcalendar > #layout #layout-sidebar #quotadisplay {
 }
 body.task-xcalendar > #layout > #layout-list {
   display: none;
-  --dynamic-min-width: 300px;
+  --dynamic-min-width: 20rem;
   --dynamic-max-width: 35vw;
 }
 body.task-xcalendar > #layout .listbox .scroller {
@@ -22102,9 +22824,15 @@ body.task-xcalendar > #layout #layout-list a.toolbar-menu-button {
 body.task-xcalendar > #layout #layout-list > .header {
   position: relative;
   min-height: 2.2rem;
+  display: flex;
+  align-items: center;
 }
 body.task-xcalendar > #layout #layout-list > .header > span.header-title, body.task-xcalendar > #layout #layout-list > .header > .back-sidebar-button, body.task-xcalendar > #layout #layout-list > .header > .task-menu-button {
   display: none;
+}
+body.task-xcalendar > #layout #layout-list #messagelist-header > .toolbar.menu {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 body.task-xcalendar > #layout #layout-list .messagelist {
   border-top: 1px solid var(--color-medium-gray);
@@ -22169,10 +22897,24 @@ body.task-xcalendar > #layout #layout-list .messagelist tr.unread td.subject spa
 body.task-xcalendar > #layout #layout-list .messagelist tr.selected td {
   background-color: var(--color-list-selected-background);
 }
-body.task-xcalendar > #layout #layout-list .messagelist tr.flagged {
-  background-image: url("/skins/sooma/images/flagged.svg");
-  background-repeat: no-repeat;
-  background-position: right top;
+body.task-xcalendar > #layout #layout-list .messagelist tr.flagged td:last-child {
+  position: relative;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.flagged td:last-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-main);
+  -webkit-mask-image: url("/skins/sooma/images/flagged.svg");
+  mask-image: url("/skins/sooma/images/flagged.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: right top;
+  mask-position: right top;
+  pointer-events: none;
 }
 body.task-xcalendar > #layout #layout-list .messagelist tr:has(span.attachment > span) span.subject::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -22184,13 +22926,27 @@ body.task-xcalendar > #layout #layout-list .messagelist tr:has(span.attachment >
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f0c6";
   margin-right: 0.25rem;
+}
+body.task-xcalendar > #layout #layout-list .messagelist .priority-indicator-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.priority-high .priority-indicator-dot {
+  background: var(--color-error);
+}
+body.task-xcalendar > #layout #layout-list .messagelist tr.priority-low .priority-indicator-dot {
+  background: var(--color-priority-low);
 }
 body.task-xcalendar > #layout .listing:not(.withselection) td.selection {
   display: none;
@@ -22199,9 +22955,70 @@ body.task-xcalendar > #layout > #xcalendar-app {
   grid-area: content;
   overflow: hidden;
 }
+body.task-xcalendar > #layout #xcalendar-actions-toolbar {
+  font-family: inherit;
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a {
+  font-family: inherit !important;
+  font-weight: normal;
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.xcalendar-mobile-show-sidebar {
+  display: none;
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  font-family: "Font Awesome 7 Pro" !important;
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-add-event::before {
+  content: "\+";
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-day::before {
+  content: "\f783";
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-week::before {
+  content: "\f784";
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-month::before {
+  content: "\f133";
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-agenda::before {
+  content: "\f03a";
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-search {
+  margin-left: auto;
+  font-size: 0;
+  padding: 0.485rem 1rem;
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-search::before {
+  content: "\f002";
+  font-size: 16px;
+  margin-right: 0;
+}
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-settings {
+  display: none;
+}
+body.task-xcalendar > #layout #xcalendar-toolbar {
+  display: none;
+}
+body.task-xcalendar > #layout #layout-content .calendar-content-header {
+  display: none;
+}
 body.task-xcalendar > #layout #xcalendar-app {
   display: grid;
-  grid-template: "content sidebar" auto/1fr 3fr;
+  grid-template: "content sidebar" auto/18rem 1fr;
   --color-xcalendar-current-day-background: var(--color-highlight-background);
   --color-xcalendar-current-day-foreground: var(--color-highlight-foreground);
 }
@@ -22210,12 +23027,21 @@ body.task-xcalendar > #layout #xcalendar-app > #layout-content {
   min-width: none;
   max-width: none;
   width: auto;
+  border-right: none;
+  background-color: var(--color-light-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app > #layout-content .header {
+  border-top: none;
+  border-bottom: none;
 }
 body.task-xcalendar > #layout #xcalendar-app > #layout-sidebar {
   grid-area: sidebar;
   min-width: none;
   max-width: none;
   width: auto;
+}
+body.task-xcalendar > #layout #xcalendar-app > #layout-sidebar #main-calendar-container {
+  top: 0;
 }
 body.task-xcalendar > #layout #xcalendar-app > #event-preview-controller {
   position: fixed;
@@ -22244,73 +23070,73 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-grid th.fc-col-header-cel
 body.task-xcalendar > #layout #xcalendar-app .fc-timegrid-body .fc-timegrid-cols td.fc-timegrid-col:not(.fc-timegrid-axis) {
   border-left: 1px solid var(--color-medium-gray);
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar {
-  font-family: inherit;
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-daygrid-body td.fc-daygrid-day {
+  border-bottom: 1px solid var(--color-medium-gray);
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a {
-  font-family: inherit !important;
-  font-weight: normal;
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-daygrid-body-natural::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--color-dark-gray);
+  z-index: 3;
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.xcalendar-mobile-show-sidebar {
-  display: none;
+body.task-xcalendar > #layout #xcalendar-app .fc-col-header-cell-cushion {
+  text-transform: uppercase;
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  font-family: "Font Awesome 7 Pro" !important;
+body.task-xcalendar > #layout #xcalendar-app .fc-daygrid-day-top {
+  justify-content: center;
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-add-event::before {
-  content: "\+";
+body.task-xcalendar > #layout #xcalendar-app .fc-daygrid-body-natural .fc-daygrid-day-events {
+  margin-bottom: 2px;
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-day::before {
-  content: "\f783";
+body.task-xcalendar > #layout #xcalendar-app .fc-daygrid-day-events {
+  min-height: 0;
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-week::before {
-  content: "\f784";
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar {
+  font-size: 13px;
+  padding: 0 1rem;
 }
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-month::before {
-  content: "\f133";
-}
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-agenda::before {
-  content: "\f03a";
-}
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-search::before {
-  content: "\f002";
-}
-body.task-xcalendar > #layout #xcalendar-app #xcalendar-toolbar .toolbar > a.calendar-settings::before {
-  content: "\f013";
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker,
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header {
+  background: transparent;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header {
-  padding-top: 0.5rem;
-  display: grid;
-  grid-template: "prev title next" auto/min-content 1fr min-content;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.3rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header::before, body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header::after {
+  display: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev,
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next {
   position: static;
-  font-size: 1px;
+  order: 1;
   font-size: 0;
-  width: 1.5rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
   cursor: pointer;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev span,
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next span {
   background: none;
 }
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev:hover, body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev:focus-visible,
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next:hover,
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next:focus-visible {
+  background-color: var(--color-toolbar-button-background-hover);
+}
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev {
-  grid-area: prev;
+  margin-left: auto;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-prev::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -22322,15 +23148,13 @@ body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-he
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f053";
-}
-body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next {
-  grid-area: next;
+  font-size: 12px;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header .ui-datepicker-next::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -22342,26 +23166,53 @@ body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-he
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f054";
+  font-size: 12px;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header #sidebar-calendar-dp-title {
-  grid-area: title;
-  text-align: center;
+  order: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.15rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header #sidebar-calendar-dp-title select.ui-datepicker-month {
+  field-sizing: content;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header #sidebar-calendar-dp-title select {
+  width: auto;
   color: var(--color-font);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 0 1px;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar th {
+  font-size: 13px;
+  padding: 0.6em 0.2em;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar th:first-child {
+  text-align: left;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td {
+  font-size: 13px;
+  padding: 0.35em 0;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td a {
+  display: inline-block;
+  min-width: 1.7em;
+  padding: 0.3em 0;
+  line-height: 1;
+  text-align: center;
   background-color: transparent;
   border-width: 0;
-  border-radius: 0.25rem;
+  border-radius: 50%;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td.ui-datepicker-today a {
   background-color: var(--color-xcalendar-current-day-background);
@@ -22370,6 +23221,16 @@ body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepick
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar td.ui-datepicker-current-day a {
   background-color: var(--color-main);
   color: var(--color-main-contrast);
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar tr:has(.ui-datepicker-today) .ui-datepicker-week-col {
+  color: var(--color-main);
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar table.ui-datepicker-calendar .ui-datepicker-week-col {
+  font-weight: 700;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-list-header {
+  text-align: left;
+  padding-left: 1rem;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-list-header #new-calendar-container a.create {
   font-size: 0;
@@ -22387,7 +23248,7 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-list-container .calendar-
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22415,7 +23276,7 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22426,38 +23287,32 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-
   width: 5px;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: start;
-}
-body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: start;
-}
-body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button {
-  background: none;
-}
-body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  font-family: "Font Awesome 7 Pro" !important;
-  font-weight: bold !important;
-  content: "\f015";
+  display: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid th a {
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-col-header-cell-cushion.xcalendar-col-header-source {
+  font-size: 0;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .xcalendar-col-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0;
+  line-height: 1.15;
+  cursor: pointer;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .xcalendar-col-header .xcalendar-col-header-weekday {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .xcalendar-col-header .xcalendar-col-header-day {
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--color-font);
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-cols .fc-day-today {
@@ -22465,10 +23320,53 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-cols .f
   color: var(--color-xcalendar-current-day-foreground);
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot {
-  border-bottom: 1px solid var(--color-medium-gray);
+  border-bottom: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-minor {
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-label, body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-minor.fc-timegrid-slot-label {
   border-bottom: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label[data-time="00:00:00"] .fc-timegrid-slot-label-cushion {
+  display: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label:not([data-time="00:00:00"]) .fc-timegrid-slot-label-frame {
+  transform: translateY(-12px);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label:not([data-time="00:00:00"]):not(.fc-timegrid-slot-minor) {
+  position: relative;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label:not([data-time="00:00:00"]):not(.fc-timegrid-slot-minor)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 1px;
+  background-color: var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-frame,
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot-label-frame {
+  text-align: center;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-frame {
+  justify-content: center;
+  position: relative;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background-color: var(--color-layout-content-background);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-cushion,
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot-label-cushion {
+  font-weight: 400;
+  font-size: 13px;
 }
 body.task-xcalendar > #layout #xcalendar-app #shared-calendar-controller > .editor,
 body.task-xcalendar > #layout #xcalendar-app #calendar-edit,
@@ -22508,7 +23406,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   height: 100%;
   grid-area: menu;
   display: grid;
-  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px 1fr;
+  grid-template: "logo       taskmenu  " 4.625rem "localmenu  localmenu " 1fr/228px minmax(0, 1fr);
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu .popover-header {
   display: flex;
@@ -22548,7 +23446,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22680,7 +23578,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22716,7 +23614,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   grid-area: localmenu;
   background-color: var(--color-layout-header-localmenu-background);
   display: grid;
-  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content 1fr min-content;
+  grid-template: "action-buttons mailtoolbar searchbar" 1fr/min-content minmax(0, 1fr) min-content;
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .action-buttons {
   display: inline-flex;
@@ -22737,7 +23635,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22786,7 +23684,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22809,7 +23707,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22838,20 +23736,188 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   background-position: 0.2rem center;
   background-repeat: no-repeat;
 }
-body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar {
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar {
   display: none;
   grid-area: mailtoolbar;
+  min-width: 0;
   color: var(--color-layout-header-localmenu-foreground);
   --button-horizontal-margin: 0.2rem;
 }
-body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before {
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a::before,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a::before,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a::before,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a::before {
   margin-right: 0.2rem;
 }
-body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled),
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a:not(.disabled),
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a:not(.disabled),
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar a:not(.disabled):focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a:not(.disabled):hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar a:not(.disabled):focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a:not(.disabled):focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a:not(.disabled):focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar:has(a:not(.disabled):not(.more):not(.hidden)),
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar:has(a:not(.disabled):not(.more):not(.hidden)) {
   display: flex;
 }
-body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar {
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #mailtoolbar #show-xsidebar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #messagetoolbar #show-xsidebar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar #show-xsidebar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar #show-xsidebar {
   display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar {
+  padding-left: 1rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #addressbooktoolbar a.create.disabled {
+  opacity: 1;
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+  color: var(--color-layout-header-localmenu-foreground);
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event {
+  display: inline-block;
+  background-color: var(--color-main);
+  color: var(--color-main-contrast);
+  text-decoration: none;
+  padding: 0.485rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  line-height: 1.4;
+  margin-left: 0;
+  margin-right: 1rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event::before {
+  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: var(--_fa-family);
+  font-feature-settings: normal;
+  font-style: normal;
+  font-synthesis: none;
+  font-variant: normal;
+  font-weight: var(--fa-style, 400);
+  line-height: 1;
+  text-align: center;
+  text-rendering: auto;
+  width: var(--fa-width, 1.25em);
+  content: "\e74f";
+  padding-right: 0.5rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
+  background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-sidebar {
   display: none;
@@ -22883,7 +23949,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22941,7 +24007,7 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #settings-menu li a::be
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -22990,13 +24056,12 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr > td
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   padding-right: 0.3rem;
-  font-weight: 200;
 }
 body.task-settings:not(.task-login):not(.task-xcalendar) #sections-table tr.general > td.section::before {
   content: "\e163";
@@ -23038,13 +24103,12 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list td.se
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   padding-right: 0.5rem;
-  font-weight: 200;
 }
 body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.settings > td.section::before {
   content: "\e829";
@@ -23059,13 +24123,12 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   padding-right: 0.5rem;
-  font-weight: 200;
   content: "\e0ab";
 }
 body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.certificates_title > td.sooma_smime_public_certificates_item::before {
@@ -23078,17 +24141,42 @@ body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   padding-right: 0.5rem;
-  font-weight: 200;
   content: "\f0ac";
 }
 body.task-settings:not(.task-login):not(.task-xcalendar) #sooma-smime-list tbody > tr.public_certificates_item > td.section::before {
   content: "\f0a3";
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-list {
+  --selected-color: var(--color-main);
+  --selected-background: var(--color-layout-list-background);
+  --not-selected-color: var(--color-layout-list-foreground);
+  --not-selected-background: var(--color-layout-list-background);
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-list > .header {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-list > .header > span.header-title {
+  display: block;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-label);
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-content > .header {
+  padding-left: 1rem;
+}
+body.task-settings:not(.task-login):not(.task-xcalendar) #layout #layout-content .iframe-wrapper {
+  box-sizing: border-box;
+  padding-top: 1rem;
+  padding-left: 1rem;
 }
 
 body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalendar) #layout-list > .header,
@@ -23116,7 +24204,7 @@ body.task-settings.action-plugin-managesieve:not(.task-login):not(.task-xcalenda
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -23767,7 +24855,7 @@ body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-x
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -23945,6 +25033,13 @@ body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-x
   align-items: center;
 }
 
+#message-content:has(#xcalendar-message-itip) #attachment-list li.ics {
+  display: none;
+}
+#message-content:has(#xcalendar-message-itip) .leftcol:not(:has(li:not(.ics))) {
+  display: none;
+}
+
 body > .ui-widget-overlay {
   position: fixed;
   top: 0;
@@ -23994,7 +25089,7 @@ body > .ui-widget-overlay {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24044,7 +25139,7 @@ body > .ui-widget-overlay {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24060,6 +25155,12 @@ body > .ui-widget-overlay {
 }
 .ui-dialog .ui-dialog-buttonset button.cancel:before {
   content: "\f00d";
+}
+.ui-dialog .ui-dialog-buttonset button.copy:before {
+  content: "\f0c5";
+}
+.ui-dialog .ui-dialog-buttonset button.copy.copied:before {
+  content: "\f00c";
 }
 
 #listoptions-menu select {
@@ -24105,7 +25206,7 @@ body > .ui-widget-overlay {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24132,7 +25233,7 @@ body > .ui-widget-overlay {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24194,9 +25295,15 @@ body > .ui-widget-overlay {
   margin-top: 1.5rem;
 }
 
+div.popup.iframe.ui-dialog-content {
+  overflow: hidden;
+}
 div.popup.iframe.ui-dialog-content > iframe {
   width: 100%;
   height: 100%;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 #messagestack {
@@ -24224,7 +25331,7 @@ div.popup.iframe.ui-dialog-content > iframe {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24401,6 +25508,7 @@ body.task-login #messagestack {
   --color-success: #41b849;
   --color-warning: #ffd452;
   --color-notice: #e8f3ff;
+  --color-priority-low: #4a90d9;
   --color-black-shade-text: hsl(from var(--color-black) h s calc(l * 0.6 + 255 * 0.40));
   --color-black-shade-border: hsl(from var(--color-black) h s calc(l * 0.75));
   --color-black-shade-bg: hsl(from var(--color-black) h s calc(l * 0.85));
@@ -24598,11 +25706,12 @@ body.task-login #messagestack {
 }
 .formcontent label.custom-control,
 .propform label.custom-control {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-wrap: nowrap;
   --control-height: 1.5rem;
-  --control-width: calc(2 * var(--control-height));
-  --control-foreground-color: var(--color-input);
+  --control-width: calc(1.85 * var(--control-height));
+  --control-foreground-color: var(--color-medium-gray);
   --control-background-color: var(--color-input-background);
   --control-button-margin: calc(0.1 * var(--control-height));
 }
@@ -24616,20 +25725,19 @@ body.task-login #messagestack {
   width: var(--control-width);
   height: var(--control-height);
   background-color: var(--control-foreground-color);
-  content: "⠀";
+  content: "";
   border-radius: calc(var(--control-height) / 2);
 }
 .formcontent label.custom-control::after,
 .propform label.custom-control::after {
   display: inline-block;
-  content: "⠀";
+  content: "";
   width: calc(var(--control-height) - 2 * var(--control-button-margin));
   height: calc(var(--control-height) - 2 * var(--control-button-margin));
   border-radius: calc(0.8 * var(--control-height) / 2);
   background-color: var(--control-background-color);
   position: relative;
   left: calc(-1 * var(--control-width) + var(--control-button-margin));
-  top: calc(var(--control-button-margin));
 }
 .formcontent label.custom-control:has(input[type=checkbox]:checked),
 .propform label.custom-control:has(input[type=checkbox]:checked) {
@@ -24642,6 +25750,37 @@ body.task-login #messagestack {
 .formcontent label.custom-control input[type=checkbox],
 .propform label.custom-control input[type=checkbox] {
   width: 0;
+}
+
+fieldset {
+  margin-bottom: 1.5rem;
+}
+fieldset:last-child {
+  margin-bottom: 0;
+}
+
+table.propform {
+  width: 100%;
+}
+table.propform td {
+  padding: 0.4rem 0;
+  vertical-align: middle;
+}
+table.propform td.title {
+  width: 1%;
+  white-space: nowrap;
+  padding-right: 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-font);
+  opacity: 0.75;
+}
+table.propform input,
+table.propform select {
+  margin: 0;
+}
+table.propform input {
+  max-width: 24rem;
 }
 
 .formcontent > div:has(> .form-group.row),
@@ -24737,7 +25876,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24766,7 +25905,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24859,7 +25998,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24880,7 +26019,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24897,31 +26036,18 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f00c";
 }
-.toolbar.menu a.threads::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 900);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  content: "\f4b6";
+.toolbar.menu a.options {
+  font-size: 0;
 }
 .toolbar.menu a.options::before {
+  font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24931,14 +26057,22 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   content: "\f013";
 }
+.toolbar.menu a.unread + a.options {
+  margin-left: 0;
+}
+.toolbar.menu a.refresh {
+  font-size: 0;
+  margin-left: auto;
+}
 .toolbar.menu a.refresh::before {
+  font-size: 1rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24948,7 +26082,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24965,7 +26099,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -24985,7 +26119,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25002,7 +26136,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25019,7 +26153,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25036,7 +26170,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25053,7 +26187,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25070,7 +26204,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25087,7 +26221,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25104,7 +26238,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25121,7 +26255,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25138,7 +26272,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25155,7 +26289,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25172,7 +26306,7 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25189,12 +26323,11 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  font-weight: 200;
   content: "\f56f";
 }
 .toolbar.menu a.export::before {
@@ -25207,12 +26340,11 @@ div.formcontent:has(> .form-group.row) select {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  font-weight: 200;
   content: "\f56e";
 }
 
@@ -25221,6 +26353,14 @@ div.formcontent:has(> .form-group.row) select {
 }
 .toolbar.menu.overflow a::before {
   font-size: 1rem;
+}
+
+#mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+#mailtoolbar a:not(.disabled):hover, #mailtoolbar a:not(.disabled):focus-visible {
+  background-color: var(--color-popupmenu-hover-background);
 }
 
 .listing.folderlist {
@@ -25241,24 +26381,29 @@ div.formcontent:has(> .form-group.row) select {
 .listing.folderlist li {
   position: relative;
 }
+.listing.folderlist li a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .listing.folderlist li a::before {
   background-image: url("/skins/sooma/images/sidebar/folder.svg");
   background-position: right bottom;
   content: " ";
 }
-.listing.folderlist li.inbox a::before {
+.listing.folderlist li.inbox > a::before {
   background-image: url("/skins/sooma/images/sidebar/inbox.svg");
 }
-.listing.folderlist li.drafts a::before {
+.listing.folderlist li.drafts > a::before {
   background-image: url("/skins/sooma/images/sidebar/drafts.svg");
 }
-.listing.folderlist li.sent a::before {
+.listing.folderlist li.sent > a::before {
   background-image: url("/skins/sooma/images/sidebar/sent.svg");
 }
-.listing.folderlist li.spam a::before {
+.listing.folderlist li.spam > a::before {
   background-image: url("/skins/sooma/images/sidebar/spam.svg");
 }
-.listing.folderlist li.trash a::before {
+.listing.folderlist li.trash > a::before {
   background-image: url("/skins/sooma/images/sidebar/trash.svg");
 }
 .listing.folderlist li > ul > li a::before {
@@ -25299,49 +26444,89 @@ div.formcontent:has(> .form-group.row) select {
 }
 .listing.folderlist li div.treetoggle {
   position: absolute;
-  top: 8px;
+  top: 12px;
   left: 0;
   height: 18px;
   min-height: 18px;
   max-height: 18px;
   min-width: 18px;
   max-width: 18px;
-  background-position: left bottom;
+  background-position: center;
   background-repeat: no-repeat;
+  background-image: url("/skins/sooma/images/sidebar/treetoggle.svg");
   margin-left: 1.5rem;
   margin-right: 1.5rem;
+  transform: rotate(0deg);
+  transition: transform 0.15s ease-in-out;
 }
 .listing.folderlist li div.treetoggle.expanded {
-  background-image: url("/skins/sooma/images/sidebar/folder-minus.svg");
+  transform: rotate(90deg);
 }
 .listing.folderlist li div.treetoggle.collapsed {
-  background-image: url("/skins/sooma/images/sidebar/folder-plus.svg");
+  transform: rotate(0deg);
 }
 
-table.listing {
+body.task-settings .listing.folderlist > li > a::before {
+  margin-right: calc(1.5rem + 18px - (0.5rem + 16px) + 2px);
+}
+
+.footer.small {
+  padding: 0.6rem 1rem;
+}
+.footer.small .quota-widget {
+  background: var(--color-quota-background);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.footer.small .quota-widget .count {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--color-font);
+  opacity: 0.75;
+}
+.footer.small .quota-widget .bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-light-gray);
+  overflow: hidden;
+}
+.footer.small .quota-widget .bar .value {
+  display: block;
+  height: 100%;
+  min-width: 6px;
+  border-radius: 3px;
+  background: var(--color-quota-value);
+  transition: width 0.2s ease-in-out;
+}
+.footer.small .quota-widget .bar .value.warning {
+  background: var(--color-quota-value-warning);
+}
+
+table.listing:not(.messagelist) {
   width: 100%;
 }
-table.listing > tfoot > tr > th, table.listing > tfoot > tr > td, table.listing > thead > tr > th, table.listing > thead > tr > td, table.listing > tbody > tr > th, table.listing > tbody > tr > td, table.listing > tr > th, table.listing > tr > td {
+table.listing:not(.messagelist) > tfoot > tr > th, table.listing:not(.messagelist) > tfoot > tr > td, table.listing:not(.messagelist) > thead > tr > th, table.listing:not(.messagelist) > thead > tr > td, table.listing:not(.messagelist) > tbody > tr > th, table.listing:not(.messagelist) > tbody > tr > td, table.listing:not(.messagelist) > tr > th, table.listing:not(.messagelist) > tr > td {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-table.listing > tfoot > tr > th:first-child, table.listing > tfoot > tr > td:first-child, table.listing > thead > tr > th:first-child, table.listing > thead > tr > td:first-child, table.listing > tbody > tr > th:first-child, table.listing > tbody > tr > td:first-child, table.listing > tr > th:first-child, table.listing > tr > td:first-child {
+table.listing:not(.messagelist) > tfoot > tr > th:first-child, table.listing:not(.messagelist) > tfoot > tr > td:first-child, table.listing:not(.messagelist) > thead > tr > th:first-child, table.listing:not(.messagelist) > thead > tr > td:first-child, table.listing:not(.messagelist) > tbody > tr > th:first-child, table.listing:not(.messagelist) > tbody > tr > td:first-child, table.listing:not(.messagelist) > tr > th:first-child, table.listing:not(.messagelist) > tr > td:first-child {
   padding-left: 0.5rem;
 }
-table.listing > tfoot > tr > th:last-child, table.listing > tfoot > tr > td:last-child, table.listing > thead > tr > th:last-child, table.listing > thead > tr > td:last-child, table.listing > tbody > tr > th:last-child, table.listing > tbody > tr > td:last-child, table.listing > tr > th:last-child, table.listing > tr > td:last-child {
+table.listing:not(.messagelist) > tfoot > tr > th:last-child, table.listing:not(.messagelist) > tfoot > tr > td:last-child, table.listing:not(.messagelist) > thead > tr > th:last-child, table.listing:not(.messagelist) > thead > tr > td:last-child, table.listing:not(.messagelist) > tbody > tr > th:last-child, table.listing:not(.messagelist) > tbody > tr > td:last-child, table.listing:not(.messagelist) > tr > th:last-child, table.listing:not(.messagelist) > tr > td:last-child {
   padding-right: 0.5rem;
 }
-table.listing > tfoot > tr.selected > th, table.listing > tfoot > tr.selected > td, table.listing > thead > tr.selected > th, table.listing > thead > tr.selected > td, table.listing > tbody > tr.selected > th, table.listing > tbody > tr.selected > td, table.listing > tr.selected > th, table.listing > tr.selected > td {
+table.listing:not(.messagelist) > tfoot > tr.selected > th, table.listing:not(.messagelist) > tfoot > tr.selected > td, table.listing:not(.messagelist) > thead > tr.selected > th, table.listing:not(.messagelist) > thead > tr.selected > td, table.listing:not(.messagelist) > tbody > tr.selected > th, table.listing:not(.messagelist) > tbody > tr.selected > td, table.listing:not(.messagelist) > tr.selected > th, table.listing:not(.messagelist) > tr.selected > td {
   font-weight: bold;
 }
-table.listing > tfoot > tr.selected > th a::before, table.listing > tfoot > tr.selected > td a::before, table.listing > thead > tr.selected > th a::before, table.listing > thead > tr.selected > td a::before, table.listing > tbody > tr.selected > th a::before, table.listing > tbody > tr.selected > td a::before, table.listing > tr.selected > th a::before, table.listing > tr.selected > td a::before {
+table.listing:not(.messagelist) > tfoot > tr.selected > th a::before, table.listing:not(.messagelist) > tfoot > tr.selected > td a::before, table.listing:not(.messagelist) > thead > tr.selected > th a::before, table.listing:not(.messagelist) > thead > tr.selected > td a::before, table.listing:not(.messagelist) > tbody > tr.selected > th a::before, table.listing:not(.messagelist) > tbody > tr.selected > td a::before, table.listing:not(.messagelist) > tr.selected > th a::before, table.listing:not(.messagelist) > tr.selected > td a::before {
   color: var(--color-main);
   font-weight: normal;
 }
-table.listing.iconized > thead > tr > th:first-child a, table.listing.iconized > tbody > tr > td:first-child a, table.listing.iconized > tfoot > tr > td:first-child a {
+table.listing:not(.messagelist).iconized > thead > tr > th:first-child a, table.listing:not(.messagelist).iconized > tbody > tr > td:first-child a, table.listing:not(.messagelist).iconized > tfoot > tr > td:first-child a {
   display: block;
 }
-table.listing.iconized > thead > tr > th:first-child a::before, table.listing.iconized > tbody > tr > td:first-child a::before, table.listing.iconized > tfoot > tr > td:first-child a::before {
+table.listing:not(.messagelist).iconized > thead > tr > th:first-child a::before, table.listing:not(.messagelist).iconized > tbody > tr > td:first-child a::before, table.listing:not(.messagelist).iconized > tfoot > tr > td:first-child a::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25351,14 +26536,14 @@ table.listing.iconized > thead > tr > th:first-child a::before, table.listing.ic
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
   margin-right: 1rem;
 }
-table.listing.iconized > thead > tr > th:first-child.contact a::before, table.listing.iconized > tbody > tr > td:first-child.contact a::before, table.listing.iconized > tfoot > tr > td:first-child.contact a::before {
+table.listing:not(.messagelist).iconized > thead > tr > th:first-child.contact a::before, table.listing:not(.messagelist).iconized > tbody > tr > td:first-child.contact a::before, table.listing:not(.messagelist).iconized > tfoot > tr > td:first-child.contact a::before {
   content: "\f007";
 }
 
@@ -25404,12 +26589,11 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  font-weight: 200;
   content: "\f2b9";
 }
 
@@ -25446,7 +26630,7 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25511,14 +26695,12 @@ table.listing.iconized > thead > tr > th:first-child.contact a::before, table.li
 #export-menu a.export.select::before,
 #groupoptions-menu a.export.select::before,
 #mailboxoptions-menu a.export.select::before {
-  font-weight: 200;
   content: "\f56e";
 }
 #add-calendar-menu a.export.all::before,
 #export-menu a.export.all::before,
 #groupoptions-menu a.export.all::before,
 #mailboxoptions-menu a.export.all::before {
-  font-weight: 200;
   content: "\f56e";
 }
 
@@ -25537,7 +26719,7 @@ ul.menu li a::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25564,6 +26746,15 @@ ul.menu li a.select.invert::before {
 }
 ul.menu li a.select.none::before {
   content: "\f00d";
+}
+ul.menu li a.expand.unread::before {
+  content: "\f0e0";
+}
+ul.menu li a.expand.all::before {
+  content: "\f103";
+}
+ul.menu li a.expand.none::before {
+  content: "\f102";
 }
 ul.menu li a.print::before {
   content: "\f02f";
@@ -25617,7 +26808,6 @@ ul.menu li a.unflag::before {
   content: "\e0c2";
 }
 ul.menu li a.recipient::before {
-  font-weight: 200;
   content: "\f0e0";
 }
 ul.menu li a.filterlink::before {
@@ -25645,6 +26835,33 @@ ul.menu li a.elasticsearch::before {
 }
 .popupmenu a:hover, .popupmenu a:focus, .popupmenu a:focus-within, .popupmenu a:focus-visible, .popupmenu a:target, .popupmenu a:active, .popupmenu a:visited, .popupmenu a:link {
   color: inherit;
+}
+.popupmenu a.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.popupmenu a.disabled:hover {
+  background-color: transparent;
+}
+.popupmenu li.separator {
+  padding: 0.4rem 1.15rem 0.2rem;
+  margin-top: 0.3rem;
+  border-top: 1px solid var(--color-popover-separator-background);
+}
+.popupmenu li.separator:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+.popupmenu li.separator label {
+  display: block;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: inherit;
+  opacity: 0.6;
 }
 
 .select-menu {
@@ -25681,6 +26898,10 @@ ul.menu li a.elasticsearch::before {
 .pagenav.footer {
   border-top: 1px solid var(--color-medium-gray);
 }
+#layout-list > .pagenav.footer {
+  min-height: 2.2rem;
+  padding: 0;
+}
 .pagenav input,
 .pagenav .lastpage,
 .pagenav .firstpage {
@@ -25712,7 +26933,7 @@ ul.menu li a.elasticsearch::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25857,7 +27078,7 @@ body.task-mail.action-preview #message-header .subject .extwin::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25870,15 +27091,17 @@ body.task-mail.action-preview #message-header .header-content.details-view .head
 }
 body.task-mail.action-preview #message-header .header-content .header-links {
   padding-left: 0.3rem;
+  font-size: 0.9rem;
 }
 body.task-mail.action-preview #message-header .header-content .header-links .headers-summary {
   position: absolute;
-  top: 1.2rem;
+  top: 0.835rem;
   left: 1.5rem;
   font-size: 0;
+  padding: 4.65px 0;
 }
 body.task-mail.action-preview #message-header .header-content .header-links .headers-summary::before {
-  font-size: 1rem;
+  font-size: 0.91875rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25888,12 +27111,12 @@ body.task-mail.action-preview #message-header .header-content .header-links .hea
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  content: "\f138";
+  content: "\f054";
   transition: transform 0.3s ease-in-out;
 }
 body.task-mail.action-preview #message-header .header-content .header-links a {
@@ -25914,7 +27137,7 @@ body.task-mail.action-preview #message-header .header-content .header-links a::b
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -25937,10 +27160,17 @@ body.task-mail.action-preview #message-content {
   padding: 1.5rem;
 }
 body.task-mail.action-preview #message-content #message-objects > div {
-  display: inline-block;
-  width: 80%;
-  max-width: 320px;
-  text-indent: -1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+body.task-mail.action-preview #message-content #message-objects > div.content, body.task-mail.action-preview #message-content #message-objects > div.confirmation, body.task-mail.action-preview #message-content #message-objects > div.notice, body.task-mail.action-preview #message-content #message-objects > div.loading, body.task-mail.action-preview #message-content #message-objects > div.success, body.task-mail.action-preview #message-content #message-objects > div.warning, body.task-mail.action-preview #message-content #message-objects > div.error {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
 }
 body.task-mail.action-preview #message-content #message-objects > div.content::before, body.task-mail.action-preview #message-content #message-objects > div.confirmation::before, body.task-mail.action-preview #message-content #message-objects > div.notice::before, body.task-mail.action-preview #message-content #message-objects > div.loading::before, body.task-mail.action-preview #message-content #message-objects > div.success::before, body.task-mail.action-preview #message-content #message-objects > div.warning::before, body.task-mail.action-preview #message-content #message-objects > div.error::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -25952,17 +27182,12 @@ body.task-mail.action-preview #message-content #message-objects > div.content::b
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  text-indent: -0.25rem;
-}
-body.task-mail.action-preview #message-content #message-objects > div.content, body.task-mail.action-preview #message-content #message-objects > div.confirmation, body.task-mail.action-preview #message-content #message-objects > div.notice, body.task-mail.action-preview #message-content #message-objects > div.loading, body.task-mail.action-preview #message-content #message-objects > div.success, body.task-mail.action-preview #message-content #message-objects > div.warning, body.task-mail.action-preview #message-content #message-objects > div.error {
-  margin: 1rem;
-  padding: 1rem 1rem 1rem 2.5rem;
-  border-radius: 4px;
+  flex: 0 0 auto;
 }
 body.task-mail.action-preview #message-content #message-objects > div.confirmation::before {
   content: "\f058";
@@ -26001,9 +27226,8 @@ body.task-mail.action-preview #message-content #message-objects > div.error {
   background-color: var(--color-error);
 }
 body.task-mail.action-preview #message-content #message-objects > div .boxbuttons {
-  display: block flex;
-  flex-direction: row-reverse;
-  text-indent: 0;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 body.task-mail.action-preview #message-content #message-objects > div .boxbuttons a {
   background-color: var(--color-main);
@@ -26012,8 +27236,8 @@ body.task-mail.action-preview #message-content #message-objects > div .boxbutton
   padding: 0.25rem 0.5rem;
   font-weight: bold;
   font-size: 0.9rem;
-  margin-top: 0.25rem;
   display: inline-block;
+  white-space: nowrap;
 }
 body.task-mail.action-preview #message-content #attachment-list li {
   margin-bottom: 1.5rem;
@@ -26030,7 +27254,7 @@ body.task-mail.action-preview #message-content #attachment-list li::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26090,6 +27314,20 @@ body.task-mail.action-show #message-header:not(:has(.details-view)) {
 }
 body.task-mail.action-show #message-header:not(:has(.details-view)) .subject {
   grid-area: subject;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .subject .priority-indicator-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .subject .priority-indicator-dot.priority-high {
+  background: var(--color-error);
+}
+body.task-mail.action-show #message-header:not(:has(.details-view)) .subject .priority-indicator-dot.priority-low {
+  background: var(--color-priority-low);
 }
 body.task-mail.action-show #message-header:not(:has(.details-view)) .header {
   grid-area: date;
@@ -26169,7 +27407,7 @@ body.task-mail.action-show #message-header .subject .extwin::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26182,15 +27420,17 @@ body.task-mail.action-show #message-header .header-content.details-view .header-
 }
 body.task-mail.action-show #message-header .header-content .header-links {
   padding-left: 0.3rem;
+  font-size: 0.9rem;
 }
 body.task-mail.action-show #message-header .header-content .header-links .headers-summary {
   position: absolute;
-  top: 1.2rem;
+  top: 0.835rem;
   left: 1.5rem;
   font-size: 0;
+  padding: 4.65px 0;
 }
 body.task-mail.action-show #message-header .header-content .header-links .headers-summary::before {
-  font-size: 1rem;
+  font-size: 0.91875rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26200,12 +27440,12 @@ body.task-mail.action-show #message-header .header-content .header-links .header
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  content: "\f138";
+  content: "\f054";
   transition: transform 0.3s ease-in-out;
 }
 body.task-mail.action-show #message-header .header-content .header-links a {
@@ -26226,7 +27466,7 @@ body.task-mail.action-show #message-header .header-content .header-links a::befo
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26249,10 +27489,17 @@ body.task-mail.action-show #message-content {
   padding: 1.5rem;
 }
 body.task-mail.action-show #message-content #message-objects > div {
-  display: inline-block;
-  width: 80%;
-  max-width: 320px;
-  text-indent: -1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+body.task-mail.action-show #message-content #message-objects > div.content, body.task-mail.action-show #message-content #message-objects > div.confirmation, body.task-mail.action-show #message-content #message-objects > div.notice, body.task-mail.action-show #message-content #message-objects > div.loading, body.task-mail.action-show #message-content #message-objects > div.success, body.task-mail.action-show #message-content #message-objects > div.warning, body.task-mail.action-show #message-content #message-objects > div.error {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
 }
 body.task-mail.action-show #message-content #message-objects > div.content::before, body.task-mail.action-show #message-content #message-objects > div.confirmation::before, body.task-mail.action-show #message-content #message-objects > div.notice::before, body.task-mail.action-show #message-content #message-objects > div.loading::before, body.task-mail.action-show #message-content #message-objects > div.success::before, body.task-mail.action-show #message-content #message-objects > div.warning::before, body.task-mail.action-show #message-content #message-objects > div.error::before {
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
@@ -26264,17 +27511,12 @@ body.task-mail.action-show #message-content #message-objects > div.content::befo
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  text-indent: -0.25rem;
-}
-body.task-mail.action-show #message-content #message-objects > div.content, body.task-mail.action-show #message-content #message-objects > div.confirmation, body.task-mail.action-show #message-content #message-objects > div.notice, body.task-mail.action-show #message-content #message-objects > div.loading, body.task-mail.action-show #message-content #message-objects > div.success, body.task-mail.action-show #message-content #message-objects > div.warning, body.task-mail.action-show #message-content #message-objects > div.error {
-  margin: 1rem;
-  padding: 1rem 1rem 1rem 2.5rem;
-  border-radius: 4px;
+  flex: 0 0 auto;
 }
 body.task-mail.action-show #message-content #message-objects > div.confirmation::before {
   content: "\f058";
@@ -26313,9 +27555,8 @@ body.task-mail.action-show #message-content #message-objects > div.error {
   background-color: var(--color-error);
 }
 body.task-mail.action-show #message-content #message-objects > div .boxbuttons {
-  display: block flex;
-  flex-direction: row-reverse;
-  text-indent: 0;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 body.task-mail.action-show #message-content #message-objects > div .boxbuttons a {
   background-color: var(--color-main);
@@ -26324,8 +27565,8 @@ body.task-mail.action-show #message-content #message-objects > div .boxbuttons a
   padding: 0.25rem 0.5rem;
   font-weight: bold;
   font-size: 0.9rem;
-  margin-top: 0.25rem;
   display: inline-block;
+  white-space: nowrap;
 }
 body.task-mail.action-show #message-content #attachment-list li {
   margin-bottom: 1.5rem;
@@ -26342,7 +27583,7 @@ body.task-mail.action-show #message-content #attachment-list li::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26481,7 +27722,7 @@ body.task-mail.action-print #message-header .subject .extwin::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26502,7 +27743,7 @@ body.task-mail.action-print #message-header .header-content .header-links .heade
   font-size: 0;
 }
 body.task-mail.action-print #message-header .header-content .header-links .headers-summary::before {
-  font-size: 1rem;
+  font-size: 0.91875rem;
   --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26512,12 +27753,12 @@ body.task-mail.action-print #message-header .header-content .header-links .heade
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
   width: var(--fa-width, 1.25em);
-  content: "\f138";
+  content: "\f054";
   transition: transform 0.3s ease-in-out;
 }
 body.task-mail.action-print #message-header .header-content .header-links a {
@@ -26538,7 +27779,7 @@ body.task-mail.action-print #message-header .header-content .header-links a::bef
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26576,7 +27817,7 @@ body.task-mail.action-print #message-content #message-objects > div.content::bef
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26654,7 +27895,7 @@ body.task-mail.action-print #message-content #attachment-list li::before {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26745,7 +27986,7 @@ div.recipient-input > .recipient-input-recipient::after {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -26788,11 +28029,12 @@ div.recipient-input > input {
 }
 
 label.custom-control {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-wrap: nowrap;
   --control-height: 1.5rem;
-  --control-width: calc(2 * var(--control-height));
-  --control-foreground-color: var(--color-input);
+  --control-width: calc(1.85 * var(--control-height));
+  --control-foreground-color: var(--color-medium-gray);
   --control-background-color: var(--color-input-background);
   --control-button-margin: calc(0.1 * var(--control-height));
 }
@@ -26804,19 +28046,18 @@ label.custom-control::before {
   width: var(--control-width);
   height: var(--control-height);
   background-color: var(--control-foreground-color);
-  content: "⠀";
+  content: "";
   border-radius: calc(var(--control-height) / 2);
 }
 label.custom-control::after {
   display: inline-block;
-  content: "⠀";
+  content: "";
   width: calc(var(--control-height) - 2 * var(--control-button-margin));
   height: calc(var(--control-height) - 2 * var(--control-button-margin));
   border-radius: calc(0.8 * var(--control-height) / 2);
   background-color: var(--control-background-color);
   position: relative;
   left: calc(-1 * var(--control-width) + var(--control-button-margin));
-  top: calc(var(--control-button-margin));
 }
 label.custom-control:has(input[type=checkbox]:checked) {
   --control-foreground-color: var(--color-main);
@@ -26876,7 +28117,7 @@ label.custom-control input[type=checkbox] {
   font-style: normal;
   font-synthesis: none;
   font-variant: normal;
-  font-weight: var(--fa-style, 900);
+  font-weight: var(--fa-style, 400);
   line-height: 1;
   text-align: center;
   text-rendering: auto;
@@ -27130,6 +28371,173 @@ dl.nexus-multibanco dd {
 }
 .custom-control-toggle label input[type=radio] {
   display: none;
+}
+
+.listmode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 500px;
+  background-color: #f2f0ee;
+  padding: 1px;
+}
+.listmode-toggle .dropbutton {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 0 500px 500px 0;
+  border: 1px solid transparent;
+}
+.listmode-toggle a.listmode-option {
+  display: inline-flex;
+  align-items: center;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  padding-right: calc(0.3em + 3px);
+  padding-left: calc(0.3em + 3px);
+  line-height: 1.3;
+  border-radius: 500px;
+  opacity: 1;
+  color: var(--color-font);
+  font-weight: 400;
+  border: 1px solid transparent;
+}
+.listmode-toggle a.listmode-option.active {
+  background-color: var(--color-layout-content-background);
+  border-color: var(--color-border);
+  border-radius: 500px;
+}
+.listmode-toggle > a.listmode-option {
+  border-radius: 500px 0 0 500px;
+  padding-left: calc(0.3em + 6px);
+  padding-right: calc(0.3em + 6px);
+}
+.listmode-toggle .dropbutton a.listmode-option {
+  border: none;
+  background: none;
+  border-radius: 500px 0 0 500px;
+  padding-right: 0;
+}
+.listmode-toggle a.dropdown {
+  padding: 1px 7px 1px 0;
+  border-radius: 0 500px 500px 0;
+  opacity: 0.5;
+}
+.listmode-toggle a.dropdown.active {
+  opacity: 1;
+}
+.listmode-toggle .dropbutton:has(a.listmode-option.active) {
+  background-color: var(--color-layout-content-background);
+  border-color: var(--color-border);
+  border-radius: 500px;
+}
+
+.toolbar.menu .listmode-toggle a.listmode-option,
+.toolbar.menu .listmode-toggle span.dropbutton {
+  margin: 0;
+}
+
+.toolbar.menu .listmode-toggle span.dropbutton a.dropdown::before {
+  width: auto;
+  font-size: 0.7rem;
+}
+
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .listmode-toggle a.listmode-option.active,
+body:not(.task-login):not(.task-xcalendar) > #layout #layout-list .listmode-toggle a.dropdown.active {
+  color: var(--color-main);
+}
+
+.propform .listmode-toggle {
+  margin: 0;
+}
+
+.toolbar.menu.overflow .listmode-toggle .listmode-option {
+  font-size: 1rem;
+}
+
+.help-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-medium-gray);
+  color: var(--color-medium-gray);
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: help;
+}
+.help-tip .help-tip-bubble {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 210px;
+  white-space: normal;
+  background-color: var(--color-popupmenu-background);
+  color: var(--color-popupmenu-foreground);
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  line-height: 1.4;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+}
+.help-tip .help-tip-bubble strong {
+  font-weight: 600;
+}
+.help-tip:hover .help-tip-bubble, .help-tip:focus-visible .help-tip-bubble {
+  opacity: 1;
+  visibility: visible;
+}
+
+label .help-tip {
+  margin-left: 0.3rem;
+  vertical-align: 1px;
+}
+
+.help-tip-nowrap {
+  white-space: nowrap;
+}
+
+.toggle-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.toggle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+.toggle-item .toggle-item-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: none;
+}
+.toggle-item label.custom-control {
+  margin-top: -4.15px;
+}
+.toggle-item.toggle-item-disabled {
+  opacity: 0.5;
+}
+.toggle-item.toggle-item-disabled .toggle-item-label,
+.toggle-item.toggle-item-disabled label.custom-control {
+  cursor: not-allowed;
+}
+
+.tox-tinymce .tox-tbtn--bespoke + .tox-tbtn--bespoke .tox-tbtn__select-label {
+  width: 3em;
 }
 
 body.domain-webmail-oa-pt.task-login > #layout,

@@ -105,6 +105,21 @@ body>.ui-widget-overlay {
       &.cancel:before {
         content: fa.fa-content(fa.$var-times);
       }
+
+      // Headers dialog's "Copiar" button (see skins/sooma/js/ui.js's
+      // headers_dialog) - it's the mainaction button here since it's
+      // passed as simple_dialog's action_func, so this has to come after
+      // .mainaction above to win the icon on equal specificity. Icon
+      // swaps to a checkmark for 1.5s after a successful copy (class
+      // toggled in JS) as the only feedback - no button label change, so
+      // this doesn't need to fight jQuery UI's own button markup/i18n.
+      &.copy:before {
+        content: fa.fa-content(fa.$var-copy);
+      }
+
+      &.copy.copied:before {
+        content: fa.fa-content(fa.$var-check);
+      }
     }
   }
 }
@@ -242,7 +257,21 @@ body>.ui-widget-overlay {
   }
 
 }
-div.popup.iframe.ui-dialog-content > iframe {
-  width: 100%;
-  height: 100%;
+div.popup.iframe.ui-dialog-content {
+  // jQuery UI's own base theme puts overflow-y:auto on .ui-dialog-content.
+  // The iframe below already gets its own native scrollbar once its
+  // (same-origin) document content overflows its box - e.g. the headers
+  // dialog's raw-headers view - so this wrapper scrolling too produced two
+  // visible scrollbars for what's really one scrollable area. Elastic's
+  // upstream jqueryui.less avoids this the same way: clip the wrapper,
+  // leave only the framed document's own scrollbar visible.
+  overflow: hidden;
+
+  > iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+  }
 }

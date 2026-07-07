@@ -2,7 +2,31 @@
 
 <h1 class="voice"><roundcube:var name="env:filename" /></h1>
 
-<div id="layout-content" class="selected">
+<!--
+	The "pdf" class here drives the header-hiding rule in
+	skins/sooma/styles/src/_layout.scss (body.task-mail.action-get
+	#layout-content.pdf > .header) - it's what our own Propriedades/
+	Descarregar/Imprimir toolbar checks to know the browser's native PDF
+	viewer already provides those controls (commit c4f5a9f08). Relying on
+	env:mimetype alone isn't enough: that's the part's DECLARED
+	Content-Type (rcmail_attachment_handler's constructor, before any
+	sniffing), and some senders declare real PDFs as
+	"application/octet-stream" (confirmed on a garantiamutua.pt invoice,
+	uid 456045 - the part's actual header reads
+	"Content-Type: application/octet-stream; name=..."). The browser
+	still renders it as a PDF because program/actions/mail/get.php's raw
+	content-serving path (the .iframe-wrapper's own request, with
+	_embed=1) separately sniffs the real bytes via
+	rcube_mime::file_content_type() and corrects the Content-Type header
+	it sends - but that corrected value never makes it back to this
+	wrapper page's env:mimetype, so the mimetype-only check silently
+	missed exactly the "toolbar redundant because it's really a PDF"
+	case it exists for. Falling back to the filename extension - the
+	same signal core itself trusts for this kind of octet-stream
+	ambiguity (get.php's own $valid_extension check) - catches those
+	(Manuel, 2026-07-05).
+-->
+<div id="layout-content" class="selected<roundcube:exp expression="(stripos(env:mimetype, 'application/pdf') === 0 || strtolower(substr(env:filename, -4)) === '.pdf') ? ' pdf' : ''">">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<span class="header-title constant"><roundcube:var name="env:filename" /></span>

@@ -1,0 +1,80 @@
+// Generic "row label + a few short named pill-toggles" cluster: a group
+// label on the left (e.g. "Recibos", "Certificado (S/MIME)") and, on the
+// right, each option captioned above the sidebar's usual active/inactive
+// pill toggle (wrapCheckboxes()'s .custom-control, styled in
+// widgets/_checkbox.scss - the same treatment "Manter formatação" uses).
+//
+// First built for the compose sidebar's Recibos row (Leitura/Entrega),
+// then reused immediately after for the Certificado (S/MIME) row (Assinar/
+// Encriptar) - extracted into a shared widget on that second use rather
+// than duplicated, matching how .help-tip was extracted (Manuel,
+// 2026-07-04).
+//
+// Markup:
+//   <div class="toggle-group">
+//     <div class="toggle-item">
+//       <span class="toggle-item-label">Leitura</span>
+//       <input type="checkbox" class="form-check-input" ...>
+//     </div>
+//     ...
+//   </div>
+//
+// Each checkbox's *own* parent must be a plain, non-<label> element (a
+// <div>, as above) - wrapCheckboxes() (ui.js) replaces the checkbox's
+// position within that parent with a new <label class="custom-control">
+// wrapping it, so putting the checkbox directly inside a text <label>
+// here would leave a real <label> nested inside another one.
+.toggle-group {
+  display: flex;
+  // Was 1.5rem - read as too much air between Assinar/Encriptar and
+  // Leitura/Entrega for how small/related a pair each is (Manuel,
+  // 2026-07-04).
+  gap: 0.75rem;
+}
+
+.toggle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // Was 0.35rem, then 0.1rem - still read as too loose for Manuel's taste
+  // both times. 0 removes the *box* gap entirely; closing the remaining
+  // ink-to-ink gap (real glyph pixels to the pill's visible top) needs a
+  // negative value, which flex "gap" can't do - see the pill's own
+  // margin-top below instead (Manuel, 2026-07-04).
+  gap: 0;
+
+  .toggle-item-label {
+    font-size: 0.8rem;
+    // Matches the group label's own weight (600, the sidebar's standard)
+    // rather than reading as a lesser, secondary tier under it.
+    font-weight: 600;
+    text-transform: none;
+  }
+
+  // Pulls the pill up into the label's own invisible descender/leading
+  // space, tightening the ink-to-ink gap between the caption text and the
+  // pill below it. Calibrated empirically against Manuel's own eyeballed
+  // pixel count rather than font-metric math - an earlier pass estimated
+  // this offset via canvas measureText() (~2.25px of "phantom" space
+  // below the text's real ink), but canvas's font-matching doesn't
+  // reliably reproduce how this skin's actual font renders, and Manuel
+  // measured the resulting -1.15px attempt at ~6px on his screen, not the
+  // predicted ~1.1px. Adjusted by the same delta (-3px further) to land
+  // his target of 3px: -1.15px - 3px = -4.15px (Manuel, 2026-07-04).
+  label.custom-control {
+    margin-top: -4.15px;
+  }
+
+  // For options that exist in the UI ahead of their backend (e.g.
+  // "Encriptar" before S/MIME encryption is actually implemented) -
+  // dims the whole control without hiding it, so the eventual feature is
+  // visible/discoverable but clearly not yet active.
+  &.toggle-item-disabled {
+    opacity: 0.5;
+
+    .toggle-item-label,
+    label.custom-control {
+      cursor: not-allowed;
+    }
+  }
+}

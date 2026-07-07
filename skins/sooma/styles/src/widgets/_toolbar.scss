@@ -72,17 +72,54 @@
     content: fa.fa-content(fa.$var-check);
   }
 
-  a.threads::before {
-    @include fa.fa-icon();
-    content: fa.fa-content(fa.$var-messages);
+  // Icon-only always (not just when .overflow kicks in, unlike a.select/
+  // a.refresh/etc. above): the segmented Lista/Tópicos control next to it
+  // already eats most of this toolbar's width, so "Opções" stays as a
+  // tooltip/title only, same treatment as a.more above.
+  a.options {
+    font-size: 0;
+
+    &::before {
+      font-size: 1rem;
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-gear);
+    }
   }
 
-  a.options::before {
-    @include fa.fa-icon();
-    content: fa.fa-content(fa.$var-gear);
+  // The envelope (a.unread, JS-injected in setupMailListMenu) → gear gap
+  // was double the pill → envelope gap: every "a" here gets its own
+  // margin: 0 var(--button-horizontal-margin) (above), so two adjacent
+  // "a"s each contribute a facing 0.62rem, stacking to ~19.8px — while the
+  // Lista/Tópicos pill is a bare <div> with no margin of its own, so its
+  // neighboring gaps are only ever the other side's single 0.62rem
+  // (~9.9px). Zeroing just this one facing margin — rather than gear's
+  // margin generally, in case a.options ever sits next to something else
+  // that does want the full double gap — brings this pair down to that
+  // same single-margin width.
+  a.unread+a.options {
+    margin-left: 0;
+  }
+
+  // Icon-only always, same reasoning as a.options above: a refresh glyph
+  // is self-explanatory, "Atualizar" is redundant space that this narrow
+  // toolbar can't spare.
+  a.refresh {
+    font-size: 0;
+    // ui.js's setupMailListMenu already moves this to be the last DOM
+    // child of .toolbar.menu (moveElement calls for a.options then
+    // a.refresh, in that order), but the flex row's own children are
+    // shrink-to-fit by default (no flex-grow), so being "last" only meant
+    // last among the packed-left items — it left a gap between it and the
+    // toolbar's own right edge whenever the toolbar itself is wider than
+    // its content. margin-left: auto is the standard flex trick to push
+    // just this one item (and nothing before it) all the way to the
+    // container's actual right edge, regardless of how much unused width
+    // the row has.
+    margin-left: auto;
   }
 
   a.refresh::before {
+    font-size: 1rem;
     @include fa.fa-icon();
     content: fa.fa-content(fa.$var-arrows-rotate);
   }
@@ -158,13 +195,11 @@
 
   a.import::before {
     @include fa.fa-icon();
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-import);
   }
 
   a.export::before {
     @include fa.fa-icon();
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-export);
   }
 
@@ -177,5 +212,36 @@
     &::before {
       font-size: 1rem;
     }
+  }
+}
+
+// Baseline hover/focus cue for #mailtoolbar's action buttons (Responder/
+// Reencaminhar/Eliminar/Marcar/etc.), for contexts where it never gets
+// moved into #localmenu at all - namely extwin (the standalone message
+// popup opened via the subject line's "open in new window" button).
+// js/ui.js's moveMailToolbarToLocalMenu bails out via
+// `if (!layoutMenu) return` when #layout-menu doesn't exist, which is the
+// case there, so #mailtoolbar stays put in its original .header - sitting
+// on the page's own light content background there, not localmenu's dark
+// one. layout/_headermenu.scss already has a hover rule for the
+// #localmenu case, but that whole file only ever gets loaded (4x, for as
+// many body-class variants) nested inside "&>#layout-menu { ... }" in
+// _layout.scss - so anything added there, even unindented in the source,
+// compiles wrapped in a "#layout-menu ..." ancestor requirement that can
+// never match in extwin (confirmed live: adding the rule there compiled
+// to "...#layout > #layout-menu #mailtoolbar a:not(.disabled):hover",
+// which never matched since #layout-menu doesn't exist in extwin's DOM -
+// this file, loaded via plain @use from _widgets.scss, isn't wrapped that
+// way). Reuses the same variable pair popupmenu items already use for
+// exactly this light-background case (widgets/_menu.scss), since
+// #mailtoolbar's own text color here is dark-on-light, unlike localmenu's
+// light-on-dark.
+#mailtoolbar a:not(.disabled) {
+  border-radius: 4px;
+  transition: background-color .15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-popupmenu-hover-background);
   }
 }

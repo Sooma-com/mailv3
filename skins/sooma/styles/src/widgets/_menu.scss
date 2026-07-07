@@ -50,12 +50,10 @@
   }
 
   a.export.select::before {
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-export);
   }
 
   a.export.all::before {
-    font-weight: 200;
     content: fa.fa-content(fa.$var-file-export);
   }
 
@@ -98,6 +96,32 @@ ul.menu {
 
     &.select.none::before {
       content: fa.fa-content(fa.$var-xmark);
+    }
+
+    // #threadselect-menu's three items (Expandir não lidas / Expandir tudo /
+    // Recolher tudo, class="expand unread|all|none"). "Expandir não lidas"
+    // already picked up an icon here, but only by accident: it also carries
+    // a bare "unread" class, so it was matching the unrelated &.unread::
+    // before rule below (meant for mark-as-read/unread toggles) rather than
+    // anything scoped to this menu. "Expandir tudo"/"Recolher tudo" have no
+    // such coincidental match — "all"/"none" alone don't hit &.select.all/
+    // &.select.none above (those require the "select" class too, which
+    // these items don't have) — so they rendered with no icon at all.
+    // Explicit &.expand.* rules here fix that and stop "unread" from
+    // depending on an unrelated rule matching by chance. angles-down/
+    // angles-up (rather than plus/minus) to read as "expand outward"/
+    // "collapse inward" and match the chevron language already used for
+    // the folder tree's own toggle (widgets/_treelist.scss).
+    &.expand.unread::before {
+      content: fa.fa-content(fa.$var-envelope);
+    }
+
+    &.expand.all::before {
+      content: fa.fa-content(fa.$var-angles-down);
+    }
+
+    &.expand.none::before {
+      content: fa.fa-content(fa.$var-angles-up);
     }
 
     &.print::before {
@@ -169,7 +193,6 @@ ul.menu {
     }
 
     &.recipient::before {
-      font-weight: 200;
       content: fa.fa-content(fa.$var-envelope);
     }
     &.filterlink::before {
@@ -211,6 +234,65 @@ ul.menu {
     &:visited,
     &:link {
       color: inherit;
+    }
+
+    // #responses-menu's placeholder row ("Sem respostas disponíveis") -
+    // same dimming .toolbar.menu a.disabled already uses elsewhere
+    // (widgets/_toolbar.scss), just not previously reaching popupmenus at
+    // all, so this fell back to a plain, full-opacity, hover-highlightable
+    // link even though it isn't one (Manuel, 2026-07-04).
+    &.disabled {
+      opacity: 0.5;
+      cursor: default;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // Grouped popupmenus (#responses-menu: "Insira uma resposta" / "Gerir
+  // respostas") used these li.separator > label rows as section headers,
+  // but nothing here styled them - they fell back to a plain, full-size,
+  // flush-left browser default label, breaking the padding/font-size
+  // rhythm ul.menu li a sets for every actual item below it. The
+  // --color-popover-separator(-background) variables already existed for
+  // exactly this (global/_colors.scss) but had no rule using them yet.
+  li.separator {
+    padding: 0.4rem 1.15rem 0.2rem;
+    margin-top: 0.3rem;
+    border-top: 1px solid var(--color-popover-separator-background);
+
+    // First header in the menu has no group above it to separate from -
+    // the border/margin-top just added dead space above "Insira uma
+    // resposta" that every other popupmenu's first row doesn't have.
+    &:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    label {
+      display: block;
+      margin: 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      // Not var(--color-popover-separator) - it and everything else built
+      // on --color-black-shade-text (list-secondary, quota-text,
+      // mail-headers, form-hint, spinner-item) resolve to an invalid,
+      // out-of-range HSL lightness: l*0.6 + 255*0.40 on an l already given
+      // in the 0-100 percentage scale hsl() expects, not 0-255, blows past
+      // 100% (108% here) and renders as solid white - invisible on this
+      // menu's white background. Confirmed live (computed color came back
+      // as out-of-gamut color(srgb 1.09 1.08 1.07)). Pre-existing bug, not
+      // scoped to touch here - opacity on the inherited foreground color
+      // sidesteps it the same way .disabled already does elsewhere in this
+      // file, rather than depending on the broken variable (Manuel,
+      // 2026-07-04).
+      color: inherit;
+      opacity: 0.6;
     }
   }
 }

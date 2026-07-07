@@ -2218,6 +2218,16 @@ function rcube_webmail()
       parent_uid: flags.parent_uid || 0,
       selected: this.select_all_mode || this.message_list.in_selection(uid),
       ml: flags.ml?1:0,
+      // X-Priority (1/2=high, 4/5=low, absent/0=normal - see
+      // rcmail_sendmail.php's priority_selector() and
+      // actions/mail/index.php's js_message_list(), which always sets
+      // this on flags server-side already). Was missing here, so it
+      // never survived into env.messages for later re-reads (e.g. by
+      // skin JS listening for the 'insertrow' event) even though the
+      // 'priority' column itself renders fine below, since that reads
+      // flags.prio directly instead of this cached copy (Sooma skin,
+      // 2026-07-06).
+      prio: flags.prio || 0,
       ctype: flags.ctype,
       mbox: flags.mbox,
       // flags from plugins

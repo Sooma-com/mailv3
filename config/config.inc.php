@@ -109,13 +109,29 @@ $config['language'] = 'pt_PT';
 //  4 - always, except when replying to plain text message
 $config['htmleditor'] = 1;
 
+// When replying, place the cursor above the quoted original message
+// (top posting) instead of the Roundcube default of below it, so
+// replying doesn't require scrolling past the whole quoted thread
+// before typing. 1 = top posting with the quote still indented;
+// 2 would do the same without indenting the quote.
+$config['reply_mode'] = 1;
+
 $config['skin'] = 'sooma';
 
 $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
 $config['dont_override'] = ['use_subscriptions'];
 $config['use_subscriptions'] = false;
+
+// Always show remote images by default (0=never, 1=contacts only,
+// 2=always, 3=trusted senders only). Users can still override this in
+// Settings > Preferences since it's not in dont_override.
+$config['show_images'] = 2;
 {
-    $local_config_file = realpath(__DIR__ . '/' . strtr($_SERVER['HTTP_HOST'], [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
+    // Strip the port (e.g. "localhost:8080" -> "localhost") before
+    // resolving the per-host override file, otherwise a request that
+    // includes a port never matches config/localhost.inc.php.
+    $local_config_host = explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0];
+    $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
     if ($local_config_file) include $local_config_file;
-    unset($local_config_file);
+    unset($local_config_file, $local_config_host);
 }

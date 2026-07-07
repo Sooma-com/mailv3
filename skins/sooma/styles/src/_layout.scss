@@ -73,9 +73,12 @@ a {
 
 body:not(.task-login):not(.task-xcalendar) {
   &>#layout {
-    --column-width-sidebar: 1fr;
+    // Scales with viewport width like the list/content fr tracks, but
+    // never drops below 14rem so the folder tree doesn't get crushed on
+    // narrow windows (see commit 7565556b2 for the bug this replaced).
+    --column-width-sidebar: minmax(14rem, 15%);
     --column-width-list: 1fr;
-    --column-width-content: 1fr;
+    --column-width-content: 2fr;
     display: grid;
     grid-template:
       "menu    menu    menu   " 8rem
@@ -96,16 +99,40 @@ body:not(.task-login):not(.task-xcalendar) {
       height: 100%;
       grid-area: menu;
       display: grid;
+      // Second column is minmax(0, 1fr), not a bare 1fr: a bare 1fr track
+      // won't shrink below its content's min-content width (grid tracks
+      // default to minmax(auto, ...) - "auto" meaning "at least
+      // min-content" - so at ≤768px, elastic's own is_mobile() breakpoint
+      // (skins/elastic/ui.js screen_mode()), #taskmenu's un-collapsed nav
+      // (Mensagens/Contactos/Calendário/...) forced this column - and with
+      // it #layout-menu and #localmenu, both spanning it - wider than
+      // #layout's own 100vw box, silently overflowing past the viewport
+      // with no scrollbar to reach it (#layout has overflow: hidden, so
+      // the excess just clips rather than resizes anything). Confirmed
+      // this predates today's changes - reproduces on the plain mail list
+      // view too, with no compose toolbar involved. minmax(0, 1fr) caps
+      // this column at the space #layout actually has, matching the same
+      // fix already applied one level down, on #localmenu's own inner
+      // "mailtoolbar" column (layout/headermenu.scss). Note this doesn't
+      // fix #taskmenu's own narrow-width overflow - it stops that overflow
+      // from inflating the *whole page*, but #taskmenu's nav items still
+      // need their own responsive treatment (icon-only, hamburger, etc.)
+      // at this breakpoint - flagged to Manuel as separate follow-up work,
+      // out of scope here (2026-07-04).
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
     &>#layout-sidebar {
       grid-area: sidebar;
       overflow: hidden;
-      --dynamic-min-width: 300px;
+      // Matches the grid track's own floor (--column-width-sidebar above)
+      // so the drag handle can shrink the sidebar exactly as far as the
+      // layout already allows on its own, instead of an arbitrary extra
+      // 300px floor stopping it short.
+      --dynamic-min-width: 14rem;
       --dynamic-max-width: 35vw;
     }
 
@@ -114,7 +141,12 @@ body:not(.task-login):not(.task-xcalendar) {
     &>#layout-list {
       grid-area: list;
       overflow: hidden;
-      --dynamic-min-width: 300px;
+      // rem, not px, to match #layout-sidebar's own --dynamic-min-width
+      // (14rem) — a relative unit so this floor scales with the user's
+      // root font-size/zoom instead of staying pinned at a fixed pixel
+      // count. 20rem = 320px at the default 16px root (bumped up from the
+      // original 300px floor).
+      --dynamic-min-width: 20rem;
       --dynamic-max-width: 35vw;
     }
 
@@ -122,7 +154,13 @@ body:not(.task-login):not(.task-xcalendar) {
 
     &>#layout-content {
       grid-area: content;
-      overflow: hidden;
+      // In the 3-pane view this just wraps a 100%-height iframe (which
+      // scrolls internally), so this is a no-op there. But in single-pane
+      // contexts that render this same #layout grid without a list/sidebar
+      // (extwin, message print, etc.) #layout-content IS the actual message
+      // view — it needs to scroll itself, or long messages get clipped with
+      // no way to reach the rest of the content.
+      overflow: hidden auto;
     }
 
     @include meta.load-css("layout/content");
@@ -135,8 +173,16 @@ body:not(.task-login):not(.task-xcalendar) {
 
 body.task-mail.action-compose:not(:has(#layout-list)) {
   &>#layout {
+    // Mockup (2026-07-04, Manuel's proportions feedback): was 1fr/2fr -
+    // sidebar at a third of the page for an attachment dropzone plus a
+    // handful of per-message toggles most people never touch on most
+    // sends. Narrowed to a quarter so the compose body (To/Subject/
+    // message, the actual task) gets the reclaimed width instead. Still
+    // a ratio, not a fixed width, so it keeps scaling with viewport and
+    // stays draggable within #layout-sidebar's existing
+    // --dynamic-min-width/--dynamic-max-width floor/ceiling below.
     --column-width-sidebar: 1fr;
-    --column-width-content: 2fr;
+    --column-width-content: 3fr;
     display: grid;
     grid-template:
       "menu    menu   " 8rem
@@ -150,9 +196,11 @@ body.task-mail.action-compose:not(:has(#layout-list)) {
       height: 100%;
       grid-area: menu;
       display: grid;
+      // minmax(0, 1fr): see the identical fix on the main mail #layout's
+      // own #layout-menu above for why a bare 1fr track doesn't work here.
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
@@ -160,7 +208,10 @@ body.task-mail.action-compose:not(:has(#layout-list)) {
       grid-area: sidebar;
       overflow: hidden;
       padding: 1rem;
-      --dynamic-min-width: 300px;
+      // Same relative floor as the main mail layout's #layout-sidebar,
+      // for consistent drag-resize behavior (ui.js setupColumnResizer
+      // applies to whichever #layout-sidebar is present).
+      --dynamic-min-width: 14rem;
       --dynamic-max-width: 35vw;
     }
 
@@ -182,12 +233,86 @@ body.task-mail.action-compose:not(:has(#layout-list)) {
   }
 }
 
-body.task-mail.action-show:not(:has(#layout-list)) {
+// action-show: message preview extwin (message.html).
+// action-get: attachment/messagepart preview extwin (messagepart.html),
+// e.g. opening a PDF attachment in its own window — same single
+// #layout-content shape, no #layout-sidebar/#layout-list/#layout-menu,
+// so it needs the same fix or it's left with a blank reserved menu row.
+body.task-mail.action-show:not(:has(#layout-list)),
+body.task-mail.action-get:not(:has(#layout-list)) {
   &>#layout {
     grid-template:
       "menu    menu    menu   " 8rem
       "content content content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
   }
+
+  // extwin (and any other single-pane context without the header/menu bar):
+  // don't reserve a blank 8rem row for a #layout-menu that was never rendered.
+  &:not(:has(#layout-menu)) {
+    &>#layout {
+      grid-template:
+        "content content content" auto / var(--column-width-sidebar) var(--column-width-list) var(--column-width-content);
+    }
+  }
+}
+
+// PDF attachment preview (messagepart.html, action-get): the .iframe-wrapper
+// just points its iframe's src at the raw PDF, so it's the browser's own
+// native PDF viewer rendering (no bundled pdf.js in this codebase) — which
+// already has its own filename/download/print/zoom controls, so our own
+// toolbar above it (filename + Propriedades/Descarregar/Imprimir) is
+// redundant chrome — the filename was already visible on the message's
+// attachment list before opening this preview. #layout-content gets a "pdf"
+// class from the template when env:mimetype is application/pdf; hide the
+// toolbar only in that case; other attachment types (plain text, unknown
+// binary, etc.) have no built-in viewer UI of their own, so they still need
+// it. As a side effect, .iframe-wrapper's height:100% (layout/_content.scss)
+// now matches #layout-content exactly instead of overflowing it by the
+// hidden toolbar's height.
+//
+// Visually hidden, not display:none: its Properties/Download/Print buttons
+// stay in the tab order and reachable by screen readers/keyboard, in case
+// the embedded viewer's own controls aren't (browser PDF viewers vary).
+// Deliberately not reusing this skin's ".voice" utility for that, which is
+// display:none !important (global/_global.scss) — despite the name, that
+// removes content from the accessibility tree too, so it wouldn't satisfy
+// "keep it screen-reader accessible" here. That's a separate pre-existing
+// naming/behavior mismatch, left alone rather than changed as a side effect
+// of this fix.
+body.task-mail.action-get #layout-content.pdf {
+  &>.header {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+// Double scrollbar in the same PDF preview: #layout-content's base rule
+// (overflow: hidden auto, above) exists for action-show (message.html),
+// which renders the message body directly with no iframe — there
+// #layout-content IS the scrollable content, so it needs its own scrollbar
+// for long messages. But messagepart.html (action-get) always wraps its
+// content in .iframe-wrapper > iframe, which already scrolls itself (here,
+// the browser's native PDF viewer's own scrollbar) — #layout-content's
+// overflow:auto on top of that is a second, redundant scrollbar for a
+// container that has nothing of its own left to scroll now that .header is
+// out of flow (see above). Not scoped to .pdf specifically: every
+// messagepart preview (images, text, etc.) is iframe-wrapped the same way,
+// so the fix applies to the whole action-get case.
+//
+// Selector mirrors the base rule's "> #layout > #layout-content" structure
+// (not just "#layout-content") deliberately: that rule has two ID selectors
+// in it, which out-specifies a plain class+ID override regardless of source
+// order. Matching its structure ties specificity, and this rule coming
+// later in the file wins the tie.
+body.task-mail.action-get > #layout > #layout-content {
+  overflow: hidden;
 }
 
 body.task-addressbook.action-add,
@@ -214,9 +339,12 @@ body.task-xcalendar {
       height: 100%;
       grid-area: menu;
       display: grid;
+      // minmax(0, 1fr): see the identical fix on the main mail #layout's
+      // own #layout-menu (top of this file) for why a bare 1fr track
+      // doesn't work here.
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
@@ -228,7 +356,12 @@ body.task-xcalendar {
 
     &>#layout-list {
       display: none;
-      --dynamic-min-width: 300px;
+      // rem, not px, to match #layout-sidebar's own --dynamic-min-width
+      // (14rem) — a relative unit so this floor scales with the user's
+      // root font-size/zoom instead of staying pinned at a fixed pixel
+      // count. 20rem = 320px at the default 16px root (bumped up from the
+      // original 300px floor).
+      --dynamic-min-width: 20rem;
       --dynamic-max-width: 35vw;
     }
 
@@ -260,9 +393,12 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
       height: 100%;
       grid-area: menu;
       display: grid;
+      // minmax(0, 1fr): see the identical fix on the main mail #layout's
+      // own #layout-menu (top of this file) for why a bare 1fr track
+      // doesn't work here.
       grid-template:
         "logo       taskmenu  " 4.625rem
-        "localmenu  localmenu " 1fr / 228px 1fr;
+        "localmenu  localmenu " 1fr / 228px minmax(0, 1fr);
       @include meta.load-css("layout/headermenu");
     }
 
@@ -302,4 +438,24 @@ body.task-settings.action-plugin-managesieve-action:not(.task-login):not(.task-x
 }
 body.task-settings.action-plugin-sooma_smime_import_cert_dialog:not(.task-login):not(.task-xcalendar) {
   @include meta.load-css("layout/content/sooma_smime_dialog");
+}
+
+// Calendar invites: xcalendar already renders a rich "you're invited" card
+// (with Accept/Tentative/Decline) from the .ics part, so the raw .ics
+// attachment link(s) above it are redundant. Hide just the .ics entries;
+// if that empties the attachments column entirely, hide it too. Any
+// non-.ics attachments (e.g. a real PDF alongside the invite) stay.
+// Deliberately a plain top-level rule, not routed through meta.load-css
+// from within a #layout-scoped block: the normal 3-pane preview pane
+// renders message.html inside a plain iframe with no #layout wrapper at
+// all (only extwin/standalone views have one), so this needs to match
+// regardless of whether #layout exists.
+#message-content:has(#xcalendar-message-itip) {
+  #attachment-list li.ics {
+    display: none;
+  }
+
+  .leftcol:not(:has(li:not(.ics))) {
+    display: none;
+  }
 }
