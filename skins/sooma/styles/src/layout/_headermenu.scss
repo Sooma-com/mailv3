@@ -536,4 +536,112 @@
     // event is always available.
   }
 
+  // Manuel asked 2026-07-10 to move FullCalendar's own header toolbar -
+  // "Hoje" (today), prev/next date nav, and the current date-range title
+  // - out of its own light bar (#calendar-grid .fc-header-toolbar,
+  // _xcalendar.scss) and into this dark bar instead, between "Novo
+  // evento" and "Dia" (ui.js's moveCalendarNavToLocalMenu does the actual
+  // move; watchCalendarNavToLocalMenu re-runs it on every FullCalendar
+  // toolbar rebuild). These render as FullCalendar's own Bootstrap-esque
+  // .btn.btn-primary elements - already mostly neutral on this codebase's
+  // own reset (confirmed live: transparent background, no border) but
+  // still in the light theme's near-black text color and FullCalendar's
+  // own sizing/spacing, not this bar's. Restyled to read as the same kind
+  // of plain link as "Dia"/"Semana" right next to them, sharing their
+  // hover treatment (the generic a:not(.disabled):hover rule above only
+  // matches <a> elements, not these <button>/<h2> ones).
+  .fc-today-button,
+  .fc-prev-button,
+  .fc-next-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: var(--color-layout-header-localmenu-foreground);
+    font-size: 1em;
+    padding: 8px 0.4rem;
+    margin: 0 0.2rem;
+    border-radius: 4px;
+    line-height: 16px;
+    cursor: pointer;
+    transition: background-color .15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+    }
+
+    // FullCalendar disables "Hoje" itself once the visible range already
+    // includes today - same dim-instead-of-hide treatment as
+    // addressbook's own a.disabled a few rules up, minus the saturation
+    // trick that rule uses (that one's masking a solid-color pill;
+    // this is a plain label, plain opacity already reads as "inactive"
+    // same as the rest of this app).
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+
+      &:hover, &:focus-visible {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // The prev/next pair sit together in their own .btn-group (ui.js keeps
+  // FullCalendar's own wrapper intact when moving it), so the outer
+  // margin/padding above - sized to separate "Hoje" from the arrows, and
+  // the arrows from the title - was also spacing the two arrows apart
+  // from each other by the same 1.2rem, reading as two disconnected
+  // buttons rather than one "‹ ›" pager. Tightening only the two sides
+  // that face each other; the outer sides (Hoje→prev, next→title) keep
+  // the original spacing (Manuel, 2026-07-10).
+  .fc-prev-button {
+    margin-right: 0;
+    padding-right: 0.2rem;
+  }
+
+  .fc-next-button {
+    margin-left: 0;
+    padding-left: 0.2rem;
+  }
+
+  // "Kill the home icon, use a text label instead" (Manuel, 2026-07-10) -
+  // the icon was this same button given a Font Awesome home glyph via
+  // ::before (#calendar-grid .fc-today-button rule, _xcalendar.scss);
+  // ui.js sets its textContent to "Hoje", so only the glyph itself needs
+  // dropping here, not the whole rule.
+  .fc-today-button::before {
+    content: none;
+  }
+
+  .btn-group {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // FullCalendar's own title node moves into this bar for layout purposes
+  // (keeps its place in the toolbar's DOM order) but is never shown - see
+  // watchCalendarTitleFormat's own comment (ui.js) for why its raw text is
+  // only ever read, never overwritten. .xcalendar-toolbar-title is the
+  // plain <span> that actually displays the (reformatted) copy.
+  .fc-toolbar-title {
+    display: none;
+  }
+
+  // Full-strength foreground here reads identically to "Dia"/"Semana"
+  // etc. right next to it, which are real buttons - this text never is
+  // (there's no click handler on it, moving it was purely cosmetic
+  // layout). Dimming it to the same opacity (_toolbar.scss's own
+  // a.disabled convention, also reused a few rules up for :disabled
+  // Hoje/prev/next) signals "label, not action" the same way this app
+  // already dims inactive controls elsewhere (Manuel, 2026-07-10).
+  .xcalendar-toolbar-title {
+    display: inline-block;
+    margin: 0 0.4rem;
+    font-size: 1em;
+    font-weight: 400;
+    color: var(--color-layout-header-localmenu-foreground);
+    opacity: 0.5;
+    white-space: nowrap;
+  }
+
 }
