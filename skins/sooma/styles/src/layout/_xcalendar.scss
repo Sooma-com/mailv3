@@ -1,8 +1,114 @@
 @use "../fontawesome/fa";
 
+// Was nested inside #xcalendar-app as "#xcalendar-toolbar .toolbar" -
+// scoped to the sidebar header this toolbar used to live in permanently.
+// Pulled out to the top level and targeted by its own id instead, since
+// ui.js's moveCalendarToolbarToLocalMenu (js/ui.js) relocates this div
+// into #localmenu's dark bar - outside #xcalendar-app's own subtree
+// entirely (#localmenu lives under #layout > #layout-menu, a sibling of
+// #xcalendar-app, not a descendant of it). Left nested under #xcalendar-app
+// here, these icon rules would've silently stopped matching (and dropped
+// every one of them) the moment that move landed (Manuel, 2026-07-07).
+#xcalendar-actions-toolbar {
+  font-family: inherit;
+
+  &>a {
+    font-family: inherit !important;
+    font-weight: normal;
+
+    &.xcalendar-mobile-show-sidebar {
+      display: none;
+    }
+
+    &::before {
+      @include fa.fa-icon();
+      font-family: "Font Awesome 7 Pro" !important;
+    }
+
+    &.calendar-add-event::before {
+      content: fa.fa-content(fa.$var-plus);
+    }
+
+    &.calendar-day::before {
+      content: fa.fa-content(fa.$var-calendar-day);
+    }
+
+    &.calendar-week::before {
+      content: fa.fa-content(fa.$var-calendar-week);
+    }
+
+    &.calendar-month::before {
+      content: fa.fa-content(fa.$var-calendar);
+    }
+
+    &.calendar-agenda::before {
+      content: fa.fa-content(fa.$var-list);
+    }
+
+    &.calendar-search::before {
+      content: fa.fa-content(fa.$var-search);
+    }
+
+    &.calendar-settings::before {
+      content: fa.fa-content(fa.$var-gear);
+    }
+  }
+}
+
+// #xcalendar-toolbar (plugins/xcalendar/skins/sooma/templates/layout.html's
+// #layout-sidebar > .header) has nothing left to show once
+// #xcalendar-actions-toolbar moves out of it: its only other child,
+// a.task-menu-button, is already unconditionally display:none for every
+// .listbox header regardless of viewport (_sidebar.scss - it was never
+// this task's real mobile sidebar toggle; that's the small calendar icon
+// living inside #xcalendar-actions-toolbar itself, a.xcalendar-mobile-
+// show-sidebar, which moves along with the rest of that div). So this bar
+// was dead space even before the move, and is unconditionally dead now
+// (Manuel, 2026-07-07).
+#xcalendar-toolbar {
+  display: none;
+}
+
+// Same story on the other pane: #layout-content's own header
+// (.calendar-content-header, same layout.html) never had anything visible
+// in it even before today's changes - its two children are a
+// .back-list-button (widgets/_toolbar.scss hides ".header .back-list-button"
+// unconditionally, app-wide, not just here) and an empty .header-title span
+// (onclick="mobileCalendar.showGrid()", but no roundcube:label - nothing
+// ever renders inside it). Same grey dead-space bar as #xcalendar-toolbar,
+// same fix (Manuel, 2026-07-07).
+#layout-content .calendar-content-header {
+  display: none;
+}
+
 #xcalendar-app {
   display: grid;
-  grid-template: "content sidebar" auto / 1fr 3fr;
+  // 15rem, not 1fr: close to --column-width-sidebar's own floor for
+  // Mail's and addressbook's left-most panel (folder tree / groups list -
+  // _layout.scss's "minmax(14rem, 15%)", scoped to
+  // "body:not(.task-login):not(.task-xcalendar)" - xcalendar was never
+  // part of that generic grid to begin with, hence its own separate
+  // #xcalendar-app grid here). This pane (the mini datepicker +
+  // "Calendários" list) doesn't need anywhere near the 1fr (~25% of the
+  // window) it was getting - it's not a resizable pane the user drags per
+  // #layout-sidebar's own --dynamic-min-width/--dynamic-max-width
+  // mechanism, just a fixed-width column, so it gets close to Mail/
+  // addressbook's floor rather than their min/max range. Bumped a rem
+  // past that exact 14rem floor (2026-07-07): the inline jquery-ui
+  // datepicker's own table has an intrinsic minimum width (~235px at this
+  // font-size, 7 day-of-week columns) that's a hair over 14rem/224px,
+  // clipping "Dom"'s column at the exact floor - 15rem/240px comfortably
+  // clears it (Manuel, 2026-07-07).
+  //
+  // Bumped again same day, 15rem -> 18rem: Manuel compared this pane
+  // against Google Calendar's own mini month view at the same viewport -
+  // Google reads roomier almost entirely via wider outer gutters and
+  // taller row padding, not a bigger font (explicitly asked to leave the
+  // 10px size alone). The extra 3rem here is spent as symmetric left/
+  // right padding inside #sidebar-calendar below, not on the datepicker
+  // table itself, which stays at its own intrinsic ~235px width
+  // (Manuel, 2026-07-07).
+  grid-template: "content sidebar" auto / 18rem 1fr;
   --color-xcalendar-current-day-background: var(--color-highlight-background);
   --color-xcalendar-current-day-foreground: var(--color-highlight-foreground);
 
@@ -18,6 +124,20 @@
     min-width: none;
     max-width: none;
     width: auto;
+
+    // The plugin's own baseline CSS (assets/styles/elastic.scss) absolutely
+    // positions this pane's content flush below its .header sibling with a
+    // hardcoded "top: 4.2rem" - a guess baked in at build time about that
+    // header's height, not something it measures live. Now that
+    // #xcalendar-toolbar (that .header) is display:none above, 4.2rem of
+    // its old height is dead space #main-calendar-container is still
+    // leaving empty at its own top. Zeroing it out here instead - matches
+    // #layout-content's own sibling pane, #sidebar-calendar, which was
+    // never absolutely positioned in the first place and already sits
+    // flush (Manuel, 2026-07-07).
+    #main-calendar-container {
+      top: 0;
+    }
   }
 
   &>#event-preview-controller {
@@ -53,113 +173,294 @@
     border-left: 1px solid var(--color-medium-gray);
   }
 
-  #xcalendar-toolbar .toolbar {
-    font-family: inherit;
-
-    &>a {
-      font-family: inherit !important;
-      font-weight: normal;
-
-      &.xcalendar-mobile-show-sidebar {
-        display: none;
-      }
-
-      &::before {
-        @include fa.fa-icon();
-        font-family: "Font Awesome 7 Pro" !important;
-      }
-
-      &.calendar-add-event::before {
-        content: fa.fa-content(fa.$var-plus);
-      }
-
-      &.calendar-day::before {
-        content: fa.fa-content(fa.$var-calendar-day);
-      }
-
-      &.calendar-week::before {
-        content: fa.fa-content(fa.$var-calendar-week);
-      }
-
-      &.calendar-month::before {
-        content: fa.fa-content(fa.$var-calendar);
-      }
-
-      &.calendar-agenda::before {
-        content: fa.fa-content(fa.$var-list);
-      }
-
-      &.calendar-search::before {
-        content: fa.fa-content(fa.$var-search);
-      }
-
-      &.calendar-settings::before {
-        content: fa.fa-content(fa.$var-gear);
-      }
-    }
-
-  }
-
   // .table-bordered td {
   //   border-width: 1px;
   //   border-style: solid;
   // }
 
   #sidebar-calendar {
+    // Manuel's own explicit size request (2026-07-07): originally 10px
+    // across this whole mini-calendar widget - nav ("Julho"/"2026"),
+    // weekday header ("Sem Seg Ter..."), and day numbers alike. Bumped to
+    // 13px same day after the Google-rhythm pass above (wider 18rem
+    // column + padding) made room for slightly bigger type too. Set once
+    // here so every descendant inherits it by default; the one exception
+    // is the month/year <select> pair just below, which has its own
+    // explicit rem-based font-size (rem doesn't inherit from a parent's
+    // font-size the way plain descendant text does) - overridden to
+    // match explicitly there instead.
+    font-size: 13px;
+
+    // Symmetric horizontal breathing room so the now-wider 18rem column
+    // (#xcalendar-app's grid-template above) doesn't leave all of its
+    // extra width stranded on one side - jquery-ui's own datepicker table
+    // below is width: 100%, so this padding spreads evenly across both
+    // margins instead of the table just sitting flush-left in a wider
+    // box. Part of the same Google-rhythm pass as the padding added to
+    // th/td further down (Manuel, 2026-07-07).
+    padding: 0 1rem;
+
+    // Matched to Mail's own #layout-list > .header row height (2.2rem,
+    // measured live) so this pane's first line of content sits at the
+    // same height as the equivalent "Selecionar/Lista/Tópicos" row over
+    // in Mail - both rows now start flush at the same y (see
+    // #main-calendar-container's own "top: 0" fix above and
+    // #layout-content having no header of its own left above this one),
+    // so matching height also means the two rows' content lines up at the
+    // same vertical position, not just occupying the same amount of space
+    // (Manuel, 2026-07-07). align-items: center replaces the old flat
+    // padding-top: 0.5rem for vertical centering within that fixed height,
+    // rather than just pushing content down from the top.
+    // Was a 3-column grid ("prev title next" / min-content 1fr
+    // min-content) - matched the original jquery-ui layout of arrows
+    // pinned to each edge with the title floating in between
+    // ("‹ Julho 2026 ›"). Rebuilt as a centered flex cluster instead,
+    // ordered so the title reads first and both arrows follow it as a
+    // tight pair ("Julho 2026 ‹ ›") - the layout Manuel asked for after
+    // comparing this against Google Calendar's own mini month view
+    // (Manuel, 2026-07-07). order values below re-sequence the DOM's
+    // actual prev/next/title markup order without touching the template.
     .ui-datepicker-header {
-      padding-top: 0.5rem;
-      display: grid;
-      grid-template: "prev title next" auto / min-content 1fr min-content;
+      height: 2.2rem;
+      display: flex;
+      align-items: center;
+      // Was centered as one tight cluster - Manuel asked to split it back
+      // apart instead: title flush left, arrows flush right, each end of
+      // the same 2.2rem row (Manuel, 2026-07-07). justify-content no
+      // longer does the separating work itself (see margin-left: auto on
+      // .ui-datepicker-prev below) - flex-start here just keeps the
+      // title from centering by default.
+      justify-content: flex-start;
+      gap: 0.3rem;
+
+      // jquery-ui puts "ui-helper-clearfix" on this header for its own
+      // original float-based prev/next layout - that class's clearfix
+      // hack injects an empty ::before/::after pair (jquery-ui.css:
+      // "content: ''; display: table"). Meaningless once this is a flex
+      // container (nothing here floats anymore), but that ::before still
+      // counts as a real flex item - a zero-width one, ordered first
+      // since pseudo-elements always render before real children at the
+      // same order value. The gap above was then applying between THAT
+      // invisible item and the title, not before the title itself,
+      // pushing "Julho 2026" one full gap (4.8px) right of the row's
+      // true left edge - and out of alignment with the table's own first
+      // column below it. Confirmed live and killed at the source here
+      // rather than compensating with a negative margin on the title
+      // (Manuel, 2026-07-07).
+      &::before,
+      &::after {
+        display: none;
+      }
 
       .ui-datepicker-prev,
       .ui-datepicker-next {
         position: static;
-        font-size: 1px;
+        order: 1;
         font-size: 0;
-        width: 1.5rem;
+        // Shrunk from 1.5rem, paired with the title's own bump to 16px
+        // just below - Manuel asked for the title to read slightly
+        // bigger and the arrows slightly smaller so the pair reads as
+        // "primary text, secondary controls" instead of same-weight
+        // siblings (Manuel, 2026-07-07).
+        width: 1.15rem;
+        height: 1.15rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
         cursor: pointer;
 
         span {
           background: none;
         }
+
+        // No hover affordance at all before this pass - these are real
+        // buttons (prev/next month), so they get the same neutral
+        // icon-button hover already used for toolbar buttons elsewhere,
+        // instead of introducing a one-off color here (Manuel,
+        // 2026-07-07).
+        &:hover,
+        &:focus-visible {
+          background-color: var(--color-toolbar-button-background-hover);
+        }
       }
 
       .ui-datepicker-prev {
-        grid-area: prev;
-
-        &::before {
-          @include fa.fa-icon();
-          content: fa.fa-content(fa.$var-chevron-left);
-        }
+        // Pushes itself (and .ui-datepicker-next right after it in
+        // visual order) all the way to the row's right edge, leaving the
+        // title flush at the left edge - the standard flex trick for
+        // "two ends of the same row" without needing justify-content:
+        // space-between, which would've spread space between title and
+        // prev AND between prev and next equally (we only want the first
+        // gap, not the second) (Manuel, 2026-07-07).
+        margin-left: auto;
       }
 
-      .ui-datepicker-next {
-        grid-area: next;
-
-        &::before {
-          @include fa.fa-icon();
-          content: fa.fa-content(fa.$var-chevron-right);
-        }
+      .ui-datepicker-prev::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-chevron-left);
+        // fa.fa-icon()'s own default is 16px - restated after the mixin
+        // (so it isn't clobbered by the mixin's own font-size) to shrink
+        // alongside the smaller 1.15rem button box above (Manuel,
+        // 2026-07-07).
+        font-size: 12px;
       }
 
+      .ui-datepicker-next::before {
+        @include fa.fa-icon();
+        content: fa.fa-content(fa.$var-chevron-right);
+        font-size: 12px;
+      }
+
+      // Now that this pane is 18rem wide instead of its old ~24rem (see
+      // #xcalendar-app's own grid-template comment), jquery-ui's stock
+      // theme rule (plugins/jqueryui/themes/elastic/jquery-ui.css:
+      // ".ui-datepicker select.ui-datepicker-month/.year { width: 45% }")
+      // no longer has room to work: a <select>'s width can't actually
+      // shrink below its longest <option>'s own rendered text ("Setembro"/
+      // "Dezembro" at 1.1rem), so the month select was clamped back up to
+      // ~100% of the title column width regardless of that 45%, pushing
+      // the year select onto a second line and overflowing "next" (>)
+      // half off the pane's own right edge (confirmed live before this
+      // fix). flex + a smaller font-size shrinks that same intrinsic
+      // minimum enough for both to sit on one line again (Manuel,
+      // 2026-07-07).
       #sidebar-calendar-dp-title {
-        grid-area: title;
-        text-align: center;
+        // Placed first in visual order (see .ui-datepicker-header comment
+        // above) - was pinned to a "title" grid-area between the two
+        // arrows, now just the first item in the flex cluster (Manuel,
+        // 2026-07-07).
+        order: 0;
+        // jquery-ui's own theme (plugins/jqueryui/themes/elastic/
+        // jquery-ui.css) puts "margin: 0 2.3em" on .ui-datepicker-title -
+        // room for its own float/absolute-positioned prev/next arrows to
+        // sit over the title bar without overlapping the text, back when
+        // this had no layout of its own. That margin is pure dead weight
+        // under our own flex/order layout, and at this pane's narrower
+        // width was eating over half the title's own space (55.2px off
+        // each side), which was the original wrapping/overflow bug this
+        // block exists to fix (Manuel, 2026-07-07).
+        margin: 0;
+        display: flex;
+        // Was centered within its own box - now flush left instead, to
+        // match the header's own flex-start above (title hugs the row's
+        // left edge, Manuel, 2026-07-07).
+        justify-content: flex-start;
+        align-items: center;
+        // Was 0.3rem between the month/year selects - closed almost all
+        // the way so "Julho 2026" reads as one connected phrase instead
+        // of two separate controls sitting side by side (Manuel,
+        // 2026-07-07).
+        gap: 0.15rem;
+
+        select.ui-datepicker-month {
+          // A native <select>'s box normally sizes to its *widest*
+          // option ("Setembro"/"Dezembro"), not whatever's currently
+          // selected - unrelated to appearance: none, confirmed live.
+          // For a short month like "Julho" that used to leave real blank
+          // space inside the box's own right edge (a visible gap before
+          // "2026"). Previously patched by right-aligning the text
+          // against that edge - which connected it to "2026" but broke
+          // the *other* ask, left-aligning "Julho" with the mini
+          // calendar's own first column below (its box's left edge no
+          // longer matched where the glyph itself started once
+          // right-aligned). field-sizing: content (Chrome 123+) fixes
+          // the actual cause instead of trading one alignment for the
+          // other - it shrinks the box to the *current* value's real
+          // width, so plain left-aligned text already sits flush at the
+          // box's left edge (matching the table) AND right up against
+          // "2026" (no leftover box padding to its right) at the same
+          // time (Manuel, 2026-07-07).
+          field-sizing: content;
+        }
 
         select {
+          width: auto;
           color: var(--color-font);
           font-weight: 600;
-          font-size: 1.1rem;
+          // Was matched to #sidebar-calendar's own 13px - bumped to 16px
+          // same pass as the arrows shrinking to 12px (Manuel,
+          // 2026-07-07): title reads as the primary text, arrows as
+          // secondary controls, rather than same-weight siblings. Still
+          // a plain px value rather than rem, since rem wouldn't inherit
+          // from this parent anyway (rem is always relative to the
+          // root).
+          font-size: 16px;
+          // Both selects rendered with a plain underline out of the box
+          // (jquery-ui/browser default styling on a bare <select> with
+          // appearance: none) - read as a broken/unstyled link next to
+          // Google's plain, undecorated title text. Cursor stays pointer
+          // by default on a <select> regardless, so removing the
+          // underline doesn't lose the "this is clickable" affordance
+          // (Manuel, 2026-07-07).
+          text-decoration: none;
+          // jquery-ui's own theme padding ("0 5px" on this select) was
+          // adding almost as much visible gap as the 0.3rem flex gap it
+          // sat next to - closing this down too was needed to actually
+          // get "Julho" and "2026" to read as connected, not just the
+          // flex gap on its own (Manuel, 2026-07-07).
+          padding: 0 1px;
         }
       }
     }
 
     table.ui-datepicker-calendar {
+      // Weekday header cells ("Sem Seg Ter...") don't actually inherit
+      // #sidebar-calendar's 10px above - jquery-ui's own theme CSS
+      // (plugins/jqueryui/themes/elastic/jquery-ui.css) computed out to
+      // 12.8px live regardless (0.8em against a 16px context, not this
+      // table's own inherited 10px - never tracked down exactly which of
+      // its rules resets that em chain, but restating the size explicitly
+      // here sidesteps it rather than chasing it further). Day-number
+      // cells (below) inherited correctly on their own, restated anyway
+      // for consistency/robustness (Manuel, 2026-07-07).
+      th {
+        // Bumped 10px -> 13px alongside #sidebar-calendar's own size
+        // above (Manuel, 2026-07-07). Weekday header cells don't
+        // actually inherit that parent value on their own (jquery-ui's
+        // theme CSS resets the em-chain somewhere never fully tracked
+        // down - see the block comment above this table), so this has to
+        // be restated explicitly regardless of which size is current.
+        font-size: 13px;
+        // More vertical air per header/day row - Google's own mini month
+        // view reads roomier partly from padding/row height on top of
+        // its own bigger font (Manuel, 2026-07-07).
+        padding: 0.6em 0.2em;
+
+        // Default <th> centering put "Sem"/"Seg" a few px right of the
+        // column's own left edge - fine on its own, but it broke the
+        // point of left-aligning "Julho 2026" against this column above:
+        // the title's text now starts flush at its box's left edge, so a
+        // *centered* first header cell could never actually line up with
+        // it pixel-for-pixel no matter how the title itself was
+        // positioned. Scoped to :first-child only (not every th) - the
+        // rest of the weekday row stays centered above its own day
+        // numbers below, which are still center-aligned themselves
+        // (Manuel, 2026-07-07).
+        &:first-child {
+          text-align: left;
+        }
+      }
+
       td {
+        font-size: 13px;
+        padding: 0.35em 0;
+
         a {
+          // display/min-width/line-height turn each day link into a
+          // fixed, roughly-square hit target so border-radius: 50% below
+          // reads as a circular badge (matching Google's filled-circle
+          // selected/today marker) instead of the previous 0.25rem
+          // rounded-square badge, which only looked round by accident at
+          // the old cramped padding (Manuel, 2026-07-07).
+          display: inline-block;
+          min-width: 1.7em;
+          padding: 0.3em 0;
+          line-height: 1;
+          text-align: center;
           background-color: transparent;
           border-width: 0;
-          border-radius: 0.25rem;
+          border-radius: 50%;
         }
 
         &.ui-datepicker-today {
@@ -182,6 +483,18 @@
   #calendar-list-container {
 
     .calendar-list-header {
+      // "Calendários" itself is a bare text node directly inside this
+      // header (not its own element) - some shared/generic ".header"
+      // rule elsewhere centers it by default. Left-aligning here so it
+      // sits flush with "Julho 2026" and the mini calendar's own first
+      // column above (this section isn't inside #sidebar-calendar, so it
+      // doesn't inherit that box's 1rem padding automatically - restated
+      // as padding-left here to land at the exact same inset, keeping
+      // the existing 10px right padding for the hamburger icon on the
+      // other side) (Manuel, 2026-07-07).
+      text-align: left;
+      padding-left: 1rem;
+
       #new-calendar-container {
         a.create {
           font-size: 0;
@@ -225,15 +538,35 @@
   }
 
   #calendar-grid {
+    // Same match as #sidebar-calendar's .ui-datepicker-header right above
+    // (Manuel, 2026-07-07) - Mail's own #layout-list > .header row height
+    // (2.2rem), so this pane's first line of content lines up with both
+    // that row and the mini-calendar nav row's now-identical height,
+    // instead of the taller, top-aligned box FullCalendar renders by
+    // default (its title/buttons are shorter than the row they render at,
+    // hence align-items: start leaving visible slack below them - height
+    // + align-items: center here fixes both the total height and that gap
+    // in one go).
     .fc-header-toolbar {
       display: flex;
       flex-wrap: nowrap;
-      align-items: start;
+      align-items: center;
+      height: 2.2rem;
+      // FullCalendar's own JS lays this toolbar out as a flex-shrink: 1
+      // column-flex item, competing for space with the actual time grid
+      // below it inside a height-constrained parent (confirmed live: an
+      // explicit "height: 200px !important" only ever rendered at
+      // ~113px, and 2.2rem shrank down to ~26px without this - the grid
+      // below was eating the difference rather than this box holding its
+      // requested height). flex-shrink: 0 keeps this row pinned to its
+      // full 2.2rem instead; the grid below still has room to give since
+      // it scrolls internally already (Manuel, 2026-07-07).
+      flex-shrink: 0;
 
       .fc-toolbar-chunk {
         display: flex;
         flex-wrap: nowrap;
-        align-items: start;
+        align-items: center;
 
         .fc-today-button {
           background: none;
