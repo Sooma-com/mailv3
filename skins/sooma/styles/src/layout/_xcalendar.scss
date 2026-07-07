@@ -45,12 +45,45 @@
       content: fa.fa-content(fa.$var-list);
     }
 
-    &.calendar-search::before {
-      content: fa.fa-content(fa.$var-search);
+    // Manuel asked to kill "Definições" from this bar outright and push
+    // "Pesquisar" to the bar's far right edge (2026-07-10).
+    // #xcalendar-actions-toolbar is a flex row (confirmed live via
+    // getComputedStyle) with a.xcalendar-mobile-show-sidebar already
+    // display:none at the end (top of this block) - margin-left: auto on
+    // calendar-search shoves it and every flex item after it (just that
+    // already-hidden one) over to the row's remaining free space, with
+    // nothing left after it to also get pulled along visibly.
+    // Manuel asked to drop the "Pesquisar" label and leave just the
+    // magnifier (2026-07-10). font-size: 0 on the link zeroes its own
+    // text (there's no separate span wrapping it to target instead - it's
+    // a bare text node next to the ::before icon), which would also blind
+    // the icon since ::before inherits font-size from its own element by
+    // default (confirmed live: both were computing to the same 16px
+    // before this) - restoring an explicit font-size on ::before itself
+    // is what keeps the icon visible while its sibling text collapses.
+    // margin-right on the icon was spacing it away from that text; with
+    // no text left to space away from, it'd just be dead padding pushing
+    // the icon off from the bar's right edge.
+    &.calendar-search {
+      margin-left: auto;
+      font-size: 0;
+      // Matches "Novo evento" (a.calendar-add-event)'s own padding
+      // exactly (0.485rem 1rem, confirmed live) rather than the plain
+      // 8px 0 every other link in this bar gets - Manuel asked for the
+      // magnifier to get the same click target/breathing room as that
+      // pill button, not just whatever fell out of shedding its text
+      // (2026-07-10).
+      padding: 0.485rem 1rem;
+
+      &::before {
+        content: fa.fa-content(fa.$var-search);
+        font-size: 16px;
+        margin-right: 0;
+      }
     }
 
-    &.calendar-settings::before {
-      content: fa.fa-content(fa.$var-gear);
+    &.calendar-settings {
+      display: none;
     }
   }
 }
@@ -117,6 +150,28 @@
     min-width: none;
     max-width: none;
     width: auto;
+
+    // Manuel asked to strip every line out of this pane - horizontal or
+    // vertical - and give it a light background instead (2026-07-10).
+    // Checked live via getComputedStyle before touching anything: the
+    // mini datepicker itself (#sidebar-calendar) has no table/cell
+    // borders of its own to begin with, so the only real line sources
+    // were this element's own border-right (the vertical line separating
+    // this pane from the main grid, #layout-sidebar) and
+    // .calendar-list-header's border-top/border-bottom (a shared/generic
+    // ".header" rule elsewhere, bracketing "Calendários" above and
+    // below) - both killed below rather than touching that generic rule,
+    // which Mail and addressbook's own headers still rely on.
+    // --color-light-gray is this codebase's existing "subtle tint, not
+    // stark white" convention (already reused for popupmenu hover
+    // backgrounds, _colors.scss) rather than a new one-off color.
+    border-right: none;
+    background-color: var(--color-light-gray);
+
+    .header {
+      border-top: none;
+      border-bottom: none;
+    }
   }
 
   &>#layout-sidebar {
@@ -173,6 +228,131 @@
     border-left: 1px solid var(--color-medium-gray);
   }
 
+  // Manuel asked (2026-07-10) for Mês's own week rows to get horizontal
+  // dividers like the vertical ones above already give its day columns -
+  // confirmed live there were none: Mês's actual day cells (td.fc-daygrid-
+  // day) live inside their own ".fc-scrollgrid-sync-table" (a plain body
+  // table FullCalendar renders one level below the real
+  // "table.fc-scrollgrid"), so the existing ".fc-scrollgrid-section"-
+  // scoped border-bottom rule just above never reaches them - that rule
+  // is for a different, outer table entirely.
+  #calendar-grid .fc-daygrid-body td.fc-daygrid-day {
+    border-bottom: 1px solid var(--color-medium-gray);
+  }
+
+  // Manuel flagged (2026-07-10) that the line separating Semana/Dia's
+  // all-day row from the hourly grid below it looks inconsistent across
+  // a week: visible over empty days, but hidden under any day's all-day
+  // event bar. Root cause confirmed live: that per-cell border-bottom
+  // (just above) is painted as part of each td.fc-daygrid-day's own box,
+  // but .fc-daygrid-event-harness (FullCalendar's absolutely-positioned
+  // event pill, confirmed z-index: auto but later in paint order within
+  // the same .fc-daygrid-body stacking context - itself position:
+  // relative, z-index: 2, confirmed live) ends up painting over that
+  // border on any day that actually has one, even though the event's own
+  // box doesn't geometrically reach past the row's true bottom edge.
+  // Rather than fight that stacking order, this single full-width line
+  // lives one level up on .fc-daygrid-body itself, generated after every
+  // existing child (including all event harnesses) - later-in-DOM-order
+  // wins ties in the same stacking context, so this always paints on top
+  // regardless of what any individual day is showing, giving one
+  // continuous, always-visible line instead of one that disappears
+  // day-by-day depending on content.
+  // Scoped to .fc-daygrid-body-natural specifically (Semana/Dia's own
+  // all-day row - same class the margin-bottom/min-height rules above
+  // already key off of), not the bare .fc-daygrid-body every view
+  // shares - Mês's own daygrid-body (.fc-daygrid-body-balanced instead)
+  // is taller than one viewport and scrolls, so this same ::after there
+  // would've landed on a mostly off-screen edge nobody would even see,
+  // for a line Mês never asked for and already gets per-row via its own
+  // border-bottom rule above (Manuel, 2026-07-10).
+  #calendar-grid .fc-daygrid-body-natural::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    // Was var(--color-medium-gray) (the same #c7c7c7 every other grid
+    // line in this view uses) - the z-index fix below does get this line
+    // painted on top of every event pill, confirmed live pixel-by-pixel
+    // (swapped this in for solid red/lime as a throwaway test: fully
+    // visible, unbroken, right across an event day). #c7c7c7 on white is
+    // legible, but on top of an event's own pastel fill (e.g.
+    // rgb(169,213,252) for the default calendar color) the two are close
+    // enough in lightness that the line all but disappears to the eye,
+    // even though it's genuinely there and on top - a contrast problem,
+    // not a paint-order one. --color-dark-gray (#212121, already used
+    // elsewhere in this codebase) has enough contrast against any
+    // pastel event fill to stay legible regardless of which calendar's
+    // color happens to be sitting under it (Manuel, 2026-07-10).
+    background-color: var(--color-dark-gray);
+    // z-index: auto here (tried first) didn't actually win against the
+    // event harness nested way down inside this same element, despite
+    // being generated after it in DOM order - some element between this
+    // and the harness (day-frame/day-events, likely position: relative
+    // for its own layout reasons) evidently opens its own stacking
+    // context, trapping the harness at a level pure tree-order doesn't
+    // reach from up here. An explicit positive z-index sidesteps that
+    // entirely - z-index: auto/0 descendants always paint below any
+    // positive z-index one in the same context, regardless of nesting
+    // depth or DOM order (Manuel, 2026-07-10, confirmed live).
+    z-index: 3;
+  }
+
+  // Manuel also asked (same request) to capitalize Mês's weekday header
+  // row ("seg." -> "SEG.") and center every day number in its cell.
+  // text-transform here is safe to apply broadly rather than scoping it
+  // to just Mês: Semana/Dia's own .fc-col-header-cell-cushion is already
+  // font-size: 0'd out (its own xcalendar-col-header-source rule above),
+  // so uppercasing invisible text has no visible effect there - only
+  // Mês's cushion (never matched/hidden by that rule) actually renders.
+  .fc-col-header-cell-cushion {
+    text-transform: uppercase;
+  }
+
+  // FullCalendar lays the day number out via flex-direction: row-reverse
+  // (its own default, confirmed live) + justify-content: normal, which is
+  // what pins it to the cell's right edge - justify-content: center works
+  // the same regardless of which direction the row is reversed in, so
+  // this alone re-centers it without fighting that reversed order.
+  .fc-daygrid-day-top {
+    justify-content: center;
+  }
+
+  // Manuel asked to roughly halve the height of the all-day row (the one
+  // holding "GMT+1"/"Todo o dia" in the axis corner and any all-day event
+  // bars, above the hourly grid) (2026-07-10). Measured live before
+  // touching anything: the row's 49px total broke down as a 1px top
+  // margin, a 32px-tall .fc-daygrid-day-events content box, and a 16px
+  // bottom margin - that bottom margin is FullCalendar's own
+  // ".fc-daygrid-body-natural .fc-daygrid-day-events" default of 1em,
+  // reserved as breathing room for a "+more" link that this view never
+  // actually shows (xcalendar doesn't cap all-day events per day), so
+  // it's pure dead space here rather than serving its original purpose.
+  // Cutting it to 2px alone brings the row down to roughly half its
+  // original height; the row itself has no explicit height of its own to
+  // override - like the rest of FullCalendar's scrollgrid rows, it's
+  // sized to whatever its tallest cell (this one) naturally needs, so
+  // shrinking the content is the only way to shrink the row.
+  .fc-daygrid-body-natural .fc-daygrid-day-events {
+    margin-bottom: 2px;
+  }
+
+  // That margin-bottom cut alone (49px -> 35px, confirmed live) wasn't
+  // enough on its own - the remaining 32px was FullCalendar's own
+  // ".fc-daygrid-day-events" min-height: 2em floor (2 x its 16px font-
+  // size), taller than the one event bar it actually holds (~20.6px,
+  // confirmed live via getBoundingClientRect). Dropping the floor
+  // entirely lets the row settle at content height instead - empty day
+  // cells in the same row (no min-height of their own to fall back on)
+  // still render at the row's full height regardless, since every <td>
+  // in an HTML table row shares that row's tallest cell by default; nothing
+  // to compensate for there (Manuel, 2026-07-10).
+  .fc-daygrid-day-events {
+    min-height: 0;
+  }
+
   // .table-bordered td {
   //   border-width: 1px;
   //   border-style: solid;
@@ -199,6 +379,20 @@
     // box. Part of the same Google-rhythm pass as the padding added to
     // th/td further down (Manuel, 2026-07-07).
     padding: 0 1rem;
+
+    // jquery-ui's own base theme (untouched elsewhere in this file) paints
+    // an opaque white on both the outer .ui-datepicker widget and its
+    // .ui-datepicker-header - confirmed live via getComputedStyle, since
+    // neither is set anywhere in this codebase's own SCSS. That white
+    // was sitting on top of #layout-content's own light-gray background
+    // (added same pass, above) and splitting this pane into two visibly
+    // different panels - a white box up top, gray below - rather than
+    // one continuous surface. Dropping to transparent lets the parent's
+    // gray read through the whole pane instead (Manuel, 2026-07-10).
+    .ui-datepicker,
+    .ui-datepicker-header {
+      background: transparent;
+    }
 
     // Matched to Mail's own #layout-list > .header row height (2.2rem,
     // measured live) so this pane's first line of content sits at the
@@ -538,52 +732,63 @@
   }
 
   #calendar-grid {
-    // Same match as #sidebar-calendar's .ui-datepicker-header right above
-    // (Manuel, 2026-07-07) - Mail's own #layout-list > .header row height
-    // (2.2rem), so this pane's first line of content lines up with both
-    // that row and the mini-calendar nav row's now-identical height,
-    // instead of the taller, top-aligned box FullCalendar renders by
-    // default (its title/buttons are shorter than the row they render at,
-    // hence align-items: start leaving visible slack below them - height
-    // + align-items: center here fixes both the total height and that gap
-    // in one go).
+    // Now that moveCalendarNavToLocalMenu (ui.js) relocates every one of
+    // this toolbar's children - "Hoje", the prev/next .btn-group, and the
+    // title - into the dark #xcalendar-actions-toolbar bar, this row is
+    // left holding three permanently-empty .fc-toolbar-chunk divs in
+    // every view (confirmed live: outerHTML is just the three empty
+    // chunks). It used to be sized to 2.2rem + flex-shrink: 0 so its
+    // actual FullCalendar-rendered content (title/buttons) wouldn't get
+    // squeezed by the grid below competing for space in the same
+    // height-constrained flex column - none of that applies to an empty
+    // box, so it collapses to nothing instead of leaving that reserved
+    // height behind as dead whitespace above the day-column headers
+    // (Manuel, 2026-07-10).
     .fc-header-toolbar {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      height: 2.2rem;
-      // FullCalendar's own JS lays this toolbar out as a flex-shrink: 1
-      // column-flex item, competing for space with the actual time grid
-      // below it inside a height-constrained parent (confirmed live: an
-      // explicit "height: 200px !important" only ever rendered at
-      // ~113px, and 2.2rem shrank down to ~26px without this - the grid
-      // below was eating the difference rather than this box holding its
-      // requested height). flex-shrink: 0 keeps this row pinned to its
-      // full 2.2rem instead; the grid below still has room to give since
-      // it scrolls internally already (Manuel, 2026-07-07).
-      flex-shrink: 0;
-
-      .fc-toolbar-chunk {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-
-        .fc-today-button {
-          background: none;
-
-          &::before {
-            @include fa.fa-icon();
-            font-family: "Font Awesome 7 Pro" !important;
-            font-weight: bold !important;
-            content: fa.fa-content(fa.$var-home);
-          }
-        }
-      }
-
+      display: none;
     }
 
     th a {
       color: var(--color-font);
+    }
+
+    // Manuel asked (2026-07-10) to restyle Semana/Dia's day-column headers:
+    // uppercase weekday, big bold day number on its own line below it,
+    // month number dropped entirely - ui.js's watchCalendarColumnHeaders
+    // parses FullCalendar's own "seg. 06/07" text and mirrors it into this
+    // markup rather than rewriting that text in place (see that function's
+    // own comment for why - same node-reuse reconciliation hazard as the
+    // toolbar title). xcalendar-col-header-source is the marker that
+    // function adds to the original cushion once it's built this sibling -
+    // font-size: 0 blinds just that one cushion's own now-redundant text
+    // without also blinding Mês's day-of-week cushions, which share this
+    // same base class but never get marked (Mês's "seg." doesn't match the
+    // weekday+day-number pattern this feature targets).
+    .fc-col-header-cell-cushion.xcalendar-col-header-source {
+      font-size: 0;
+    }
+
+    .xcalendar-col-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem 0;
+      line-height: 1.15;
+      cursor: pointer;
+
+      .xcalendar-col-header-weekday {
+        font-size: 13px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: var(--color-font);
+      }
+
+      .xcalendar-col-header-day {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-font);
+      }
     }
 
     .fc-timegrid-cols .fc-day-today {
@@ -592,12 +797,170 @@
 
     }
 
+    // FullCalendar splits each labeled hour into two stacked 30min slot
+    // cells: the "major" one (top half, no extra class, aligned with the
+    // hour label) and the "minor" one (bottom half, .fc-timegrid-slot-minor).
+    // Each cell's own border-bottom is what draws the divider at ITS
+    // bottom edge - so the major cell's border-bottom sits at the :30
+    // mark, and the minor cell's border-bottom sits at the actual
+    // top-of-next-hour mark. The rule below used to keep the border on
+    // the major cell and strip it from the minor one, i.e. exactly
+    // backwards from the intent: it hid the real hour boundary and kept
+    // a stray line at every half hour instead - visible right through
+    // the middle of any hour-long (or longer) event, since FullCalendar
+    // draws these slot-lane borders independently of, and z-index-below,
+    // the events placed over them. Manuel traced this 2026-07-09 after
+    // a screenshot showed a horizontal line cutting through the middle
+    // of a same-color "00:00 - 01:00" event instead of running along its
+    // bottom edge - this predates any of this session's other Calendar
+    // work (git blame: Sérgio Carvalho, 2025-12-09). Swapped which cell
+    // keeps the border so the visible line now falls at the true hour
+    // mark, matching Google Calendar's convention of only marking hours,
+    // not half-hours.
     .fc-timegrid-slot {
-      border-bottom: 1px solid var(--color-medium-gray);
+      border-bottom: none;
 
       &.fc-timegrid-slot-minor {
+        border-bottom: 1px solid var(--color-medium-gray);
+      }
+
+      // FullCalendar reuses these same .fc-timegrid-slot/-minor classes on
+      // the axis column's own time-label cells (.fc-timegrid-slot-label),
+      // so the border-bottom rules above (meant for the day-columns grid
+      // lanes) were also drawing a line under every single hour/half-hour
+      // label - the boxed-per-row look Manuel asked to remove 2026-07-09
+      // to match Google's plain, borderless time axis. Both selectors
+      // below tie the specificity of the two rules above (two classes
+      // each), so source order after them is what wins the override.
+      &.fc-timegrid-slot-label,
+      &.fc-timegrid-slot-minor.fc-timegrid-slot-label {
         border-bottom: none;
       }
+    }
+
+    // Google's time axis never labels the very top of the grid - the
+    // day/week view just starts blank there, with the first visible
+    // label ("01:00") sitting on the boundary below. Hides just the
+    // cushion (not the whole cell) so the cell's own box/height is left
+    // alone and nothing else in the scrollgrid's row-sync has to reflow
+    // (Manuel, 2026-07-09).
+    td.fc-timegrid-slot-label[data-time="00:00:00"] .fc-timegrid-slot-label-cushion {
+      display: none;
+    }
+
+    // Google centers every other hour label ON the hour gridline itself -
+    // straddling the boundary between the previous hour's bottom half and
+    // this hour's top half - rather than FullCalendar's own default of
+    // centering the label within just its own major half-slot cell (i.e.
+    // vertically centered 12px, half that 24px cell's own height, below
+    // the actual line). Shifting the already-centered frame up by that
+    // same 12px moves it from "middle of the major half-slot" onto the
+    // line itself, without touching the cell's own box/height (so nothing
+    // else has to reflow). 12px comes from the live-measured 24px
+    // major-slot height (48px/hour split in two) - the same value the
+    // slot-minor border fix above is built around; if that height ever
+    // changes this constant needs to move with it (Manuel, 2026-07-09).
+    td.fc-timegrid-slot-label:not([data-time="00:00:00"]) .fc-timegrid-slot-label-frame {
+      transform: translateY(-12px);
+    }
+
+    // Manuel asked 2026-07-09 for a small tick mark growing out of the
+    // day-columns' own left border (see the "not(.fc-timegrid-axis)"
+    // border-left rule above) at each hour label, hinting that this
+    // exact line is the one that label points to - same idea as a
+    // ruler/chart axis tick. Lives on the label cell itself (not the
+    // frame, which is what the -12px transform above moves) since the
+    // cell's own top edge already sits exactly on the hour gridline
+    // without needing any transform; the frame's translateY only moves
+    // the TEXT up to visually match, it doesn't move the cell's own box.
+    // Excludes 00:00 same as everywhere else here - nothing to point at
+    // once that label's hidden. Also excludes .fc-timegrid-slot-minor -
+    // FullCalendar gives every half-hour cell the same
+    // .fc-timegrid-slot-label class as the hour cells (confirmed live:
+    // "00:30:00"'s classList includes fc-timegrid-slot-label same as
+    // "01:00:00"), just with no visible cushion text of its own; the
+    // first cut here matched those too since it didn't exclude them,
+    // drawing a tick at every half hour with nothing for it to point at
+    // (Manuel, 2026-07-09).
+    td.fc-timegrid-slot-label:not([data-time="00:00:00"]):not(.fc-timegrid-slot-minor) {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 6px;
+        height: 1px;
+        background-color: var(--color-medium-gray);
+      }
+    }
+
+    // Manuel's first pass at the axis column's own text ("GMT+1" plus
+    // every hour label) matched it to the mini datepicker's "Julho 2026"
+    // title weight (600); corrected 2026-07-09 to match the mini
+    // datepicker's day-number cells instead (table.ui-datepicker-calendar
+    // td a: font-weight 400, font-size 13px) - lighter and smaller than
+    // FullCalendar's own defaults (400 was already the weight, so this
+    // mainly drops the size; font-weight kept explicit in case a later
+    // FullCalendar update changes its own default).
+    //
+    // Each label's actual text sits in an inline-block .cushion inside a
+    // block-level .frame that's already stretched to the full axis-column
+    // width (FullCalendar's own "shrink" sizing sets the frame's width,
+    // not the cushion's) - centering happens via the frame's text-align,
+    // since that's what positions the inline-block cushion within it; the
+    // cushion's own text-align has no effect on its own position, only on
+    // any text wrapping inside it. The "GMT+1" corner cell's own frame
+    // (.fc-timegrid-axis-frame) is a different beast though - FullCalendar
+    // makes IT a flex container (display:flex, justify-content:flex-end
+    // by default), so text-align does nothing there; centering it needs
+    // justify-content instead (Manuel, 2026-07-09).
+    .fc-timegrid-axis-frame,
+    .fc-timegrid-slot-label-frame {
+      text-align: center;
+    }
+
+    .fc-timegrid-axis-frame {
+      justify-content: center;
+
+      // Manuel first tried a Google-style hairline here that faded in on
+      // scroll (2026-07-09), then asked for it to just be gone outright,
+      // at every scroll position, after tracing it back: the line under
+      // "GMT+1" isn't a real border - exhaustive live inspection found no
+      // border, box-shadow, outline or background-image anywhere along
+      // that edge, and confirmed it's present in this exact form even
+      // with every one of this session's Calendar changes reverted (git
+      // stash test, 2026-07-09) - so it predates this session and isn't
+      // something any of the border/text/layout rules above caused. Root
+      // cause: the row heights land on fractional CSS pixels
+      // (184.195px, 233.195px measured live) that don't map to a whole
+      // physical pixel at this display's 2x device pixel ratio, i.e. a
+      // sub-pixel compositor seam - nothing a border override can target
+      // or remove. Masking it instead: ::after, a small opaque patch
+      // filled with the page's own background color (confirmed flat
+      // rgb(255,255,255) all the way up this column's ancestor chain,
+      // hence the general theme variable rather than something
+      // calendar-specific), sized a little taller than the seam itself
+      // (3px) and straddling its position by a pixel on each side rather
+      // than trying to hit that exact sub-pixel fraction.
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 3px;
+        background-color: var(--color-layout-content-background);
+      }
+    }
+
+    .fc-timegrid-axis-cushion,
+    .fc-timegrid-slot-label-cushion {
+      font-weight: 400;
+      font-size: 13px;
     }
   }
 

@@ -20606,6 +20606,68 @@ body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
   background-color: hsl(from var(--color-main) h s calc(l + 8));
 }
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:disabled,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:disabled,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:disabled:hover, body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:disabled:hover,
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body:not(.task-login):not(.task-xcalendar) > #layout > #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
+}
 body:not(.task-login):not(.task-xcalendar) > #layout > #layout-sidebar {
   grid-area: sidebar;
   overflow: hidden;
@@ -21302,6 +21364,68 @@ body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #lo
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
   background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:hover, body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:hover,
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
 }
 body.task-mail.action-compose:not(:has(#layout-list)) > #layout #layout-sidebar {
   grid-area: sidebar;
@@ -22553,6 +22677,68 @@ body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolb
 body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body.task-xcalendar > #layout > #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
   background-color: hsl(from var(--color-main) h s calc(l + 8));
 }
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:hover, body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:disabled,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:disabled,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:disabled:hover, body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:disabled:hover,
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body.task-xcalendar > #layout > #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
+}
 body.task-xcalendar > #layout > #layout-sidebar {
   display: none;
 }
@@ -22811,11 +22997,18 @@ body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-month::bef
 body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-agenda::before {
   content: "\f03a";
 }
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-search {
+  margin-left: auto;
+  font-size: 0;
+  padding: 0.485rem 1rem;
+}
 body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-search::before {
   content: "\f002";
+  font-size: 16px;
+  margin-right: 0;
 }
-body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-settings::before {
-  content: "\f013";
+body.task-xcalendar > #layout #xcalendar-actions-toolbar > a.calendar-settings {
+  display: none;
 }
 body.task-xcalendar > #layout #xcalendar-toolbar {
   display: none;
@@ -22834,6 +23027,12 @@ body.task-xcalendar > #layout #xcalendar-app > #layout-content {
   min-width: none;
   max-width: none;
   width: auto;
+  border-right: none;
+  background-color: var(--color-light-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app > #layout-content .header {
+  border-top: none;
+  border-bottom: none;
 }
 body.task-xcalendar > #layout #xcalendar-app > #layout-sidebar {
   grid-area: sidebar;
@@ -22871,9 +23070,38 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-grid th.fc-col-header-cel
 body.task-xcalendar > #layout #xcalendar-app .fc-timegrid-body .fc-timegrid-cols td.fc-timegrid-col:not(.fc-timegrid-axis) {
   border-left: 1px solid var(--color-medium-gray);
 }
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-daygrid-body td.fc-daygrid-day {
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-daygrid-body-natural::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--color-dark-gray);
+  z-index: 3;
+}
+body.task-xcalendar > #layout #xcalendar-app .fc-col-header-cell-cushion {
+  text-transform: uppercase;
+}
+body.task-xcalendar > #layout #xcalendar-app .fc-daygrid-day-top {
+  justify-content: center;
+}
+body.task-xcalendar > #layout #xcalendar-app .fc-daygrid-body-natural .fc-daygrid-day-events {
+  margin-bottom: 2px;
+}
+body.task-xcalendar > #layout #xcalendar-app .fc-daygrid-day-events {
+  min-height: 0;
+}
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar {
   font-size: 13px;
   padding: 0 1rem;
+}
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker,
+body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header {
+  background: transparent;
 }
 body.task-xcalendar > #layout #xcalendar-app #sidebar-calendar .ui-datepicker-header {
   height: 2.2rem;
@@ -23053,40 +23281,32 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-list-container #calendar-
   width: 5px;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  height: 2.2rem;
-  flex-shrink: 0;
-}
-body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button {
-  background: none;
-}
-body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-header-toolbar .fc-toolbar-chunk .fc-today-button::before {
-  --_fa-family: var(--fa-family, var(--fa-style-family, 'Font Awesome 7 Pro'));
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: var(--fa-display, inline-block);
-  font-family: var(--_fa-family);
-  font-feature-settings: normal;
-  font-style: normal;
-  font-synthesis: none;
-  font-variant: normal;
-  font-weight: var(--fa-style, 400);
-  line-height: 1;
-  text-align: center;
-  text-rendering: auto;
-  width: var(--fa-width, 1.25em);
-  font-family: "Font Awesome 7 Pro" !important;
-  font-weight: bold !important;
-  content: "\f015";
+  display: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid th a {
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-col-header-cell-cushion.xcalendar-col-header-source {
+  font-size: 0;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .xcalendar-col-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0;
+  line-height: 1.15;
+  cursor: pointer;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .xcalendar-col-header .xcalendar-col-header-weekday {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-font);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .xcalendar-col-header .xcalendar-col-header-day {
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--color-font);
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-cols .fc-day-today {
@@ -23094,10 +23314,53 @@ body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-cols .f
   color: var(--color-xcalendar-current-day-foreground);
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot {
-  border-bottom: 1px solid var(--color-medium-gray);
+  border-bottom: none;
 }
 body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-minor {
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-label, body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot.fc-timegrid-slot-minor.fc-timegrid-slot-label {
   border-bottom: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label[data-time="00:00:00"] .fc-timegrid-slot-label-cushion {
+  display: none;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label:not([data-time="00:00:00"]) .fc-timegrid-slot-label-frame {
+  transform: translateY(-12px);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label:not([data-time="00:00:00"]):not(.fc-timegrid-slot-minor) {
+  position: relative;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid td.fc-timegrid-slot-label:not([data-time="00:00:00"]):not(.fc-timegrid-slot-minor)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 1px;
+  background-color: var(--color-medium-gray);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-frame,
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot-label-frame {
+  text-align: center;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-frame {
+  justify-content: center;
+  position: relative;
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background-color: var(--color-layout-content-background);
+}
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-axis-cushion,
+body.task-xcalendar > #layout #xcalendar-app #calendar-grid .fc-timegrid-slot-label-cushion {
+  font-weight: 400;
+  font-size: 13px;
 }
 body.task-xcalendar > #layout #xcalendar-app #shared-calendar-controller > .editor,
 body.task-xcalendar > #layout #xcalendar-app #calendar-edit,
@@ -23587,6 +23850,68 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu #xcalendar-actions-toolbar a.calendar-add-event:focus-visible {
   background-color: hsl(from var(--color-main) h s calc(l + 8));
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: var(--color-layout-header-localmenu-foreground);
+  font-size: 1em;
+  padding: 8px 0.4rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:focus-visible {
+  background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l + 14));
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:hover, body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button:disabled:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button:disabled:focus-visible,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:hover,
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button:disabled:focus-visible {
+  background-color: transparent;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-prev-button {
+  margin-right: 0;
+  padding-right: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-next-button {
+  margin-left: 0;
+  padding-left: 0.2rem;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-today-button::before {
+  content: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .fc-toolbar-title {
+  display: none;
+}
+body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-menu #localmenu .xcalendar-toolbar-title {
+  display: inline-block;
+  margin: 0 0.4rem;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--color-layout-header-localmenu-foreground);
+  opacity: 0.5;
+  white-space: nowrap;
 }
 body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-list)) > #layout #layout-sidebar {
   display: none;

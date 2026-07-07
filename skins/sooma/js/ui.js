@@ -209,6 +209,253 @@
     }
 
     /*
+     FullCalendar's own titleFormat for the Semana view renders the pt_PT
+     locale's day-range title one of two ways depending on whether the
+     week crosses a month boundary - confirmed live, 2026-07-10:
+       "29 de jun. – 5 de jul. de 2026"  (crosses jun/jul)
+       "13 – 19 de jul. de 2026"         (stays within jul)
+     Manuel asked to drop the day numbers entirely from both, matching
+     Google's own week-title convention: the first becomes "jun. – jul.
+     2026" (both months, abbreviated, still lowercase), the second
+     becomes "Julho 2026" (a single month, spelled out in full instead of
+     abbreviated, since there's no second abbreviation next to it that
+     would make the shorthand read as intentional shorthand rather than a
+     typo). Dia's own title ("13 de julho de 2026") and Mês's ("julho de
+     2026") don't match either pattern here and pass through untouched -
+     Manuel only asked about the week view's own two formats, and Dia
+     genuinely still needs its one specific day number, unlike Semana's
+     range.
+    */
+    const PT_MONTH_ABBR_TO_FULL = {
+        jan: "Janeiro", fev: "Fevereiro", mar: "Março", abr: "Abril",
+        mai: "Maio", jun: "Junho", jul: "Julho", ago: "Agosto",
+        set: "Setembro", out: "Outubro", nov: "Novembro", dez: "Dezembro",
+    };
+
+    const formatCalendarWeekTitle = (rawTitle) => {
+        let match = rawTitle.match(/^\d+ de (\p{L}+)\.\s*–\s*\d+ de (\p{L}+)\.\s*de\s*(\d+)$/u);
+        if (match) return `${match[1]}. – ${match[2]}. ${match[3]}`;
+
+        match = rawTitle.match(/^\d+\s*–\s*\d+ de (\p{L}+)\.\s*de\s*(\d+)$/u);
+        if (match) {
+            const fullMonth = PT_MONTH_ABBR_TO_FULL[match[1].toLowerCase()] || match[1];
+            return `${fullMonth} ${match[2]}`;
+        }
+
+        return rawTitle;
+    }
+
+    /*
+     First cut of this (2026-07-10) wrote the formatted text straight into
+     FullCalendar's own .fc-toolbar-title node (title.textContent =
+     formatted). Reproduced live: navigating from a same-month week ("13 –
+     19 de jul. de 2026", displayed as "Julho 2026") to the next one left
+     the title reading "13 – 19 de jul. de 2026Julho 2026" - inspecting
+     childNodes showed TWO separate text nodes, the new raw one FullCalendar
+     had just written plus our OLD formatted one still sitting there
+     untouched. rAF-batching (the usual fix for this class of bug
+     elsewhere in this file) made no difference, because this isn't a
+     timing race at all - it's that FullCalendar keeps its own internal
+     record of what it last put in this node, and overwriting that from
+     outside doesn't update FullCalendar's own record of it; its next
+     render then inserts a fresh text node for the new value without ever
+     touching (or knowing to remove) the one we substituted in behind its
+     back, since from its own reconciler's perspective nothing it owns
+     should need removing.
+     
+     Fix: never write into FullCalendar's own title node at all. It moves
+     into the toolbar same as before (kept for layout purposes) but is
+     visually hidden (_headermenu.scss); a separate, plain <span> this
+     code owns outright sits next to it and mirrors a *formatted copy* of
+     whatever raw text FullCalendar last wrote - FullCalendar's own node
+     is only ever read, never written, so its internal bookkeeping stays
+     accurate and this bug can't recur.
+    */
+    const watchCalendarTitleFormat = (rawTitle, displayTitle) => {
+        let scheduled = false;
+        const apply = () => {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => {
+                scheduled = false;
+                const formatted = formatCalendarWeekTitle(rawTitle.textContent);
+                if (displayTitle.textContent !== formatted) displayTitle.textContent = formatted;
+            });
+        };
+        apply();
+        const observer = new MutationObserver(apply);
+        observer.observe(rawTitle, { characterData: true, childList: true, subtree: true });
+    }
+
+    /*
+     Manuel asked 2026-07-10 to move FullCalendar's own header toolbar -
+     the "Hoje" (today) button, prev/next date nav, and the current
+     date-range title - out of its own light bar (#calendar-grid
+     .fc-header-toolbar, styled in _xcalendar.scss) and into this same
+     dark #xcalendar-actions-toolbar/#localmenu bar moveCalendarToolbarToLocalMenu
+     already populates, landing between "Novo evento" and "Dia".
+     FullCalendar ships the today button with no text of its own - just an
+     empty .fc-today-button that _xcalendar.scss gives a Font Awesome home
+     glyph via ::before - relabelled here to a plain "Hoje" text instead
+     (see _headermenu.scss's own #xcalendar-actions-toolbar .fc-today-button
+     rule for where that glyph gets suppressed once relabelled).
+    */
+    const moveCalendarNavToLocalMenu = () => {
+        const actionsToolbar = document.documentElement.queryElement("css:#xcalendar-actions-toolbar");
+        const addEventButton = actionsToolbar && actionsToolbar.queryElement("css:a.calendar-add-event");
+        const dayButton = actionsToolbar && actionsToolbar.queryElement("css:a.calendar-day");
+        const todayButton = document.documentElement.queryElement("css:.fc-today-button");
+        const navGroup = document.documentElement.queryElement("css:.fc-prev-button") &&
+            document.documentElement.queryElement("css:.fc-prev-button").closest(".btn-group");
+        const rawTitle = document.documentElement.queryElement("css:.fc-toolbar-title");
+        if (!actionsToolbar || !addEventButton || !dayButton || !todayButton || !navGroup || !rawTitle) return;
+        if (actionsToolbar.contains(todayButton) && actionsToolbar.contains(navGroup) && actionsToolbar.contains(rawTitle)) return;
+
+        todayButton.textContent = "Hoje";
+
+        let displayTitle = actionsToolbar.queryElement("css:.xcalendar-toolbar-title");
+        if (!displayTitle) {
+            displayTitle = document.createElement("span");
+            displayTitle.className = "xcalendar-toolbar-title";
+        }
+
+        actionsToolbar.insertBefore(todayButton, dayButton);
+        actionsToolbar.insertBefore(navGroup, dayButton);
+        actionsToolbar.insertBefore(rawTitle, dayButton);
+        actionsToolbar.insertBefore(displayTitle, dayButton);
+
+        watchCalendarTitleFormat(rawTitle, displayTitle);
+    }
+
+    /*
+     Same rebuild problem as watchCalendarAllDayAxisLabel below: FullCalendar
+     tears its own toolbar down and rebuilds it (with a fresh title/today
+     -button/prev/next) on every view switch (Dia/Semana/Mês/Agenda) and
+     some date navigations, so a single move at load would only last until
+     the next rebuild - the observer re-runs moveCalendarNavToLocalMenu on
+     every mutation; its own "already moved" containment check up top skips
+     the work once nothing's changed. rAF-batched for the same reason as
+     watchCalendarAllDayAxisLabel's own observer - reacting synchronously
+     off a broad subtree:true observer risks landing mid-render.
+    */
+    // Reproduced live, 2026-07-10: watching only #xcalendar-app (as this
+    // used to) missed a real eviction - switching Dia -> Semana left
+    // .fc-toolbar-title physically removed from #xcalendar-actions-toolbar
+    // (confirmed: .closest('#xcalendar-actions-toolbar') was null
+    // afterwards) with no re-move ever firing. #xcalendar-actions-toolbar
+    // itself lives outside #xcalendar-app entirely (moved into #localmenu,
+    // part of the persistent header chrome - see moveCalendarToolbarToLocalMenu's
+    // own comment above for why), so a mutation that evicts our moved
+    // elements from THERE never touches #xcalendar-app's subtree and this
+    // observer never saw it. Watching both of this function's endpoints -
+    // where FullCalendar (re)creates these elements, and where this code
+    // relocates them to - covers both directions something can go wrong.
+    const watchCalendarNavToLocalMenu = () => {
+        const xcalendarApp = document.documentElement.queryElement("css:#xcalendar-app");
+        const actionsToolbar = document.documentElement.queryElement("css:#xcalendar-actions-toolbar");
+        if (!xcalendarApp || !actionsToolbar) return;
+
+        let scheduled = false;
+        const scheduleMove = () => {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => {
+                scheduled = false;
+                moveCalendarNavToLocalMenu();
+            });
+        };
+
+        scheduleMove();
+        new MutationObserver(scheduleMove).observe(xcalendarApp, { childList: true, subtree: true });
+        new MutationObserver(scheduleMove).observe(actionsToolbar, { childList: true, subtree: true });
+    }
+
+    /*
+     Manuel asked (2026-07-10) to restyle Semana/Dia's own day-column
+     headers ("seg. 06/07", "ter. 07/07", ...): capitalize the weekday
+     abbreviation, drop the "/07" month number entirely, and break the
+     bare day number onto its own line at roughly double size/weight -
+     Google Calendar's own week-header convention ("SEG" over a big "6").
+     Mês's day-column headers ("seg.", no day number at all - confirmed
+     live) don't match this pattern and pass through untouched, same
+     "only touch what was actually asked about" scoping as
+     formatCalendarWeekTitle above.
+
+     Same reconciliation hazard as watchCalendarTitleFormat: each
+     .fc-col-header-cell-cushion is a FullCalendar-owned node it patches
+     in place on date navigation, not just full rebuild - writing the
+     reformatted text into it directly would risk the exact same
+     duplicate-text-node corruption already diagnosed there. Unlike the
+     title fix, though, this cushion is also a real, keyboard-focusable
+     "jump to Dia view for this date" control (data-navlink, tabindex=0) -
+     hiding it outright (display: none, the title fix's own approach)
+     would silently kill both mouse and keyboard navigation. Instead it
+     stays in the DOM and fully interactive, just visually zeroed out
+     (_xcalendar.scss's own font-size: 0) so it keeps its click/focus
+     behavior without also rendering its own text underneath the
+     replacement sitting next to it.
+    */
+    const formatCalendarColumnHeader = (rawText) => {
+        const match = rawText.match(/^(\S+\.)\s+(\d{1,2})\/\d{1,2}$/);
+        if (!match) return null;
+        return { weekday: match[1], day: match[2] };
+    }
+
+    const watchCalendarColumnHeaders = () => {
+        const calendarGrid = document.documentElement.queryElement("css:#calendar-grid");
+        if (!calendarGrid) return;
+
+        let scheduled = false;
+        const apply = () => {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => {
+                scheduled = false;
+                calendarGrid.queryElements("css:.fc-col-header-cell-cushion").forEach((rawCell) => {
+                    const parsed = formatCalendarColumnHeader(rawCell.textContent);
+                    if (!parsed) return;
+
+                    let displayCell = rawCell.nextElementSibling;
+                    if (!displayCell || !displayCell.classList.contains("xcalendar-col-header")) {
+                        // Marks rawCell itself so _xcalendar.scss can zero out just
+                        // its own rendered text (font-size: 0) without also
+                        // blinding Mês's own day-of-week cushions, which share
+                        // this same .fc-col-header-cell-cushion class but never
+                        // get a displayCell sibling (formatCalendarColumnHeader
+                        // returns null for those, above).
+                        rawCell.classList.add("xcalendar-col-header-source");
+
+                        displayCell = document.createElement("div");
+                        displayCell.className = "xcalendar-col-header";
+                        displayCell.setAttribute("aria-hidden", "true");
+                        displayCell.innerHTML = '<span class="xcalendar-col-header-weekday"></span>' +
+                            '<span class="xcalendar-col-header-day"></span>';
+                        // rawCell's own click/keyboard-activated "jump to Dia
+                        // view for this date" still works on rawCell itself,
+                        // but rawCell's real hitbox just collapsed to a few
+                        // stray padding pixels (font-size: 0 above zeroed out
+                        // the text that used to be its whole clickable area) -
+                        // confirmed live: clicking squarely on the new big day
+                        // number did nothing. Forwarding the click here is
+                        // simpler and less fragile than trying to re-expand
+                        // rawCell's own hitbox to match this sibling's shape.
+                        displayCell.addEventListener("click", () => rawCell.click());
+                        rawCell.insertAdjacentElement("afterend", displayCell);
+                    }
+
+                    const weekdayEl = displayCell.querySelector(".xcalendar-col-header-weekday");
+                    const dayEl = displayCell.querySelector(".xcalendar-col-header-day");
+                    if (weekdayEl.textContent !== parsed.weekday) weekdayEl.textContent = parsed.weekday;
+                    if (dayEl.textContent !== parsed.day) dayEl.textContent = parsed.day;
+                });
+            });
+        };
+
+        apply();
+        new MutationObserver(apply).observe(calendarGrid, { childList: true, subtree: true, characterData: true });
+    }
+
+    /*
      FullCalendar's own day/week timegrid has an "All day" corner cell
      (top-left, above the hour column) that renders via its locale string
      (pt_PT's translation of allDayText, "Todo o dia") - wider than the
@@ -258,8 +505,60 @@
     const watchCalendarAllDayAxisLabel = () => {
         const xcalendarApp = document.documentElement.queryElement("css:#xcalendar-app");
         if (!xcalendarApp) return;
-        fixCalendarAllDayAxisLabel();
-        const observer = new MutationObserver(fixCalendarAllDayAxisLabel);
+
+        // Reproduced live, 2026-07-08: calling fixCalendarAllDayAxisLabel()
+        // synchronously from the observer's own mutation callback (as
+        // this used to) rewrites the cushion's text WHILE FullCalendar is
+        // still mid-render on the very same subtree - subtree: true means
+        // this fires on every single mutation anywhere under #xcalendar-app,
+        // not just the all-day cushion itself, including every timed
+        // event getting laid out. Caught FullCalendar's own scrollgrid
+        // column-sync pass measuring the axis column against whichever
+        // half-updated text happened to be there at that exact moment,
+        // producing the same first-row/first-event misalignment bug this
+        // feature was written to fix in the first place (confirmed with a
+        // pixel-exact marker: the rendered event box visually overflowed
+        // past its own measured/correct getBoundingClientRect() - i.e. a
+        // stale paint of a transient mis-synced layout, not an actual
+        // persistent DOM error). Batching every mutation in a burst into
+        // a single requestAnimationFrame callback instead defers our own
+        // write until after the browser's current layout/paint pass has
+        // settled, so it can no longer land in the middle of one of
+        // FullCalendar's own render cycles.
+        //
+        // Manuel confirmed 2026-07-09 the same first-row/first-event
+        // misalignment still recurs even with the above rAF batching in
+        // place, on a plain Dia-view load with no fresh mutation of ours
+        // in sight - i.e. this rAF fix only closed the one specific race
+        // between OUR write and FullCalendar's scrollgrid sync; it never
+        // was the sync bug's only trigger. FullCalendar (v5.11.3, see
+        // plugins/xcalendar/assets/fullcalendar/main.min.js) reruns that
+        // same column/row-height sync pass off its own internal render
+        // cycle any time the grid's content changes shape at all (view
+        // switch, date nav, scroll, even font/webfont load shifting
+        // measured widths) - independent of anything this skin does, so
+        // it can desync on its own. Rather than chase every individual
+        // trigger, force FullCalendar to redo that sync itself the
+        // library-endorsed way: dispatching a native "resize" event.
+        // FullCalendar's handleWindowResize option (on by default) already
+        // listens for this to call its own public updateSize() internally
+        // - firing it ourselves after any burst of DOM churn asks
+        // FullCalendar to re-measure and correct itself with its own
+        // (correct) logic, instead of us trying to re-derive "correct"
+        // from the outside.
+        let scheduled = false;
+        const scheduleFix = () => {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => {
+                scheduled = false;
+                fixCalendarAllDayAxisLabel();
+                window.dispatchEvent(new Event("resize"));
+            });
+        };
+
+        scheduleFix();
+        const observer = new MutationObserver(scheduleFix);
         observer.observe(xcalendarApp, { childList: true, subtree: true, characterData: true });
     }
 
@@ -1128,6 +1427,8 @@
         removeLoginFormFromTable();
         createLocalMenu();
         watchCalendarAllDayAxisLabel();
+        watchCalendarNavToLocalMenu();
+        watchCalendarColumnHeaders();
         setupPopupMenus();
         // setupColumnResizer must run before setupMailListMenu: it restores
         // any saved drag-resized column width (window.UI.prefs), and
