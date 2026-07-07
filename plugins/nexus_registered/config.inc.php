@@ -12,6 +12,8 @@ $config['nexus_registered'] = [
             'password' => 'dummy',
         ],
     ],
+    'adv.oa.pt' => 'cg.oa.pt',
+    'adv-est.oa.pt' => 'cg.oa.pt',
     'cg.oa.pt' => [
         'api_key' => 'sk_live_57889d960eae3ea5c4dd512e0dc7d70d8fd4185a6ad874a1',
         'endpoint' => 'https://nexus.sooma.com',
