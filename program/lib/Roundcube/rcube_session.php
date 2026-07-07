@@ -116,7 +116,7 @@ abstract class rcube_session
         ini_set('session.serialize_handler', 'php');
 
         // set custom functions for PHP session management
-        session_set_save_handler(
+        @session_set_save_handler(
             [$this, 'open'],
             [$this, 'close'],
             [$this, 'read'],
