@@ -16,7 +16,31 @@
 	</div>
 	<div id="taskmenu" class="menu toolbar" role="navigation" aria-labelledby="aria-label-tasknav">
 		<span class="action-buttons">
-			<roundcube:if condition="env:action == 'compose' and env:task == 'mail'" />
+			<!--
+				This is the one prominent "primary action" button pinned to
+				the app switcher - shared across mail/xcalendar/addressbook
+				since they all roundcube:include this same file. It used to
+				also be hardcoded to the mail "compose" command on the other
+				two tasks, so clicking it there silently dropped you into
+				mail compose - wrong action for the task you were in.
+				addressbook (2026-07-06) and xcalendar (2026-07-07) have
+				both since dropped this button entirely in favour of their
+				own native toolbar button, moved into this same dark bar's
+				middle slot (ui.js's moveAddressbookToolbarToLocalMenu /
+				moveCalendarToolbarToLocalMenu) and given this exact pill
+				treatment directly there (_headermenu.scss's
+				#addressbooktoolbar a.create / #xcalendar-actions-toolbar
+				a.calendar-add-event) instead of duplicating a second button
+				here to keep in sync. xcalendar's own version of that trick
+				only became possible once its "+Novo evento" toolbar div got
+				a stable id of its own (xcalendar.editEvent(0) is a plain JS
+				call either way, not an rcmail command - that was never
+				actually what blocked this, the toolbar div just had no id
+				for ui.js/CSS to target it by before).
+			-->
+			<roundcube:if condition="env:task == 'addressbook'" />
+			<roundcube:elseif condition="env:task == 'xcalendar'" />
+			<roundcube:elseif condition="env:action == 'compose' and env:task == 'mail'" />
 			<roundcube:button command="compose" type="link" class="compose selected" label="compose"
 				title="writenewmessage" innerclass="inner" />
 			<roundcube:else />

@@ -323,8 +323,21 @@
   // the same time - one page is never both a mail list/preview and a
   // compose view - so there's no risk of them colliding in the "mailtoolbar"
   // grid slot (Manuel, 2026-07-04).
+  //
+  // #addressbooktoolbar (Criar/Imprimir/Eliminar/Pesquisar/Importar/
+  // Exportar) joins the same group for the same reason - moved into this
+  // slot by ui.js's moveAddressbookToolbarToLocalMenu, never coexists with
+  // the other two since it only ever renders on the addressbook task
+  // (Manuel, 2026-07-06).
+  //
+  // #xcalendar-actions-toolbar (Novo evento/Dia/Semana/Mês/Agenda/
+  // Pesquisar/Definições) joins for the same reason again - moved here by
+  // ui.js's moveCalendarToolbarToLocalMenu, only ever renders on the
+  // xcalendar task (Manuel, 2026-07-07).
   #mailtoolbar,
-  #messagetoolbar {
+  #messagetoolbar,
+  #addressbooktoolbar,
+  #xcalendar-actions-toolbar {
     display: none;
     grid-area: mailtoolbar;
     min-width: 0;
@@ -390,6 +403,137 @@
     #show-xsidebar {
       display: none;
     }
+  }
+
+  // Addressbook's (and now xcalendar's) own left inset to match compose's:
+  // compose's 1rem gap from the localmenu's left edge comes from
+  // .action-buttons's own padding-left above, not from anything on
+  // #mailtoolbar/#messagetoolbar - those two always sit to the right of a
+  // *non-empty* action-buttons column, which already reserves that 1rem
+  // via its own box. Addressbook and xcalendar have no such neighbor:
+  // menu.html's action-buttons branch is empty for both of their tasks
+  // (see its own comment), so moveComposeToLocalMenu (ui.js) never finds a
+  // `.compose` link to move and leaves that whole span behind in
+  // #taskmenu - the action-buttons grid column collapses to 0 width, and
+  // #addressbooktoolbar/#xcalendar-actions-toolbar's "mailtoolbar" column
+  // starts flush at x=0 instead. Padding each of them here instead
+  // reproduces that same 1rem inset for their own pill specifically,
+  // without touching #mailtoolbar/#messagetoolbar (which would otherwise
+  // end up double-inset on top of action-buttons's own padding)
+  // (Manuel, 2026-07-06; xcalendar added 2026-07-07).
+  #addressbooktoolbar,
+  #xcalendar-actions-toolbar {
+    padding-left: 1rem;
+  }
+
+  // "Novo contacto" (native #addressbooktoolbar a.create, command=add)
+  // gets the exact same pill treatment as Mail's own "Nova mensagem"
+  // (.action-buttons .compose above) - this is the one and only "make a
+  // new thing" entry point left for addressbook, so it should look
+  // identical to compose's, property-for-property, not just "similar"
+  // (Manuel, 2026-07-06). That includes swapping its icon: a.create's
+  // generic "+" (widgets/_toolbar.scss's a.create::before, fa.$var-plus)
+  // is overridden below to compose's own pencil-line glyph instead.
+  // xcalendar's own "+Novo evento" gets the identical treatment further
+  // down, once its toolbar div (#xcalendar-actions-toolbar) is in this
+  // same dark bar too (Manuel, 2026-07-07).
+  #addressbooktoolbar a.create {
+    display: inline-block;
+    background-color: var(--color-main);
+    color: var(--color-main-contrast);
+    text-decoration: none;
+    padding: 0.485rem 1rem;
+    border-radius: 2px;
+    font-weight: 600;
+    text-wrap: nowrap;
+    line-height: 1.4;
+    // Zeroes out the generic --button-horizontal-margin: 0.2rem every
+    // other `a` in this toolbar gets (set on the shared #mailtoolbar/
+    // #messagetoolbar/#addressbooktoolbar rule above) - #addressbooktoolbar's
+    // own new padding-left is already the exact 1rem compose gets, adding
+    // this pill's usual left margin on top would overshoot it by 0.2rem.
+    margin-left: 0;
+    // Mail's own gap between "Nova mensagem" and "Responder" isn't a single
+    // margin - it's .action-buttons's 1rem padding-right (the pill's
+    // container) plus "Responder"'s own 0.2rem left margin = 1.2rem total.
+    // #addressbooktoolbar has no such wrapping container around just this
+    // pill, so 1rem here (added to "Imprimir"'s own existing 0.2rem left
+    // margin, untouched) reproduces that same 1.2rem gap (Manuel, 2026-07-06).
+    margin-right: 1rem;
+
+    &::before {
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-pencil-line);
+      padding-right: 0.5rem;
+    }
+
+    // Overrides the plain a:not(.disabled):hover rule above (a light tint
+    // of the dark bar background) - a solid accent-color pill instead
+    // wants a lighter tint of its own color, not of what it's sitting on.
+    &:hover,
+    &:focus-visible {
+      background-color: hsl(from var(--color-main) h s calc(l + 8));
+    }
+
+    // The plain opacity: 0.5 dimming (_toolbar.scss's a.disabled) reads
+    // fine for plain text links, but visibly muddies a solid-color pill -
+    // drop the saturation instead of the alpha so it still reads as the
+    // same pill, just inactive (matches how xcalendar's own toolbar links
+    // never really need this - "Novo evento" is never disabled - so
+    // there's no existing precedent to match here, this is addressbook's
+    // own case: "+Criar" IS disabled today, since this test account has
+    // no writable address book source configured).
+    &.disabled {
+      opacity: 1;
+      background-color: hsl(from var(--color-layout-header-localmenu-background) h s calc(l * 1.75));
+      color: var(--color-layout-header-localmenu-foreground);
+    }
+  }
+
+  // "Novo evento" (native #xcalendar-actions-toolbar a.calendar-add-event,
+  // xcalendar.editEvent(0)) gets the exact same pill treatment as
+  // addressbook's "Novo contacto" above and Mail's own "Nova mensagem" -
+  // xcalendar's last remaining "make a new thing" entry point now that its
+  // old menu.html-pinned copy is gone (Manuel, 2026-07-07). Same icon
+  // swap too: _xcalendar.scss's own #xcalendar-actions-toolbar > a rule
+  // still sets this to fa.$var-plus (a "+", matched to xcalendar's old
+  // pinned pill, which also used to be a "+") - overridden below to
+  // compose's pencil-line glyph instead, same reasoning as addressbook's.
+  #xcalendar-actions-toolbar a.calendar-add-event {
+    display: inline-block;
+    background-color: var(--color-main);
+    color: var(--color-main-contrast);
+    text-decoration: none;
+    padding: 0.485rem 1rem;
+    border-radius: 2px;
+    font-weight: 600;
+    text-wrap: nowrap;
+    line-height: 1.4;
+    // See #addressbooktoolbar a.create's identical pair of overrides above
+    // for why: this toolbar's own new padding-left is already the exact
+    // 1rem compose gets, and this 1rem margin-right (on top of "Dia"'s own
+    // untouched 0.2rem left margin) reproduces compose's 1.2rem gap to
+    // "Responder".
+    margin-left: 0;
+    margin-right: 1rem;
+
+    &::before {
+      @include fa.fa-icon();
+      content: fa.fa-content(fa.$var-pencil-line);
+      padding-right: 0.5rem;
+    }
+
+    // Overrides the plain a:not(.disabled):hover rule above, same as
+    // addressbook's - a solid accent-color pill wants a lighter tint of
+    // its own color, not of what it's sitting on.
+    &:hover,
+    &:focus-visible {
+      background-color: hsl(from var(--color-main) h s calc(l + 8));
+    }
+
+    // No &.disabled variant here unlike addressbook's - "Novo evento" has
+    // no equivalent to addressbook missing a writable source; creating an
+    // event is always available.
   }
 
 }

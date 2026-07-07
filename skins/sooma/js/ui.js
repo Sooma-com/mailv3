@@ -116,10 +116,23 @@
     /*
      Move the compose button from the taskmenu to the localmenu. Again, this is done in Javascript in 
      order to preserve the original templates of the elastic theme.
+
+     Used to also require the href to contain '&_action=compose', back when this
+     button was hardcoded to mail's compose command everywhere it appeared. Now
+     includes/menu.html swaps it per task (command=add/"Novo contacto" in
+     addressbook, xcalendar.editEvent(0)/"Novo evento" in xcalendar, compose/
+     "Nova mensagem" in mail - see that file's own comment), so none of those
+     three would match a hardcoded '_action=compose' href. Dropped that half of
+     the condition; matching on class alone is still unambiguous because
+     div[@id='taskmenu'] already scopes this to the app-switcher button, and
+     menu.html's per-task if/elseif only ever renders exactly one .compose
+     link there at a time (the other .compose match in the DOM,
+     #mailtoolbar's own button, lives outside #taskmenu so this XPath was
+     never matching it anyway) (Manuel, 2026-07-06).
     */
     const moveComposeToLocalMenu = (layoutMenu, localMenu) => {
         let composeButton = layoutMenu
-            .queryElements("xpath://div[@id='taskmenu']//a[contains(@class, 'compose') and contains(@href, '&_action=compose')]")
+            .queryElements("xpath://div[@id='taskmenu']//a[contains(@class, 'compose')]")
             .map(elm => elm.parentNode);
         if (composeButton.length === 0) return;
         composeButton = composeButton[0];
@@ -154,6 +167,100 @@
             .queryElements("xpath://div[@id='messagetoolbar']")
             .forEach(localMenu.appendChild.bind(localMenu));
         markOverflowing("css:#messagetoolbar");
+    }
+
+    /*
+     Move the addressbook list/detail toolbar (Criar/Imprimir/Eliminar/
+     Pesquisar/Importar/Exportar) into the localmenu's shared middle slot -
+     the same slot moveMailToolbarToLocalMenu/moveComposeToolbarToLocalMenu
+     already put mail's own toolbars into. #addressbooktoolbar only ever
+     renders on the addressbook task, so it never coexists with either of
+     those - see _headermenu.scss's #mailtoolbar/#messagetoolbar/
+     #addressbooktoolbar rule for the styling side of this (Manuel,
+     2026-07-06).
+    */
+    const moveAddressbookToolbarToLocalMenu = (layoutMenu, localMenu) => {
+        layoutMenu
+            .queryElements("xpath://div[@id='addressbooktoolbar']")
+            .forEach(localMenu.appendChild.bind(localMenu));
+        markOverflowing("css:#addressbooktoolbar");
+    }
+
+    /*
+     Move the calendar toolbar (Novo evento/Dia/Semana/Mês/Agenda/
+     Pesquisar/Definições) into the localmenu's shared middle slot, same
+     idea as moveAddressbookToolbarToLocalMenu right above - it only ever
+     renders on the xcalendar task, so it never coexists with any of the
+     others sharing that slot either. Unlike #addressbooktoolbar, this div
+     doesn't live inside #layout-menu at all in the markup (plugins/
+     xcalendar/skins/sooma/templates/layout.html has it under
+     #layout-sidebar, a sibling tree entirely) - doesn't matter here since
+     queryElements's xpath lookup (sergiosgc-js.js) is always an absolute,
+     whole-document search regardless of which node .queryElements() is
+     called on; layoutMenu is just a convenient existing reference to call
+     it from, same as the other move*ToLocalMenu functions (Manuel,
+     2026-07-07).
+    */
+    const moveCalendarToolbarToLocalMenu = (layoutMenu, localMenu) => {
+        layoutMenu
+            .queryElements("xpath://div[@id='xcalendar-actions-toolbar']")
+            .forEach(localMenu.appendChild.bind(localMenu));
+        markOverflowing("css:#xcalendar-actions-toolbar");
+    }
+
+    /*
+     FullCalendar's own day/week timegrid has an "All day" corner cell
+     (top-left, above the hour column) that renders via its locale string
+     (pt_PT's translation of allDayText, "Todo o dia") - wider than the
+     narrow axis column FullCalendar sizes to fit "00:00" (its widest
+     hour label), so it always wraps to two lines. Manuel traced a
+     persistent event-misalignment bug in that same timegrid to exactly
+     this wrap (2026-07-07): the wrapped all-day corner cell and the
+     hour-slot axis column are two separate <table> chunks that
+     FullCalendar's own "scrollgrid" mechanism keeps width/height-synced
+     across via live measurement - the wrap throws that sync pass off
+     badly enough to compress the very first hour row (00:00-01:00) and
+     shift every event's rendered position below it. Rather than patch
+     FullCalendar's own sync internals, replacing the corner cell's text
+     entirely sidesteps the wrap outright - matching Google Calendar's
+     own convention of showing the viewer's UTC offset there instead of
+     an "All day" label (which needs no label of its own; it's obvious
+     from context which row holds all-day events). Intl's shortOffset
+     gives the correct string for whichever timezone/DST the viewer's own
+     browser is actually in, not hardcoded to any one person's offset.
+    */
+    const fixCalendarAllDayAxisLabel = () => {
+        const cushions = document.documentElement.queryElements("css:.fc-timegrid-axis-cushion");
+        if (!cushions.length) return;
+        const offset = new Intl.DateTimeFormat(navigator.language, { timeZoneName: "shortOffset" })
+            .formatToParts(new Date())
+            .find(part => part.type === "timeZoneName")?.value;
+        if (!offset) return;
+        cushions.forEach(cushion => {
+            if (cushion.textContent.trim() !== offset) cushion.textContent = offset;
+        });
+    }
+
+    /*
+     #xcalendar-app itself is static markup (plugins/xcalendar/skins/
+     sooma/templates/layout.html), present at page load same as
+     #xcalendar-actions-toolbar above, but FullCalendar's own internals
+     (including the .fc-timegrid-axis-cushion cell fixCalendarAllDayAxisLabel
+     targets) are Angular/FullCalendar-rendered asynchronously after that,
+     and get torn down and rebuilt on every view switch (Dia/Semana) and
+     date navigation. A single fix-once-at-load call would only catch
+     whichever view happened to be active at that exact moment, and never
+     again after switching views - the MutationObserver re-runs the same
+     idempotent fix on every rebuild instead, same pattern as
+     tagDefaultPhotoOnContactPic's own observer further down this file
+     (Manuel, 2026-07-07).
+    */
+    const watchCalendarAllDayAxisLabel = () => {
+        const xcalendarApp = document.documentElement.queryElement("css:#xcalendar-app");
+        if (!xcalendarApp) return;
+        fixCalendarAllDayAxisLabel();
+        const observer = new MutationObserver(fixCalendarAllDayAxisLabel);
+        observer.observe(xcalendarApp, { childList: true, subtree: true, characterData: true });
     }
 
     /*
@@ -250,6 +357,8 @@
         moveComposeToLocalMenu(layoutMenu, localMenu);
         moveMailToolbarToLocalMenu(layoutMenu, localMenu);
         moveComposeToolbarToLocalMenu(layoutMenu, localMenu);
+        moveAddressbookToolbarToLocalMenu(layoutMenu, localMenu);
+        moveCalendarToolbarToLocalMenu(layoutMenu, localMenu);
         moveElement("css:#layout-list div.searchbar.menu", localMenu);
         createSoomaProfileMenu(layoutMenu);
     }
@@ -1018,6 +1127,7 @@
         disableDeleteConfirmations();
         removeLoginFormFromTable();
         createLocalMenu();
+        watchCalendarAllDayAxisLabel();
         setupPopupMenus();
         // setupColumnResizer must run before setupMailListMenu: it restores
         // any saved drag-resized column width (window.UI.prefs), and
