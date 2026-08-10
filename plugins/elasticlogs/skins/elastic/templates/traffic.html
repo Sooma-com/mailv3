@@ -1,0 +1,17 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+
+<div id="layout-content" class="selected" role="main">
+	<div class="header">
+		<a class="button icon task-menu-button" href="#menu"><span class="inner"><roundcube:label name="menu" /></span></a>
+		<span class="header-title"><roundcube:label name="elasticlogs.task_title" /></span>
+	</div>
+	<div class="scroller">
+		<div id="elasticlogs-content">
+			<roundcube:object name="plugin.searchform" />
+			<roundcube:object name="plugin.searchresults" />
+		</div>
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

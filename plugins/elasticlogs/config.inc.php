@@ -6,5 +6,6 @@ $config['elasticlogs'] = [
     'elasticsearch_index' => 'logs-mail-prof',
     'elasticsearch_verify_tls' => false,
     'support-agents' => [ 'sergio.carvalho@sooma.com', 'goncalo.monteiro@sooma.com', 'manuel.costa@sooma.com', 'tiago.reisinho@sooma.com' ],
+    'whitelisted-agents' => [ 'sergio.carvalho@sooma.com', 'goncalo.monteiro@sooma.com', 'manuel.costa@sooma.com', 'tiago.reisinho@sooma.com', 'vasco.machado@cg.oa.pt', 'lferreira@cg.oa.pt', 'eduardo.santos@cg.oa.pt', 'pedro.francisco@cg.oa.pt' ],
 ];
 

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once(__DIR__ . "/vendor/autoload.php");
+require_once(__DIR__ . "/src/traffic.php");
 
 use Elastic\Elasticsearch\ClientBuilder;
 
@@ -51,9 +52,14 @@ class elasticlogs extends rcube_plugin
 
         $this->rc = rcmail::get_instance();
         $this->load_config();
+        if (!in_array($_SESSION['username'], $this->rc->config->get('elasticlogs')['whitelisted-agents'])) {
+            return;
+        }
         $this->add_texts('localization/', true);
 
         $this->register_task('elasticlogs');
+        $this->register_action('traffic', [$this, 'action_traffic']);
+        $this->register_action('traffic-search', [$this, 'action_traffic_search']);
         $this->register_action('index', [$this, 'action_index']);
         $this->register_action('show', [$this, 'action_index']);
         $this->register_action('search', [$this, 'action_search']);
@@ -115,7 +121,19 @@ class elasticlogs extends rcube_plugin
         $this->rc->output->send();
     }
 
-    private function build_es_client(): \Elastic\Elasticsearch\Client
+    public function action_traffic()
+    {
+        $handler = new elasticlogs_traffic($this);
+        $handler->action();
+    }
+
+    public function action_traffic_search()
+    {
+        $handler = new elasticlogs_traffic($this);
+        $handler->action_search();
+    }
+
+    public function build_es_client(): \Elastic\Elasticsearch\Client
     {
         $config = $this->rc->config->get('elasticlogs');
 
@@ -147,7 +165,7 @@ class elasticlogs extends rcube_plugin
         return false;
     }
 
-    private static function escape_esql_string(string $string): string
+    public static function escape_esql_string(string $string): string
     {
         return strtr($string, ['\\' => '', '"' => '']);
     }

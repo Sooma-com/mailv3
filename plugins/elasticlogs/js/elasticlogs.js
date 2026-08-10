@@ -99,8 +99,60 @@ if (window.rcmail) {
         if (auto_submit && search_btn) {
             search_btn.click();
         }
+        
+        var traffic_btn = document.getElementById('elasticlogs-traffic-btn');
+        if (traffic_btn) {
+            auto_submit = true;
+            traffic_btn.addEventListener('click', function() {
+                var params = { };
+                params._date_from = document.getElementById('elasticlogs-date-from').value;
+                params._date_to = document.getElementById('elasticlogs-date-to').value;
+                rcmail.http_post('traffic-search', params);
+            });
+        }
+        
+        if (auto_submit && traffic_btn) {
+            traffic_btn.click();
+        }
+        
 
         // Handle search response
+        rcmail.addEventListener('plugin.elasticlogs_traffic_response', function(response) {
+            console.log(response);
+            var results_list = document.getElementById('elasticlogs-results-list');
+            var no_results = document.getElementById('elasticlogs-no-results');
+
+            results_list.innerHTML = '';
+            current_results = [];
+
+            if (!response.results || response.results.length === 0) {
+                no_results.style.display = '';
+                if (download_btn) download_btn.style.display = 'none';
+            } else {
+                no_results.style.display = 'none';
+                current_results = response.results;
+                const table = document.createElement('table');
+                const thead = table.appendChild(document.createElement('thead'));
+                const tbody = table.appendChild(document.createElement('tbody'));
+                const tr = thead.appendChild(document.createElement('tr'));
+                tr.appendChild(document.createElement('th')).textContent = 'Timestamp';
+                tr.appendChild(document.createElement('th')).textContent = 'From';
+                tr.appendChild(document.createElement('th')).textContent = 'To';
+                tr.appendChild(document.createElement('th')).textContent = 'Subject';
+                response.results.forEach(function(entry) {
+                    const tr = tbody.appendChild(document.createElement('tr'));
+                    tr.appendChild(document.createElement('td')).textContent = entry['timestamp'];
+                    tr.appendChild(document.createElement('td')).textContent = entry['from'];
+                    tr.appendChild(document.createElement('td')).textContent = entry['to'];
+                    tr.appendChild(document.createElement('td')).textContent = entry['subject'];
+                    tr.getElementsByTagName('td')[1].setAttribute('width', '300');
+                    tr.getElementsByTagName('td')[2].setAttribute('width', '300');
+                });
+                results_list.appendChild(table);
+                if (download_btn) download_btn.style.display = '';
+            }
+        });
+
         var download_btn = document.getElementById('elasticlogs-download-btn');
 
         rcmail.addEventListener('plugin.elasticlogs_search_response', function(response) {

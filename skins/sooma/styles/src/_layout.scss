@@ -389,7 +389,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
     overflow: hidden;
 
     #layout-menu {
-      width: 100%;
+      width: 100vw;
       height: 100%;
       grid-area: menu;
       display: grid;
@@ -414,7 +414,7 @@ body.task-elasticlogs:not(.task-login):not(.task-xcalendar):not(:has(#layout-lis
       grid-area: content;
       overflow: hidden;
       padding: 1rem;
-
+      width: 100vw;
     }
 
     @include meta.load-css("layout/content/elasticlogs");
