@@ -48,8 +48,6 @@ class sooma extends rcube_plugin
             );
             $plugin->load_config($override_file_relative);
         }
-        var_dump($this->rc->config->get('sooma_db'));
-        exit;
     }
     public function html_editor($args)
     {

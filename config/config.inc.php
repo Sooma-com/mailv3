@@ -95,7 +95,7 @@ $config['identities_level'] = 4;
 // PLUGINS
 // ----------------------------------
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'username_login', 'sooma', 'subscriptions_option', 'nexus', 'nexus_storage', 'nexus_registered', 'managesieve', 'sooma_smime', 'elasticlogs' ];
+$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'username_login', 'subscriptions_option', 'nexus', 'nexus_storage', 'nexus_registered', 'managesieve', 'sooma_smime', 'elasticlogs', 'sooma'];
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
@@ -130,8 +130,8 @@ $config['show_images'] = 2;
     // Strip the port (e.g. "localhost:8080" -> "localhost") before
     // resolving the per-host override file, otherwise a request that
     // includes a port never matches config/localhost.inc.php.
-    $local_config_host = explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0];
-    $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '.inc.php');
+    $local_config_host = strtolower(explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0]);
+    $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
     if ($local_config_file) include $local_config_file;
     unset($local_config_file, $local_config_host);
 }
