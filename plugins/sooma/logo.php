@@ -5,9 +5,15 @@ define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../../') . '/');
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
 $rcmail = rcmail::get_instance();
-
 // Set content type for CSS
 header('Content-Type: image/png');
+if ($rcmail->config->get('sooma_skin') 
+    && $rcmail->config->get('sooma_skin')['tag']
+    && file_exists(dirname(__FILE__) . '/img/logo_' . $rcmail->config->get('sooma_skin')['tag'] . '.png')
+) {
+    readfile(dirname(__FILE__) . '/img/logo_' . $rcmail->config->get('sooma_skin')['tag'] . '.png');
+    exit;
+}
 
 // Output the logo image
 $logo_path = dirname(__FILE__) . '/img/oa.png';

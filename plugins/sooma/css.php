@@ -6,6 +6,24 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 
 $rcmail = rcmail::get_instance();
 
+if ($rcmail->config->get('sooma_skin') 
+    && $rcmail->config->get('sooma_skin')['colors']
+) {
+    header('Content-Type: text/css');
+    printf(<<<EOS
+:root {
+%s
+}
+EOS, implode("\n", array_map(
+        function($name, $color) {
+            return sprintf('  --color-%s: %s;', $name, $color);
+        },
+        array_keys($rcmail->config->get('sooma_skin')['colors']),
+        $rcmail->config->get('sooma_skin')['colors']
+    )));
+    exit;
+}
+
 // Set content type for CSS
 header('Content-Type: text/css');
 

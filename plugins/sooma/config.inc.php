@@ -6,4 +6,10 @@ $config['sooma_db'] = [
     'username' => 'horde',
     'password' => 'dummy',
 ];
-
+$config['sooma_skin'] = [
+    'tag' => 'oa',
+    'colors' => [
+        'layout-header-localmenu-background' => '#0B1313',
+        'main' => '#7b2532',
+    ]
+];
