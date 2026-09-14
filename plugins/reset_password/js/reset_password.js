@@ -4,6 +4,8 @@ window.sooma_reset_password = {
             if (rcmail.env.task !== 'login') return;
             this.add_link_to_login_form();
         }.bind(this));
+        rcmail.addEventListener('plugin.reset_password_show_recover_form', this.showRecoverForm.bind(this));
+        rcmail.addEventListener('plugin.reset_password_redirect', this.locationRedirect.bind(this));
     },
     displayError: function (message) {
         const messageStack = (function () {
@@ -33,7 +35,14 @@ window.sooma_reset_password = {
             return link;
         }).bind(this)());
     },
-    handleForgotPasswordClick: function (event) {
+    locationRedirect: function (url) {
+        if (url.url) {
+            window.location.href = url.url;
+            return;
+        }
+        console.warn("locationRedirect: url is not set: " + url);
+    },
+    showRecoverForm: function () {
         if (window.location.hostname == "webmail.oa.pt") {
             window.location = "https://portal.oa.pt/reporpass";
             if (event) {
@@ -98,6 +107,11 @@ window.sooma_reset_password = {
             event.stopPropagation();
         }
     },
+    handleForgotPasswordClick: function (event) {
+        rcmail.http_post('plugin.reset_password_custom_recovery_url', {
+            hostname: window.location.hostname
+        });
+    },
     ajaxFormSubmit: async function (form) {
         try {
             const formData = new FormData(form);
@@ -125,6 +139,10 @@ window.sooma_reset_password = {
         event.stopPropagation();
         const payload = await this.ajaxFormSubmit(event.target);
         if (!payload) return;
+        if (payload.custom_recovery_url) {
+            window.location.href = payload.custom_recovery_url;
+            return;
+        }
         const loginForm = document.getElementById('login-form');
         if (!loginForm) return;
         loginForm.replaceWith((function () {
