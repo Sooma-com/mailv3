@@ -15,3 +15,5 @@ $config['plugins'] = array_diff(
     ['reset_password', 'username_login', 'subscriptions_option', 'nexus', 'nexus_storage', 'nexus_registered', 'sooma_smime', 'elasticlogs']
 );
 $config['product_name'] = 'Xekmail';
+array_unshift($config['plugins'], 'sooma_sso');
+$config['sooma_sso_key'] = '02zX2PSNgH/iDs3EURvjMuNxQuIGbiT0dEJx8uMATlA=';
