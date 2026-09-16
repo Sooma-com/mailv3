@@ -1,4 +1,6 @@
 <?php
+$config['sooma_imap_xclient_addr'] = true;
+
 $config['sooma_db'] = [
     'host' => '10.3.9.3',
     'port' => 5432,

@@ -23,10 +23,30 @@ class sooma extends rcube_plugin
         $this->add_texts('localization/');
         $this->include_stylesheet('css.php');
         $this->add_hook('html_editor', [$this, 'html_editor']);
+        $this->add_hook('storage_connect', [$this, 'storage_connect']);
         $this->include_script('js/editor_toolbar.js');
 
         $this->rc->load_language(null, [], ['list' => 'Lista']);
         $this->configuration_domain_override();
+    }
+
+    public function storage_connect($args)
+    {
+        if (!$this->rc->config->get('sooma_imap_xclient_addr')) {
+            return $args;
+        }
+
+        $ip = rcube_utils::remote_addr();
+        if ($ip === '') {
+            return $args;
+        }
+
+        foreach (['ident', 'preauth_ident'] as $key) {
+            $args[$key] = (array) ($args[$key] ?? []);
+            $args[$key]['x-originating-ip'] = $ip;
+        }
+
+        return $args;
     }
     public function configuration_domain_override() {
         if (!isset($_SERVER['HTTP_HOST'])) return;
