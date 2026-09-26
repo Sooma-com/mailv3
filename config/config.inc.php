@@ -135,3 +135,9 @@ $config['show_images'] = 2;
     if ($local_config_file) include $local_config_file;
     unset($local_config_file, $local_config_host);
 }
+{
+    $local_config_host = gethostname();
+    $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
+    if ($local_config_file) include $local_config_file;
+    unset($local_config_file, $local_config_host);
+}

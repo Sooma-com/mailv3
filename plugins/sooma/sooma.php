@@ -27,7 +27,7 @@ class sooma extends rcube_plugin
         $this->include_script('js/editor_toolbar.js');
 
         $this->rc->load_language(null, [], ['list' => 'Lista']);
-        $this->configuration_domain_override();
+        $this->configuration_override();
     }
 
     public function storage_connect($args)
@@ -48,25 +48,29 @@ class sooma extends rcube_plugin
 
         return $args;
     }
-    public function configuration_domain_override() {
-        if (!isset($_SERVER['HTTP_HOST'])) return;
-        $override_dir = realpath(__DIR__ . '/../../config/' . strtolower($_SERVER['HTTP_HOST']));
-        if (!$override_dir || !is_dir($override_dir)) return;
-        foreach ($this->rc->plugins->loaded_plugins() as $plugin_name) {
-            $override_file = realpath($override_dir . '/' . $plugin_name . '.inc.php');
-            if (!$override_file || !is_file($override_file)) continue;
-            $plugin = $this->rc->plugins->get_plugin($plugin_name);
-            $override_file = explode('/', $override_file);
-            $plugin_home = explode('/', $plugin->home);
-            while ($override_file[0] === $plugin_home[0]) {
-                array_shift($override_file);
-                array_shift($plugin_home);
+    public function configuration_override() {
+        $override_dirs = [
+            realpath(__DIR__ . '/../../config/' . strtolower($_SERVER['HTTP_HOST'] ?? 'nonexistant')),
+            realpath(__DIR__ . '/../../config/' . gethostname()),
+        ];
+        foreach ($override_dirs as $override_dir) {
+            if (!$override_dir || !is_dir($override_dir)) continue;
+            foreach ($this->rc->plugins->loaded_plugins() as $plugin_name) {
+                $override_file = realpath($override_dir . '/' . $plugin_name . '.inc.php');
+                if (!$override_file || !is_file($override_file)) continue;
+                $plugin = $this->rc->plugins->get_plugin($plugin_name);
+                $override_file = explode('/', $override_file);
+                $plugin_home = explode('/', $plugin->home);
+                while ($override_file[0] === $plugin_home[0]) {
+                    array_shift($override_file);
+                    array_shift($plugin_home);
+                }
+                $override_file_relative = sprintf("/%s/%s", 
+                    implode('/', array_map(function() { return '..'; }, $plugin_home)),
+                    implode('/', $override_file)
+                );
+                $plugin->load_config($override_file_relative);
             }
-            $override_file_relative = sprintf("/%s/%s", 
-                implode('/', array_map(function() { return '..'; }, $plugin_home)),
-                implode('/', $override_file)
-            );
-            $plugin->load_config($override_file_relative);
         }
     }
     public function html_editor($args)
