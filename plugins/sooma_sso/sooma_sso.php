@@ -34,6 +34,24 @@ declare(strict_types=1);
  * is deliberate: it keeps the password-bearing token out of browser
  * history, web server access logs and Referer headers.
  *
+ * Session lookup for same-host apps
+ * ----------------------------------
+ * An application on this same host (Nexus, under /directory/) receives
+ * the Roundcube session cookies and can ask who they belong to:
+ *
+ *   GET/POST https://<webmail-host>/?_task=login&_action=whoami
+ *   Cookie: roundcube_sessid=...; roundcube_sessauth=...
+ *
+ * The reply is JSON, and the request carries no Roundcube CSRF token
+ * (the caller is an API client, not the webmail UI):
+ *
+ *   200 {"username": "user@domain.tld"}
+ *   401 {"username": null}
+ *
+ * Both cookies are required. `roundcube_sessid` selects the session;
+ * `roundcube_sessauth` is checked with the same rules as a normal
+ * authenticated request. A miss does not destroy the session.
+ *
  * Security notes
  * --------------
  * - The token is a bearer credential valid for `sooma_sso_token_ttl`
@@ -77,6 +95,10 @@ class sooma_sso extends rcube_plugin
 
     public function startup($args)
     {
+        if ($args['action'] === 'whoami') {
+            $this->reply_session_user();
+        }
+
         if ($args['task'] !== 'login' || $args['action'] !== 'sso') {
             return $args;
         }
@@ -128,6 +150,56 @@ class sooma_sso extends rcube_plugin
         }
 
         return $args;
+    }
+
+    /**
+     * Identify the user behind the Roundcube session cookies and exit.
+     *
+     * Runs from the startup hook, before index.php's CSRF check, because
+     * the API client has the session cookies but not a request token.
+     */
+    private function reply_session_user(): void
+    {
+        $rcmail   = rcmail::get_instance();
+        $username = null;
+
+        // Read-only. A write here would race the user's own webmail
+        // requests, and a failed lookup must not log them out.
+        if ($rcmail->session) {
+            $rcmail->session->nowrite = true;
+        }
+        $rcmail->session->set_ip_check(false); // Request is expected to come from a different IP
+        if (
+            !empty($_SESSION['user_id'])
+            && isset($_SESSION['username'])
+            && is_string($_SESSION['username'])
+            && $_SESSION['username'] !== ''
+            && $rcmail->session
+            && $rcmail->session->check_auth()
+        ) {
+            $username = $_SESSION['username'];
+        }
+
+        $this->json_reply(
+            $username === null ? 401 : 200,
+            ['username' => $username]
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $payload
+     */
+    private function json_reply(int $status, array $payload): void
+    {
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+
+        http_response_code($status);
+        header('Content-Type: application/json; charset=UTF-8');
+        header('X-Content-Type-Options: nosniff');
+        echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
     }
 
     /**
