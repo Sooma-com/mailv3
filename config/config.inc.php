@@ -126,6 +126,8 @@ $config['use_subscriptions'] = false;
 // 2=always, 3=trusted senders only). Users can still override this in
 // Settings > Preferences since it's not in dont_override.
 $config['show_images'] = 2;
+
+$config['sooma_sso_directory_address'] = '10.5.2.46:3000';
 {
     // Strip the port (e.g. "localhost:8080" -> "localhost") before
     // resolving the per-host override file, otherwise a request that

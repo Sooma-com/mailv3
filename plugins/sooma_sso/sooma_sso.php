@@ -52,6 +52,22 @@ declare(strict_types=1);
  * `roundcube_sessauth` is checked with the same rules as a normal
  * authenticated request. A miss does not destroy the session.
  *
+ * Administration link
+ * -------------------
+ * Once per session, on the first authenticated request after login,
+ * the plugin asks the Sooma Directory whether this user may administer:
+ *
+ *   GET http://<sooma_sso_directory_address>/test_access/
+ *   Cookie: roundcube_sessid=...; roundcube_sessauth=...
+ *
+ * `sooma_sso_directory_address` is a hostname or IP, with an optional
+ * port (80 when omitted). The cookies are the ones Roundcube received
+ * on that request. The response is application/json and a boolean.
+ * true adds an "Administration" link to the task menu, pointing at
+ * /directory/. false leaves the link out. A failed request is logged
+ * and treated as false. The boolean is stored in the session, so the
+ * directory is asked only once for that login.
+ *
  * Security notes
  * --------------
  * - The token is a bearer credential valid for `sooma_sso_token_ttl`
@@ -82,15 +98,54 @@ class sooma_sso extends rcube_plugin
     private const TAG_LEN = 16;
     private const KEY_LEN = 32;
 
+    /** Session flag: bool, set after the one directory access probe. */
+    private const SESSION_ADMIN_ACCESS = 'sooma_sso_admin_access';
+
+    /** Connect and total timeout, in seconds, for the access probe. */
+    private const DIRECTORY_TIMEOUT_SEC = 5;
+
     private $sso_pending = false;
     private $sso_user;
     private $sso_pass;
 
     public function init()
     {
+        $this->add_texts('localization/', false);
         $this->add_hook('startup', [$this, 'startup']);
         $this->add_hook('authenticate', [$this, 'authenticate']);
         $this->add_hook('login_failed', [$this, 'login_failed']);
+        $this->add_hook('ready', [$this, 'ready']);
+    }
+
+    /**
+     * Show the Administration task-menu link when this session may administer.
+     *
+     * `ready` runs only after the user is authenticated, so the probe
+     * happens on the first request that follows login, when the browser
+     * has already sent the new session cookies back.
+     */
+    public function ready($args)
+    {
+        if (empty($_SESSION['user_id']) || !$this->directory_admin_access()) {
+            return $args;
+        }
+
+        $output = rcmail::get_instance()->output;
+        if ($output && $output->type === 'html' && empty($output->framed)) {
+            // Written by hand rather than add_button(). The template
+            // pass fix_paths() rewrites any href="/..." onto the skin
+            // directory, so href="/directory/" was sent as
+            // skins/sooma/directory/. &#47; is a slash the rewriter
+            // does not recognize; the browser decodes it to
+            // href="/directory/".
+            $this->api->add_content(
+                '<a href="&#47;directory/" class="directory" id="sooma-administration" role="button">'
+                . '<span class="inner">' . html::quote($this->gettext('administration')) . '</span></a>',
+                'taskbar'
+            );
+        }
+
+        return $args;
     }
 
     public function startup($args)
@@ -150,6 +205,207 @@ class sooma_sso extends rcube_plugin
         }
 
         return $args;
+    }
+
+    /**
+     * Whether the current session may open /directory/.
+     *
+     * The directory is contacted at most once; the boolean lives in the
+     * session until logout.
+     */
+    private function directory_admin_access(): bool
+    {
+        if (array_key_exists(self::SESSION_ADMIN_ACCESS, $_SESSION)) {
+            return $_SESSION[self::SESSION_ADMIN_ACCESS] === true;
+        }
+
+        $allowed = $this->query_directory_access();
+        $_SESSION[self::SESSION_ADMIN_ACCESS] = $allowed;
+
+        return $allowed;
+    }
+
+    /**
+     * GET /test_access/ and read its JSON boolean.
+     *
+     * Any transport, HTTP, content-type, or body problem is logged and
+     * reported as "no access", so webmail keeps working.
+     */
+    private function query_directory_access(): bool
+    {
+        if (!function_exists('curl_init')) {
+            $this->log_directory_error('the curl extension is not available');
+            return false;
+        }
+
+        $this->load_config();
+
+        $rcmail  = rcmail::get_instance();
+        $address = $rcmail->config->get('sooma_sso_directory_address', '');
+        if (!is_string($address)) {
+            $address = '';
+        }
+
+        $url = self::directory_test_access_url($address);
+        if ($url === null) {
+            $this->log_directory_error('sooma_sso_directory_address is missing or not a host[:port]');
+            return false;
+        }
+
+        $cookie = $this->session_cookie_header();
+        if ($cookie === null) {
+            $this->log_directory_error('roundcube_sessid and roundcube_sessauth were not both present on the request');
+            return false;
+        }
+
+        $ch = curl_init($url);
+        if ($ch === false) {
+            $this->log_directory_error('failed to initialize GET ' . $url);
+            return false;
+        }
+
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPGET        => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_CONNECTTIMEOUT => self::DIRECTORY_TIMEOUT_SEC,
+            CURLOPT_TIMEOUT        => self::DIRECTORY_TIMEOUT_SEC,
+            CURLOPT_COOKIE         => $cookie,
+            CURLOPT_HTTPHEADER     => ['Accept: application/json'],
+        ]);
+
+        $body = curl_exec($ch);
+        if ($body === false) {
+            $error = curl_error($ch);
+            curl_close($ch);
+            $this->log_directory_error('GET ' . $url . ' failed: ' . $error);
+            return false;
+        }
+
+        $status       = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $content_type = (string) curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        curl_close($ch);
+
+        if ($status < 200 || $status >= 300) {
+            $this->log_directory_error('GET ' . $url . ' returned HTTP ' . $status);
+            return false;
+        }
+
+        if (!preg_match('#^application/json\b#i', $content_type)) {
+            $shown = $content_type === '' ? '(none)' : $content_type;
+            $this->log_directory_error('GET ' . $url . ' returned content type ' . $shown);
+            return false;
+        }
+
+        $decoded = json_decode($body, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->log_directory_error('GET ' . $url . ' failed to decode JSON: ' . json_last_error_msg());
+            return false;
+        }
+        if (!is_array($decoded) || !isset($decoded['success'])) {
+            $this->log_directory_error('GET ' . $url . ' did not return a Sooma API response');
+            return false;
+        }
+        if (!$decoded['success']) {
+            $this->log_directory_error('GET ' . $url . ' returned unsuccessful response');
+            return false;
+        }
+        if (!is_bool($decoded['data'])) {
+            $this->log_directory_error('GET ' . $url . ' returned data that is not a boolean');
+            return false;
+        }
+
+        return $decoded['data'];
+    }
+
+    /**
+     * Build http://host:port/test_access/ from a host or host:port address.
+     * Port defaults to 80. Returns null when the address cannot be used.
+     */
+    private static function directory_test_access_url(string $address): ?string
+    {
+        $address = trim($address);
+        if ($address === '') {
+            return null;
+        }
+
+        $host = $address;
+        $port = 80;
+
+        if ($address[0] === '[') {
+            if (!preg_match('/^\[([0-9A-Fa-f:.]+)\](?::(\d{1,5}))?$/', $address, $m)) {
+                return null;
+            }
+            $host = '[' . $m[1] . ']';
+            if (isset($m[2]) && $m[2] !== '') {
+                $port = (int) $m[2];
+            }
+        }
+        else if (!preg_match('/^[A-Za-z0-9._:-]+$/', $address)) {
+            return null;
+        }
+        else if (substr_count($address, ':') === 1) {
+            [$host, $port_str] = explode(':', $address, 2);
+            if ($host === '' || !preg_match('/^\d{1,5}$/', $port_str)) {
+                return null;
+            }
+            $port = (int) $port_str;
+        }
+        else if (substr_count($address, ':') > 1) {
+            // Bare IPv6, no port. Anything else with several colons is rejected.
+            if (!preg_match('/^[0-9A-Fa-f:.]+$/', $address)) {
+                return null;
+            }
+            $host = '[' . $address . ']';
+        }
+
+        if ($port < 1 || $port > 65535) {
+            return null;
+        }
+
+        return 'http://' . $host . ':' . $port . '/directory/test_access/';
+    }
+
+    /**
+     * Cookie header carrying the session cookies this request received.
+     * Names follow session_name / session_auth_name, which default to
+     * roundcube_sessid and roundcube_sessauth.
+     */
+    private function session_cookie_header(): ?string
+    {
+        $rcmail = rcmail::get_instance();
+        $names  = [
+            (string) ($rcmail->config->get('session_name') ?: 'roundcube_sessid'),
+            (string) ($rcmail->config->get('session_auth_name') ?: 'roundcube_sessauth'),
+        ];
+
+        $pairs = [];
+        foreach ($names as $name) {
+            if (!preg_match('/^[A-Za-z0-9_]+$/', $name)) {
+                return null;
+            }
+
+            $value = $_COOKIE[$name] ?? null;
+            if (!is_string($value) || $value === '' || preg_match('/[\r\n;]/', $value)) {
+                return null;
+            }
+
+            $pairs[] = $name . '=' . $value;
+        }
+
+        return implode('; ', $pairs);
+    }
+
+    /**
+     * Log a directory access-check failure and keep going.
+     */
+    private function log_directory_error(string $message): void
+    {
+        rcube::raise_error([
+            'code'    => 600,
+            'type'    => 'php',
+            'message' => 'sooma_sso: directory access check failed: ' . $message,
+        ], true, false);
     }
 
     /**
