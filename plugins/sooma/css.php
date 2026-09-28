@@ -5,7 +5,17 @@ define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../../') . '/');
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
 $rcmail = rcmail::get_instance();
-
+$session_colors = $rcmail->plugins->get_plugin('sooma')->theme_variables();
+if ($session_colors) {
+header('Content-Type: text/css');
+?>
+:root {
+  --color-layout-header-localmenu-background: <?= $session_colors['topbar']; ?>;
+  --color-main: <?= $session_colors['highlight']; ?>;
+}
+<?php
+exit;
+}
 if ($rcmail->config->get('sooma_skin') 
     && $rcmail->config->get('sooma_skin')['colors']
 ) {
