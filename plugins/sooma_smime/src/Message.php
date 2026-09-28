@@ -9,6 +9,7 @@ class Message extends WrappedMessage {
     private array $extra_certificates = [];
     private string|null $before_sign_source_code = null;
     private string|null $after_sign_source_code = null;
+    private string|null $orig_body_cache = null;
 
     public function __construct(\Mail_mime $inner, \OpenSSLCertificate|string $certificate, \OpenSSLCertificate|string $private_key, array $extra_certificates = [])
     {
@@ -40,7 +41,19 @@ class Message extends WrappedMessage {
             )
             , function($acc, $h) { return $acc . $h; }
         );
-        $body = parent::get();
+        // parent::get() rebuilds the whole MIME part tree on every call, and
+        // PEAR's Mail_mimePart assigns a fresh random boundary to any nested
+        // multipart (e.g. the multipart/alternative inside multipart/mixed
+        // when there's an attachment) on every encode(), since only the
+        // outermost boundary is cached by Mail_mime. That makes parent::get()
+        // non-deterministic across calls whenever the message has attachments,
+        // which defeats the memoization below: every headers()/get() call
+        // would re-sign with a different outer S/MIME boundary, producing a
+        // signed message whose header boundary doesn't match the body.
+        if ($this->orig_body_cache === null) {
+            $this->orig_body_cache = parent::get();
+        }
+        $body = $this->orig_body_cache;
         $before_sign_source_code = $headers . "\r\n" . $body;
         if ($before_sign_source_code === $this->before_sign_source_code) return;
         $this->before_sign_source_code = $before_sign_source_code;
