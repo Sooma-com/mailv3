@@ -119,7 +119,7 @@ $config['reply_mode'] = 1;
 $config['skin'] = 'sooma';
 
 $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
-$config['dont_override'] = ['use_subscriptions'];
+$config['dont_override'] = ['use_subscriptions', 'skin'];
 $config['use_subscriptions'] = false;
 
 // Always show remote images by default (0=never, 1=contacts only,
@@ -128,6 +128,7 @@ $config['use_subscriptions'] = false;
 $config['show_images'] = 2;
 
 $config['sooma_sso_directory_address'] = '10.5.2.46:3000';
+$config['xcalendar_show_xcalendar'] = false;
 {
     // Strip the port (e.g. "localhost:8080" -> "localhost") before
     // resolving the per-host override file, otherwise a request that

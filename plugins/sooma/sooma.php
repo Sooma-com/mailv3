@@ -56,6 +56,15 @@ class sooma extends rcube_plugin
 
         return $args;
     }
+    public function onload()
+    {
+        $rcmail = rcmail::get_instance();
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        if (stripos($user_agent, 'mobile') !== false) {
+            $rcmail->config->set('skin', 'sooma-mobile', true);
+            $rcmail->config->system_skin = 'sooma-mobile';
+        }
+    }
     public function theme_variables()
     {
         if (isset($_SESSION[self::SESSION_THEME_HIGHLIGHT]) && isset($_SESSION[self::SESSION_THEME_TOPBAR]) && isset($_SESSION[self::SESSION_THEME_LOGO])) {
