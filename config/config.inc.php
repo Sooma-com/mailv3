@@ -95,7 +95,7 @@ $config['identities_level'] = 4;
 // PLUGINS
 // ----------------------------------
 // List of active plugins (in plugins/ directory)
-$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'username_login', 'subscriptions_option', 'nexus', 'nexus_storage', 'nexus_registered', 'managesieve', 'sooma_smime', 'elasticlogs', 'sooma'];
+$config['plugins'] = [ 'xcalendar', 'password', 'reset_password', 'username_login', 'subscriptions_option', 'nexus', 'nexus_storage', 'nexus_registered', 'managesieve', 'sooma_smime', 'elasticlogs', 'sooma_sso', 'sooma'];
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
@@ -119,18 +119,27 @@ $config['reply_mode'] = 1;
 $config['skin'] = 'sooma';
 
 $config['license_key'] = 'RCP-mxmqqE3Fkx6n';
-$config['dont_override'] = ['use_subscriptions'];
+$config['dont_override'] = ['use_subscriptions', 'skin'];
 $config['use_subscriptions'] = false;
 
 // Always show remote images by default (0=never, 1=contacts only,
 // 2=always, 3=trusted senders only). Users can still override this in
 // Settings > Preferences since it's not in dont_override.
 $config['show_images'] = 2;
+
+$config['sooma_sso_directory_address'] = '10.5.2.46:3000';
+$config['xcalendar_show_xcalendar'] = false;
 {
     // Strip the port (e.g. "localhost:8080" -> "localhost") before
     // resolving the per-host override file, otherwise a request that
     // includes a port never matches config/localhost.inc.php.
     $local_config_host = strtolower(explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0]);
+    $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
+    if ($local_config_file) include $local_config_file;
+    unset($local_config_file, $local_config_host);
+}
+{
+    $local_config_host = gethostname();
     $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
     if ($local_config_file) include $local_config_file;
     unset($local_config_file, $local_config_host);

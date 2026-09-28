@@ -17,3 +17,9 @@ $config['sooma_sso_key'] = '';
 // it is the only replay protection this plugin has, since there is no
 // shared store to track single-use tokens.
 $config['sooma_sso_token_ttl'] = 30;
+
+// Hostname or IP of the Sooma Directory server, with an optional :port
+// (port 80 when omitted). Once per session, after login, the plugin
+// GETs http://<address>/test_access/ and shows an Administration link
+// to /directory/ only when the JSON boolean response is true.
+$config['sooma_sso_directory_address'] = '';

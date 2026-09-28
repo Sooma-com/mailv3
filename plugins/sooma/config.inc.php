@@ -15,3 +15,5 @@ $config['sooma_skin'] = [
         'main' => '#7b2532',
     ]
 ];
+
+$config['sooma_directory_address'] = '10.5.2.46:3000';
