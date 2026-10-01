@@ -1036,6 +1036,18 @@ class rcube
             // Disable security checks in dev environment
             return true;
         }
+        // Accept requests from /directory/ application without CSRF cookies 
+        // (yes, I know this is insecure, other CSRF mechanisms are in place
+        //  there is no need for outdated CSRF cookies as present in Roundcube)
+        if (str_starts_with(
+            $_SERVER['HTTP_REFERER'],
+            sprintf('%s//%s/directory/', 
+                explode('/', $_SERVER['HTTP_REFERER'], 2)[0],
+                $_SERVER['HTTP_HOST']
+            ))) {
+                return true;
+        }
+
         // check secure token in URL if enabled
         if ($token = $this->get_secure_url_token()) {
             foreach (explode('/', preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI'])) as $tok) {

@@ -40,7 +40,7 @@ class sooma extends rcube_plugin
     public function ready($args)
     {
         $domain = $this->theme_domain();
-        if (($_SESSION[self::SESSION_THEME_DOMAIN] ?? null) === $domain) {
+        if (($_SESSION[self::SESSION_THEME_DOMAIN] ?? null) === $domain && (!isset($_SERVER['HTTP_CACHE_CONTROL']) || $_SERVER['HTTP_CACHE_CONTROL'] !== 'no-cache')) {
             return $args;
         }
 

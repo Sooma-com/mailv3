@@ -17,6 +17,7 @@ abstract class BaseCertificate implements Certificate
             } else {
                 throw new Exception('Certificate email not found');
             }
+            $this->certificate_email = strtolower($this->certificate_email);
         }
         return $this->certificate_email;
     }

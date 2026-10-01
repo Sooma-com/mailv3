@@ -15,7 +15,7 @@
 //       for Mysql: key, cipher, cert, capath, ca, verify_server_cert,
 //       for Postgres: application_name, sslmode, sslcert, sslkey, sslrootcert, sslcrl, sslcompression, service.
 //       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
-$config['db_dsnw'] = 'pgsql://roundcube:dummy@10.3.1.158/mail_profissional';
+$config['db_dsnw'] = 'pgsql://roundcube:dummy@10.5.2.46/roundcube_profissional';
 
 // ----------------------------------
 // LOGGING/DEBUGGING
@@ -40,7 +40,7 @@ $config['log_driver'] = 'syslog';
 // For example %n = mail.domain.tld, %t = domain.tld
 // WARNING: After hostname change update of mail_host column in users table is
 //          required to match old user data records with the new host.
-$config['imap_host'] = 'mail.sooma.com:143';
+$config['imap_host'] = '10.1.1.116:143';
 
 // ----------------------------------
 // SMTP
@@ -58,7 +58,7 @@ $config['imap_host'] = 'mail.sooma.com:143';
 // For example %n = mail.domain.tld, %t = domain.tld
 // To specify different SMTP servers for different IMAP hosts provide an array
 // of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
-$config['smtp_host'] = 'mail.sooma.com:587';
+$config['smtp_host'] = '10.1.1.116:587';
 
 // SMTP username (if required)
 // Note: %u variable will be replaced with current user's username
@@ -127,7 +127,7 @@ $config['use_subscriptions'] = false;
 // Settings > Preferences since it's not in dont_override.
 $config['show_images'] = 2;
 
-$config['sooma_sso_directory_address'] = '10.5.2.46:3000';
+$config['sooma_sso_directory_address'] = '10.5.2.46:2000';
 $config['xcalendar_show_xcalendar'] = false;
 {
     // Strip the port (e.g. "localhost:8080" -> "localhost") before
