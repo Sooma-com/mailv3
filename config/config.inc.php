@@ -20,6 +20,9 @@ $config['use_subscriptions'] = false;
 $config['show_images'] = 2;
 $config['sooma_sso_directory_address'] = '10.5.2.46:2000';
 $config['xcalendar_show_xcalendar'] = false;
+$config['temp_dir'] = '/tmp/roundcube';
+
+if (!is_dir($config['temp_dir'])) @mkdir($config['temp_dir'], 0700, true);
 {
     $local_config_host = strtolower(explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0]);
     $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
