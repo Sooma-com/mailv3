@@ -109,6 +109,9 @@ class sooma extends rcube_plugin
         }
 
         $address = $this->rc->config->get('sooma_directory_address', '');
+        if ($address === false) {
+            return null;
+        }
         if (!is_string($address) || !preg_match('/^[A-Za-z0-9._-]+(?::\d{1,5})?$/', $address)) {
             $this->log_theme_error('sooma_directory_address is missing or invalid');
             return null;

@@ -483,7 +483,7 @@ class sooma_sso extends rcube_plugin
 
         $json = openssl_decrypt($ciphertext, self::CIPHER, $key, OPENSSL_RAW_DATA, $iv, $tag);
         if ($json === false) {
-            $this->fail('token authentication failed (bad key or tampered/corrupt token)');
+            $this->fail('token authentication failed (bad key or tampered/corrupt token): ' . openssl_error_string());
         }
 
         $payload = json_decode($json, true);

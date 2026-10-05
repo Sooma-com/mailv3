@@ -16,4 +16,4 @@ $config['sooma_skin'] = [
     ]
 ];
 
-$config['sooma_directory_address'] = '10.5.2.46:3000';
+$config['sooma_directory_address'] = '10.5.2.46:2000';

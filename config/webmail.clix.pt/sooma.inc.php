@@ -13,3 +13,4 @@ $config['sooma_skin'] = [
         'main' => '#fa4600',
     ]
 ];
+$config['sooma_directory_address'] = false;

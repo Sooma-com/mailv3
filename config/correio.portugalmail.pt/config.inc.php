@@ -16,4 +16,3 @@ $config['plugins'] = array_diff(
 );
 array_unshift($config['plugins'], 'sooma_sso');
 array_unshift($config['plugins'], 'sooma_gratuito_support');
-$config['sooma_sso_key'] = '02zX2PSNgH/iDs3EURvjMuNxQuIGbiT0dEJx8uMATlA=';
