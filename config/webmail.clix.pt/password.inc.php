@@ -9,7 +9,7 @@ $config['password_ldap_method'] = 'admin';
 $config['password_ldap_adminDN'] = "cn=Manager,dc=portugalmail,dc=net";
 $config['password_ldap_adminPW'] = "secret";
 $config['password_ldap_userDN_mask'] = 'mail=%login,jvd=%domain,o=mailpessoal,dc=portugalmail,dc=net';
-$config['password_ldap_encodage'] = 'sha256-crypt';
+$config['password_ldap_encodage'] = 'ssha256';
 $config['password_ldap_pwattr'] = 'clearPassword';
 $config['password_ldap_force_replace'] = true;
 $config['password_ldap_lchattr'] = '';

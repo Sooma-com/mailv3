@@ -19831,7 +19831,7 @@ optgroup {
   --color-popupmenu-foreground: var(--color-font);
   --color-popupmenu-hover-background: var(--color-light-gray);
   --color-taskmenu-background: var(--color-layout-header-background);
-  --color-taskmenu-button: #a6a6a6;
+  --color-taskmenu-button: #606060;
   --color-taskmenu-button-selected: var(--color-main);
   --color-taskmenu-button-action: var(--color-main);
   --color-taskmenu-button-selected-background: hsl(from var(--color-taskmenu-background) h s calc(l * 0.9));
@@ -25467,7 +25467,7 @@ body.task-login #messagestack {
 }
 .formcontent button:hover,
 .propform button:hover {
-  background-color: hsl(from var(--color-btn-secondary-background) h s calc(l * 90%));
+  background-color: rgb(from var(--color-btn-secondary-background) r g b/0.5);
 }
 .formcontent button.mainaction,
 .propform button.mainaction {
@@ -25528,7 +25528,7 @@ body.task-login #messagestack {
   --color-popupmenu-foreground: var(--color-font);
   --color-popupmenu-hover-background: var(--color-light-gray);
   --color-taskmenu-background: var(--color-layout-header-background);
-  --color-taskmenu-button: #a6a6a6;
+  --color-taskmenu-button: #606060;
   --color-taskmenu-button-selected: var(--color-main);
   --color-taskmenu-button-action: var(--color-main);
   --color-taskmenu-button-selected-background: hsl(from var(--color-taskmenu-background) h s calc(l * 0.9));

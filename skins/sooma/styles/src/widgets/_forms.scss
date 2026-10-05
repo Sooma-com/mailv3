@@ -82,7 +82,7 @@
     font-size: 1.2rem;
 
     &:hover {
-      background-color: hsl(from var(--color-btn-secondary-background) h s calc(l * 90%));
+      background-color: rgb(from var(--color-btn-secondary-background) r g b / 0.5);
     }
 
     &.mainaction {
