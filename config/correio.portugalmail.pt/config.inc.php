@@ -12,6 +12,7 @@ $config['smtp_xclient_addr'] = true;
 
 $config['plugins'] = array_diff(
     $config['plugins'], 
-    ['username_login', 'subscriptions_option', 'nexus', 'nexus_storage', 'nexus_registered', 'sooma_smime', 'elasticlogs']
+    ['username_login', 'nexus', 'nexus_storage', 'nexus_registered', 'sooma_smime', 'elasticlogs']
 );
+array_unshift($config['plugins'], 'sooma_sso');
 $config['sooma_sso_key'] = '02zX2PSNgH/iDs3EURvjMuNxQuIGbiT0dEJx8uMATlA=';

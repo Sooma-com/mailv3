@@ -21,9 +21,6 @@ $config['show_images'] = 2;
 $config['sooma_sso_directory_address'] = '10.5.2.46:2000';
 $config['xcalendar_show_xcalendar'] = false;
 {
-    // Strip the port (e.g. "localhost:8080" -> "localhost") before
-    // resolving the per-host override file, otherwise a request that
-    // includes a port never matches config/localhost.inc.php.
     $local_config_host = strtolower(explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0]);
     $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
     if ($local_config_file) include $local_config_file;
