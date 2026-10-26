@@ -39,6 +39,7 @@ function log_line($msg)
 $args = $argv;
 array_shift($args);
 $exportDir = array_shift($args);
+
 if (!$exportDir || !is_dir($exportDir)) {
     fwrite(STDERR, "Usage: import-mailbox.php <export-dir> [--user USERNAME] [--mail-host HOST]\n");
     exit(1);

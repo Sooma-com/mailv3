@@ -30,10 +30,10 @@ $conf['cookie']['path'] = '/';
 
 /* Read-only export DB - see horde_migration/specs/00-overview.md. */
 $conf['sql']['persistent'] = false;
-$conf['sql']['database'] = 'mail_gratuito';
+$conf['sql']['database'] = 'mail_profissional';
 $conf['sql']['username'] = 'horde';
 $conf['sql']['password'] = '';
-$conf['sql']['hostspec'] = '10.3.1.132';
+$conf['sql']['hostspec'] = '10.5.2.46';
 $conf['sql']['port'] = 5432;
 $conf['sql']['protocol'] = 'tcp';
 $conf['sql']['charset'] = 'utf-8';
