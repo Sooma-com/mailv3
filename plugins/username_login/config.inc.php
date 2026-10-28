@@ -1,7 +1,7 @@
 <?php
 $config['username_login'] = [
     'database' => [
-        'host' => '10.3.9.3',
+        'host' => '10.5.2.46',
         'port' => 5432,
         'dbname' => 'mail_profissional',
         'username' => 'horde',

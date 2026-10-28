@@ -131,7 +131,7 @@ SoomaMilter.SoomaMilterFactory(
     default_cfg={
         "loglevel": syslog.LOG_DEBUG,
         "DBPort": 5432,
-        "DBHost": "10.3.9.3",
+        "DBHost": "10.5.2.46",
         "DBDatabase": "mail_profissional",
         "DBUser": "postfix",
         "DBPassword": "postfix",
@@ -145,7 +145,7 @@ SoomaMilter.SoomaMilterFactory(
 #    default_cfg={
 #        "loglevel": syslog.LOG_DEBUG,
 #        "DBPort": 5432,
-#        "DBHost": "10.3.9.3",
+#        "DBHost": "10.5.2.46",
 #        "DBDatabase": "mail_profissional",
 #        "DBUser": "postfix",
 #        "DBPassword": "postfix",

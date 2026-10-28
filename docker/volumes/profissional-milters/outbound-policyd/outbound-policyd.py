@@ -222,7 +222,7 @@ class SASLRateLimitPolicyHandler(BasePolicyHandler):
         db = psycopg2.connect(
             "host='%s' port=%d dbname='%s' user='%s' password='%s'"
             % (
-                #"10.3.9.3",
+                #"10.5.2.46",
                 "10.1.1.110",
                 5432,
                 "mail_profissional",
