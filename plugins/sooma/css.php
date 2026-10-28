@@ -50,7 +50,7 @@ if (strpos($username, '@') === false) {
     exit;
 }
 $domain = explode('@', $username)[1];
-if (preg_match('/\\.oa\\.pt$/', $domain) || preg_match('/sooma\\.com$/', $domain)) {
+if (preg_match('/\\.oa\\.pt$/', $domain)) {
     print(<<<EOS
 :root {
   --color-layout-header-localmenu-background: #0B1313;

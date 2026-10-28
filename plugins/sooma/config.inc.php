@@ -9,10 +9,10 @@ $config['sooma_db'] = [
     'password' => 'dummy',
 ];
 $config['sooma_skin'] = [
-    'tag' => 'oa',
+    'tag' => 'sooma',
     'colors' => [
-        'layout-header-localmenu-background' => '#0B1313',
-        'main' => '#7b2532',
+        'layout-header-localmenu-background' => '#47474',
+        'main' => '#e60013',
     ]
 ];
 
