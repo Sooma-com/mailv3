@@ -1,8 +1,8 @@
 <?php
 $config['db_dsnw'] = 'pgsql://roundcube:dummy@10.5.2.46/roundcube_profissional';
 $config['log_driver'] = 'syslog';
-$config['imap_host'] = '10.1.1.116:143';
-$config['smtp_host'] = '10.1.1.116:587';
+$config['imap_host'] = '10.5.2.48:143';
+$config['smtp_host'] = '10.5.2.48:587';
 $config['smtp_user'] = '%u';
 $config['smtp_pass'] = '%p';
 $config['support_url'] = '';
