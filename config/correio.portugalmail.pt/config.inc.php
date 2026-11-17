@@ -14,5 +14,8 @@ $config['plugins'] = array_diff(
     $config['plugins'], 
     ['username_login', 'nexus', 'nexus_storage', 'nexus_registered', 'sooma_smime', 'elasticlogs']
 );
+$config['product_name'] = 'Portugalmail';
 array_unshift($config['plugins'], 'sooma_sso');
 array_unshift($config['plugins'], 'sooma_gratuito_support');
+$config['sooma_sso_key'] = '02zX2PSNgH/iDs3EURvjMuNxQuIGbiT0dEJx8uMATlA=';
+$config['sooma_sso_directory_address'] = false;

@@ -17,3 +17,4 @@ $config['plugins'] = array_diff(
 $config['product_name'] = 'Webmail Clix';
 array_unshift($config['plugins'], 'sooma_sso');
 $config['sooma_sso_key'] = '02zX2PSNgH/iDs3EURvjMuNxQuIGbiT0dEJx8uMATlA=';
+$config['sooma_sso_directory_address'] = false;
