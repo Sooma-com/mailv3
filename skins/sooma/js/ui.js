@@ -773,7 +773,9 @@
 
         if (window.UI.prefs.get('list-selection', false)) {
             document.documentElement.queryElements("xpath://*[@data-list]").forEach(list => {
-                window.rcmail[list.dataset.list].enable_checkbox_selection();
+                if (window.rcmail[list.dataset.list]) {
+                    window.rcmail[list.dataset.list].enable_checkbox_selection();
+                }
                 list.classList.add('withselection');
             });
         }
