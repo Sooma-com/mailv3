@@ -8,6 +8,7 @@ $config['log_driver'] = 'file';
 $config['log_dir'] = '/var/log/roundcube/';
 // Left out until 10.5.2.46 (mail_profissional DB and SSO directory) is reachable from the VPN, or
 // because they would write to production: username_login, password, reset_password, nexus*,
-// sooma_sso. xcalendar needs its tables (restore a dump of roundcube_profissional first).
+// sooma_sso. xcalendar needs plugins/xframework/vendor (gitignored, only on the production servers)
+// and its tables (restore a dump of roundcube_profissional first).
 $config['plugins'] = [ 'subscriptions_option', 'managesieve', 'sooma_smime', 'elasticlogs', 'sooma' ];
 $config['product_name'] = 'Sooma webmail (LIVE)';

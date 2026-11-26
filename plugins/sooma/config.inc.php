@@ -11,7 +11,7 @@ $config['sooma_db'] = [
 $config['sooma_skin'] = [
     'tag' => 'sooma',
     'colors' => [
-        'layout-header-localmenu-background' => '#47474',
+        'layout-header-localmenu-background' => '#474747',
         'main' => '#e60013',
     ]
 ];
