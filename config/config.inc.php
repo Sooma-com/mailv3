@@ -26,12 +26,12 @@ if (!is_dir($config['temp_dir'])) @mkdir($config['temp_dir'], 0700, true);
 {
     $local_config_host = strtolower(explode(':', $_SERVER['HTTP_HOST'] ?? '', 2)[0]);
     $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
-    if ($local_config_file) include $local_config_file;
+    if ($local_config_file && $local_config_file !== __FILE__) include $local_config_file;
     unset($local_config_file, $local_config_host);
 }
 {
     $local_config_host = gethostname();
     $local_config_file = realpath(__DIR__ . '/' . strtr($local_config_host, [ '..' => '', '"' => '', "'" => '', '\\' => '' ]) . '/config.inc.php');
-    if ($local_config_file) include $local_config_file;
+    if ($local_config_file && $local_config_file !== __FILE__) include $local_config_file;
     unset($local_config_file, $local_config_host);
 }
